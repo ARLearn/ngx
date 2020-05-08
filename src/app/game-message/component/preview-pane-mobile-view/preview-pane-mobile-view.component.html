@@ -1,0 +1,10 @@
+<div class="preview-outer-pane">
+    <div class="preview-pane">
+        <div [ngSwitch]="(message$|async)?.type">
+            <app-mobile-preview-narrator
+                    *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.NarratorItem'">
+
+            </app-mobile-preview-narrator>
+        </div>
+    </div>
+</div>

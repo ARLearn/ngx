@@ -1,0 +1,33 @@
+.title {
+  position: absolute;
+  bottom: 67px;
+  width: 100%;
+
+  text-align: center;
+  font: 300 16px/21px Roboto;
+  letter-spacing: 0;
+  color: #000000;
+  opacity: 1;
+
+}
+
+.description {
+  position: absolute;
+  bottom:18px;
+  width: 246px;
+  left: 37px;
+  text-align: center;
+
+
+  font: 200 14px/19px Roboto;
+  letter-spacing: 0;
+  color: #000000;
+  opacity: 0.54;
+}
+
+
+:host {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+

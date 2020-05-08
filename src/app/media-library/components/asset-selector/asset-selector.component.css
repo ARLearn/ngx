@@ -1,0 +1,45 @@
+.style-icon {
+    font-size: 180px;
+    color: #F0F4F5;
+}
+.assets-container {
+    position: relative;
+    width: 290px;
+    height: 514px;
+    border: 2px dashed rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+
+}
+
+.title{
+    position: absolute;
+    top: 350px;
+    width: 100%;
+
+    text-align: center;
+    font: 100 24px/24px Roboto;
+    letter-spacing: 0;
+
+
+}
+
+.subtitle{
+    position: absolute;
+    top: 400px;
+    width: 100%;
+
+    text-align: center;
+    font: 100 16px/16px Roboto;
+    letter-spacing: 0;
+
+
+}
+
+.choose{
+    position: absolute;
+    top: 450px;
+    width: 100%;
+
+    text-align: center;
+
+}

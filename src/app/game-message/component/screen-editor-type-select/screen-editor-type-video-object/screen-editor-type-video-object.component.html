@@ -1,0 +1,41 @@
+<mat-form-field class="mat-form-messages">
+
+    <input matInput placeholder="Title"
+           [ngModel]="(message$|async)?.name"
+           (ngModelChange)="titleChange($event)">
+</mat-form-field>
+
+<mat-form-field class="mat-form-messages">
+
+    <input matInput placeholder="Knoptekst"
+           [ngModel]="(message$|async)?.description"
+           (ngModelChange)="descriptionChange($event)">
+</mat-form-field>
+
+<app-pick-location-on-map
+        [locationBased]="(message$|async)?.lat"
+        [lat]="(message$|async)?.lat"
+        [lng]="(message$|async)?.lng"
+>
+</app-pick-location-on-map>
+
+<div class="color-picker-class">
+    <app-color-input
+            [label]="'Primaire steunkleur'"
+            [color]="primColor"
+            [unselect]="true"
+            (onChange)="primColorChange($event)"
+    ></app-color-input>
+</div>
+
+<app-create-label [label]="(message$|async)?.label">
+
+</app-create-label>
+
+<app-pick-file-input
+        [mimetype]="'video/mp4'"
+        [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/video'"
+></app-pick-file-input>
+<app-dependency-read-temp>
+
+</app-dependency-read-temp>

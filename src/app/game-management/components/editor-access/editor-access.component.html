@@ -1,0 +1,10 @@
+<mat-radio-group
+  aria-labelledby="example-radio-group-label"
+  class="example-radio-group"
+  [(ngModel)]="sharing"
+(change)="changeAccess($event)"
+>
+  <mat-radio-button class="example-radio-button"  [value]="1">{{'GAME.ACCESS.PRIVATE' | translate}}</mat-radio-button>
+  <mat-radio-button class="example-radio-button"  [value]="2">{{'GAME.ACCESS.LINK' | translate}}</mat-radio-button>
+  <mat-radio-button class="example-radio-button"  [value]="3">{{'GAME.ACCESS.PUBLIC' | translate}}</mat-radio-button>
+</mat-radio-group>

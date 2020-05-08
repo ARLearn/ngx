@@ -1,0 +1,12 @@
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+}
+
+
+.button-control{
+  margin-left: 15px;
+}
+

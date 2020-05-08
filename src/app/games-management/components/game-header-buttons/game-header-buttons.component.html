@@ -1,0 +1,26 @@
+
+
+
+<button *ngIf="gameSelected"
+  class="button-control"
+  mat-button color="accent"
+  (click)="deleteGame()">
+  <mat-icon>delete</mat-icon>
+  {{ 'GAME.DELETEGAME' | translate }}
+</button>
+
+<button
+  class="button-control"
+  mat-button color="accent"
+  (click)="openCreateGame()">
+  <mat-icon>add</mat-icon>
+  {{ 'GAME.ADDGAME' | translate }}
+</button>
+
+<button
+  class="button-control"
+  mat-button color="accent"
+  (click)="openImportGame()">
+  <mat-icon>add</mat-icon>
+  {{ 'GAME.IMPORTGAME' | translate }}
+</button>

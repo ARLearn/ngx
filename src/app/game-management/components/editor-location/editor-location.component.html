@@ -1,0 +1,9 @@
+<agm-map [latitude]="game.lat" [longitude]="game.lng" [zoom]="14">
+
+  <agm-marker
+    [markerDraggable] = "true"
+    [latitude]="game.lat"
+    [longitude]="game.lng"
+    (dragEnd)="newLocation($event)"
+  ></agm-marker>
+</agm-map>

@@ -1,0 +1,50 @@
+<div  >
+  <table mat-table [dataSource]="dataSource"  matSort aria-label="Elements">
+    <ng-container matColumnDef="picture" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header ></th>
+      <td mat-cell *matCellDef="let row"  >
+        <mat-icon class="avatar" *ngIf="!(row.picture)">account_circle</mat-icon>
+        <img  class="avatar" *ngIf="!!(row.picture)" mat-card-avatar [src]="row.picture" [alt]="row.name">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header >{{ 'LOGIN.EMAIL' | translate }}</th>
+      <td mat-cell *matCellDef="let row"  >{{row.email}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header >{{ 'ROW_HEADERS.PLAYER_NAME' | translate }}</th>
+      <td mat-cell *matCellDef="let row"  >{{row.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="controls" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row" class="cell-right">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item  (click)="deleteFriend(row)">
+            <mat-icon>delete_forever</mat-icon>
+            <span>{{ 'ACTIONS.DELETE_PLAYER' | translate }}</span>
+          </button>
+
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr class="bin-element-row" mat-row
+        *matRowDef="let row; columns: displayedColumns;"
+        (click)="click(row)"
+    ></tr>
+  </table>
+
+  <mat-paginator #paginator
+
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[25, 50, 100, 250]">
+  </mat-paginator>
+</div>

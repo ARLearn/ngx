@@ -1,0 +1,26 @@
+<div class="container">
+  <mat-form-field>
+    <input matInput [(ngModel)]="game.title" placeholder="{{'GAME.TITLE' | translate}}">
+  </mat-form-field>
+
+
+  <mat-form-field class="example-full-width">
+    <textarea matInput rows="7" [(ngModel)]="game.description" placeholder="{{'GAME.DESCRIBE_GAME' | translate}}"></textarea>
+  </mat-form-field>
+  <mat-slide-toggle
+    [(ngModel)]="slide"
+    (change)="locationChanged($event)">
+    {{'GAME.LOCATION_BASED' | translate}}
+  </mat-slide-toggle>
+
+<!--  <mat-bar-button (btnClick)="saveMethod()" [options]="buttonState$|async"></mat-bar-button>-->
+
+
+  <!--  <button-->
+  <!--    mat-button color="primary"-->
+  <!--    (click)="downloadMethod()">-->
+
+  <!--    DOWNLOAD-->
+  <!--  </button>-->
+
+</div>

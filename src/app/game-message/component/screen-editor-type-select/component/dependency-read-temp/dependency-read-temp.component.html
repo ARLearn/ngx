@@ -1,0 +1,21 @@
+
+<mat-slide-toggle
+        [ngModel]="(!!(message$|async)?.dependsOn) || localOk"
+        (change)="slideChange($event)">{{'MESSAGE.MAKE_DEPENDENT' | translate}}</mat-slide-toggle>
+<form class="dep-form" *ngIf="(!!(message$|async)?.dependsOn) || localOk">
+
+    <mat-form-field class="dep-form">
+        <input matInput
+               [disabled]="!(iCanWrite|async)"
+               [placeholder]="'MESSAGE.APPEARS_AFTER'|translate"
+               [matAutocomplete]="auto2" [formControl]="stateCtrl">
+        <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayMessage">
+            <mat-option *ngFor="let message of filteredMessages | async" [value]="message" >
+                {{message.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <br>
+
+</form>

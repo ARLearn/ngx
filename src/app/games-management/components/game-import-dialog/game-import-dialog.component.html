@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Create new game</h1>
+<div mat-dialog-content>
+
+
+<!--  <file-drop [dropZoneLabel]="'DEVICE.DROP_CSV_HERE' | translate" (onFileDrop)="dropped($event)"-->
+<!--             (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">-->
+
+<!--  </file-drop>-->
+
+  <!--  <mat-form-field class="example-full-width">-->
+<!--    <textarea matInput [(ngModel)]="data.description" placeholder="Describe your game"></textarea>-->
+<!--  </mat-form-field>-->
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Import</button>
+</div>

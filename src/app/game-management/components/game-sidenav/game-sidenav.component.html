@@ -1,0 +1,35 @@
+
+<button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" expanded="true" class="docs-nav-content-btn"
+        [attr.aria-label]="'Solar bin id, section toggle'" [attr.aria-controls]="'panel-solarbin'" [attr.aria-expanded]="panel.expanded">
+  {{(game$|async)?.title}}
+  <mat-icon>{{panel.expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
+</button>
+<ul [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'" id="panel-solarbin">
+  <li>
+    <a [routerLink]="'/portal/'+(game$|async)?.gameId+'/messages/table'"
+       routerLinkActive="docs-component-viewer-sidenav-item-selected">
+      {{'GAME.MESSAGES' | translate}}
+    </a>
+  </li>
+<!--  <li>-->
+<!--    <a [routerLink]="'/portal/'+(game$|async)?.gameId+'/messages/graph'"-->
+<!--       routerLinkActive="docs-component-viewer-sidenav-item-selected">-->
+<!--      {{'GAME.DEPGRAPH' | translate}}-->
+<!--    </a>-->
+<!--  </li>-->
+  <li>
+    <a [routerLink]="'/portal/'+(game$|async)?.gameId+'/messages/map'"
+       routerLinkActive="docs-component-viewer-sidenav-item-selected">
+      {{'COMMON.MAP' | translate}}
+    </a>
+  </li>
+  <li>
+    <a [routerLink]="'/portal/'+(game$|async)?.gameId+'/runs/overview'"
+       routerLinkActive="docs-component-viewer-sidenav-item-selected">
+      {{'GAME.MANAGE_PLAYERS' | translate}}
+    </a>
+  </li>
+
+
+
+</ul>

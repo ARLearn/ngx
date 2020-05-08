@@ -1,0 +1,19 @@
+<button mat-icon-button [mat-menu-trigger-for]="themeMenu" matTooltip="Select a language!"
+        tabindex="-1">
+  <mat-icon>language</mat-icon>
+</button>
+
+<mat-menu #themeMenu="matMenu" x-position="before">
+    <button mat-menu-item 
+            (click)="selectLang('en')">
+      {{'CONFIG.LANG.EN'|translate}}
+    </button>
+    <button mat-menu-item 
+            (click)="selectLang('nl')">
+      {{'CONFIG.LANG.NL'|translate}}
+    </button>
+    <button mat-menu-item 
+            (click)="selectLang('de')">
+      {{'CONFIG.LANG.DE'|translate}}
+    </button>
+  </mat-menu>

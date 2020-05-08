@@ -1,0 +1,71 @@
+
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'GAME.ABOUT' | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{game.title}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-editor-title-description *ngIf="!!game" [game]="game"></app-editor-title-description>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'GAME.AUTHORS' | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{'GAME.AUTHORS_CREATE_CONTENT' | translate}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-editor-authors *ngIf="!!game" [game]="game"></app-editor-authors>
+
+  </mat-expansion-panel>
+
+
+  <mat-expansion-panel *ngIf="!!game.lat" [expanded]="step === 2" (opened)="setStep(2)" >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'GAME.LOCATION' | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{'GAME.DEFINE_LOCATION' | translate}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-editor-location *ngIf="!!game" [game]="game"></app-editor-location>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'GAME.PUBLIC_ACCESS' | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{'GAME.WHO_CAN_SEE' | translate}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-editor-access *ngIf="!!game" [game]="game"></app-editor-access>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'GAME.LICENSE.LICENSE' | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{'GAME.LICENSE.PICK' | translate}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-editor-license *ngIf="!!game" [game]="game"></app-editor-license>
+
+  </mat-expansion-panel>
+
+</mat-accordion>
+
+
+

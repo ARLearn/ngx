@@ -1,0 +1,74 @@
+<div class="pos-full-canvas a200-color">
+    <div
+            style="border-width: 1px;background: transparent url('/assets/img/login/path.jpg') 0% 0% no-repeat padding-box;background-size: cover;"
+            class=" pos-image-left" >
+
+    </div>
+    <div class="pos-full-canvas-right">
+        <div class="pos-login-container a200-color">
+
+            <div class="pos-app-title primary-color font-bold-32-21-roboto">
+                yOUplay
+            </div>
+            <div class="pos-subtitle contrast-color-50pct font-regular-17-13-roboto">
+                Welcome! Login with your yOUplay account.
+            </div>
+
+            <mat-form-field class="pos-email-field font-regular-16-24-roboto ">
+                <input class="contrast-color-50pct"
+                       matInput placeholder="{{ 'LOGIN.EMAIL_ADDRESS' | translate }}"
+                       [type]="'text'" [(ngModel)]="email">
+            </mat-form-field>
+
+            <mat-form-field class="pos-password-field  font-regular-16-24-roboto">
+                <input class="contrast-color-50pct"
+                       matInput placeholder="{{ 'LOGIN.PASSWORD' | translate }}" [type]="hide ? 'password' : 'text'"
+                       [(ngModel)]="pw">
+            </mat-form-field>
+
+            <div class="pos-option-buttons">
+                <mat-checkbox class="pos-remember-me" color="primary"
+                              [(ngModel)]="rememberMe">
+                    <div class="contrast-color-50pct font-regular-16-24-roboto"> {{ 'LOGIN.REMEMBER_ME' | translate }}</div>
+                </mat-checkbox>
+
+                <button class="pos-forgot-pw"
+                        mat-button>
+                    <div class="contrast-color-50pct font-regular-16-24-roboto"> {{ 'LOGIN.FORGOT_PASSWORD' | translate }}</div>
+                </button>
+            </div>
+
+            <button class="pos-login-button gl-style-button-no-shadow font-medium-14-20-roboto"
+                    mat-raised-button
+                    color="primary" (click)="credentialsLogin()">{{ 'LOGIN.SUBMIT' | translate }}</button>
+
+            <div class="pos-seperator">
+                <div class="pos-stroke-left style-stroke"></div>
+                <div class="pos-stroke-right style-stroke"></div>
+                <div class="pos-divider-of font-regular-16-24-roboto contrast-color-50pct">{{ 'LOGIN.OR' | translate }}</div>
+            </div>
+
+
+            <div class="pos-social-login-buttons">
+                <button
+                        class="pos-google-button gl-style-stroke-button"
+                        mat-button (click)="googleLogin()">
+                    <mat-icon class="pos-icon-in-button" [svgIcon]="'google'"></mat-icon>&nbsp;
+                    <div class="pos-login-button-text contrast-color-50pct font-medium-14-20-roboto">{{ 'LOGIN.GOOGLE_LOGIN' | translate }}</div>
+                </button>
+
+                <button class="pos-facebook-button gl-style-stroke-button"
+                        mat-button (click)="facebookLogin()">
+                    <mat-icon class="pos-icon-in-button" [svgIcon]="'facebook'"></mat-icon>
+                    <div class="pos-login-button-text contrast-color-50pct font-medium-14-20-roboto">{{ 'LOGIN.FACEBOOK_LOGIN' | translate }} </div>
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+

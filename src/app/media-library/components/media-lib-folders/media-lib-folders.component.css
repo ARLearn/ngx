@@ -1,0 +1,41 @@
+.root {
+    margin-top: 53px;
+    position: relative;
+    width: 236px;
+    height: 40px;
+
+    opacity: 1;
+    z-index: 5;
+    cursor: pointer;
+
+}
+
+.selected {
+    background: #F0F4F5 0% 0% no-repeat padding-box;
+}
+
+.level1 {
+    position: relative;
+    width: 196px;
+    height: 40px;
+    margin-left: 38px;
+    z-index: 5;
+    cursor: pointer;
+
+}
+
+/*//    background: #E4E9EB*/
+
+
+      .folder-icon {
+    position: absolute;
+    color: #3EA3DC;
+    top:8px;
+    left:10px;
+}
+.folder-label {
+    position: absolute;
+    left: 48px;
+    top: 12px;
+    align-content: center;
+}

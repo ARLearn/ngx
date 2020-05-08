@@ -1,0 +1,7 @@
+.mat-expansion-panel-body {
+  padding: 0px !important;
+}
+
+.mat-expansion-panel-content + .mat-expansion-panel-body {
+  padding: 0px;
+}

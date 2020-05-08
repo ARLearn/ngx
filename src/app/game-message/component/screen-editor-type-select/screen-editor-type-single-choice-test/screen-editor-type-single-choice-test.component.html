@@ -1,0 +1,59 @@
+<mat-form-field class="mat-form-messages">
+
+  <input matInput placeholder="Title"
+         [ngModel]="(message$|async)?.name"
+         (ngModelChange)="titleChange($event)">
+</mat-form-field>
+
+
+<mat-slide-toggle
+        [ngModel]="(message$|async)?.showFeedback"
+        (change)="feedbackChange($event)">Feedback mogelijk
+</mat-slide-toggle>
+<br>
+<button mat-stroked-button color="primary" (click)="addAnswer()" class="save-button">add answer</button>
+
+<div *ngIf=" (message$|async)?.answers">
+  <div class="answer-container"
+       *ngFor="let answer of (message$|async)?.answers">
+    <app-answer-component [answer]="answer" [feedback]="(message$|async)?.showFeedback"
+    ></app-answer-component>
+  </div>
+</div>
+
+<app-pick-location-on-map
+        [locationBased]="(message$|async)?.lat"
+        [lat]="(message$|async)?.lat"
+        [lng]="(message$|async)?.lng"
+>
+
+</app-pick-location-on-map>
+
+<div class="color-picker-class">
+  <app-color-input
+          [label]="'Primaire steunkleur'"
+          [color]="primColor"
+          [unselect]="true"
+          (onChange)="primColorChange($event)"
+  ></app-color-input>
+</div>
+
+<app-create-label [label]="(message$|async)?.label">
+
+</app-create-label>
+
+<!--background<br>-->
+<!--<app-pick-file-input-->
+<!--        [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/background.jpg'"-->
+<!--&gt;</app-pick-file-input>-->
+<!--<br>correct<br>-->
+<!--<app-pick-file-input-->
+<!--        [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/correct.jpg'"-->
+<!--&gt;</app-pick-file-input>-->
+<!--<br>wrong<br>-->
+<!--<app-pick-file-input-->
+<!--        [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/wrong.jpg'"-->
+<!--&gt;</app-pick-file-input>-->
+<!--<app-dependency-read-temp>-->
+
+<!--</app-dependency-read-temp>-->

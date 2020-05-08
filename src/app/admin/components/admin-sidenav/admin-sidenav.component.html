@@ -1,0 +1,22 @@
+
+<button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" expanded="true" class="docs-nav-content-btn"
+        [attr.aria-label]="'Solar bin id, section toggle'" [attr.aria-controls]="'panel-solarbin'" [attr.aria-expanded]="panel.expanded">
+  {{ 'COMMON.ADMIN' | translate }}
+  <mat-icon>{{panel.expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
+</button>
+<ul [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'" id="panel-solarbin">
+  <li>
+    <a [routerLink]="'/portal/admin/featured/overview'"
+       routerLinkActive="docs-component-viewer-sidenav-item-selected">
+      {{ 'GAME.FEATURED' | translate }}
+    </a>
+  </li>
+  <li>
+    <a [routerLink]="'/admin/run/myGames'"
+       routerLinkActive="docs-component-viewer-sidenav-item-selected">
+      My games - run
+    </a>
+  </li>
+
+
+</ul>

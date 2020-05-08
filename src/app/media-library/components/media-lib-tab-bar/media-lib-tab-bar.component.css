@@ -1,0 +1,47 @@
+.media-tab-bar {
+    height: 71px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 6px 15px #0000000F;
+    opacity: 1;
+}
+
+.media-tab-bar > div> nav > .mat-tab-link-container > .mat-tab-list > .mat-tab-links {
+    height: 61px;
+    margin-top: 10px;
+}
+
+.mat-tab-links > .mat-tab-link {
+
+    padding: 0 20px 0px 0px;
+
+}
+
+.upload-buttons{
+    position: absolute;
+    right: 0px;
+    top: 17px;
+}
+
+.media-nav-container {
+    position: absolute;
+    height: 100%;
+}
+
+.media-nav-container > nav {
+    height: 100%;
+}
+.media-nav-container > nav > .mat-tab-link-container > .mat-tab-list > .mat-tab-links {
+    height: 100%;
+}
+.media-nav-container > nav > .mat-tab-link-container > .mat-tab-list  > .mat-tab-links > .mat-tab-link {
+text-transform: uppercase;
+    top: 10px;
+}
+.new-folder-text {
+    text-align: center;
+    font: Medium 12px/20px Roboto;
+    letter-spacing: 0;
+    color: #D50380;
+    text-transform: uppercase;
+    opacity: 1;
+}

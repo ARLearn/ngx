@@ -1,0 +1,33 @@
+<div class="main-div" >
+
+  <mat-card class="login-card" style="width:300px" *ngIf="!(invitationExpired$ |async)">
+
+    <mat-card-header >
+      Accept invitation
+    </mat-card-header>
+    <mat-card-content class="example-container">
+
+      {{contactName$|async}} has invited you to become his friend.
+
+      <button mat-button> Decline (todo) </button>
+
+      <button mat-raised-button color="primary" [routerLink]="['/login']" >Sign in to Accept</button>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <mat-card class="login-card" style="width:300px" *ngIf="invitationExpired$ |async">
+
+    <mat-card-header >
+      Invitation Expired
+    </mat-card-header>
+    <mat-card-content class="example-container">
+
+      This invitation either expired, or your Friend has canceled the invitation
+
+
+    </mat-card-content>
+
+  </mat-card>
+</div>

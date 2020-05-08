@@ -1,0 +1,12 @@
+.title {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+
+  text-align: center;
+  font: 300 16px/21px Roboto;
+  letter-spacing: 0;
+  color: #000000;
+  opacity: 1;
+
+}

@@ -1,0 +1,22 @@
+<mat-form-field class="gl-pos-between-fields gl-pos-field-full-width">
+
+    <input matInput placeholder="Title"
+           [ngModel]="(message$|async)?.name"
+           (ngModelChange)="titleChange($event)">
+</mat-form-field>
+
+<app-pick-location-on-map
+        class ="gl-pos-between-fields"
+        [locationBased]="(message$|async)?.lat"
+        [lat]="(message$|async)?.lat"
+        [lng]="(message$|async)?.lng"
+>
+</app-pick-location-on-map>
+<app-create-label
+        class="gl-pos-between-fields"
+        [label]="(message$|async)?.label">
+
+</app-create-label>
+<!--<app-dependency-read-temp>-->
+
+<!--</app-dependency-read-temp>-->

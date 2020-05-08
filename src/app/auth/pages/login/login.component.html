@@ -1,0 +1,31 @@
+<div class="hold-transition login-page ng-scope">
+  <div class="login-box">
+      <div class="login-logo">
+          <a href="#"><b>ARL</b>earn</a>
+      </div>
+      <!-- /.login-logo -->
+      <div class="login-box-body">
+          <p class="login-box-msg ng-binding">Sign in to start your session</p>
+
+
+          <div class="social-auth-links text-center">
+
+<!--              <a (click)="facebookLogin()" class="btn btn-block btn-social btn-facebook btn-flat ng-binding"  ><i class="fa fa-facebook"></i> Sign in with Facebook</a>-->
+<!--              <a (click)="googleLogin()" class="btn btn-block btn-social btn-google btn-flat ng-binding" ><i class="fa fa-google"></i> Sign in with Google</a>-->
+              <a ng-show="cordova" ng-click="cordovaGoogleLogin()" class="btn btn-block btn-social btn-google btn-flat ng-hide"><i class="fa fa-google"></i> cordova google</a>
+              <!--<a ng-show="providerExists(3)" href="#" class="btn btn-block btn-social btn-linkedin btn-flat"><i class="fa fa-linkedin"></i> {{'arl.login.signinlinkedin' | translate}}</a>-->
+              <!--<a ng-show="providerExists(4)" href="#" class="btn btn-block btn-social btn-twitter btn-flat"><i class="fa fa-twitter"></i> {{'arl.login.signintwitter' | translate}}</a>-->
+              <a ng-show="providerExists(5) &amp;&amp; !cordova" href="https://wespot-arlearn.appspot.com/Login.html?client_id=wespotstreetlearnid&amp;redirect_uri=https://streetlearn.appspot.com/oauth/wespot&amp;response_type=code&amp;scope=profile+email" class="btn btn-block btn-social btn-flickr btn-flat ng-binding"><i class="fa fa-google"></i> Sign in with weSPOT</a>
+              <a ng-show="providerExists(6) &amp;&amp; !cordova" href="#" class="btn btn-block btn-social btn-tumblr btn-flat ng-binding"><i class="fa fa-google"></i> Sign in with ECO</a>
+          </div>
+
+          <!-- /.social-auth-links -->
+
+
+
+      </div>
+      <br>
+      <br>
+      <!-- /.login-box-body -->
+  </div>
+</div>

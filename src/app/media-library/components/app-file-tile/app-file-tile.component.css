@@ -1,0 +1,49 @@
+.overlay {
+    top: 0px;
+    left: 0px;
+    width: 152px;
+    height: 206px;
+    position: absolute;
+
+}
+
+.overlay-transparent {
+    position: absolute;
+    z-index: 2;
+    width: 148px;
+    height: 240px;
+
+    border: 2px solid #3EA3DC;
+    opacity: 1;
+
+}
+
+.overlay-check {
+    position: absolute;
+    z-index: 2;
+    top:0px;
+    right: 0px;
+    width: 24px;
+    height: 24px;
+    background: #3EA3DC 0% 0% no-repeat padding-box;
+    border-radius: 0px 0px 0px 3px;
+    opacity: 1;
+}
+
+.filename {
+    position: absolute;
+    top: 214px;
+    left: 14px;
+    text-align: left;
+    font: Regular 11px/15px Roboto;
+    letter-spacing: 0;
+    color: #000000DE;
+    opacity: 1;
+
+
+
+}
+
+.white-icon {
+    color: white;
+}

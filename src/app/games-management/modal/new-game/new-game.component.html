@@ -1,0 +1,91 @@
+<!--<div mat-dialog-content *ngIf="screen == 3">-->
+
+
+<!--</div>-->
+<div [ngSwitch]="screen">
+
+    <app-create-game-with-title *ngSwitchCase="3"
+                                (esc)="onNoClick()"
+                                (back)="screen = 1"
+    >
+    </app-create-game-with-title>
+
+    <app-new-game-entry-screen *ngSwitchCase="1"
+                               (esc)="onNoClick()"
+                               (clickEvent)="onButtonClick()">
+    </app-new-game-entry-screen>
+
+
+</div>
+<div mat-dialog-content *ngIf="screen == 10">
+    <div class="new-game-modal-screen">
+        <div class="new-game-button">
+            <!--      <app-start-from-scratch-button ></app-start-from-scratch-button>-->
+        </div>
+    </div>
+    <div class="title-font-1">Maak een nieuwe game</div>
+    <div class="subtitle">Kies hieronder een basis game template</div>
+
+    <div class="flex-game-patterns">
+        <app-new-game-pattern-tile class="flex-game-pattern-tile"
+                                   title="Spoorzoeker"
+                                   description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                                   templateId="Spoorzoeker"
+                                   (click)="selectTemplate()"
+        ></app-new-game-pattern-tile>
+        <app-new-game-pattern-tile class="flex-game-pattern-tile"
+                                   title="Decision"
+                                   templateId="Decision"
+                                   description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        ></app-new-game-pattern-tile>
+
+        <app-new-game-pattern-tile class="flex-game-pattern-tile"
+                                   title="Adventure "
+                                   templateId="Adventure"
+                                   description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        ></app-new-game-pattern-tile>
+    </div>
+</div>
+
+<div class="arrow-back" *ngIf="screen == 2">
+
+    <button mat-icon-button>
+        <mat-icon aria-label="Back" (click)="mainMenu()">arrow_back</mat-icon>
+    </button>
+    back
+</div>
+
+<div mat-dialog-content *ngIf="screen == 2">
+    <div class="title-font-1">Spoorzoeker template</div>
+    <div class="subtitle">Etiam porta sem malesuada magna mollis euismod.</div>
+
+    <div class="position-vertical-class">
+        <div class="form-class">
+            <mat-form-field>
+                <input matInput placeholder="  {{ 'GAME.NAAM' | translate }}" [type]="'text'"
+
+                >
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Kies aantal schermen</mat-label>
+                <mat-select>
+                    <mat-option>
+                        2 schermen
+                    </mat-option>
+                    <mat-option>
+                        3 schermen
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-checkbox class="rememberme"
+
+            >voeg toe aan je bibliotheek
+            </mat-checkbox>
+            <button mat-raised-button color="primary" class="full-width-button">
+                Open spoorzoeker template
+            </button>
+
+        </div>
+    </div>
+</div>

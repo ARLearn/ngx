@@ -1,0 +1,14 @@
+<label id="example-radio-group-label">{{'GAME.LICENSE.CHOOSE' | translate}}</label>
+<mat-radio-group
+  aria-labelledby="example-radio-group-label"
+  class="example-radio-group"
+  [(ngModel)]="license"
+  (change)="changeLicense($event)"
+>
+  <mat-radio-button class="example-radio-button" [value]="'cc-by'">{{'GAME.LICENSE.CC-BY' | translate}}  </mat-radio-button>
+  <mat-radio-button class="example-radio-button" [value]="'cc-by-nd'">{{'GAME.LICENSE.CC-BY-ND' | translate}} </mat-radio-button>
+  <mat-radio-button class="example-radio-button" [value]="'cc-by-sa'">{{'GAME.LICENSE.CC-BY-SA' | translate}} </mat-radio-button>
+  <mat-radio-button class="example-radio-button" [value]="'cc-by-nc'">{{'GAME.LICENSE.CC-BY-NC' | translate}} </mat-radio-button>
+  <mat-radio-button class="example-radio-button" [value]="'cc-by-nc-sa'">{{'GAME.LICENSE.CC-BY-NC-SA' | translate}} </mat-radio-button>
+  <mat-radio-button class="example-radio-button" [value]="'cc-by-nc-nd'">{{'GAME.LICENSE.CC-BY-NC-ND' | translate}} </mat-radio-button>
+</mat-radio-group>

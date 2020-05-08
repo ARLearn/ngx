@@ -1,0 +1,38 @@
+
+
+@import "src/main.nbd.scss";
+
+.myContent{
+  position: relative;
+  height: 144px;
+
+  background-color: mat-color($primary);
+  width: 100%;
+}
+.title {
+  top: 60px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  height: 38px;
+  text-align: left;
+  font: 400 32px/43px Roboto;
+  letter-spacing: 0;
+  color: #FFFFFF;
+  opacity: 1;
+  position: absolute;
+}
+
+.date {
+
+  top: 108px;
+  height: 18px;
+  text-align: left;
+  font: 300 12px/20px Roboto;
+  letter-spacing: 0;
+  color: #FFFFFFDE;
+  opacity: 0.7;
+  position: absolute;
+}

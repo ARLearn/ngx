@@ -1,0 +1,45 @@
+<div class="mat-elevation-z2">
+  <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
+
+    <ng-container matColumnDef="gameId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'ROW_HEADERS.ID' | translate }}</th>
+      <td mat-cell *matCellDef="let row">{{row.gameId}}</td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ROW_HEADERS.NAME' | translate }}</th>
+      <td mat-cell *matCellDef="let row">{{row.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastModificationDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ROW_HEADERS.TIME' | translate }}</th>
+      <td mat-cell *matCellDef="let row">{{row.lastModificationDate | date:'medium'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="controls" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row" class="cell-right">
+        <button mat-icon-button [routerLink]="'/portal/'+row.gameId+'/messages/table'">
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr class="bin-element-row"
+        [style.background]="selectedGame?.gameId == row.gameId?'#efefef':''"
+        mat-row *matRowDef="let row; columns: displayedColumns;"
+
+        (click)="clickGame(row.gameId)" (dblclick)="openGame(row.gameId)"
+    ></tr>
+    <!--[routerLink]="'/portal/'+row.id+'/solarbinlist/list'"-->
+  </table>
+
+  <mat-paginator #paginator
+
+                 [pageIndex]="0"
+                 [pageSize]="50"
+                 [pageSizeOptions]="[25, 50, 100, 250]">
+  </mat-paginator>
+</div>

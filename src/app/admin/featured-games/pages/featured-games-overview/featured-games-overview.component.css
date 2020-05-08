@@ -1,0 +1,33 @@
+.button-row {
+  margin-bottom: 10px;
+}
+
+.card-container {
+  flex-wrap: nowrap;
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+}
+
+.table-column{
+  flex-grow: 3;
+  flex-shrink: 1;
+  width: 460px;
+  margin: 10px;
+
+  min-width: 296px;
+  flex-basis: 296px;
+  /* background: gold; */
+}
+
+
+.detail-column{
+  flex-grow: 2;
+  flex-shrink: 1;
+  width: 460px;
+  margin: 10px;
+
+  min-width: 296px;
+  flex-basis: 296px;
+  /* background: gold; */
+}
