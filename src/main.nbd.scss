@@ -1,0 +1,167 @@
+@import '~@angular/material/theming';
+@import './app-theme';
+@import './styles/api';
+@import './styles/markdown';
+@import './styles/tables';
+@import './styles/general';
+
+
+// Include material core styles.
+@include mat-core();
+
+//NBD
+
+$nbd-blue: (
+        50 : #e8f4fb,
+        100 : #c5e3f5,
+        200 : #9fd1ee,
+        300 : #78bfe7,
+        400 : #5bb1e1,
+        500 : #3ea3dc,
+        600 : #389bd8,
+        700 : #3091d3,
+        800 : #2888ce,
+        900 : #1b77c5,
+        A100 : #fafdff,
+        A200 : #3ea3dc,
+        A400 : #94cbff,
+        A700 : #7abeff,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #000000,
+                400 : #000000,
+                500 : #000000,
+                600 : #000000,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #ffffff,
+                A400 : #000000,
+                A700 : #000000,
+        )
+);
+
+$nbd-pink-old: (
+        50 : #f5e0ed,
+        100 : #e5b3d3,
+        200 : #d480b5,
+        300 : #c34d97,
+        400 : #b62681,
+        500 : #D3107F,
+        600 : #a20063,
+        700 : #980058,
+        800 : #8f004e,
+        900 : #7e003c,
+        A100 : #ffaccc,
+        A200 : #ff79ad,
+        A400 : #ff468e,
+        A700 : #ff2c7f,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #ffffff,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #000000,
+                A400 : #000000,
+                A700 : #ffffff,
+        )
+);
+
+$nbd-pink: (
+        50 : #fae2f0,
+        100 : #f2b7d9,
+        200 : #e988bf,
+        300 : #e058a5,
+        400 : #da3492,
+        500 : #d3107f,
+        600 : #D6007F,
+        700 : #D61081,
+        800 : #c20962,
+        900 : #b7054f,
+        A100 : #ffe1ec,
+        A200 : #ffaecb,
+        A400 : #ff7baa,
+        A700 : #ff629a,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #ffffff,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #000000,
+                A400 : #000000,
+                A700 : #ffffff,
+        )
+);
+
+$primary: mat-palette($nbd-pink);
+$accent: mat-palette($nbd-blue, A200, A100, A400);
+//$primary: mat-palette($mat-red);
+//$accent:  mat-palette($mat-light-blue, A200, A100, A400);
+
+
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+@include material-docs-app-theme($theme);
+
+
+
+@import './generic';
+@import './material-modifications';
+
+
+.my-snack-bar {
+  background-color: #f44336;
+}
+
+.title-font-1 {
+  text-align: center;
+  font: 400 32px/43px Roboto;
+  letter-spacing: 0;
+  color: #D50380;
+  opacity: 1;
+  height: 56px;
+}
+
+.subtitle {
+  text-align: center;
+  font: 300 17px/13px Roboto;
+  letter-spacing: 0;
+  color: #000000;
+  opacity: 0.3;
+}
+
+
+html,
+body {
+  height: 100%;
+  margin: 0
+}
+
+body {
+  background: #F0F4F5;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,455 @@
+@mixin primary-color-mixin {
+  color: mat-color($primary);
+}
+
+@mixin color-600-mixin {
+  color: mat-color($primary , 600);
+}
+
+@mixin color-700-mixin {
+  color: mat-color($primary, 700);
+}
+
+@mixin primary-background-mixin {
+  background: mat-color($primary);
+}
+
+@mixin a700-color-mixin {
+  color: mat-color($primary, 'A700-contrast') !important;
+}
+
+@mixin a200-color-mixin {
+  color: mat-color($primary, 'A200-contrast') !important;
+}
+
+@mixin a200-background-color-mixin {
+  background: mat-color($primary, 'A700-contrast') !important;
+}
+
+
+@mixin contrast-color-mixin {
+  color: mat-color($primary, 'A100-contrast') !important;
+  opacity: 0.38;
+}
+
+
+.primary-color {
+  @include primary-color-mixin;
+}
+
+.color-600 {
+  @include color-600-mixin;
+}
+
+.color-700 {
+  @include color-700-mixin;
+}
+
+.primary-background-color {
+  @include primary-background-mixin;
+}
+
+
+.a200-color {
+  @include a200-background-color-mixin;
+}
+
+.black-color {
+  @include a200-color-mixin;
+}
+
+.white-color {
+  @include a700-color-mixin;
+}
+
+.color-black-8a {
+  color: #0000008A;
+
+}
+.color-black-de {
+  color: #000000DE;
+
+}
+
+
+.contrast-color-50pct {
+  @include contrast-color-mixin;
+
+}
+
+.mat-form-field-empty.mat-form-field-label {
+  @include contrast-color-mixin;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  @include contrast-color-mixin;
+}
+
+//
+//.login-button.mat-button {
+//  @include contrast-color-mixin;
+//  //color: blue !important;
+//}
+
+//fonts
+
+//Name in connection tile
+.font-regular-11-15-roboto {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 15px;
+  font-family: Roboto;
+
+  letter-spacing: 0px;
+}
+
+
+.font-regular-12-20-roboto {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  font-family: Roboto;
+
+  letter-spacing: 0px;
+}
+
+//patter sub title
+.font-regular-14-19-roboto {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  font-family: Roboto;
+
+  letter-spacing: 0px;
+}
+
+//email
+.font-regular-14-24-roboto {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  font-family: Roboto;
+
+  letter-spacing: 0px;
+}
+
+//sub-title (app title/login page)
+.font-regular-17-13-roboto {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 13px;
+  font-family: Roboto;
+
+  letter-spacing: 0px;
+}
+
+//game-tile-title
+.font-regular-16-20-roboto {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: Roboto;
+}
+
+//email password
+.font-regular-16-24-roboto {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: Roboto;
+}
+
+//answer option multiple choice
+.font-regular-24-24-roboto {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  font-family: Roboto;
+}
+
+//modal button
+//font: Medium 9px/20px Roboto;
+.font-medium-9-20-roboto {
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 20px;
+  font-family: Roboto;
+}
+
+//Remove in connection tile
+.font-medium-10-13-roboto {
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 13px;
+  font-family: Roboto;
+}
+
+//preview feedback options
+.font-medium-12-16-roboto {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  font-family: Roboto;
+}
+
+
+//google login button
+.font-medium-14-20-roboto {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  font-family: Roboto;
+}
+
+//title pattern
+.font-medium-16-21-roboto {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px;
+  font-family: Roboto;
+}
+
+//name display
+.font-medium-16-24-roboto {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: Roboto;
+}
+
+//initials connection tile
+.font-medium-24-32-roboto {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  font-family: Roboto;
+}
+
+
+//new game title
+.font-medium-32-43-roboto {
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 43px;
+  font-family: Roboto;
+}
+
+// login app title font
+.font-bold-32-21-roboto {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 21px;
+  font-family: Roboto;
+
+  text-transform: uppercase;
+  letter-spacing: 7.04px;
+}
+
+//preview title
+.font-bold-20px-24px-gentium-basic {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  font-family: Gentium Basic;
+}
+
+//asset tit title
+.font-medium-24px-32px-roboto {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  font-family: Robot;
+  opacity: 0.5;
+}
+
+.font-medium-24px-32px-roboto {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  font-family: Robot;
+  opacity: 0.4;
+}
+
+.modal-fullscreen.modal-dialog {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+
+
+}
+
+.modal-fullscreen.modal-dialog > .mat-dialog-container {
+  box-sizing: unset !important;
+  border-radius: 0px !important;
+
+}
+
+//bold:700
+//medium:500
+//normal/regular: 400
+
+
+button.gl-style-stroke-button {
+  border: 1px solid #E0E0E0 ;
+  border-radius: 2px ;
+}
+
+button.gl-style-large-button {
+  height: 44px;
+}
+
+button.gl-style-button-no-shadow.mat-raised-button:not([class*='mat-elevation-z']) {
+  border-radius: 2px !important;
+  text-transform: capitalize;
+  box-shadow: none !important;
+}
+
+.gl-pos-between-fields {
+  position: relative;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.gl-pos-field-full-width {
+  position: relative;
+  width: 100%;
+}
+
+button.gl-pos-button-right {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: 0px;
+
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.gl-pos-modal-esc-button {
+  position: absolute;
+  top: 5px;
+  right: -89px;
+}
+
+.gl-pos-modal-back-button {
+  position: absolute;
+  top: 5px;
+  left: -89px;
+}
+
+.full-width-container {
+  background-color: #F0F4F5; /*todo move up*/
+}
+
+div.maxwidth {
+  max-width: 992px;
+  margin: auto;
+  position: relative;
+  //background-color: red;
+
+}
+//todo: put in exception section
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
+
+//.box .row {
+//  border: 1px dotted grey;
+//}
+
+.box .row.header {
+  flex: 0 1 auto;
+  /* The above is shorthand for:
+  flex-grow: 0,
+  flex-shrink: 1,
+  flex-basis: auto
+  */
+}
+
+.box .row.content {
+  flex: 1 1 auto;
+}
+
+.box .row.footer {
+  flex: 0 1 40px;
+}
+
+.mat-form-messages {
+  width: 100%;
+}
+
+// Add Player, add game, add ... button
+.button-placeholder {
+  width: 100px;
+  height: 100px;
+
+  position: absolute;
+  right: 0px;
+  top: 94px;
+  z-index: 5
+}
+
+.button-center {
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  position: relative;
+  top: 50%;
+  left: 50%;
+}
+
+.full-with-height-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.text-box-preview {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  padding-bottom: 22px;
+  max-height: 350px;
+
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 19px 38px #00000042;
+  border-radius: 2px;
+  opacity: 1;
+
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.screen-preview-content-margin {
+  margin: 24px;
+}
+
+.screen-preview-card-title {
+
+  margin: 24px;
+  margin-bottom: 14px;
+
+  text-align: left;
+  //font: 100 20px/24px Gentium Basic;
+
+}
+
+.white-picker-panel > .mat-dialog-container {
+  padding: 10px;
+  background-color: white !important;
+  background: white !important;
+}
+
+mat-dialog-container {
+  background: #F0F4F5 0% 0% no-repeat padding-box !important;
+  opacity: 1;
+  width: 90%;
+}

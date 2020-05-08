@@ -1,0 +1,43 @@
+@import '~@angular/material/theming';
+@import './app-theme';
+@import './styles/api';
+@import './styles/markdown';
+@import './styles/tables';
+@import './styles/general';
+
+
+// Include material core styles.
+@include mat-core();
+
+//NBD
+//$primary: mat-palette($mat-blue);
+//$accent:  mat-palette($mat-pink, A200, A100, A400);
+
+//OU
+$primary: mat-palette($mat-red);
+$accent:  mat-palette($mat-light-blue, A200, A100, A400);
+
+
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+@include material-docs-app-theme($theme);
+
+@import './generic';
+@import './material-modifications';
+
+.my-snack-bar {
+  background-color: #f44336;
+}
+.mat-expansion-panel-content + .mat-expansion-panel-body {
+  padding: 0px !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0
+}
+
+body {
+  background: #F0F4F5;
+}

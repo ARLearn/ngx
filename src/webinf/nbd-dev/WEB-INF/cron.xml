@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/tasks/wakeup</url>
+    <description>daily cleanup job</description>
+    <schedule>every 2 minutes</schedule>
+    <retry-parameters>
+      <min-backoff-seconds>60</min-backoff-seconds>
+      <max-doublings>5</max-doublings>
+    </retry-parameters>
+  </cron>
+
+</cronentries>

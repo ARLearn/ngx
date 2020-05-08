@@ -1,0 +1,223 @@
+{
+	"ACTIONS": {
+		"BACK": "TERUG",
+		"DELETE_PLAYER": "Verwijderen",
+		"DELETE_RUN": "",
+		"ESC": "SLUIT",
+		"RE_INVITE": "verstuur opnieuw",
+		"SAVE": "Opslaan",
+		"SELECT": "Selecteer"
+	},
+	"ADMIN": {
+		"FEATURED": {
+			"GAME_LIST": "Uitgelichte Games "
+		}
+	},
+	"COMMON": {
+		"ACTIVE": "Actief",
+		"ADMIN": "Beheerder",
+		"BROWSE": "Browse",
+		"FRIENDS": "Vrienden",
+		"GAMES": "Spellen",
+		"LAST_MODIFICATION": "Laatste wijziging",
+		"MAP": "Kaart",
+		"MESSAGES": "Berichten",
+		"OVERVIEW": "Overzicht",
+		"PRIMARY_COLOR": "Primaire steunkleur"
+	},
+	"CONFIG": {
+		"CANCEL": "Annuleren",
+		"CREATE": "",
+		"LANG": {
+			"DE": "Duits",
+			"EN": "Engels",
+			"ES": "Spaans",
+			"FR": "Frans",
+			"NL": "Nederlands"
+		},
+		"SAVE": "Opslaan",
+		"SELECT_LANGUAGE": "Selecteer taal"
+	},
+	"CONTACT": {
+		"ADD": "Connectie toevoegen",
+		"ADD_COLLAB_BUTTON": "Toevoegen",
+		"ADD_COLLAB_NAME_AUTO": "Naam (automatisch aanvullen)",
+		"ADD_PERSONAL": "Persoonlijke note toevoegen",
+		"ADD_PERSONAL_MESSAGE": "Persoonlijke boodschap",
+		"ADD_PLAYER": "Speler toevoegen",
+		"ALLCONTACTS": "Alle connecties",
+		"COLLABORATORS": "Medwerkers",
+		"CONTACTS": "Connecties",
+		"EDITOR": "Auteur",
+		"EMAIL": "Connectie e-mail",
+		"FRIENDS": "Vrienden",
+		"INVITE": "Verstuur uitnodiging",
+		"OWNER": "Eigenaar",
+		"PENDING": "In behandeling",
+		"START_TYPING_TO_SEARCH": "Start typing to search connections ...",
+		"VIEWER": "Alleen kijken"
+	},
+	"GAME": {
+		"ABOUT": "Over",
+		"ACCESS": {
+			"LINK": "Iedereen met link",
+			"PRIVATE": "Privaat",
+			"PUBLIC": "Openbaar op internet"
+		},
+		"ACCESS_WHO": "Wie kan de game zien?",
+		"ADDGAME": "SPEL TOEVOEGEN",
+		"ADD_COLLABORATOR": "Medewerker toevoegen",
+		"AUTHORS": "Auteurs",
+		"AUTHORS_CREATE_CONTENT": "inhoud maken",
+		"CHOOSE_SPLASH": "Kies splash screen",
+		"CHOOSE_SPLASH_SUB": "jouw startscherm &assets, of",
+		"COLLABORATOR": "Medewerker",
+		"CREATE_BUTTON_TITLE": "Maak game",
+		"DEFINE_LOCATION": "Definieer de spellocatie",
+		"DELETEGAME": "SPEL VERWIJDEREN",
+		"DEPGRAPH": "Afhankelijkheidsgrafiek",
+		"DESCRIBE_GAME": "Beschrijf je spel",
+		"FEATURED": "",
+		"GAMELIB": "Spel bibliotheek",
+		"IMPORTGAME": "IMPORT SPEL",
+		"LICENSE": {
+			"CC-BY": "Naamsvermelding CC BY",
+			"CC-BY-NC": "Naamsvermelding-NietCommercieel BY-NC",
+			"CC-BY-NC-ND": "Naamsvermelding-NietCommercieel-GeenAfgeleideWerken BY-NC-ND",
+			"CC-BY-NC-SA": "Naamsvermelding-NietCommercieel-GelijkDelen BY-NC-SA",
+			"CC-BY-ND": "Naamsvermelding-GeenAfgeleideWerken BY-ND",
+			"CC-BY-SA": "Naamsvermelding-GelijkDelen BY-SA",
+			"CHOOSE": "Kies een Creative Commons-licentie",
+			"LICENSE": "Licentie",
+			"PICK": "Kies een Creative Commons-licentie"
+		},
+		"LIST": "Mijn Games",
+		"LOCATION": "Plaats",
+		"LOCATION_BASED": "Locatie gebaseerd",
+		"MANAGE_PLAYERS": "Beheer spelers",
+		"MESSAGES": "Berichten",
+		"MYGAMES": "Mijn Games",
+		"NAME_FIELD": "Naam van de game",
+		"NEW_GAME_SCRATCH": "Start from scratch",
+		"NEW_GAME_SUBTITLE": "Kies hieronder een basis game template",
+		"NEW_GAME_TITLE": "Maak een nieuwe game",
+		"PUBLIC_ACCESS": "Publieke toegang",
+		"TITLE": "Titel",
+		"WHO_CAN_SEE": "Wie kan deze game zien?"
+	},
+	"HOME": {
+		"SETTINGS": "instellingen",
+		"SIGNIN": "AANMELDEN",
+		"SIGNOUT": "AFMELDEN"
+	},
+	"LOGIN": {
+		"APP_SUB_TITLE": "Welkom! Login met uw bibendo account",
+		"APP_TITLE": "BIBENDO",
+		"EMAIL": "E-mail",
+		"EMAIL_ADDRESS": "E-mailadres",
+		"FACEBOOK_LOGIN": "FACEBOOK LOGIN",
+		"FORGOT_PASSWORD": "Wachtwoord vergeten",
+		"GOOGLE_LOGIN": "GOOGLE LOGIN",
+		"OR": "of",
+		"PASSWORD": "Wachtwoord",
+		"REMEMBER_ME": "Onthouden",
+		"SOCIAL": "Social Login",
+		"SUBMIT": "LOGIN",
+		"TITLE": ""
+	},
+	"MEDIA": {
+		"MEDIA": "Media"
+	},
+	"MESSAGE": {
+		"ADD_ANSWER_OPTION": "Antwoordoptie toevoegen",
+		"ADD_DEPENDENCY": "Afhankelijkheid toevoegen",
+		"ANSWERS": "Antwoorden",
+		"ANSWER_IMAGE": "vraag Antwoord afbeelding",
+		"ANSWER_OPTION": "Antwoordoptie",
+		"APPEARS_AFTER": "Dit scherm verschijnt na",
+		"AUDIO_OBJECT": "",
+		"BUTTON_TEXT": "Knop tekst",
+		"CONTENT": "Inhoud",
+		"CORRECT_ANSWER": "Goed antwoord",
+		"CREATE": "Maak scherm",
+		"CREATE_TITLE": "Maak een nieuw scherm",
+		"DELETEMESSAGE": "Scherm verwijderen",
+		"DEPENDENCY": "Afhankelijkheid",
+		"DETAIL": "Detail",
+		"DRAG_OR_ADD_IMAGE": "Sleep je bestanden of klik om je afbeelding te uploaden",
+		"EDIT_MESSAGE": "Edit Scherm",
+		"FEEDBACK_IMAGE": "Feedback afbeelding",
+		"FEEDBACK_POSSIBLE": "Feedback mogelijk",
+		"MAKE_DEPENDENT": "Maak boodschap afhankelijk",
+		"MAX150CHAR": "Maximaal 150 tekens",
+		"MULTIPLECHOICEIMAGETEST": "Meerkeuze met figuren",
+		"MULTIPLECHOICETEST": "Meerkeuze",
+		"MULTIPLE_IMAGE_CHOICE_TEST": "Meerkeuze met figuren",
+		"NAME_FIELD": "Naam van je scherm",
+		"NARRATORITEM": "Verteller scherm",
+		"NEXT": "Volgende",
+		"OPTION_CORRECT": "Deze optie is goed",
+		"QR_SCANNER": "QR Scanner",
+		"SCAN": "Scannen",
+		"SCANTAG": "Scannen",
+		"SCREENS": "Schermen",
+		"SELECT_ASSET": "Kies een asset",
+		"SELECT_BUTTON_TYPE": "Selecteer het knoptype",
+		"SINGLECHOICEIMAGETEST": "Enkele keuze met figuren",
+		"SINGLECHOICETEST": "Enkele keuze",
+		"SINGLE_IMAGE_CHOICE_TEST": "Enkele keuze vraag met figuren",
+		"START_TYPING_TO_SEARCH": "Start met typen om te zoeken",
+		"VIDEOOBJECT": "Video Object",
+		"VIDEO_OBJECT": "Video scherm"
+	},
+	"ROW_HEADERS": {
+		"DATE": "Datum",
+		"ID": "Identifier",
+		"LABEL": "",
+		"LABEL_TT": "",
+		"NAME": "Naam",
+		"NAME_TT": "",
+		"PLAYER_NAME": "Naam speler",
+		"SEARCH": "Zoek",
+		"TIME": "Tijd",
+		"TITLE": "Titel"
+	},
+	"RUNS": {
+		"GROUP_NAME": "Naam van de groep",
+		"MAKE_GROUP": "Maak groep",
+		"MAKE_RUN": "Maak nieuwe groep",
+		"PLAY": "Speel",
+		"PLAYERS": "Spelers",
+		"RUNS": "Runs",
+		"SELF_REGISTRATION": "Zelfregistratie met QR code"
+	},
+	"wireflow": {
+		"btns": {
+			"details": "Details",
+			"confirm": "Confirm",
+			"cancel": "Cancel"
+		},
+		"action-modal": {
+			"title": "Provide an QR label",
+			"namePlaceholder": "QR label"
+		},
+		"proximity-modal": {
+			"title": "Proximity",
+			"selectType": "Select Type",
+			"searchLocation": "Search for location",
+			"longitude": "Longitude",
+			"longitudePlaceholder": "Enter longitude",
+			"latitude": "Latitude",
+			"latitudePlaceholder": "Enter latitude",
+			"radius": "Radius",
+			"radiusPlaceholder": "Enter radius"
+		},
+		"time-modal": {
+			"title": "Timer",
+			"secondsPlaceholder": "please enter number of seconds"
+		}
+	},
+	"read": "read",
+	"next": "next",
+	"in range": "in range"
+}

@@ -1,0 +1,223 @@
+{
+	"ACTIONS": {
+		"BACK": "Back",
+		"DELETE_PLAYER": "Remove",
+		"DELETE_RUN": "Delete run",
+		"ESC": "Esc",
+		"RE_INVITE": "re-invite",
+		"SAVE": "Save",
+		"SELECT": "Select"
+	},
+	"ADMIN": {
+		"FEATURED": {
+			"GAME_LIST": "Featured Games List"
+		}
+	},
+	"COMMON": {
+		"ACTIVE": "Active",
+		"ADMIN": "Admin",
+		"BROWSE": "Browse",
+		"FRIENDS": "Friends",
+		"GAMES": "Games",
+		"LAST_MODIFICATION": "Last modification",
+		"MAP": "Map",
+		"MESSAGES": "Messages",
+		"OVERVIEW": "Overview",
+		"PRIMARY_COLOR": "Primary color"
+	},
+	"CONFIG": {
+		"CANCEL": "Cancel",
+		"CREATE": "Create",
+		"LANG": {
+			"DE": "German",
+			"EN": "English",
+			"ES": "Spanish",
+			"FR": "French",
+			"NL": "Dutch"
+		},
+		"SAVE": "Save",
+		"SELECT_LANGUAGE": "Select language"
+	},
+	"CONTACT": {
+		"ADD": "Add Contact",
+		"ADD_COLLAB_BUTTON": "Add",
+		"ADD_COLLAB_NAME_AUTO": "Name (auto-complete)",
+		"ADD_PERSONAL": "Add personal note",
+		"ADD_PERSONAL_MESSAGE": "Personal message",
+		"ADD_PLAYER": "Add Player",
+		"ALLCONTACTS": "All contacts",
+		"COLLABORATORS": "Collaborators",
+		"CONTACTS": "All contacts",
+		"EDITOR": "Author",
+		"EMAIL": "Contact Email",
+		"FRIENDS": "Friends",
+		"INVITE": "Invite",
+		"OWNER": "Owner",
+		"PENDING": "Pending",
+		"START_TYPING_TO_SEARCH": "",
+		"VIEWER": "Viewer"
+	},
+	"GAME": {
+		"ABOUT": "About",
+		"ACCESS": {
+			"LINK": "Anyone with link",
+			"PRIVATE": "Private",
+			"PUBLIC": "Public on web"
+		},
+		"ACCESS_WHO": "Who can see the game?",
+		"ADDGAME": "ADD GAME",
+		"ADD_COLLABORATOR": "Add Collaborator",
+		"AUTHORS": "Authors",
+		"AUTHORS_CREATE_CONTENT": "view contributors",
+		"CHOOSE_SPLASH": "Choose splash screen",
+		"CHOOSE_SPLASH_SUB": "your home screen & assets, or",
+		"COLLABORATOR": "Collaborator",
+		"CREATE_BUTTON_TITLE": "Create Game",
+		"DEFINE_LOCATION": "Define game location",
+		"DELETEGAME": "DELETE GAME",
+		"DEPGRAPH": "Dependency Graph",
+		"DESCRIBE_GAME": "Describe your game",
+		"FEATURED": "Featured games",
+		"GAMELIB": "",
+		"IMPORTGAME": "IMPORT GAME",
+		"LICENSE": {
+			"CC-BY": "Attribution CC BY",
+			"CC-BY-NC": "Attribution-NonCommercial BY-NC",
+			"CC-BY-NC-ND": "Attribution-NonCommercial-NoDerivs BY-NC-ND",
+			"CC-BY-NC-SA": "Attribution-NonCommercial-ShareAlike BY-NC-SA",
+			"CC-BY-ND": "Attribution-NoDerivs BY-ND",
+			"CC-BY-SA": "Attribution-ShareAlike BY-SA",
+			"CHOOSE": "Choose a creative commons license",
+			"LICENSE": "License",
+			"PICK": "Pick a creative commons license"
+		},
+		"LIST": "My Games",
+		"LOCATION": "Location",
+		"LOCATION_BASED": "Location based",
+		"MANAGE_PLAYERS": "Manage players",
+		"MESSAGES": "Messages",
+		"MYGAMES": "My Games",
+		"NAME_FIELD": "Name of the game",
+		"NEW_GAME_SCRATCH": "",
+		"NEW_GAME_SUBTITLE": "",
+		"NEW_GAME_TITLE": "",
+		"PUBLIC_ACCESS": "Public access",
+		"TITLE": "Title",
+		"WHO_CAN_SEE": "Who can see this game?"
+	},
+	"HOME": {
+		"SETTINGS": "Settings",
+		"SIGNIN": "SIGN IN",
+		"SIGNOUT": "SIGN OUT"
+	},
+	"LOGIN": {
+		"APP_SUB_TITLE": "Welcome! Login with your bibendo account",
+		"APP_TITLE": "BIBENDO",
+		"EMAIL": "Email",
+		"EMAIL_ADDRESS": "Email address",
+		"FACEBOOK_LOGIN": "FACEBOOK LOGIN",
+		"FORGOT_PASSWORD": "Forgot password",
+		"GOOGLE_LOGIN": "Google Login",
+		"OR": "or",
+		"PASSWORD": "Password",
+		"REMEMBER_ME": "Remember me",
+		"SOCIAL": "Social Login",
+		"SUBMIT": "Submit",
+		"TITLE": "Login with your account"
+	},
+	"MEDIA": {
+		"MEDIA": "Media"
+	},
+	"MESSAGE": {
+		"ADD_ANSWER_OPTION": "Add answer option",
+		"ADD_DEPENDENCY": "Add dependency",
+		"ANSWERS": "Answers",
+		"ANSWER_IMAGE": "Answer picture",
+		"ANSWER_OPTION": "Answer option",
+		"APPEARS_AFTER": "This screen appears after",
+		"AUDIO_OBJECT": "Audio Message",
+		"BUTTON_TEXT": "Button text",
+		"CONTENT": "Content",
+		"CORRECT_ANSWER": "Correct answer",
+		"CREATE": "Make screen",
+		"CREATE_TITLE": "",
+		"DELETEMESSAGE": "Remove Screen",
+		"DEPENDENCY": "Dependency",
+		"DETAIL": "Detail",
+		"DRAG_OR_ADD_IMAGE": "Drag your files or click to upload your image",
+		"EDIT_MESSAGE": "Edit screen",
+		"FEEDBACK_IMAGE": "Feedback image",
+		"FEEDBACK_POSSIBLE": "Feedback possible",
+		"MAKE_DEPENDENT": "Make the message dependent",
+		"MAX150CHAR": "Maximum 150 characters",
+		"MULTIPLECHOICEIMAGETEST": "Multiple choice with images",
+		"MULTIPLECHOICETEST": "Multiple Choice",
+		"MULTIPLE_IMAGE_CHOICE_TEST": "Multiple Image Choice with images",
+		"NAME_FIELD": "Name of your screen",
+		"NARRATORITEM": "Narrator Item",
+		"NEXT": "Next",
+		"OPTION_CORRECT": "This option is correct",
+		"QR_SCANNER": "QR Scanner",
+		"SCAN": "Scan",
+		"SCANTAG": "Scan",
+		"SCREENS": "Screens",
+		"SELECT_ASSET": "Choose an asset",
+		"SELECT_BUTTON_TYPE": "Select button type",
+		"SINGLECHOICEIMAGETEST": "Single choice with images",
+		"SINGLECHOICETEST": "Single Choice",
+		"SINGLE_IMAGE_CHOICE_TEST": "Single Image Choice",
+		"START_TYPING_TO_SEARCH": "Start typing to search",
+		"VIDEOOBJECT": "Video Object",
+		"VIDEO_OBJECT": "Video Message"
+	},
+	"ROW_HEADERS": {
+		"DATE": "Date",
+		"ID": "Identifier",
+		"LABEL": "Label",
+		"LABEL_TT": "A label makes authoring more convenient and can be used to filter content while authoring. They are not shown on the player.",
+		"NAME": "Title",
+		"NAME_TT": "This is the title of the message as it will appear in the message list on the player.",
+		"PLAYER_NAME": "Player name",
+		"SEARCH": "Search",
+		"TIME": "Time",
+		"TITLE": "Title"
+	},
+	"RUNS": {
+		"GROUP_NAME": "Name of the group",
+		"MAKE_GROUP": "Make group",
+		"MAKE_RUN": "Create new group",
+		"PLAY": "Play",
+		"PLAYERS": "Players",
+		"RUNS": "Runs",
+		"SELF_REGISTRATION": "Self-registration with QR code"
+	},
+	"wireflow": {
+		"btns": {
+			"details": "Details",
+			"confirm": "Confirm",
+			"cancel": "Cancel"
+		},
+		"action-modal": {
+			"title": "Provide an QR label",
+			"namePlaceholder": "QR label"
+		},
+		"proximity-modal": {
+			"title": "Proximity",
+			"selectType": "Select Type",
+			"searchLocation": "Search for location",
+			"longitude": "Longitude",
+			"longitudePlaceholder": "Enter longitude",
+			"latitude": "Latitude",
+			"latitudePlaceholder": "Enter latitude",
+			"radius": "Radius",
+			"radiusPlaceholder": "Enter radius"
+		},
+		"time-modal": {
+			"title": "Timer",
+			"secondsPlaceholder": "please enter number of seconds"
+		}
+	},
+	"read": "read",
+	"next": "next",
+	"in range": "in range"
+}
