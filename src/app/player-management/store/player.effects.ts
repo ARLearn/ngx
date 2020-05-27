@@ -85,6 +85,7 @@ export class PlayerEffects {
                 const ids: string = action.payload.gameAccess.map(access => access.account).join(";");
                 return this.player.getAccounts(ids).pipe(
                     map(res => {
+                            res['connection'] = false;
                             return new AllPlayersComplete(
                                 res
                             );

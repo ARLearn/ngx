@@ -77,6 +77,7 @@
 		"DELETEGAME": "SPIEL LÖSCHEN",
 		"DEPGRAPH": "Abhängigkeitsdiagramm",
 		"DESCRIBE_GAME": "",
+		"EDITGAME": "SPIEL ANPASSEN",
 		"FEATURED": "",
 		"GAMELIB": "",
 		"IMPORTGAME": "IMPORT SPIEL",
@@ -126,7 +127,14 @@
 		"TITLE": "Melden Sie sich mit Ihrem Konto an"
 	},
 	"MEDIA": {
-		"MEDIA": "Medien"
+		"DELETE": "Löschen",
+		"DRAG_FILES": "Ziehen Sie Ihre Datei",
+		"FOLDER_NAME": "Ordnernamen",
+		"MEDIA": "Medien",
+		"MEDIA_BIBLIOTHEEK": "Medienbibliothek",
+		"NEW_FOLDER": "Neue Karte",
+		"OR_CLICK_FILES": "oder klicken Sie, um Ihre Dateien hochzuladen",
+		"SELECTED": "Ausgewählt"
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Antwortoption hinzufügen",
@@ -149,7 +157,7 @@
 		"FEEDBACK_IMAGE": "Feedback-Bild",
 		"FEEDBACK_POSSIBLE": "Feedback möglich",
 		"MAKE_DEPENDENT": "Machen Sie die Nachricht abhängig",
-		"MAX150CHAR": "Maximal 150 Zeichen",
+		"MAX150CHAR": "Maximal 200 Zeichen",
 		"MULTIPLECHOICEIMAGETEST": "Multiple Choice mit Abbildung",
 		"MULTIPLECHOICETEST": "Mehrfachauswahl",
 		"MULTIPLE_IMAGE_CHOICE_TEST": "Multiple Choice mit Abbildung",
@@ -157,6 +165,7 @@
 		"NARRATORITEM": "Erzähler Item",
 		"NEXT": "Nächster",
 		"OPTION_CORRECT": "Diese Option ist korrekt",
+		"PICTUREQUESTION": "Antworte mit einem Bild",
 		"QR_SCANNER": "QR-Scanner",
 		"SCAN": "Scan",
 		"SCANTAG": "Scannen",
@@ -190,5 +199,34 @@
 		"PLAYERS": "Spieler",
 		"RUNS": "Läuft",
 		"SELF_REGISTRATION": "Selbstregistrierung mit QR-Code"
+	},
+	"in range": "",
+	"next": "",
+	"read": "",
+	"wireflow": {
+		"action-modal": {
+			"namePlaceholder": "",
+			"title": ""
+		},
+		"btns": {
+			"cancel": "",
+			"confirm": "",
+			"details": ""
+		},
+		"proximity-modal": {
+			"latitude": "",
+			"latitudePlaceholder": "",
+			"longitude": "",
+			"longitudePlaceholder": "",
+			"radius": "",
+			"radiusPlaceholder": "",
+			"searchLocation": "",
+			"selectType": "",
+			"title": ""
+		},
+		"time-modal": {
+			"secondsPlaceholder": "",
+			"title": ""
+		}
 	}
 }

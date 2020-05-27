@@ -11,8 +11,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
              appDragDrop (fileDropped)="uploadFile($event)"
              (click)="fileInput.click()">
             <input hidden type="file" #fileInput (change)="uploadFile($event.target.files)">
-            <div class="drag-files">Sleep je bestanden</div>
-            <div class="click-files">of klik om je bestanden te uploaden </div>
+            <div class="drag-files">{{'MEDIA.DRAG_FILES' |translate}}</div>
+            <div class="click-files">{{'MEDIA.OR_CLICK_FILES' |translate}} </div>
             <div class="close-drop">
                 <button mat-icon-button (click)="close($event)">
                     <mat-icon>close</mat-icon>

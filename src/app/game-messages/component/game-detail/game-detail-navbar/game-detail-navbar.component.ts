@@ -6,6 +6,7 @@ import {Location} from "@angular/common";
 import {Observable} from "rxjs";
 import {getGame, getLoading} from "../../../../game-management/store/current-game.selector";
 import {ANIMATION_MODULE_TYPE} from "@angular/platform-browser/animations";
+import {environment} from "../../../../../environments/environment";
 
 
 @Component({
@@ -18,6 +19,7 @@ import {ANIMATION_MODULE_TYPE} from "@angular/platform-browser/animations";
   ],
 })
 export class GameDetailNavbarComponent implements OnInit {
+  showLanguage: boolean = environment.showTranslate;
 
   public game$: Observable<Game> = this.store.select(getGame);
   public isLoading$: Observable<boolean> = this.store.select(getLoading);

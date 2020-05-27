@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {combineLatest} from 'rxjs';
 
 // import { combineLatest } from 'rxjs/operators';
-import {getAllPlayers, getAllPlayersAndMySelf} from '../../player-management/store/player.selector';
+import {getAllPlayers, getAllPlayersAndMySelf, getPortalUser} from '../../player-management/store/player.selector';
 import {FormControl} from "@angular/forms";
 import {map, startWith, withLatestFrom} from "rxjs/operators";
 import {Player} from "../../player-management/store/player.state";
@@ -44,7 +44,7 @@ export interface AccountResultData {
                     
 
                 </form>
-
+               
 
                 <button class="pos-create-button gl-style-button-no-shadow font-medium-14-20-roboto"
                         mat-raised-button color="primary"
@@ -125,7 +125,7 @@ export class AddPlayerDialogComponent {
 
     stateCtrl = new FormControl('');
     filteredPlayers: Observable<Player[]>;
-
+test$ = this.store.pipe(select(getPortalUser)) ;
 
     // public players$: Observable<Player[]> = this.store.pipe(select(getAllPlayersAndMySelf));
     // public filter;

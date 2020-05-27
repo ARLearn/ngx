@@ -16,9 +16,9 @@ import {State} from "../../../../core/reducers";
                         <mat-icon class="white-color">more_horiz</mat-icon>
                     </button>
                     <mat-menu #appMenu2="matMenu" yPosition="below">
-                        <button mat-menu-item (click)="actionClicked.emit()">
+                        <button  *ngFor="let action of actionText; let i = index" mat-menu-item (click)="actionClicked.emit(action)">
                             <mat-icon>delete_forever</mat-icon>
-                            <span class="style-uppercase">{{ actionText }}</span>
+                            <span class="style-uppercase">{{ action | translate }}</span>
                         </button>
                     </mat-menu>
                 </div>
@@ -28,7 +28,7 @@ import {State} from "../../../../core/reducers";
                             (click)="reset()"
                             color="white"
                             class="pos-middle-button" mat-stroked-button>
-                        {{clickText}}
+                        {{clickText | translate}}
                     </button>
                 </div>
             </div>
@@ -101,8 +101,8 @@ import {State} from "../../../../core/reducers";
 export class HoverOverlayComponent {
     public menuOpen = false;
     @Input() clickText;
-    @Input() actionText;
-    @Output() actionClicked = new EventEmitter();
+    @Input() actionText: string[];
+    @Output() actionClicked = new EventEmitter<string>();
     @Input() navTo;
 
     constructor(

@@ -77,6 +77,7 @@
 		"DELETEGAME": "DELETE GAME",
 		"DEPGRAPH": "Dependency Graph",
 		"DESCRIBE_GAME": "Describe your game",
+		"EDITGAME": "CUSTOMIZE GAME",
 		"FEATURED": "Featured games",
 		"GAMELIB": "",
 		"IMPORTGAME": "IMPORT GAME",
@@ -126,7 +127,14 @@
 		"TITLE": "Login with your account"
 	},
 	"MEDIA": {
-		"MEDIA": "Media"
+		"DELETE": "delete",
+		"DRAG_FILES": "Drag your file",
+		"FOLDER_NAME": "Folder Name",
+		"MEDIA": "Media",
+		"MEDIA_BIBLIOTHEEK": "Media library",
+		"NEW_FOLDER": "New map",
+		"OR_CLICK_FILES": "or click to upload your files",
+		"SELECTED": "Selected"
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Add answer option",
@@ -149,7 +157,7 @@
 		"FEEDBACK_IMAGE": "Feedback image",
 		"FEEDBACK_POSSIBLE": "Feedback possible",
 		"MAKE_DEPENDENT": "Make the message dependent",
-		"MAX150CHAR": "Maximum 150 characters",
+		"MAX150CHAR": "Maximum 200 characters",
 		"MULTIPLECHOICEIMAGETEST": "Multiple choice with images",
 		"MULTIPLECHOICETEST": "Multiple Choice",
 		"MULTIPLE_IMAGE_CHOICE_TEST": "Multiple Image Choice with images",
@@ -157,6 +165,7 @@
 		"NARRATORITEM": "Narrator Item",
 		"NEXT": "Next",
 		"OPTION_CORRECT": "This option is correct",
+		"PICTUREQUESTION": "Reply with a picture",
 		"QR_SCANNER": "QR Scanner",
 		"SCAN": "Scan",
 		"SCANTAG": "Scan",
@@ -191,33 +200,33 @@
 		"RUNS": "Runs",
 		"SELF_REGISTRATION": "Self-registration with QR code"
 	},
+	"in range": "in range",
+	"next": "next",
+	"read": "read",
 	"wireflow": {
-		"btns": {
-			"details": "Details",
-			"confirm": "Confirm",
-			"cancel": "Cancel"
-		},
 		"action-modal": {
-			"title": "Provide an QR label",
-			"namePlaceholder": "QR label"
+			"namePlaceholder": "QR label",
+			"title": "Provide an QR label"
+		},
+		"btns": {
+			"cancel": "Cancel",
+			"confirm": "Confirm",
+			"details": "Details"
 		},
 		"proximity-modal": {
-			"title": "Proximity",
-			"selectType": "Select Type",
-			"searchLocation": "Search for location",
-			"longitude": "Longitude",
-			"longitudePlaceholder": "Enter longitude",
 			"latitude": "Latitude",
 			"latitudePlaceholder": "Enter latitude",
+			"longitude": "Longitude",
+			"longitudePlaceholder": "Enter longitude",
 			"radius": "Radius",
-			"radiusPlaceholder": "Enter radius"
+			"radiusPlaceholder": "Enter radius",
+			"searchLocation": "Search for location",
+			"selectType": "Select Type",
+			"title": "Proximity"
 		},
 		"time-modal": {
-			"title": "Timer",
-			"secondsPlaceholder": "please enter number of seconds"
+			"secondsPlaceholder": "please enter number of seconds",
+			"title": "Timer"
 		}
-	},
-	"read": "read",
-	"next": "next",
-	"in range": "in range"
+	}
 }

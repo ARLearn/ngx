@@ -29,7 +29,7 @@ import {CreateFolderComponent} from "../../modal/create-folder/create-folder.com
                 <div class="upload-buttons">
                     <button mat-button color="primary" (click)="newFolder()" class="new-folder-text">
                         <mat-icon aria-hidden="false">create_new_folder</mat-icon>
-                        Nieuwe map
+                        {{'MEDIA.NEW_FOLDER' |translate}}
                     </button>
                     <button mat-raised-button color="primary" (click)="uploadFiles()">
                         <mat-icon aria-hidden="false">cloud_upload</mat-icon>

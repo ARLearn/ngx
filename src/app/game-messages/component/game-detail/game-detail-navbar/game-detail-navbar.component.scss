@@ -9,6 +9,19 @@
   opacity: 1;
 }
 
+select-language {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+
+}
+
+app-user-drop-down-display {
+  position: absolute;
+  top: 0px;
+  right: 40px;
+}
 .account-dropdown {
   position: absolute;
   top: 0px;
@@ -25,6 +38,9 @@
   top: 60px;
   height: 38px;
   text-align: left;
+
+  position: absolute;
+  z-index: 2;
 }
 
 .back-button {

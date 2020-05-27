@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-preview-pane',
-    template: `        
+    template: `
         <div class="preview-pane">
             <app-preview-pane-header></app-preview-pane-header>
         </div>

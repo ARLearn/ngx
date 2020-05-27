@@ -11,6 +11,8 @@ export const GameActionTypes = {
     CREATE_GAME_REQUESTED: '[Games] Create Game Requested',
     CREATE_GAME_COMPLETED: '[Games] Create Game Completed',
 
+    CLONE_GAME_REQUESTED: '[Games] Clone Game Requested',
+
     DELETE_GAME_REQUESTED: '[Games] Delete Game Requested',
     DELETE_GAME_COMPLETED: '[Games] Delete Game Completed',
 
@@ -59,6 +61,12 @@ export class CreateGameCompletedAction implements Action {
     }
 }
 
+export class CloneGameRequestAction implements Action {
+    type = GameActionTypes.CLONE_GAME_REQUESTED;
+
+    constructor(public payload: { gameId?: number }) {
+    }
+}
 
 export class DeleteGameRequestAction implements Action {
     type = GameActionTypes.DELETE_GAME_REQUESTED;

@@ -16,7 +16,7 @@ import {filter} from "rxjs/operators";
     selector: 'app-game-detail-location',
     template: `
         <div>
-            <div class="location-based">{{'GAME.LOCATION_BASED'}}</div>
+            <div class="location-based">{{'GAME.LOCATION_BASED'|translate}}</div>
             <mat-slide-toggle
                     [disabled]="!(iAmOwner|async)"
                     [(ngModel)]="locationBased"

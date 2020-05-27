@@ -4,6 +4,7 @@ import {State} from "../../../core/reducers";
 import {Observable} from "rxjs";
 import {getCurrentUser} from "../../store/auth.selector";
 import {LogoutRequestedAction} from "../../store/auth.actions";
+import {LoadUserRequestAction} from "../../../user-management/store/portal-user.actions";
 
 @Component({
     selector: 'app-user-drop-down-display',
@@ -141,6 +142,7 @@ export class UserDropDownDisplayComponent implements OnInit {
     }
 
     ngOnInit() {
+        // this.store.dispatch(new LoadUserRequestAction());
     }
 
     logout() {

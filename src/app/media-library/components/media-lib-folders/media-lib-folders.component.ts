@@ -15,7 +15,7 @@ import {GetFolderListRequestAction, SetRelativePathAction} from "../../store/med
             <div class="folder-icon">
                 <mat-icon aria-hidden="false">folder</mat-icon>
             </div>
-            <div class="folder-label">Media bibliotheek</div>
+            <div class="folder-label">{{'MEDIA.MEDIA_BIBLIOTHEEK' |translate}}</div>
         </div>
         <div class="level1 " [class.selected]="('/'+folder)==(relativePath$|async)"
              *ngFor="let folder of (folders$ |async)" (click)="selectFolder(folder)">

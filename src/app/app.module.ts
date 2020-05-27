@@ -10,7 +10,6 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MaterialModule} from './material/material.module';
 import {HomepageModule} from './pages/homepage/homepage';
 import {ComponentPageTitle} from './pages/page-title/page-title';
 import {LoginScreenComponent} from './pages/login-screen/login-screen.component';
@@ -41,6 +40,24 @@ import {GameMessageModule} from './game-message/game-message.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {LoginScreenNoSocialComponent} from './pages/login-screen/login-screen-no-social.component';
 import {APP_ROUTES} from './routes';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCardModule} from "@angular/material/card";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatIconModule} from "@angular/material/icon";
+import {MatListModule} from "@angular/material/list";
+import {MatButtonModule} from "@angular/material/button";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatSelectModule} from "@angular/material/select";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatSliderModule} from "@angular/material/slider";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -56,7 +73,46 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         BrowserModule,
         BrowserAnimationsModule,
         SharedModule.forRoot(),
-        MaterialModule,
+        FormsModule,
+        MatSidenavModule,
+        ReactiveFormsModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatIconModule,
+        MatListModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDividerModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatNativeDateModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        FormsModule,
+        MatSidenavModule,
+        ReactiveFormsModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatIconModule,
+        MatListModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDividerModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatNativeDateModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatExpansionModule,
+        MatDatepickerModule,
         MatTabsModule,
         MatTooltipModule,
         RouterModule.forRoot(APP_ROUTES, {useHash: true}),

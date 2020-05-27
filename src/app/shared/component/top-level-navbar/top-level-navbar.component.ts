@@ -1,30 +1,15 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {environment} from "../../../../environments/environment";
+
 
 @Component({
     selector: 'app-top-level-navbar',
     template: `
         <div class="header primary-background-color">
             <div class="maxwidth">
-                <div class="root-tabs">
-                    <nav mat-tab-nav-bar [backgroundColor]="'primary'">
-                        <a
-                                class="uppercase"
-                                mat-tab-link
-                                routerLinkActive #rla="routerLinkActive"
-                                [active]="rla.isActive"
-                                [routerLink]="'/portal/root/games'">Mijn games</a>
-                        <a mat-tab-link
-                           routerLinkActive #rla1="routerLinkActive"
-                           [active]="rla1.isActive"
-                           [routerLink]="'/portal/root/connections'"
-                        > Connecties </a>
-                        <a mat-tab-link
-                           disabled routerLinkActive="tab-selected"> Game Library </a>
-                    </nav>
-                </div>
-                <div class="account-dropdown">
-                    <app-user-drop-down-display></app-user-drop-down-display>
-                </div>
+                <app-top-nav></app-top-nav>
+                <app-account-section></app-account-section>
+
 
                 <div class="game-title font-medium-32-43-roboto ">{{title}}</div>
                 <ng-content></ng-content>
@@ -32,7 +17,27 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
         </div>
 
     `,
-    styleUrls: ['./top-level-navbar.component.scss'],
+    styles: [`
+        .header {
+            top: 0px;
+            right: 307px;
+            width: 100%;
+            height: 144px;
+            opacity: 1;
+        }
+
+        .game-title {
+            top: 60px;
+            height: 38px;
+            text-align: left;
+            letter-spacing: 0;
+            color: #FFFFFF;
+
+            position: absolute;
+            z-index: 2;
+        }
+
+    `],
     encapsulation: ViewEncapsulation.None
 })
 export class TopLevelNavbarComponent implements OnInit {

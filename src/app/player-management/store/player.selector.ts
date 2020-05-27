@@ -14,7 +14,7 @@ export interface State extends fromRoot.State {
 export const getPlayersFeature = createFeatureSelector<State, any>('players');
 export const _getPortalUserFeature = createFeatureSelector<State, any>('user');
 
-const _user = (state: UserState) => state ? state.loggedInUser : {};
+const _user = (state: UserState) => state ? state : {};
 
 const _getAllPlayers = (state: PlayerState) => state.list;
 const _getLoadingComplete = (state: PlayerState) => state.loadingComplete;
@@ -43,14 +43,16 @@ export const invitationBy = createSelector(getPlayersFeature, _invitationBy);
 export const getPortalUser = createSelector(_getPortalUserFeature, _user);
 export const getLoadingComplete = createSelector(getPlayersFeature, _getLoadingComplete);
 
-export const getAllPlayersAndMySelf = createSelector(getAllPlayers, getPortalUser, (list, me) => {
+export const getConnections = createSelector(getAllPlayers, (list) => list.filter(p => p.isConnection));
+
+export const getAllPlayersAndMySelf = createSelector(getConnections, getPortalUser, (list, me) => {
     if (!list) {
         list = [];
     }
     return !me ? list : [...list, me];
 });
 
-export const getFilteredPlayersSelector = createSelector(getAllPlayers, getFiltersSelector,
+export const getFilteredPlayersSelector = createSelector(getConnections, getFiltersSelector,
     (players: Player[], filters: string[]) => {
         return players.filter((player: Player) => {
             if (!filters) {

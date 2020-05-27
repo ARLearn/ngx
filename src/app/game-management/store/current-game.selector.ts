@@ -49,7 +49,7 @@ export const gameMyAccessWithAccount = createSelector(
     gameAccessWithAccount,
     getMe,
     (players, me) => {
-        players = players.filter(p => p.fullId === me);
+        players = players.filter(p => p.account === me);
         if (players.length === 0) {
             return null;
         }

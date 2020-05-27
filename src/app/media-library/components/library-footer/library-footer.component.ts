@@ -12,10 +12,10 @@ import {DeleteSelectFileAction} from "../../store/media-lib.actions";
     template: `
         <div class="maxwidth">
             <div class="parent">
-                <mat-chip-list aria-label="Fish selection" style="margin-top:4px;margin-right:10px">
+                <mat-chip-list  style="margin-top:4px;margin-right:10px">
                     <mat-chip color="primary" selected>{{(selectFiles|async).length}}</mat-chip>
                 </mat-chip-list>
-                <div class="selected-text">geselecteerd</div>
+                <div class="selected-text">{{'MEDIA.SELECTED' |translate}}</div>
                 <div class="example-box" *ngFor="let selected of (selectFiles|async)">
                     <app-filestore-background-image
                             [paths]="['/game/'+(game$|async)?.gameId+'/'+selected]"
@@ -29,7 +29,7 @@ import {DeleteSelectFileAction} from "../../store/media-lib.actions";
                         class="delete-button-text" mat-button color="primary"
                 >
                     <mat-icon>delete</mat-icon>
-                    verwijderen
+                    {{'MEDIA.DELETE' |translate}}
                 </button>
             </div>
         </div>

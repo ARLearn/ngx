@@ -49,6 +49,7 @@ export interface Player {
   picture: string;
   error?: string;
   accessRights?: string;
+  isConnection: boolean;
 
 }
 

@@ -136,5 +136,15 @@ export const gameMessageMapper = (gameMessage: MultipleChoiceScreen) => {
     if (!gameMessage.showFeedback) {
         gameMessage.showFeedback = false;
     }
+    if (
+        gameMessage['type'] === 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceImageTest'
+        || gameMessage['type'] === 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'
+        || gameMessage['type'] === 'org.celstec.arlearn2.beans.generalItem.SingleChoiceTest'
+        || gameMessage['type'] === 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'
+    ) {
+        if (!gameMessage['answers']) {
+            gameMessage['answers'] = [];
+        }
+    }
     return gameMessage;
 };

@@ -77,6 +77,7 @@
 		"DELETEGAME": "SPEL VERWIJDEREN",
 		"DEPGRAPH": "Afhankelijkheidsgrafiek",
 		"DESCRIBE_GAME": "Beschrijf je spel",
+		"EDITGAME": "SPEL AANPASSEN",
 		"FEATURED": "",
 		"GAMELIB": "Spel bibliotheek",
 		"IMPORTGAME": "IMPORT SPEL",
@@ -126,7 +127,14 @@
 		"TITLE": ""
 	},
 	"MEDIA": {
-		"MEDIA": "Media"
+		"DELETE": "verwijderen",
+		"DRAG_FILES": "Sleep je bestand",
+		"FOLDER_NAME": "Folder naam",
+		"MEDIA": "Media",
+		"MEDIA_BIBLIOTHEEK": "Media bibliotheek",
+		"NEW_FOLDER": "Nieuwe map",
+		"OR_CLICK_FILES": "of klik om je bestanden te uploaden",
+		"SELECTED": "Geselecteerd"
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Antwoordoptie toevoegen",
@@ -149,7 +157,7 @@
 		"FEEDBACK_IMAGE": "Feedback afbeelding",
 		"FEEDBACK_POSSIBLE": "Feedback mogelijk",
 		"MAKE_DEPENDENT": "Maak boodschap afhankelijk",
-		"MAX150CHAR": "Maximaal 150 tekens",
+		"MAX150CHAR": "Maximaal 200 tekens",
 		"MULTIPLECHOICEIMAGETEST": "Meerkeuze met figuren",
 		"MULTIPLECHOICETEST": "Meerkeuze",
 		"MULTIPLE_IMAGE_CHOICE_TEST": "Meerkeuze met figuren",
@@ -157,6 +165,7 @@
 		"NARRATORITEM": "Verteller scherm",
 		"NEXT": "Volgende",
 		"OPTION_CORRECT": "Deze optie is goed",
+		"PICTUREQUESTION": "Antwoord met een afbeelding",
 		"QR_SCANNER": "QR Scanner",
 		"SCAN": "Scannen",
 		"SCANTAG": "Scannen",
@@ -191,33 +200,33 @@
 		"RUNS": "Runs",
 		"SELF_REGISTRATION": "Zelfregistratie met QR code"
 	},
+	"in range": "in range",
+	"next": "next",
+	"read": "read",
 	"wireflow": {
-		"btns": {
-			"details": "Details",
-			"confirm": "Confirm",
-			"cancel": "Cancel"
-		},
 		"action-modal": {
-			"title": "Provide an QR label",
-			"namePlaceholder": "QR label"
+			"namePlaceholder": "QR label",
+			"title": "Provide an QR label"
+		},
+		"btns": {
+			"cancel": "Cancel",
+			"confirm": "Confirm",
+			"details": "Details"
 		},
 		"proximity-modal": {
-			"title": "Proximity",
-			"selectType": "Select Type",
-			"searchLocation": "Search for location",
-			"longitude": "Longitude",
-			"longitudePlaceholder": "Enter longitude",
 			"latitude": "Latitude",
 			"latitudePlaceholder": "Enter latitude",
+			"longitude": "Longitude",
+			"longitudePlaceholder": "Enter longitude",
 			"radius": "Radius",
-			"radiusPlaceholder": "Enter radius"
+			"radiusPlaceholder": "Enter radius",
+			"searchLocation": "Search for location",
+			"selectType": "Select Type",
+			"title": "Proximity"
 		},
 		"time-modal": {
-			"title": "Timer",
-			"secondsPlaceholder": "please enter number of seconds"
+			"secondsPlaceholder": "please enter number of seconds",
+			"title": "Timer"
 		}
-	},
-	"read": "read",
-	"next": "next",
-	"in range": "in range"
+	}
 }

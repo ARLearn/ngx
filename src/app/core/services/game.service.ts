@@ -44,6 +44,11 @@ export class GameService {
             .post<any>(environment.api_url + '/game/create', game);
     }
 
+    cloneGame(gameId: number): Observable<any> {
+        return this.http
+            .get<any>(environment.api_url + '/game/clone/' + gameId);
+    }
+
     deleteGame(gameId: number): Observable<any> {
         return this.http
             .delete<any>(environment.api_url + '/game/' + gameId);

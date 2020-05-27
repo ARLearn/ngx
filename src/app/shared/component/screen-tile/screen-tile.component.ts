@@ -9,7 +9,7 @@ import {environment} from "../../../../environments/environment";
             <app-hover-overlay
                     [clickText]="clickText"
                     [actionText]="actionText"
-                    (actionClicked)="actionClicked.emit()"
+                    (actionClicked)="actionClickedMethod($event)"
                     [navTo]="navTo"
             >
                 <app-filestore-background-image *ngIf="imagePath && !isVideo && (displayAsset ==='')"
@@ -111,12 +111,16 @@ export class ScreenTileComponent {
     @Input() clickText;
     @Input() navTo;
     @Input() icon;
-    @Input() actionText;
+    @Input() actionText: string[];
     @Input() displayAsset = "";
     @Output() actionClicked = new EventEmitter();
     @Input() isVideo = false;
 
     constructor() {
+    }
+
+    actionClickedMethod(event) {
+        this.actionClicked.emit(event);
     }
 
 }

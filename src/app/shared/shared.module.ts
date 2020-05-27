@@ -48,6 +48,10 @@ import { SearchButtonComponent } from './component/search-button/search-button.c
 import { ScreenTileComponent } from './component/screen-tile/screen-tile.component';
 import { HoverOverlayComponent } from './component/screen-tile/hover-overlay/hover-overlay.component';
 import {MatMenuModule} from "@angular/material/menu";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {SelectLanguageComponent} from "./language-picker/select-language/select-language.component";
+import { TopNavComponent } from './component/header-components/top-nav.component';
+import { AccountSectionComponent } from './component/account/account-section.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -78,6 +82,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         MatChipsModule,
         AuthModule,
         MatMenuModule,
+
+        MatGridListModule,
+
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -125,7 +132,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TrucatePipe,
         ModalEscButtonComponent,
         SearchButtonComponent,
-        ScreenTileComponent
+        ScreenTileComponent,
+        SelectLanguageComponent,
+        TopNavComponent,
+        AccountSectionComponent
 
     ],
     entryComponents: [
@@ -139,7 +149,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ModalEscButtonComponent,
         SearchButtonComponent,
         ScreenTileComponent,
-        HoverOverlayComponent
+        HoverOverlayComponent,
+        SelectLanguageComponent,
+        TopNavComponent,
+        AccountSectionComponent
         ]
 })
 export class SharedModule {
@@ -211,7 +224,7 @@ export class SharedModule {
                 TranslateModule.forRoot({loader: {provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient]}}).providers
             ]
         };
-    };
+    }
 
     static forChild(): ModuleWithProviders<SharedModule> {
         return {

@@ -6,10 +6,10 @@ import {State} from "../../../core/reducers";
 @Component({
     selector: 'app-create-folder',
     template: `
-        <h1 mat-dialog-title>Nieuwe folder </h1>
+        <h1 mat-dialog-title>{{'MEDIA.NEW_FOLDER' |translate}} </h1>
         <form >
             <mat-form-field class="form-field" >
-                <mat-label>Folder name</mat-label>
+                <mat-label>{{'MEDIA.FOLDER_NAME' |translate}}</mat-label>
                 <input matInput placeholder="photo" type="text" [(ngModel)]="value" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
 

@@ -37,6 +37,7 @@ export class GameMessagesService {
     }
 
     postMessage(message: GameMessage) {
+        console.log("message to post", message);
         message = Object.assign({}, message);
         if (message.fileReferences) {
             message.fileReferences = Object.keys(message.fileReferences).map(key => Object.assign({

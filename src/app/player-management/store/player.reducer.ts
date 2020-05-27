@@ -19,6 +19,7 @@ export function reducers(
             if (!action.payload.accountList) {
                 return state;
             }
+            action.payload.accountList = action.payload.accountList.map(account => Object.assign(account, {isConnection: true}));
             return Object.assign({}, state, {
                 list: _.uniqBy([...action.payload.accountList, ...state.list], function (e) {
                     return e.fullId;
@@ -46,6 +47,9 @@ export function reducers(
             if (!action.payload.accountList) {
                 return state;
             }
+            const isConnection = !!action.payload['connection'];
+            action.payload.accountList = action.payload.accountList.map(account => Object.assign(account, {isConnection: isConnection}));
+
             return Object.assign({}, state,
                 {
                     list: _.unionBy(state.list, action.payload.accountList, "fullId")

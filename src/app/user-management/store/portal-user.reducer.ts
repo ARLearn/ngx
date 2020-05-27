@@ -6,12 +6,9 @@ export function reducers(
   state = portalUserInitialState, action: actions.PortalUserAction): UserState {
   switch (action.type) {
 
-    // case actions.PortalUserActionTypes.LOAD_USER_COMPLETED: {
-    //   console.log('laod completed', action);
-    //
-    //   return Object.assign({loggedInUser: action.payload}, action.payload);
-    // }
-
+    case actions.PortalUserActionTypes.LOAD_USER_COMPLETED: {
+      return Object.assign({}, action.payload);
+    }
 
     default: {
       return state;

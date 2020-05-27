@@ -20,4 +20,4 @@ import { SharedModule } from '../shared.module';
   exports: [ SelectLanguageComponent],
   declarations: [ SelectLanguageComponent]
 })
-export class LanguagePickerModule { }
+export class LanguagePickerModuleOld { }

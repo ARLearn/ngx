@@ -45,12 +45,12 @@ import {environment} from "../../../../environments/environment";
                                          [subtitle]="message.lastModificationDate | date:'mediumDate'"
                                          [imagePath]="message?.fileReferences?.background"
                                          [videoPath]="message?.fileReferences ?message?.fileReferences['video']:null"
-                                         [actionText]="'MESSAGE.DELETEMESSAGE' | translate"
-                                         [clickText]="'MESSAGE.EDIT_MESSAGE' | translate"
+                                         [actionText]="['MESSAGE.DELETEMESSAGE']"
+                                         [clickText]="'MESSAGE.EDIT_MESSAGE' "
                                          [navTo]="'/portal/'+message.gameId+'/message/'+message.id+'/detail'"
                                          [icon]="getIcon(message)"
                                          [displayAsset]="displayAsset(message)"
-                                         (actionClicked)="deleteScreen(message)"></app-screen-tile>
+                                         (actionClicked)="deleteScreen(message, $event)"></app-screen-tile>
                     </div>
                 </div>
 
@@ -128,7 +128,7 @@ export class GameDetailScreensComponent implements OnInit, OnDestroy {
         }
     }
 
-    deleteScreen(message) {
+    deleteScreen(message, action) {
         this.store.dispatch(new GetMessageDeleteRequestAction(message.id));
     }
 

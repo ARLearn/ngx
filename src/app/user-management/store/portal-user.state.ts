@@ -1,9 +1,9 @@
 export interface UserState {
-  id?: string;
+  fullId?: string;
   email?: string;
   name?: string;
   picture?: string;
-  loggedInUser?: any;
+  // loggedInUser?: any;
 }
 
 export const portalUserInitialState: UserState = {
