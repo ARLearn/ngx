@@ -23,7 +23,7 @@ import {AngularFireStorage} from "angularfire2/storage";
         <div *ngIf="(messages$|async).length !== 0 ">
             <lib-wireflow
                     (selectMessage)="selectMessage($event)"
-                    [messages]="messages$ |async"
+                    [messages]="messageAsync"
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"
@@ -52,6 +52,7 @@ import {AngularFireStorage} from "angularfire2/storage";
 export class GameDetailFlowchartComponent extends GameDetailScreensComponent implements OnInit, OnDestroy {
     editMessage$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     public messages$: Observable<any> = this.store.select(getFilteredMessagesSelector);
+    public messageAsync: any[];
     lang = 'en';
     private messagesSubscription: Subscription;
 
@@ -66,6 +67,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     ngOnInit() {
         super.ngOnInit();
         this.messagesSubscription = this.messages$.subscribe(messages => {
+            this.messageAsync = messages;
             messages.map(message => {
                 if (message['fileReferences']) {
                     if (message['fileReferences']['background']) {
