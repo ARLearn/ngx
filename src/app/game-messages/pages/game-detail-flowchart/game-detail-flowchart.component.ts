@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GameDetailScreensComponent} from '../game-detail-screens/game-detail-screens.component';
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {getFilteredMessagesSelector} from "../../store/game-messages.selector";
 import {GameMessage} from "../../store/game-messages.state";
 import {
@@ -9,7 +9,11 @@ import {
     GameMessageEditCompletedAction
 } from "../../../game-message/store/game-message.actions";
 import {getEditMessageSelector} from "../../../game-message/store/game-message.selector";
-import {first} from "rxjs/operators";
+import {first, take} from "rxjs/operators";
+import {MatDialog} from "@angular/material/dialog";
+import {Store} from "@ngrx/store";
+import {State} from "../../../core/reducers";
+import {AngularFireStorage} from "angularfire2/storage";
 
 @Component({
     selector: 'app-game-detail-flowchart',
@@ -45,19 +49,49 @@ import {first} from "rxjs/operators";
         }
     `]
 })
-export class GameDetailFlowchartComponent extends GameDetailScreensComponent {
+export class GameDetailFlowchartComponent extends GameDetailScreensComponent implements OnInit, OnDestroy {
     editMessage$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     public messages$: Observable<any> = this.store.select(getFilteredMessagesSelector);
     lang = 'en';
+    private messagesSubscription: Subscription;
 
-    messagesChange(messages: GameMessage[]) {
-        // console.log('FROM WIREFLOW', messages);
-        messages.map(message => this.store.dispatch(new GameMessageDirectSaveAction(message)));
+    constructor(
+        public dialog: MatDialog,
+        public store: Store<State>,
+        public afStorage: AngularFireStorage
+    ) {
+        super(dialog, store);
     }
 
     ngOnInit() {
         super.ngOnInit();
+        this.messagesSubscription = this.messages$.subscribe(messages => {
+            messages.map(message => {
+                if (message['fileReferences']) {
+                    if (message['fileReferences']['background']) {
+                        this.afStorage.ref(message['fileReferences']['background']).getDownloadURL()
+                            .pipe(take(1))
+                            .subscribe((downloadUrl) => {
+                                message['backgroundPath'] = downloadUrl;
+                            }, (error) => {
+                            });
+                    }
+                }
+            });
+        });
     }
+
+    ngOnDestroy(): void {
+        super.ngOnDestroy();
+        if (this.messagesSubscription) {
+            this.messagesSubscription.unsubscribe();
+        }
+    }
+
+    messagesChange(messages: GameMessage[]) {
+        messages.map(message => this.store.dispatch(new GameMessageDirectSaveAction(message)));
+    }
+
 
     selectMessage($event) {
 
