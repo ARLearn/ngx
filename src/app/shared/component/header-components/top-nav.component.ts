@@ -1,4 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {State} from "../../../core/reducers";
+import {getAuthIsAdmin} from "../../../auth/store/auth.selector";
 
 @Component({
   selector: 'app-top-nav',
@@ -17,6 +20,21 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
            [active]="rla1.isActive"
            [routerLink]="'/portal/root/connections'"
         > {{'CONTACT.CONTACTS' |translate}}</a>
+        <a mat-tab-link
+           *ngIf="isAdmin$ |async"
+           class="uppercase"
+           routerLinkActive #rla2="routerLinkActive"
+           [active]="rla2.isActive"
+           [routerLink]="'/portal/root/library'"
+        > {{'TODO.LIBRARY' |translate}}</a>
+        <a mat-tab-link
+           *ngIf="isAdmin$ |async"
+           class="uppercase"
+           routerLinkActive #rla3="routerLinkActive"
+           [active]="rla3.isActive"
+           [routerLink]="'/portal/root/portal'"
+        > {{'TODO.USER_PORTAL' |translate}}</a>
+        
         <a mat-tab-link
            class="uppercase"
            disabled routerLinkActive="tab-selected"> {{'GAME.GAMELIB'|translate}}</a>
@@ -41,8 +59,10 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
   `]
 })
 export class TopNavComponent implements OnInit {
+  isAdmin$ = this.store.select(getAuthIsAdmin);
 
-  constructor() { }
+  constructor(public store: Store<State>) {
+  }
 
   ngOnInit(): void {
   }

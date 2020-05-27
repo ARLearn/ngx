@@ -31,7 +31,6 @@ export const getBearerToken = (state: AuthState) => {
 // export const getAuthUserData = createSelector(getAuthState, getUserData);
 export const getAuthIsLoggedIn = createSelector(getAuthState, getIsUserLoggedIn);
 export const getAuthIsAdmin = createSelector(getAuthState, getIsAdmin);
-export const getAuthIsDistributor = createSelector(getAuthState, getIsDistributor);
 export const getAuthError = createSelector(getAuthState, getError);
 export const getCurrentUser = createSelector(getAuthState, currentUser);
 

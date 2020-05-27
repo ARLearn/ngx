@@ -20,7 +20,7 @@ import {AngularFireStorage} from "angularfire2/storage";
     template: `
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 
-        <div *ngIf="(messages$|async).length !== 0 ">
+        <div *ngIf="messageAsync.length !== 0 ">
             <lib-wireflow
                     (selectMessage)="selectMessage($event)"
                     [messages]="messageAsync"
@@ -51,8 +51,8 @@ import {AngularFireStorage} from "angularfire2/storage";
 })
 export class GameDetailFlowchartComponent extends GameDetailScreensComponent implements OnInit, OnDestroy {
     editMessage$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
-    public messages$: Observable<any> = this.store.select(getFilteredMessagesSelector);
-    public messageAsync: any[];
+    public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector);
+    public messageAsync: GameMessage[] = [];
     lang = 'en';
     private messagesSubscription: Subscription;
 
