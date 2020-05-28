@@ -18,9 +18,9 @@ import {State} from "../../../core/reducers";
                     <app-mobile-preview-narrator
                             *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.PictureQuestion'">
                     </app-mobile-preview-narrator>
-                    <app-mobile-preview-scan-tage
+                    <app-mobile-preview-scan-tag
                             *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.ScanTag'">
-                    </app-mobile-preview-scan-tage>
+                    </app-mobile-preview-scan-tag>
                     <app-mobile-preview-video
                             *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.VideoObject'">
                     </app-mobile-preview-video>

@@ -41,6 +41,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { PreviewNavbarComponent } from './component/preview-pane-mobile-view/components/preview-navbar/preview-navbar.component';
 import { MobilePreviewScanTageComponent } from './component/preview-pane-mobile-view/mobile-preview-scan-tage/mobile-preview-scan-tage.component';
 import { McImagePreviewHeaderComponent } from './component/preview-pane-header/mc-image-preview-header.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 @NgModule({
     declarations: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneHeaderComponent,
@@ -58,7 +60,9 @@ import { McImagePreviewHeaderComponent } from './component/preview-pane-header/m
         MatInputModule,
         FormsModule,
         ReactiveFormsModule,
-        MatGridListModule
+        MatGridListModule,
+        MatTooltipModule,
+        ClipboardModule
     ]
 })
 export class GameMessageModule {

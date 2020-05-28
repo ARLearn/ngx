@@ -215,6 +215,9 @@ export class SharedModule {
         this.matIconRegistry.addSvgIcon(
             `close`,
             this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/img/components/close.svg'));
+        this.matIconRegistry.addSvgIcon(
+            `qrcode`,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/img/components/qr_code.svg'));
     }
 
     static forRoot(): ModuleWithProviders<SharedModule> {
