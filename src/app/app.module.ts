@@ -58,6 +58,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {PortalManagementModule} from "./portal-management/portal-management.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -144,6 +145,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GameMessagesModule,
         GameMessageModule,
         PlayerManagementModule,
+        PortalManagementModule,
         FontAwesomeModule
     ],
     providers: [

@@ -18,6 +18,8 @@ import {AccountInfoComponent} from "./auth/pages/account-info/account-info.compo
 import {LoginScreenNoSocialComponent} from "./pages/login-screen/login-screen-no-social.component";
 import {RunSettingsPageComponent} from "./game-runs-management/pages/run-settings-page.component";
 import {environment} from "../environments/environment";
+import {ManageUsersComponent} from "./portal-management/pages/manage-users.component";
+import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-library.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -47,6 +49,10 @@ export const APP_ROUTES: Routes = [
                     {path: 'games', component: GamesListComponent, pathMatch: 'full'},
                     {path: 'connections', component: PlayerOverviewComponent, pathMatch: 'full'},
                     {path: 'pending', component: PendingPlayersOverviewComponent, pathMatch: 'full'},
+                    {path: 'librarymgt', component: ManageGameLibraryComponent, pathMatch: 'full'},
+                    {path: 'library', component: ManageGameLibraryComponent, pathMatch: 'full'},
+                    {path: 'usrmgt', component: ManageUsersComponent, pathMatch: 'full'},
+                    {path: 'portal', component: ManageUsersComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},
                 ],
             },
