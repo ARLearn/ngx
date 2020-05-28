@@ -6,6 +6,7 @@ export interface PlayerState {
   invitation: Invitation;
   loadingComplete: boolean;
   filter: string[];
+  portalPlayers: Player[];
 }
 
 export const playersInitialState: PlayerState = {
@@ -15,16 +16,17 @@ export const playersInitialState: PlayerState = {
   pendingInvitations: [],
   pendingInvitationsToMe: [],
   invitation: null,
-  loadingComplete: false
+  loadingComplete: false,
+  portalPlayers: []
 };
 
 
-export interface PendingPlayer {
+export interface PendingPlayer { //tod call this player
   email: string;
   fullId: string;
   localId: string;
   runId?: number;
-  gameId?: number;
+  // gameId?: number;
   deleted?: boolean;
   accountType?: number;
 }

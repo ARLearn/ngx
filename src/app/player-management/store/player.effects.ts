@@ -8,15 +8,23 @@ import {
     AcceptInvitationRequestAction,
     AddContactCompletedAction,
     AddContactRequestAction,
-    AllPlayersComplete, AllPlayersResumeComplete,
+    AllPlayersComplete,
+    AllPlayersResumeComplete,
     LoadPendingContactsCompletedAction,
-    LoadPendingContactsRequestAction, LoadPendingContactsToMeCompletedAction, LoadPendingContactsToMeRequestAction,
+    LoadPendingContactsRequestAction,
+    LoadPendingContactsToMeCompletedAction,
+    LoadPendingContactsToMeRequestAction,
     PlayerActionTypes,
     PlayerLoadCompletedAction,
     PlayerLoadRequestAction,
-    ProcessInvitationIdCompletedAction, RemoveFriendCompletedAction,
+    ProcessInvitationIdCompletedAction,
+    RemoveFriendCompletedAction,
     RemovePendingContactsCompletedAction,
-    RemovePendingContactsRequestAction, ResendPendingCompletedAction, ResendPendingRequestedAction,
+    RemovePendingContactsRequestAction,
+    ResendPendingCompletedAction,
+    ResendPendingRequestedAction,
+    SearchUserCompletedAction,
+    SearchUserRequestAction,
     SetInvitationIdCompletedAction
 } from './player.actions';
 import {State} from 'src/app/core/reducers';
@@ -24,12 +32,12 @@ import {PlayerService} from '../../core/services/player.service';
 import {catchError, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {SetErrorAction} from '../../shared/store/shared.actions';
 import {invitationId} from '../../core/selectors/router.selector';
-import {AuthActionTypes} from '../../auth/store/auth.actions';
 import {getInvitationId, getLoadingComplete} from './player.selector';
 import * as actions from "../../game-management/store/current-game.actions";
 import {LoadGameAuthorCompletedAction, LoadGameAuthorRequestAction} from "../../game-management/store/current-game.actions";
 import {Game} from "../../game-management/store/current-game.state";
 import {PendingPlayer} from "./player.state";
+
 
 
 @Injectable()
@@ -71,6 +79,21 @@ export class PlayerEffects {
                         })
                     );
                 }
+            )
+        );
+
+    @Effect()
+    searchUsers: Observable<Action> = this.actions$
+        .pipe(
+            ofType(PlayerActionTypes.SEARCH_USER_REQUESTED),
+            mergeMap((action: SearchUserRequestAction) => this.player
+                .search(action.payload.query)
+            ),
+            map(res =>
+                    new SearchUserCompletedAction(res),
+                catchError((error) => {
+                    return of(new SetErrorAction(error.error));
+                })
             )
         );
 

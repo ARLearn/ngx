@@ -1,13 +1,18 @@
 import {Action} from '@ngrx/store';
 import {Invitation} from './player.state';
 import {GameMessagesActionTypes} from "../../game-messages/store/game-messages.actions";
+import {PortalUserActionTypes} from "../../user-management/store/portal-user.actions";
 
 export const PlayerActionTypes = {
+    SEARCH_USER_REQUESTED: '[PortalUsers] Search User Requested',
+    SEARCH_USER_COMPLETED: '[PortalUsers] Search User Completed',
 
     PLAYERS_LOAD_REQUESTED: '[Players] Load friends Requested',
     PLAYERS_LOAD_COMPLETED: '[Players] Load friends Completed',
+
     PLAYERS_ALL_COMPLETE: '[Players] Load All Completed',
     PLAYERS_ALL_RESUME_COMPLETE: '[Players] Load All Resume Completed',
+
     SETFILTER: '[Players] Set connection filter',
 
     REMOVE_FRIEND_REQUESTED: '[Players] Remove Contacts Requested',
@@ -38,6 +43,20 @@ export const PlayerActionTypes = {
     ADD_CONTACT_REQUESTED: '[Players] Add Contact Requested',
     ADD_CONTACT_COMPLETED: '[Players] Add Contact Completed',
 };
+
+export class SearchUserRequestAction implements Action {
+    type = PlayerActionTypes.SEARCH_USER_REQUESTED;
+
+    constructor(public payload: { query: string } = null) {
+    }
+}
+
+export class SearchUserCompletedAction implements Action {
+    type = PlayerActionTypes.SEARCH_USER_COMPLETED;
+
+    constructor(public payload: any) {
+    }
+}
 
 
 export class SetFilterAction implements Action {

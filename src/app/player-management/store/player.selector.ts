@@ -72,3 +72,9 @@ export const getFilteredPlayersSelector = createSelector(getConnections, getFilt
 
         });
     });
+
+
+export const getSearchedUsers = createSelector(
+    getPlayersFeature,
+    (players) => players.portalPlayers
+);
