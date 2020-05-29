@@ -26,7 +26,7 @@ export interface PendingPlayer { //tod call this player
   fullId: string;
   localId: string;
   runId?: number;
-  // gameId?: number;
+  gameId?: number;
   deleted?: boolean;
   accountType?: number;
 }
