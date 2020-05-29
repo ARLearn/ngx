@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve ",
+    "start": "ng serve",
     "start yOUplay": "ng serve --configuration=youplay --port 6200",
     "start NBD": "ng serve --configuration=nbd --port 5200",
     "start NBD-dev": "ng serve --configuration=nbd-dev --port 5200",
