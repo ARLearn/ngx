@@ -9,34 +9,33 @@ import {getAuthIsAdmin} from "../../../auth/store/auth.selector";
     <div class="root-tabs">
       <nav mat-tab-nav-bar [backgroundColor]="'primary'">
         <a
-            class="uppercase"
-            mat-tab-link
-            routerLinkActive #rla="routerLinkActive"
-            [active]="rla.isActive"
+            class="nav-item uppercase"
+            routerLinkActive="active"
+            #rla="routerLinkActive"
             [routerLink]="'/portal/root/games'">{{'GAME.MYGAMES'|translate}}</a>
-        <a mat-tab-link
-           class="uppercase"
-           routerLinkActive #rla1="routerLinkActive"
-           [active]="rla1.isActive"
+        <a
+           class="nav-item uppercase"
+           routerLinkActive="active"
+           #rla1="routerLinkActive"
            [routerLink]="'/portal/root/connections'"
         > {{'CONTACT.CONTACTS' |translate}}</a>
-        <a mat-tab-link
+        <a
            *ngIf="isAdmin$ |async"
-           class="uppercase"
-           routerLinkActive #rla2="routerLinkActive"
-           [active]="rla2.isActive"
+           class="nav-item uppercase"
+           routerLinkActive="active"
+           #rla2="routerLinkActive"
            [routerLink]="'/portal/root/library'"
         > {{'TODO.LIBRARY' |translate}}</a>
-        <a mat-tab-link
+        <a
            *ngIf="isAdmin$ |async"
-           class="uppercase"
-           routerLinkActive #rla3="routerLinkActive"
-           [active]="rla3.isActive"
+           class="nav-item uppercase"
+           routerLinkActive="active"
+           #rla3="routerLinkActive"
            [routerLink]="'/portal/root/portal'"
         > {{'TODO.USER_PORTAL' |translate}}</a>
         
-        <a mat-tab-link
-           class="uppercase"
+        <a
+           class="nav-item uppercase"
            disabled routerLinkActive="tab-selected"> {{'GAME.GAMELIB'|translate}}</a>
       </nav>
     </div>
@@ -55,6 +54,27 @@ import {getAuthIsAdmin} from "../../../auth/store/auth.selector";
       color: #FFFFFF;
       text-transform: uppercase;
       opacity: 1;
+    }
+    
+    .nav-item {
+      padding: 10px 26px;
+      font-size: 12px;
+      color: #FFFFFF;
+      opacity: 0.7;
+    }
+    
+    .nav-item:hover {
+      color: #FFFFFF;
+      opacity: 0.9;
+      text-decoration: none;
+    }
+    
+    .nav-item.active {
+      opacity: 1;
+    }
+
+    .nav-item:first-child {
+      padding-left: 0;
     }
   `]
 })
