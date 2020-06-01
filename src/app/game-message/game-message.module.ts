@@ -43,7 +43,7 @@ import { MobilePreviewScanTageComponent } from './component/preview-pane-mobile-
 import { McImagePreviewHeaderComponent } from './component/preview-pane-header/mc-image-preview-header.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ClipboardModule} from "@angular/cdk/clipboard";
-
+import { QRCodeModule } from 'angular2-qrcode';
 @NgModule({
     declarations: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneHeaderComponent,
         PreviewPaneMobileViewComponent, ScreenEditorNavbarComponent, ScreenEditorComponent,
@@ -62,7 +62,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
         ReactiveFormsModule,
         MatGridListModule,
         MatTooltipModule,
-        ClipboardModule
+        ClipboardModule,
+        QRCodeModule,
     ]
 })
 export class GameMessageModule {

@@ -36,6 +36,7 @@
     "@ngrx/store-devtools": "^8.5.2",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "angular2-qrcode": "^2.0.3",
     "angularfire2": "^5.1.3",
     "bootstrap": "4.1.1",
     "buffer": "^5.2.1",
