@@ -12,8 +12,12 @@ import {HttpClient} from "@angular/common/http";
         <div class="qr-previews">
 
             <div class="d-none">
-                <qr-code [value]="'icebear'" [size]="100"></qr-code>
-                <qr-code [value]="'elephant'" [size]="100"></qr-code>
+                <div class="icebear">
+                    <qr-code [value]="'icebear'" [size]="100"></qr-code>
+                </div>
+                <div class="elephant">
+                    <qr-code [value]="'elephant'" [size]="100"></qr-code>
+                </div>
             </div>
 
             <div class="qr-demo-line">
@@ -106,7 +110,7 @@ export class MobilePreviewScanTageComponent implements OnInit {
 
     async copyImage(type: 'elephant' | 'icebear') {
         try {
-            const img = document.querySelector('.qr-previews [ng-reflect-value="'+ type +'"] img');
+            const img = document.querySelector(`.qr-previews .${type} img`);
             const imgURL = img.getAttribute('src');
             const data = await fetch(imgURL);
             const blob = await data.blob();
