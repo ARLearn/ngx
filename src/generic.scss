@@ -32,6 +32,11 @@
   opacity: 0.38;
 }
 
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
 
 .primary-color {
   @include primary-color-mixin;
