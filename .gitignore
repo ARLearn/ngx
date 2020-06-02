@@ -45,3 +45,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+
+node_modules
+src/environments
+.idea
+
+nodejs-scripts/

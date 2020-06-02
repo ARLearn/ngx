@@ -66,21 +66,22 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
 
     ngOnInit() {
         super.ngOnInit();
-        this.messagesSubscription = this.messages$.subscribe(messages => {
-            this.messageAsync = messages;
-            messages.map(message => {
-                if (message['fileReferences']) {
-                    if (message['fileReferences']['background']) {
-                        this.afStorage.ref(message['fileReferences']['background']).getDownloadURL()
-                            .pipe(take(1))
-                            .subscribe((downloadUrl) => {
-                                message['backgroundPath'] = downloadUrl;
-                            }, (error) => {
-                            });
-                    }
-                }
-            });
-        });
+        this.messagesSubscription = this.messages$.subscribe(messages => this.onMessages(messages));
+    }
+
+    private onMessages(messages: GameMessage[]) {
+        this.messageAsync = messages;
+
+        for (const message of messages) {
+            const path = message && message.fileReferences && message.fileReferences.background;
+            if (path) {
+                message['backgroundPath'] = this.getDownloadUrl(path);
+            }
+        }
+    }
+
+    private getDownloadUrl(path: string) {
+        return this.afStorage.ref(path).getDownloadURL() as Observable<string>;
     }
 
     ngOnDestroy(): void {

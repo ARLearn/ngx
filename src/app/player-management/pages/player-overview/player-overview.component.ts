@@ -24,19 +24,7 @@ import {invitationId} from "../../../core/selectors/router.selector";
                     </button>
                 </div>
             </div>
-            <div class="subtabs">
-                <nav mat-tab-nav-bar [backgroundColor]="'primary'">
-                    <a mat-tab-link
-                       routerLinkActive #rla="routerLinkActive"
-                       [active]="rla.isActive"
-                       [routerLink]="'/portal/root/connections'">{{'CONTACT.ALLCONTACTS'|translate}}</a>
-                    <a mat-tab-link
-                       routerLinkActive #rlap="routerLinkActive"
-                       [active]="rlap.isActive"
-                       [routerLink]="'/portal/root/pending'"> {{'CONTACT.PENDING'|translate}} </a>
-
-                </nav>
-            </div>
+            <app-subtabs-navbar [items]="subMenuItems"></app-subtabs-navbar>
         </app-top-level-navbar>
         <div class="full-width-container">
             <div class="maxwidth">
@@ -99,6 +87,17 @@ export class PlayerOverviewComponent implements OnInit {
 
     public filter: string;
     public dispatchAction = new SetFilterAction();
+
+    subMenuItems = [
+        {
+            routerLink: '/portal/root/connections',
+            label: 'CONTACT.ALLCONTACTS'
+        },
+        {
+            routerLink: '/portal/root/pending',
+            label: 'CONTACT.PENDING'
+        },
+    ];
 
     constructor(
         private store: Store<State>,

@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-mobile-preview-scan-tag',
@@ -10,10 +11,19 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
         <div class="qr-previews">
 
+            <div class="d-none">
+                <div class="icebear">
+                    <qr-code [value]="'icebear'" [size]="100"></qr-code>
+                </div>
+                <div class="elephant">
+                    <qr-code [value]="'elephant'" [size]="100"></qr-code>
+                </div>
+            </div>
 
             <div class="qr-demo-line">
                 <div class="qr-label font-regular-14-19-roboto"> Icebear</div>
                 <div class="round-button"
+                     (click)="copyImage('icebear')"
                      matTooltip="Copy QR code"
                      matTooltipPosition="below"
                 >
@@ -23,6 +33,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
             <div class="qr-demo-line">
                 <div class="qr-label font-regular-14-19-roboto"> Elephant</div>
                 <div class="round-button"
+                     (click)="copyImage('elephant')"
                      matTooltip="Copy QR code"
                      matTooltipPosition="below"
                 >
@@ -82,6 +93,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
             font-size: 17px;
             color: #BEC3C4;
             padding: 4px;
+            height: 100%;
+            width: 100%;
         }
 
     `],
@@ -89,10 +102,28 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 })
 export class MobilePreviewScanTageComponent implements OnInit {
 
-    constructor() {
+    constructor(private http: HttpClient) {
     }
 
     ngOnInit(): void {
+    }
+
+    async copyImage(type: 'elephant' | 'icebear') {
+        try {
+            const img = document.querySelector(`.qr-previews .${type} img`);
+            const imgURL = img.getAttribute('src');
+            const data = await fetch(imgURL);
+            const blob = await data.blob();
+            // @ts-ignore
+            await navigator.clipboard.write([
+                // @ts-ignore
+                new ClipboardItem({
+                    [blob.type]: blob
+                })
+            ]);
+        } catch (err) {
+            console.error(err.name, err.message);
+        }
     }
 
 }

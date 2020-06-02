@@ -81,7 +81,6 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
                 .pipe(take(1))
                 .subscribe((avatarUrl) => {
                     this.url = avatarUrl;
-                    console.log("this is the url with token", avatarUrl);
                 }, (error) => {
                     this.load(paths.splice(1));
                 });

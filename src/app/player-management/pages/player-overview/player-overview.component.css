@@ -17,13 +17,6 @@
   position: relative;
 }
 
-.subtabs {
-  position: absolute;
-  top: 96px;
-  text-transform: uppercase;
-}
-
-
 .root-tabs > .mat-tab-links > .mat-tab-label-active{
   color: #FFFFFF;
   text-transform: uppercase;

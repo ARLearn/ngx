@@ -10,20 +10,7 @@ import {getSearchedUsers} from "../../player-management/store/player.selector";
     selector: 'app-manage-users',
     template: `
         <app-top-level-navbar [title]="'Portaal beheer'">
-
-            <!--            <div class="subtabs">-->
-            <!--                <nav mat-tab-nav-bar [backgroundColor]="'primary'">-->
-            <!--                    <a mat-tab-link-->
-            <!--                       routerLinkActive #rla="routerLinkActive"-->
-            <!--                       [active]="rla.isActive"-->
-            <!--                       [routerLink]="'/portal/root/connections'">{{'CONTACT.ALLCONTACTS'|translate}}</a>-->
-            <!--                    <a mat-tab-link-->
-            <!--                       routerLinkActive #rlap="routerLinkActive"-->
-            <!--                       [active]="rlap.isActive"-->
-            <!--                       [routerLink]="'/portal/root/pending'"> {{'CONTACT.PENDING'|translate}} </a>-->
-
-            <!--                </nav>-->
-            <!--            </div>-->
+            <app-subtabs-navbar [items]="subMenuItems"></app-subtabs-navbar>
         </app-top-level-navbar>
         
         
@@ -71,6 +58,17 @@ import {getSearchedUsers} from "../../player-management/store/player.selector";
     `]
 })
 export class ManageUsersComponent implements OnInit {
+    subMenuItems = [
+        {
+            routerLink: '/portal/root/portal',
+            label: 'MANAGE.GAME_LIBRARY'
+        },
+        {
+            routerLink: '/portal/root/usrmgt',
+            label: 'MANAGE.USERS'
+        },
+    ];
+
 
     userList: Observable<Player> = this.store.select(getSearchedUsers);
     constructor(private store: Store<State>

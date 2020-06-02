@@ -52,6 +52,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {SelectLanguageComponent} from "./language-picker/select-language/select-language.component";
 import { TopNavComponent } from './component/header-components/top-nav.component';
 import { AccountSectionComponent } from './component/account/account-section.component';
+import { SubtabsNavbarComponent } from "./component/subtabs-navbar/subtabs-navbar.component";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -127,6 +128,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         HeaderBackButtonComponent,
         MatChipsModule,
         TopLevelNavbarComponent,
+        SubtabsNavbarComponent,
         ConnectionTileComponent,
         ColorInputComponent,
         TrucatePipe,
@@ -143,7 +145,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     declarations: [DragDropDirective, ContentContainerComponent, FilestoreBackgroundImageComponent,
         ConnectionTileComponent,
-        HeaderBackButtonComponent, TopLevelNavbarComponent,
+        HeaderBackButtonComponent, TopLevelNavbarComponent, SubtabsNavbarComponent,
         FilestoreBackgroundVideoComponent, ColorInputComponent, ColorPickerModalComponent,
         TrucatePipe,
         ModalEscButtonComponent,
