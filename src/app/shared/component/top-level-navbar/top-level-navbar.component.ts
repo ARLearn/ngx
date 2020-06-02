@@ -27,7 +27,7 @@ import {environment} from "../../../../environments/environment";
         }
 
         .game-title {
-            top: 60px;
+            top: 55px;
             height: 38px;
             text-align: left;
             letter-spacing: 0;
