@@ -1,5 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {GameMessage} from "../../../../game-messages/store/game-messages.state";
+import {getFilteredMessagesSelector, getMessagesSelector} from "../../../../game-messages/store/game-messages.selector";
+import {Store} from "@ngrx/store";
+import {State} from "../../../../core/reducers";
 
 @Component({
     selector: 'app-mobile-preview-scan-tag',
@@ -43,8 +48,7 @@ import {HttpClient} from "@angular/common/http";
 
             </div>
             <button [cdkCopyToClipboard]="'test test'">Copy text clipboard</button>
-            
-            <div>how to copy an image to clipboard. Eg. http://qrfree.kaywa.com/?l=1&s=8&d=elephant representing "elephant"</div>
+
 
         </div>
     `,
@@ -101,8 +105,9 @@ import {HttpClient} from "@angular/common/http";
     encapsulation: ViewEncapsulation.None
 })
 export class MobilePreviewScanTageComponent implements OnInit {
+    public messages$: Observable<GameMessage[]> = this.store.select(getMessagesSelector);
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, public store: Store<State>) {
     }
 
     ngOnInit(): void {
