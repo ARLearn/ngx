@@ -79,7 +79,7 @@
 		"DESCRIBE_GAME": "Describe your game",
 		"EDITGAME": "CUSTOMIZE GAME",
 		"FEATURED": "Featured games",
-		"GAMELIB": "",
+		"GAMELIB": "Game library",
 		"IMPORTGAME": "IMPORT GAME",
 		"LICENSE": {
 			"CC-BY": "Attribution CC BY",
@@ -110,6 +110,9 @@
 		"SETTINGS": "Settings",
 		"SIGNIN": "SIGN IN",
 		"SIGNOUT": "SIGN OUT"
+	},
+	"LIBRARY": {
+		"LABEL": "library"
 	},
 	"LOGIN": {
 		"APP_SUB_TITLE": "Welcome! Login with your bibendo account",
@@ -199,6 +202,9 @@
 		"PLAYERS": "Players",
 		"RUNS": "Runs",
 		"SELF_REGISTRATION": "Self-registration with QR code"
+	},
+	"USER_MANAGEMENT": {
+		"LABEL": "Users"
 	},
 	"in range": "in range",
 	"next": "next",

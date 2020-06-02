@@ -111,6 +111,9 @@
 		"SIGNIN": "AANMELDEN",
 		"SIGNOUT": "AFMELDEN"
 	},
+	"LIBRARY": {
+		"LABEL": "Bibliotheek"
+	},
 	"LOGIN": {
 		"APP_SUB_TITLE": "Welkom! Login met uw bibendo account",
 		"APP_TITLE": "BIBENDO",
@@ -200,17 +203,20 @@
 		"RUNS": "Runs",
 		"SELF_REGISTRATION": "Zelfregistratie met QR code"
 	},
+	"USER_MANAGEMENT": {
+		"LABEL": "Gebruikers"
+	},
 	"in range": "in range",
 	"next": "next",
 	"read": "read",
 	"wireflow": {
 		"action-modal": {
 			"namePlaceholder": "QR label",
-			"title": "Provide an QR label"
+			"title": "Voorzie een QR code"
 		},
 		"btns": {
 			"cancel": "Cancel",
-			"confirm": "Confirm",
+			"confirm": "Bevestig",
 			"details": "Details"
 		},
 		"proximity-modal": {
@@ -219,13 +225,13 @@
 			"longitude": "Longitude",
 			"longitudePlaceholder": "Enter longitude",
 			"radius": "Radius",
-			"radiusPlaceholder": "Enter radius",
-			"searchLocation": "Search for location",
-			"selectType": "Select Type",
-			"title": "Proximity"
+			"radiusPlaceholder": "Geef radius",
+			"searchLocation": "Zoek naar locatie",
+			"selectType": "Selecteer type",
+			"title": "Nabijheid"
 		},
 		"time-modal": {
-			"secondsPlaceholder": "please enter number of seconds",
+			"secondsPlaceholder": "Definieer aantal seconden",
 			"title": "Timer"
 		}
 	}

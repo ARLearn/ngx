@@ -79,7 +79,7 @@
 		"DESCRIBE_GAME": "",
 		"EDITGAME": "SPIEL ANPASSEN",
 		"FEATURED": "",
-		"GAMELIB": "",
+		"GAMELIB": "Spielbibliothek",
 		"IMPORTGAME": "IMPORT SPIEL",
 		"LICENSE": {
 			"CC-BY": "",
@@ -110,6 +110,9 @@
 		"SETTINGS": "Einstellungen",
 		"SIGNIN": "EINLOGGEN",
 		"SIGNOUT": "AUSLOGGEN"
+	},
+	"LIBRARY": {
+		"LABEL": "Bibliothek"
 	},
 	"LOGIN": {
 		"APP_SUB_TITLE": "Willkommen! Melden Sie sich mit Ihrem Bibendo-Konto an",
@@ -200,33 +203,36 @@
 		"RUNS": "Läuft",
 		"SELF_REGISTRATION": "Selbstregistrierung mit QR-Code"
 	},
+	"USER_MANAGEMENT": {
+		"LABEL": "Benutzer"
+	},
 	"in range": "",
 	"next": "",
 	"read": "",
 	"wireflow": {
 		"action-modal": {
-			"namePlaceholder": "",
-			"title": ""
+			"namePlaceholder": "QR-Label",
+			"title": "Geben Sie einen QR-Code an"
 		},
 		"btns": {
-			"cancel": "",
-			"confirm": "",
-			"details": ""
+			"cancel": "Abbrechen",
+			"confirm": "Bestätigen Sie",
+			"details": "Einzelheiten"
 		},
 		"proximity-modal": {
-			"latitude": "",
-			"latitudePlaceholder": "",
+			"latitude": "Breite",
+			"latitudePlaceholder": "Breitengrad eingeben",
 			"longitude": "",
-			"longitudePlaceholder": "",
-			"radius": "",
-			"radiusPlaceholder": "",
-			"searchLocation": "",
-			"selectType": "",
-			"title": ""
+			"longitudePlaceholder": "Längengrad eingeben",
+			"radius": "Radius",
+			"radiusPlaceholder": "Radius eingeben",
+			"searchLocation": "Suche nach Ort",
+			"selectType": "Art auswählen",
+			"title": "Nahe"
 		},
 		"time-modal": {
-			"secondsPlaceholder": "",
-			"title": ""
+			"secondsPlaceholder": "Anzahl der Sekunden definieren",
+			"title": "Timer"
 		}
 	}
 }

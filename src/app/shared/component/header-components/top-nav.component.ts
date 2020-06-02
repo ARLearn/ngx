@@ -25,18 +25,15 @@ import {getAuthIsAdmin} from "../../../auth/store/auth.selector";
            routerLinkActive="active"
            #rla2="routerLinkActive"
            [routerLink]="'/portal/root/library'"
-        > {{'TODO.LIBRARY' |translate}}</a>
+        > {{'LIBRARY.LABEL' |translate}}</a>
         <a
            *ngIf="isAdmin$ |async"
            class="nav-item uppercase"
            routerLinkActive="active"
            #rla3="routerLinkActive"
            [routerLink]="'/portal/root/portal'"
-        > {{'TODO.USER_PORTAL' |translate}}</a>
+        > {{'USER_MANAGEMENT.LABEL' |translate}}</a>
         
-        <a
-           class="nav-item uppercase"
-           disabled routerLinkActive="tab-selected"> {{'GAME.GAMELIB'|translate}}</a>
       </nav>
     </div>
   `,
