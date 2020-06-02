@@ -182,6 +182,10 @@
 		"VIDEOOBJECT": "Videoobjekt",
 		"VIDEO_OBJECT": "Videoschirm"
 	},
+	"PORTAL_MANAGEMENT": {
+		"LABEL": "Portalverwaltung",
+		"USERS": "Benutzer"
+	},
 	"ROW_HEADERS": {
 		"DATE": "Datum",
 		"ID": "Identifikator",
@@ -202,9 +206,6 @@
 		"PLAYERS": "Spieler",
 		"RUNS": "Läuft",
 		"SELF_REGISTRATION": "Selbstregistrierung mit QR-Code"
-	},
-	"USER_MANAGEMENT": {
-		"LABEL": "Benutzer"
 	},
 	"in range": "",
 	"next": "",

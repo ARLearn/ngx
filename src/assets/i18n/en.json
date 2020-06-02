@@ -182,6 +182,10 @@
 		"VIDEOOBJECT": "Video Object",
 		"VIDEO_OBJECT": "Video Message"
 	},
+	"PORTAL_MANAGEMENT": {
+		"LABEL": "Portal Management",
+		"USERS": "Users"
+	},
 	"ROW_HEADERS": {
 		"DATE": "Date",
 		"ID": "Identifier",
@@ -202,9 +206,6 @@
 		"PLAYERS": "Players",
 		"RUNS": "Runs",
 		"SELF_REGISTRATION": "Self-registration with QR code"
-	},
-	"USER_MANAGEMENT": {
-		"LABEL": "Users"
 	},
 	"in range": "in range",
 	"next": "next",

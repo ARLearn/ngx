@@ -182,6 +182,10 @@
 		"VIDEOOBJECT": "Video Object",
 		"VIDEO_OBJECT": "Video scherm"
 	},
+	"PORTAL_MANAGEMENT": {
+		"LABEL": "Portaal beheer",
+		"USERS": "Gebruikers"
+	},
 	"ROW_HEADERS": {
 		"DATE": "Datum",
 		"ID": "Identifier",
@@ -202,9 +206,6 @@
 		"PLAYERS": "Spelers",
 		"RUNS": "Runs",
 		"SELF_REGISTRATION": "Zelfregistratie met QR code"
-	},
-	"USER_MANAGEMENT": {
-		"LABEL": "Gebruikers"
 	},
 	"in range": "in range",
 	"next": "next",

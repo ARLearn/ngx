@@ -61,11 +61,11 @@ export class ManageUsersComponent implements OnInit {
     subMenuItems = [
         {
             routerLink: '/portal/root/portal',
-            label: 'MANAGE.GAME_LIBRARY'
+            label: 'COMMON.GAMES'
         },
         {
             routerLink: '/portal/root/usrmgt',
-            label: 'MANAGE.USERS'
+            label: 'PORTAL_MANAGEMENT.USERS'
         },
     ];
 
