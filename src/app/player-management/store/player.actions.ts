@@ -7,6 +7,10 @@ export const PlayerActionTypes = {
     SEARCH_USER_REQUESTED: '[PortalUsers] Search User Requested',
     SEARCH_USER_COMPLETED: '[PortalUsers] Search User Completed',
 
+    UPDATE_ACCOUNT_EXP_REQUESTED: '[PortalUsers] Update Account Expiration Requested',
+    UPDATE_ACCOUNT_EXP_COMPLETED: '[PortalUsers] Update Account Expiration Completed',
+
+
     PLAYERS_LOAD_REQUESTED: '[Players] Load friends Requested',
     PLAYERS_LOAD_COMPLETED: '[Players] Load friends Completed',
 
@@ -57,7 +61,19 @@ export class SearchUserCompletedAction implements Action {
     constructor(public payload: any) {
     }
 }
+export class UpdateAccountExpirationRequestAction implements Action {
+    type = PlayerActionTypes.UPDATE_ACCOUNT_EXP_REQUESTED;
 
+    constructor(public payload: { fullId: string, expiration: number } = null) {
+    }
+}
+
+export class UpdateAccountExpirationCompletedAction implements Action {
+    type = PlayerActionTypes.UPDATE_ACCOUNT_EXP_COMPLETED;
+
+    constructor(public payload: any) {
+    }
+}
 
 export class SetFilterAction implements Action {
     type = PlayerActionTypes.SETFILTER;

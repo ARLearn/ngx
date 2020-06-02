@@ -22,9 +22,16 @@ export class AccountService {
         .get<any>(environment.api_url + '/account/create');
   }
 
-  // getUser(user: any) {
-  //   console.log("user is ", user);
-  //   return undefined;
-  // }
+  search(query: string): Observable<any[]> {
+    query = 'test bibliotheek';
+    return this.http
+        .get<any>(environment.api_url + '/usermgt/accounts/' + query);
+  }
+
+  updateExpiration(fullId: string, expiration: number, action:any): Observable<any[]> {
+    console.log("test action ", action)
+    return this.http
+        .get<any>(environment.api_url + `/usermgt/accounts/${fullId}/setExpiration/${expiration}`);
+  }
 }
 

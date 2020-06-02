@@ -11,52 +11,6 @@ export class PlayerService {
     constructor(private http: HttpClient) {
     }
 
-    search(query: string): Observable<any[]> {
-        return of([
-                {
-                    type: 'org.celstec.arlearn2.beans.account.Account',
-                    localId: 'EfN6',
-                    accountType: 7,
-                    email: 'jan.jansen@nbdbiblion.nl',
-                    name: 'Joke Aquamarijn',
-                    givenName: 'Joke',
-                    familyName: '',
-                    accountLevel: 2,
-                    allowTrackLocation: false,
-                    fullId: '7:EfN6',
-                },
-                {
-                    type: 'org.celstec.arlearn2.beans.account.Account',
-                    localId: '1080',
-                    accountType: 2,
-                    email: 'test 123@gmail.com',
-                    name: 'Boudewijn de Groen',
-                    givenName: 'Boudewijn',
-                    familyName: '',
-                    accountLevel: 2,
-                    allowTrackLocation: false,
-                    fullId: '2:1080',
-
-                },
-                {
-                    type: 'org.celstec.arlearn2.beans.account.Account',
-                    localId: 'abc16',
-                    accountType: 2,
-                    email: 'Herman.vzw@gmail.com',
-                    name: 'Herman vzw',
-                    givenName: 'Herman',
-                    familyName: '',
-                    accountLevel: 2,
-                    allowTrackLocation: false,
-                    fullId: '2:abc16',
-
-                }
-            ]
-        );
-        // return this.http
-        //     .get<any>(environment.api_url + '/account/accountDetails');
-    }
-
     getContacts(time: number): Observable<any> {
         // console.log("loading contacts");
         return this.http

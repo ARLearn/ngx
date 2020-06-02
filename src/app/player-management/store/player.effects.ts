@@ -25,7 +25,7 @@ import {
     ResendPendingRequestedAction,
     SearchUserCompletedAction,
     SearchUserRequestAction,
-    SetInvitationIdCompletedAction
+    SetInvitationIdCompletedAction, UpdateAccountExpirationCompletedAction, UpdateAccountExpirationRequestAction
 } from './player.actions';
 import {State} from 'src/app/core/reducers';
 import {PlayerService} from '../../core/services/player.service';
@@ -37,7 +37,7 @@ import * as actions from "../../game-management/store/current-game.actions";
 import {LoadGameAuthorCompletedAction, LoadGameAuthorRequestAction} from "../../game-management/store/current-game.actions";
 import {Game} from "../../game-management/store/current-game.state";
 import {PendingPlayer} from "./player.state";
-
+import {AccountService} from "../../core/services/account.service";
 
 
 @Injectable()
@@ -45,6 +45,7 @@ export class PlayerEffects {
     constructor(
         private actions$: Actions,
         private player: PlayerService,
+        private accounts: AccountService,
         private store$: Store<State>
     ) {
     }
@@ -86,11 +87,26 @@ export class PlayerEffects {
     searchUsers: Observable<Action> = this.actions$
         .pipe(
             ofType(PlayerActionTypes.SEARCH_USER_REQUESTED),
-            mergeMap((action: SearchUserRequestAction) => this.player
+            mergeMap((action: SearchUserRequestAction) => this.accounts
                 .search(action.payload.query)
             ),
             map(res =>
                     new SearchUserCompletedAction(res),
+                catchError((error) => {
+                    return of(new SetErrorAction(error.error));
+                })
+            )
+        );
+
+    @Effect()
+    updateExpiration: Observable<Action> = this.actions$
+        .pipe(
+            ofType(PlayerActionTypes.UPDATE_ACCOUNT_EXP_REQUESTED),
+            mergeMap((action: UpdateAccountExpirationRequestAction) => this.accounts
+                .updateExpiration(action.payload.fullId, action.payload.expiration, action )
+            ),
+            map(res =>
+                    new UpdateAccountExpirationCompletedAction(res),
                 catchError((error) => {
                     return of(new SetErrorAction(error.error));
                 })

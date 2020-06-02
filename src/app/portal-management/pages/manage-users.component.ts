@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {SearchUserRequestAction} from "../../player-management/store/player.actions";
+import {SearchUserRequestAction, UpdateAccountExpirationRequestAction} from "../../player-management/store/player.actions";
 import {Observable} from "rxjs";
 import {Player} from "../../player-management/store/player.state";
 import {getSearchedUsers} from "../../player-management/store/player.selector";
@@ -77,6 +77,8 @@ export class ManageUsersComponent implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(new SearchUserRequestAction({query: "some query"}));
+        this.store.dispatch(new UpdateAccountExpirationRequestAction({fullId: "2:116743449349920850150", expiration: Date.now()}));
+
     }
 
 }
