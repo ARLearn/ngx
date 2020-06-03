@@ -225,18 +225,6 @@ export class ManageUsersComponent implements OnInit {
     ];
 
 
-    subMenuItems = [
-        {
-            routerLink: '/portal/root/portal',
-            label: 'MANAGE.GAME_LIBRARY'
-        },
-        {
-            routerLink: '/portal/root/usrmgt',
-            label: 'MANAGE.USERS'
-        },
-    ];
-
-
     userList: Observable<Player[]> = this.store.select(getSearchedUsers);
     constructor(private store: Store<State>
     ) {
