@@ -18,7 +18,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
 import {CoreModule} from '../core/core.module';
-import {WireflowModule} from 'wireflow';
+import {WireflowModule} from '@arlearn/nbd-kien-wireflow';
 import {GameDetailScreensComponent} from './pages/game-detail-screens/game-detail-screens.component';
 import {GameDetailNavbarComponent} from './component/game-detail/game-detail-navbar/game-detail-navbar.component';
 import {GameDetailFlowchartComponent} from './pages/game-detail-flowchart/game-detail-flowchart.component';
