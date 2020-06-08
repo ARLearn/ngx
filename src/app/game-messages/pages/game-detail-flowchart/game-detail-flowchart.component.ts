@@ -5,8 +5,8 @@ import {getFilteredMessagesSelector} from "../../store/game-messages.selector";
 import {GameMessage} from "../../store/game-messages.state";
 import {
     GameMessageDirectSaveAction,
-    GameMessageEditAction,
-    GameMessageEditCompletedAction
+    GameMessageEditCompletedAction,
+    GameMessageUpdateAction,
 } from "../../../game-message/store/game-message.actions";
 import {getEditMessageSelector} from "../../../game-message/store/game-message.selector";
 import {first, take} from "rxjs/operators";
@@ -27,6 +27,7 @@ import {AngularFireStorage} from "angularfire2/storage";
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"
+                    (onEvent)="onEvent($event)"
                     [lang]="lang"
             ></lib-wireflow>
         </div>
@@ -107,6 +108,18 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
 
     noneSelected() {
 
+    }
+
+    onEvent(event) {
+        switch (event.type) {
+            case 'newOutputAdded': {
+                if (event.nodeType === 'ScanTag') {
+                    this.store.dispatch(new GameMessageUpdateAction(event.payload.outputs));
+                }
+
+                break;
+            }
+        }
     }
 }
 

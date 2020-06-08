@@ -44,23 +44,8 @@ export const selectedColor = createSelector(
     }
 );
 
-function getAllDependenciesByCondition(dependency, cb, result = []) {
-    if (cb(dependency)) {
-        result.push(dependency);
-    }
-
-    if (Array.isArray(dependency.dependencies) && dependency.dependencies.length > 0) {
-        dependency.dependencies.forEach(x => {
-            getAllDependenciesByCondition(x, cb, result);
-        });
-    }
-
-    if (dependency.offset) {
-        getAllDependenciesByCondition(dependency.offset, cb, result);
-    }
-    return result;
-}
+const NOT_ALLOWED_ACTIONS = ['read', 'next'];
 
 export const getQrCodesSelector = createSelector(getGameMessageFeature, (state) => {
-    return state.editMessage ? getAllDependenciesByCondition(state.editMessage.dependsOn, d => d.action) : [];
+    return state.editMessage ? state.editMessage.outputs.filter(x => !NOT_ALLOWED_ACTIONS.includes(x.action)) : [];
 });
