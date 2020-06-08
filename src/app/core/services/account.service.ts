@@ -29,7 +29,6 @@ export class AccountService {
   }
 
   updateExpiration(fullId: string, expiration: number, action:any): Observable<any[]> {
-    console.log("test action ", action)
     return this.http
         .get<any>(environment.api_url + `/usermgt/accounts/${fullId}/setExpiration/${expiration}`);
   }
