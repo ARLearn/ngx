@@ -1,10 +1,15 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {GameMessage} from "../../../../game-messages/store/game-messages.state";
-import {getFilteredMessagesSelector, getMessagesSelector} from "../../../../game-messages/store/game-messages.selector";
-import {Store} from "@ngrx/store";
-import {State} from "../../../../core/reducers";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { GameMessage } from "../../../../game-messages/store/game-messages.state";
+import { getFilteredMessagesSelector, getMessagesSelector } from "../../../../game-messages/store/game-messages.selector";
+import { Store } from "@ngrx/store";
+import { State } from "../../../../core/reducers";
+import { getQrCodesSelector } from "../../../store/game-message.selector";
+
+interface QrCodeAction {
+    action: string;
+}
 
 @Component({
     selector: 'app-mobile-preview-scan-tag',
@@ -15,41 +20,19 @@ import {State} from "../../../../core/reducers";
         </div>
 
         <div class="qr-previews">
-
-            <div class="d-none">
-                <div class="icebear">
-                    <qr-code [value]="'icebear'" [size]="100"></qr-code>
+            <div class="qr-demo-line" *ngFor="let qr of (qrCodes$ | async)">
+                <div class="qr-label font-regular-14-19-roboto"> {{ qr.action }}</div>
+                <div class="d-none" [ngClass]="qr.action">
+                    <qr-code [value]="qr.action" [size]="100"></qr-code>
                 </div>
-                <div class="elephant">
-                    <qr-code [value]="'elephant'" [size]="100"></qr-code>
-                </div>
-            </div>
-
-            <div class="qr-demo-line">
-                <div class="qr-label font-regular-14-19-roboto"> Icebear</div>
                 <div class="round-button"
-                     (click)="copyImage('icebear')"
+                     (click)="copyImage(qr.action)"
                      matTooltip="Copy QR code"
                      matTooltipPosition="below"
                 >
                     <mat-icon class="qr-icon" svgIcon="qrcode"></mat-icon>
                 </div>
             </div>
-            <div class="qr-demo-line">
-                <div class="qr-label font-regular-14-19-roboto"> Elephant</div>
-                <div class="round-button"
-                     (click)="copyImage('elephant')"
-                     matTooltip="Copy QR code"
-                     matTooltipPosition="below"
-                >
-
-                    <mat-icon class="qr-icon" svgIcon="qrcode"></mat-icon>
-                </div>
-
-            </div>
-            <button [cdkCopyToClipboard]="'test test'">Copy text clipboard</button>
-
-
         </div>
     `,
     styles: [`
@@ -106,16 +89,16 @@ import {State} from "../../../../core/reducers";
 })
 export class MobilePreviewScanTageComponent implements OnInit {
     public messages$: Observable<GameMessage[]> = this.store.select(getMessagesSelector);
+    public qrCodes$: Observable<QrCodeAction[]> = this.store.select(getQrCodesSelector);
 
     constructor(private http: HttpClient, public store: Store<State>) {
     }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 
-    async copyImage(type: 'elephant' | 'icebear') {
+    async copyImage(type: string) {
         try {
-            const img = document.querySelector(`.qr-previews .${type} img`);
+            const img = document.querySelector(`.qr-demo-line .${type} img`);
             const imgURL = img.getAttribute('src');
             const data = await fetch(imgURL);
             const blob = await data.blob();

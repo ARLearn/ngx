@@ -13,7 +13,7 @@ import {State} from "../../../../core/reducers";
             <div class="full-with-height-container">
                 <app-preview-navbar></app-preview-navbar>
                 <div class="text-box-preview">
-                    <div class="screen-preview-card-title"> {{(message$|async)?.name}}</div>
+                    <div class="screen-preview-card-title"> {{(message$|async)?.text}}</div>
                     <div class="text-preview" *ngFor="let answer of ((message$|async)?.answers)">
 
                         <div class="answer-text font-regular-16-24-roboto">

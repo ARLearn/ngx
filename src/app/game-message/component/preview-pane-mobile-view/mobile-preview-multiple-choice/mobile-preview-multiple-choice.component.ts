@@ -15,7 +15,7 @@ import {State} from "../../../../core/reducers";
                 <div class="text-box-preview">
                     <div
                             [ngStyle]="{'color': (selectedColor$ |async) }"
-                            class="screen-preview-card-title font-bold-20px-24px-gentium-basic"> {{(message$|async)?.name}}</div>
+                            class="screen-preview-card-title font-bold-20px-24px-gentium-basic"> {{(message$|async)?.text}}</div>
                     <div class="text-preview" *ngFor="let answer of ((message$|async)?.answers)">
 
                         <div class="answer-text font-regular-16-24-roboto">

@@ -13,6 +13,7 @@ import {RunService} from './services/run.service';
 import {PlayerService} from './services/player.service';
 import {AccountService} from './services/account.service';
 import {MediaLibraryService} from "./services/medialibrary.service";
+import {ActionsService} from "./services/actions.service";
 
 export const COMPONENTS = [];
 
@@ -46,7 +47,8 @@ export class CoreModule {
             GameMessagesService,
             MediaLibraryService,
             PlayerService,
-            AccountService
+            AccountService,
+            ActionsService
         ]
     };
 }

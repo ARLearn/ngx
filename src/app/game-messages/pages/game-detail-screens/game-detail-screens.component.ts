@@ -87,7 +87,7 @@ import {environment} from "../../../../environments/environment";
 
     `]
 })
-export class GameDetailScreensComponent implements OnInit, OnDestroy {
+export class    GameDetailScreensComponent implements OnInit, OnDestroy {
     public game$: Observable<Game> = this.store.select(getGame);
     public messages$: Observable<any> = this.store.select(getFilteredMessagesSelector);
     public currentFilter$: Observable<string[]> = this.store.select(getFiltersSelector).pipe(

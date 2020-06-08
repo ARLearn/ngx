@@ -20,6 +20,7 @@ import {RunSettingsPageComponent} from "./game-runs-management/pages/run-setting
 import {environment} from "../environments/environment";
 import {ManageUsersComponent} from "./portal-management/pages/manage-users.component";
 import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-library.component";
+import {ActionsOverviewComponent} from "./run-actions/pages/actions-overview.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -72,6 +73,7 @@ export const APP_ROUTES: Routes = [
                 path: 'game/:gameId/run/:runId',
                 children: [
                     {path: 'players', component: RunPlayersPageComponent, pathMatch: 'full'},
+                    {path: 'actions', component: ActionsOverviewComponent, pathMatch: 'full'},
                     {path: 'results', component: RunResultsPageComponent, pathMatch: 'full'},
                     {path: 'settings', component: RunSettingsPageComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'players'},

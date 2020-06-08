@@ -16,7 +16,7 @@ import {GameMessageUpdateFileReferenceAction} from "../../../store/game-message.
                         <div
                                 [ngStyle]="{'color': (selectedColor$ |async) }"
                                 class="screen-preview-card-title font-bold-20px-24px-gentium-basic "
-                        > {{(message$|async)?.name}}
+                        > {{(message$|async)?.text}}
                         </div>
                         <mat-grid-list class="pos-grid-list" cols="2" rowHeight="4:4">
                             <mat-grid-tile

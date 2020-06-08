@@ -57,7 +57,7 @@ import {SettingsFieldsComponent} from './components/settings-fields.component';
     ],
     exports: [
         RunOverviewComponent, RunPlayersPageComponent,
-        RunResultsPageComponent, RunSettingsPageComponent],
+        RunResultsPageComponent, RunSettingsPageComponent, RunTabSelectComponent],
     declarations: [
         RunOverviewComponent, NewRunDialogComponent, RunsTableComponent,
         AddPlayerDialogComponent, RunPlayersPageComponent,

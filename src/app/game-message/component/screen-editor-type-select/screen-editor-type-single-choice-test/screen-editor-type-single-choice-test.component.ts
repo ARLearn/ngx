@@ -19,7 +19,16 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
                    [ngModel]="(message$|async)?.name"
                    (ngModelChange)="titleChange($event)">
         </mat-form-field>
+        
+        <mat-form-field class="mat-form-messages">
 
+            <input appTriggerMobileView [data]="{}" [name]="'mc'"
+                   matInput
+                   [placeholder]="'GAME.QUESTION'|translate"
+                   [disabled]="!(iCanWrite|async)"
+                   [ngModel]="(message$|async)?.text"
+                   (ngModelChange)="textChange($event)">
+        </mat-form-field>
 
         <mat-slide-toggle class="gl-pos-between-fields"
                           [disabled]="!(iCanWrite|async)"
@@ -123,6 +132,10 @@ export class ScreenEditorTypeSingleChoiceTestComponent implements OnInit {
 
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({name: event}));
+    }
+
+    textChange(event: any) {
+        this.store.dispatch(new GameMessageUpdateAction({text: event}));
     }
 
     feedbackChange(event: MatSlideToggleChange) {

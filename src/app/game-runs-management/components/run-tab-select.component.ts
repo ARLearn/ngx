@@ -6,6 +6,7 @@ import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
+import {getAuthIsAdmin} from "../../auth/store/auth.selector";
 
 @Component({
     selector: 'app-run-tab-select',
@@ -36,6 +37,12 @@ import {getGame} from "../../game-management/store/current-game.selector";
                        [disabled]="getDisabled((game$|async), (runId$ |async))"
                        [active]="runtab2.isActive"
                        [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/settings'">{{'HOME.SETTINGS'|translate}}</a>
+                    <a mat-tab-link
+                       *ngIf="isAdmin$ |async"
+                       routerLinkActive #runtabactions="routerLinkActive"
+                       [disabled]="getDisabled((game$|async), (runId$ |async))"
+                       [active]="runtabactions.isActive"
+                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/actions'">ACTIONS</a>
                 </nav>
             </div>
         </div>
@@ -61,7 +68,7 @@ import {getGame} from "../../game-management/store/current-game.selector";
 })
 export class RunTabSelectComponent implements OnInit, OnDestroy {
 
-
+    isAdmin$ = this.store.select(getAuthIsAdmin);
     // @Input() gameId;
     public game$: Observable<Game> = this.store.select(getGame);
     runId$: Observable<any> = this.store.select(getCurrentRunId);

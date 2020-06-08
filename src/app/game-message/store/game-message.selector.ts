@@ -43,3 +43,24 @@ export const selectedColor = createSelector(
         return "#D3107F"; //todo make dynamic for youplay
     }
 );
+
+function getAllDependenciesByCondition(dependency, cb, result = []) {
+    if (cb(dependency)) {
+        result.push(dependency);
+    }
+
+    if (Array.isArray(dependency.dependencies) && dependency.dependencies.length > 0) {
+        dependency.dependencies.forEach(x => {
+            getAllDependenciesByCondition(x, cb, result);
+        });
+    }
+
+    if (dependency.offset) {
+        getAllDependenciesByCondition(dependency.offset, cb, result);
+    }
+    return result;
+}
+
+export const getQrCodesSelector = createSelector(getGameMessageFeature, (state) => {
+    return state.editMessage ? getAllDependenciesByCondition(state.editMessage.dependsOn, d => d.action) : [];
+});

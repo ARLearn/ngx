@@ -18,7 +18,7 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
     template: `
         <mat-form-field class="mat-form-messages">
 
-            <input appTriggerMobileView [data]="{}" [name]="'mc'" 
+            <input appTriggerMobileView [data]="{}" [name]="'mc'"
                    matInput
                    [placeholder]="'GAME.TITLE'|translate"
                    [disabled]="!(iCanWrite|async)"
@@ -26,11 +26,22 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
                    (ngModelChange)="titleChange($event)">
         </mat-form-field>
 
+        <mat-form-field class="mat-form-messages">
+
+            <input appTriggerMobileView [data]="{}" [name]="'mc'"
+                   matInput
+                   [placeholder]="'GAME.QUESTION'|translate"
+                   [disabled]="!(iCanWrite|async)"
+                   [ngModel]="(message$|async)?.text"
+                   (ngModelChange)="textChange($event)">
+        </mat-form-field>
+        
+        
         <mat-slide-toggle
                 [ngModel]="(message$|async)?.showFeedback"
                 (change)="feedbackChange($event)">{{'MESSAGE.FEEDBACK_POSSIBLE' |translate}}
         </mat-slide-toggle>
-        
+
         <div *ngIf=" (message$|async)?.answers">
             <div class="answer-container"
                  *ngFor="let answer of (message$|async)?.answers; let i = index">
@@ -69,27 +80,27 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
         <app-dependency-read-temp class="gl-pos-between-fields">
 
         </app-dependency-read-temp>
-        
+
         <div class="pos-button-add-answer">
             <button mat-raised-button
                     class="pos-button-add-answer-text gl-style-button-no-shadow gl-style-large-button"
-                    color="primary" (click)="addAnswer()" >
+                    color="primary" (click)="addAnswer()">
                 {{'MESSAGE.ADD_ANSWER_OPTION' | translate}}
-            </button>    
+            </button>
         </div>
-        
-<!--        background<br>-->
-<!--        <app-pick-file-input-->
-<!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/background.jpg'"-->
-<!--        ></app-pick-file-input>-->
-<!--        <br>correct<br>-->
-<!--        <app-pick-file-input-->
-<!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/correct.jpg'"-->
-<!--        ></app-pick-file-input>-->
-<!--        <br>wrong<br>-->
-<!--        <app-pick-file-input-->
-<!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/wrong.jpg'"-->
-<!--        ></app-pick-file-input>-->
+
+        <!--        background<br>-->
+        <!--        <app-pick-file-input-->
+        <!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/background.jpg'"-->
+        <!--        ></app-pick-file-input>-->
+        <!--        <br>correct<br>-->
+        <!--        <app-pick-file-input-->
+        <!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/correct.jpg'"-->
+        <!--        ></app-pick-file-input>-->
+        <!--        <br>wrong<br>-->
+        <!--        <app-pick-file-input-->
+        <!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/wrong.jpg'"-->
+        <!--        ></app-pick-file-input>-->
 
 
     `,
@@ -102,13 +113,14 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
             height: 35px;
             top: 10px
         }
-        
+
         .pos-button-add-answer {
             position: absolute;
-            left:0px;
+            left: 0px;
             bottom: -64px;
         }
-        .pos-button-add-answer-text{
+
+        .pos-button-add-answer-text {
             width: 261px;
         }
     `]
@@ -120,6 +132,7 @@ export class ScreenEditorTypeMultipleChoiceImageComponent implements OnInit {
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     game$: Observable<Game> = this.store.select(getGame);
     public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
+
     constructor(
         private store: Store<State>,
     ) {
@@ -146,6 +159,11 @@ export class ScreenEditorTypeMultipleChoiceImageComponent implements OnInit {
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({name: event}));
     }
+
+    textChange(event: any) {
+        this.store.dispatch(new GameMessageUpdateAction({text: event}));
+    }
+
 
     feedbackChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({showFeedback: event.checked}));
