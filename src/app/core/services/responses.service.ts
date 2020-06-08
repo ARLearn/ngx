@@ -4,19 +4,17 @@ import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
 @Injectable()
-export class ActionsService {
+export class ResponsesService {
 
     constructor(private http: HttpClient) {
     }
 
-
-
-    getActions(runId: string, from: number, cursor: string): Observable<any> {
+    getResponses(runId: string, from: number, cursor: string): Observable<any> {
         if (cursor == null) {
             cursor = '*';
         }
         return this.http
-            .get<any>(environment.api_url + `/actions/run/${runId}/from/${from}/${cursor}`);
+            .get<any>(environment.api_url + `/run/response/runId/${runId}/from/${from}/until/${Date.now()}/cursor/${cursor}`);
     }
 
 

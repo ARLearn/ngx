@@ -32,6 +32,9 @@ export function arlearnActionReducer(
         case ARLearnActionActionTypes.GET_ALL:
             return arlearnActionsAdapter.addMany(action.actions, state);
         case ARLearnActionActionTypes.ADD_ALL:
+            if (!action.actionsFromServer || !action.actionsFromServer.actions) {
+                return state;
+            }
             return arlearnActionsAdapter.upsertMany(action.actionsFromServer.actions, state);
         default:
             return state;

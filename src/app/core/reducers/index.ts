@@ -21,3 +21,8 @@ export const reducers: ActionReducerMap<State> = {
   // portalUser: fromPortalUser.reducers,
 };
 
+
+export const selectRouter = createFeatureSelector<
+    State,
+    fromRouter.RouterReducerState<any>
+    >('router');

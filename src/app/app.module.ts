@@ -60,6 +60,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {PortalManagementModule} from "./portal-management/portal-management.module";
 import {RunActionsModule} from "./run-actions/run-actions.module";
+import {RunResponsesModule} from "./run-responses/run-responses.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -148,7 +149,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         PlayerManagementModule,
         PortalManagementModule,
         FontAwesomeModule,
-        RunActionsModule
+        RunActionsModule,
+        RunResponsesModule
     ],
     providers: [
         ComponentPageTitle,

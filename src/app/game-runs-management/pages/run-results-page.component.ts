@@ -34,7 +34,7 @@ import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store
   `]
 })
 export class RunResultsPageComponent implements OnInit {
-
+//todo delete this class
   public game$: Observable<Game> = this.store.select(getGame);
 
   constructor(

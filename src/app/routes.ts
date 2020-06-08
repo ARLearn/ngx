@@ -21,6 +21,7 @@ import {environment} from "../environments/environment";
 import {ManageUsersComponent} from "./portal-management/pages/manage-users.component";
 import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-library.component";
 import {ActionsOverviewComponent} from "./run-actions/pages/actions-overview.component";
+import {ResponsesOverviewComponent} from "./run-responses/pages/responses-overview.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -74,7 +75,7 @@ export const APP_ROUTES: Routes = [
                 children: [
                     {path: 'players', component: RunPlayersPageComponent, pathMatch: 'full'},
                     {path: 'actions', component: ActionsOverviewComponent, pathMatch: 'full'},
-                    {path: 'results', component: RunResultsPageComponent, pathMatch: 'full'},
+                    {path: 'results', component: ResponsesOverviewComponent, pathMatch: 'full'},
                     {path: 'settings', component: RunSettingsPageComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'players'},
                 ],

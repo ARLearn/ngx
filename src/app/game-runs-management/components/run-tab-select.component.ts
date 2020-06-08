@@ -27,11 +27,12 @@ import {getAuthIsAdmin} from "../../auth/store/auth.selector";
                        [disabled]="getDisabled((game$|async), (runId$ |async))"
                        [active]="runtab1.isActive"
                        [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/players'">{{'RUNS.PLAYERS'|translate}}</a>
-<!--                    <a mat-tab-link-->
-<!--                       routerLinkActive #runtab2="routerLinkActive"-->
-<!--                       [disabled]="getDisabled((game$|async), (runId$ |async))"-->
-<!--                       [active]="runtab2.isActive"-->
-<!--                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/results'">RESULTATEN</a>-->
+                    <a mat-tab-link
+                       *ngIf="isAdmin$ |async"
+                       routerLinkActive #runtab2="routerLinkActive"
+                       [disabled]="getDisabled((game$|async), (runId$ |async))"
+                       [active]="runtab2.isActive"
+                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/results'">RESULTATEN</a>
                     <a mat-tab-link
                        routerLinkActive #runtab2="routerLinkActive"
                        [disabled]="getDisabled((game$|async), (runId$ |async))"

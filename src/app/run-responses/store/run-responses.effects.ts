@@ -2,32 +2,30 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {act, Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {AddAll, ARLearnActionActionTypes, Query} from './arlearn-actions.actions';
+import {AddAll, Query, RunResponseActionTypes} from './run-responses.actions';
 import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
-import {ARLearnAction} from './arlearn-actions.state';
+import {RunResponse} from './run-responses.state';
 import {ActionsService} from "../../core/services/actions.service";
-import {State} from "../../core/reducers";
+import {ResponsesService} from "../../core/services/responses.service";
+import * as selector from "../../core/selectors/router.selector";
 import * as fromRoot from "../../core/selectors/router.selector";
-
-
+import {State} from "../../core/reducers";
 
 
 @Injectable()
-export class ArlearnActionsEffects {
+export class RunResponsesEffects {
 
     // Listen for the 'QUERY' action, must be the first effect you trigger
 
     @Effect() query$: Observable<Action> = this.actions$.pipe(
-        ofType(ARLearnActionActionTypes.QUERY),
+        ofType(RunResponseActionTypes.QUERY),
         withLatestFrom(
             this.store.select(fromRoot.selectRouteParam('runId'))
         ),
         mergeMap(([action, runId]: [Query, string]) => {
-
-            return this.arlearnActionService.getActions(runId, 1, null);
+            return this.responsesService.getResponses(runId, 1, null);
         }),
         map(arr => {
-            console.log(arr);
             return new AddAll(arr);
         })
     );
@@ -35,7 +33,7 @@ export class ArlearnActionsEffects {
 
     constructor(private actions$: Actions,
                 private store: Store<State>,
-                private arlearnActionService: ActionsService
-                ) {
+                private responsesService: ResponsesService
+    ) {
     }
 }
