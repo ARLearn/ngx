@@ -1,129 +1,108 @@
 indexes:
   - kind: ActionJDO
     properties:
+      - name: userId
+      - name: time
+  - kind: ActionJDO
+    properties:
       - name: runId
-        direction: asc
       - name: time
         direction: asc
   - kind: ActionJDO
     properties:
       - name: runId
-        direction: asc
       - name: time
         direction: asc
-      - name: userid
-        direction: asc
+      - name: userId
   - kind: ContactJDO
     properties:
       - name: fromAccountType
-        direction: asc
       - name: fromLocalId
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: GameAccessJDO
     properties:
       - name: accountType
-        direction: asc
       - name: localId
-        direction: asc
       - name: lastModificationDateGame
         direction: asc
   - kind: GameAccessJDO
     properties:
       - name: accountType
-        direction: asc
       - name: localId
-        direction: asc
       - name: lastModificationDateGame
-        direction: asc
+        direction: desc
   - kind: GameJDO
     properties:
       - name: owner
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: GeneralItemJDO
     properties:
       - name: gameId
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: GeneralItemVisibilityJDO
     properties:
       - name: email
-        direction: asc
       - name: runId
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: ResponseJDO
     properties:
       - name: generalItemId
-        direction: asc
       - name: runId
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: ResponseJDO
     properties:
       - name: generalItemId
-        direction: asc
       - name: runId
-        direction: asc
       - name: userId
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: ResponseJDO
     properties:
       - name: runId
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: ResponseJDO
     properties:
       - name: runId
-        direction: asc
       - name: timeStamp
         direction: asc
   - kind: RunAccessJDO
     properties:
       - name: accountType
-        direction: asc
       - name: localId
-        direction: asc
       - name: lastModificationDateRun
         direction: asc
   - kind: UserJDO
     properties:
       - name: deleted
-        direction: asc
       - name: email
-        direction: asc
       - name: lastModificationDateGame
         direction: asc
   - kind: UserJDO
     properties:
       - name: email
-        direction: asc
       - name: lastModificationDate
         direction: asc
   - kind: UserJDO
     properties:
       - name: email
-        direction: asc
       - name: lastModificationDateGame
         direction: asc
   - kind: UserJDO
     properties:
       - name: email
-        direction: asc
       - name: gameId
-        direction: asc
+  - kind: UserJDO
+    properties:
+      - name: runId
+      - name: email
   - kind: UserJDO
     properties:
       - name: email
-        direction: asc
-      - name: runId
-        direction: asc
+      - name: lastModificationDateGame
+        direction: desc
