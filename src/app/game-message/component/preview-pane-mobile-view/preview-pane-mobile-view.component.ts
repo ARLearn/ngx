@@ -78,7 +78,7 @@ import {State} from "../../../core/reducers";
         }
 
         .preview-pane {
-            width: 290px;
+            width: 320px;
             height: 514px;
 
             margin-left: auto;
