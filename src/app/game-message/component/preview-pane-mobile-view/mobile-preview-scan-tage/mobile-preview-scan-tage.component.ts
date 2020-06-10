@@ -2,10 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { GameMessage } from "../../../../game-messages/store/game-messages.state";
-import { getFilteredMessagesSelector, getMessagesSelector } from "../../../../game-messages/store/game-messages.selector";
+import {getFilteredMessagesSelector, getMessagesSelector, getQrCodesSelector} from "../../../../game-messages/store/game-messages.selector";
 import { Store } from "@ngrx/store";
 import { State } from "../../../../core/reducers";
-import { getQrCodesSelector } from "../../../store/game-message.selector";
 
 interface QrCodeAction {
     action: string;
@@ -94,7 +93,9 @@ export class MobilePreviewScanTageComponent implements OnInit {
     constructor(private http: HttpClient, public store: Store<State>) {
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.qrCodes$.subscribe(res => console.log(res));
+    }
 
     async copyImage(type: string) {
         try {

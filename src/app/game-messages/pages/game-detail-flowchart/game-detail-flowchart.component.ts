@@ -14,6 +14,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
+import {SetPreviewMessageAction} from "../../store/game-messages.actions";
 
 @Component({
     selector: 'app-game-detail-flowchart',
@@ -100,6 +101,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     selectMessage($event) {
 
         this.store.dispatch(new GameMessageEditCompletedAction($event));
+        this.store.dispatch(new SetPreviewMessageAction($event.id));
     }
 
     deselectMessage($event) {

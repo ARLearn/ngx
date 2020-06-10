@@ -43,9 +43,3 @@ export const selectedColor = createSelector(
         return "#D3107F"; //todo make dynamic for youplay
     }
 );
-
-const NOT_ALLOWED_ACTIONS = ['read', 'next'];
-
-export const getQrCodesSelector = createSelector(getGameMessageFeature, (state) => {
-    return state.editMessage ? state.editMessage.outputs.filter(x => !NOT_ALLOWED_ACTIONS.includes(x.action)) : [];
-});

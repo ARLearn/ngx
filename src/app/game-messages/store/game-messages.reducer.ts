@@ -85,6 +85,10 @@ export function reducers(
             return Object.assign({}, state, {preview: preview});
         }
 
+        case actions.GameMessagesActionTypes.SET_PREVIEW_MESSAGE: {
+            return Object.assign({}, state, {previewMessage: action.payload});
+        }
+
         case actions.GameMessagesActionTypes.MESSAGES_DELETE_COMPLETED: {
             if (state.gameId === action.payload.gameId) {
                 return Object.assign(

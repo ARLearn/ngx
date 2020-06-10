@@ -13,6 +13,7 @@ export const GameMessagesActionTypes = {
   TOGGLE_EDIT_MODE: '[GameMessages] Toggle edit mode',
 
   SET_PREVIEW_TYPE: '[GameMessages] Set preview type',
+  SET_PREVIEW_MESSAGE: '[GameMessages] Set preview message',
 
   SETFILTER: '[GameMessages] Set message filter',
 
@@ -89,6 +90,13 @@ export class SetPreviewTypeAction implements Action {
   type = GameMessagesActionTypes.SET_PREVIEW_TYPE;
 
   constructor(public payload: { preview: PreviewType, data?: string }) {
+  }
+}
+
+export class SetPreviewMessageAction implements Action {
+  type = GameMessagesActionTypes.SET_PREVIEW_MESSAGE;
+
+  constructor(public payload: number) {
   }
 }
 

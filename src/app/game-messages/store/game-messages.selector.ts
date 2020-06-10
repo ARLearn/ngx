@@ -58,6 +58,38 @@ export const getDependenciesSelector = createSelector(getMessagesSelector, (mess
     };
 }).filter(item => item.id !== 'delete'));
 
+function getAllDependenciesByCondition(dependency, cb, result = []) {
+    if (cb(dependency)) {
+        result.push(dependency);
+    }
+
+    if (Array.isArray(dependency.dependencies) && dependency.dependencies.length > 0) {
+        dependency.dependencies.forEach(x => {
+            getAllDependenciesByCondition(x, cb, result);
+        });
+    }
+
+    if (dependency.offset) {
+        getAllDependenciesByCondition(dependency.offset, cb, result);
+    }
+    return result;
+}
+
+export const getQrCodesSelector = createSelector(getGameMessagesFeature, (state) => {
+    const deps = [];
+
+    state.messages.forEach(x =>
+        x.dependsOn &&
+        getAllDependenciesByCondition(
+            x.dependsOn,
+            dependency => dependency.action && dependency.generalItemId.toString() === state.previewMessage.toString(),
+            deps
+        )
+    );
+
+    return deps;
+});
+
 
 export const getFilteredMessagesSelector = createSelector(getMessagesSelector, getFiltersSelector,
     (messages: GameMessage[], filters: string[]) => {
