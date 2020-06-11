@@ -10,17 +10,15 @@ import {runResponsesReducer} from "./store/run-responses.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {RunResponsesEffects} from "./store/run-responses.effects";
 
-
-
 @NgModule({
   declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent],
   imports: [
     CommonModule,
     GameRunsManagementModule,
     GameMessagesModule,
-    MatTableModule,
     StoreModule.forFeature('run-responses', runResponsesReducer),
     EffectsModule.forFeature([RunResponsesEffects]),
+    MatTableModule,
   ]
 })
 export class RunResponsesModule { }

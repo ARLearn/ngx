@@ -71,9 +71,9 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
                 class="gl-pos-between-fields"
                 [label]="(message$|async)?.label">
         </app-create-label>
-        <app-dependency-read-temp class="gl-pos-between-fields">
+<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
 
-        </app-dependency-read-temp>
+<!--        </app-dependency-read-temp>-->
         
         <div class="pos-button-add-answer" *ngIf="iCanWrite|async">
             <button

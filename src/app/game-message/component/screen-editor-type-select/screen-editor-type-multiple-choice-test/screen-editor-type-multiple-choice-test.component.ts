@@ -82,9 +82,9 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
         <!--        [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/wrong.jpg'"-->
         <!--&gt;</app-pick-file-input>-->
 
-        <app-dependency-read-temp class="gl-pos-between-fields">
+<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
 
-        </app-dependency-read-temp>
+<!--        </app-dependency-read-temp>-->
         <div class="pos-button-add-answer" *ngIf="iCanWrite|async">
             <button
                     class="pos-button-add-answer-text gl-style-button-no-shadow gl-style-large-button"

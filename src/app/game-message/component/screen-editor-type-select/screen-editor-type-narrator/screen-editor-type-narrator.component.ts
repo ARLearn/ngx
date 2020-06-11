@@ -70,9 +70,9 @@ import {combineLatest} from 'rxjs';
 <!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/background.jpg'"-->
 <!--        ></app-pick-file-input>-->
 
-        <app-dependency-read-temp class="gl-pos-between-fields">
+<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
 
-        </app-dependency-read-temp>
+<!--        </app-dependency-read-temp>-->
 
 
 

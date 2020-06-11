@@ -42,9 +42,9 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
 
         </app-create-label>
 
-        <app-dependency-read-temp class="gl-pos-between-fields">
+<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
 
-        </app-dependency-read-temp>
+<!--        </app-dependency-read-temp>-->
     `,
     styles: [`
         .color-picker-class {

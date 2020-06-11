@@ -51,9 +51,9 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
                 [label]="(message$|async)?.label">
         </app-create-label>
 
-        <app-dependency-read-temp class="gl-pos-between-fields">
+<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
 
-        </app-dependency-read-temp>
+<!--        </app-dependency-read-temp>-->
     `,
     styles: [`
         .color-picker-class {

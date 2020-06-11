@@ -21,7 +21,7 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
                    (ngModelChange)="titleChange($event)">
         </mat-form-field>
 
-\        <mat-form-field class="mat-form-messages">
+        <mat-form-field class="mat-form-messages">
 
             <input appTriggerMobileView [data]="{}" [name]="'mc'"
                    matInput
@@ -89,9 +89,9 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
 
         <!--      </app-dependency-read-temp>-->
 
-        <app-dependency-read-temp class="gl-pos-between-fields">
+<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
 
-        </app-dependency-read-temp>
+<!--        </app-dependency-read-temp>-->
 
         <div class="pos-button-add-answer" *ngIf="iCanWrite|async">
             <button

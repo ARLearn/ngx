@@ -77,9 +77,9 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
 
         </app-create-label>
 
-        <app-dependency-read-temp class="gl-pos-between-fields">
+<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
 
-        </app-dependency-read-temp>
+<!--        </app-dependency-read-temp>-->
 
         <div class="pos-button-add-answer">
             <button mat-raised-button
