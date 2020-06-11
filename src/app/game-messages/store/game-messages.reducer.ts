@@ -112,6 +112,10 @@ export function reducers(
             return Object.assign({}, state, {filter: action.payload.filters});
         }
 
+        case actions.GameMessagesActionTypes.SET_SELECTED_SCREEN: {
+            return Object.assign({}, state, {selectedScreen: action.payload});
+        }
+
         case actions.GameMessagesActionTypes.GAME_MESSAGES_ERROR: {
 
             return state;

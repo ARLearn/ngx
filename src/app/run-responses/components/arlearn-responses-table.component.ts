@@ -1,19 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {State} from '../../core/reducers';
 import {Observable} from "rxjs";
 import * as fromSel from '../store/run-responses.selectors';
 import {MatTableDataSource} from "@angular/material/table";
 import {RunResponse} from "../store/run-responses.state";
-import {getFilteredMessagesSelector, getMessagesSelector} from "../../game-messages/store/game-messages.selector";
+import {getFilteredMessagesSelector, getMessagesSelector, getSelectedScreen} from "../../game-messages/store/game-messages.selector";
 import {GetGameMessagesRequestAction} from "../../game-messages/store/game-messages.actions";
 import {GameMessage} from "../../game-messages/store/game-messages.state";
 
 @Component({
     selector: 'app-arlearn-responses-table',
     template: `
-        <div class="pos-full-width">
-            <mat-table class="pos-full-width" [dataSource]="dataSource" class="mat-elevation-z8">
+        <div class="pos-full-width" *ngIf="responses$ | async as data">
+            <mat-table class="pos-full-width" [dataSource]="getTableDataSource(data)" class="mat-elevation-z8">
                 <!-- Position Column -->
 
                 <ng-container matColumnDef="responseId">
@@ -54,6 +54,7 @@ import {GameMessage} from "../../game-messages/store/game-messages.state";
     `]
 })
 export class ArlearnResponsesTableComponent implements OnInit {
+    @Input() selectedScreen: any;
     public messages$: Observable<any> = this.store.select(getMessagesSelector);
     displayedColumns = ['responseId', 'responseValue', 'generalItemId', 'messageName', 'userId'];
     responses$: Observable<any> = this.store.select(fromSel.selectAll);
@@ -64,18 +65,24 @@ export class ArlearnResponsesTableComponent implements OnInit {
     constructor(private store: Store<State>) {
         this.messages$.subscribe((messages: GameMessage[]) => {
             messages.forEach(message => {
-                console.log("message is ", message);
+                // console.log("message is ", message);
                 this.messagesAsync[message.id] = message;
             });
         });
     }
 
     ngOnInit(): void {
-        this.responses$.subscribe((responses) => {
-            this.dataSource = new MatTableDataSource(responses);
-
-        });
         this.store.dispatch(new GetGameMessagesRequestAction());
+    }
+
+    getTableDataSource(data) {
+        if (this.selectedScreen) {
+            return new MatTableDataSource(
+                data.filter(response => response.generalItemId.toString() === this.selectedScreen.toString())
+            );
+        }
+
+        return new MatTableDataSource(data);
     }
 
     getMessageName(id: string) {

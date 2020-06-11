@@ -40,6 +40,8 @@ export const getNodesSelector = createSelector(getGameMessagesFeature, (state) =
     };
 }));
 
+export const getSelectedScreen = createSelector(getGameMessagesFeature, state => state.selectedScreen);
+
 export const getDependenciesSelector = createSelector(getMessagesSelector, (messages) => messages.map(item => {
     if (item.dependsOn.type === "org.celstec.arlearn2.beans.dependencies.ActionDependency") {
         const dependency: ActionDependency = <ActionDependency>item.dependsOn;
@@ -106,6 +108,13 @@ export const getFilteredMessagesSelector = createSelector(getMessagesSelector, g
             }
             return true;
 
+        });
+    });
+
+export const getMultipleMessagesSelector = createSelector(getMessagesSelector,
+    (messages: GameMessage[]) => {
+        return messages.filter(message => {
+            return message.type.toLowerCase().includes('multiple');
         });
     });
 

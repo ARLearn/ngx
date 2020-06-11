@@ -27,7 +27,9 @@ export const GameMessagesActionTypes = {
   MESSAGE_NEW_REQUESTED: '[GameMessages] New message requested',
   MESSAGE_NEW_COMPLETED: '[GameMessages] New message Completed',
 
-  GAME_MESSAGES_ERROR: '[GameMessages]  Error'
+  GAME_MESSAGES_ERROR: '[GameMessages]  Error',
+
+  SET_SELECTED_SCREEN: '[GameMessages] Set selected screen',
 };
 
 export class GetGameMessagesRequestAction implements Action {
@@ -142,6 +144,13 @@ export class NewMessageResponseAction implements Action {
 
 export class GetGameMessagesErrorAction implements Action {
   type = GameMessagesActionTypes.GAME_MESSAGES_ERROR;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class SetSelectedScreenAction implements Action {
+  type = GameMessagesActionTypes.SET_SELECTED_SCREEN;
 
   constructor(public payload: any) {
   }

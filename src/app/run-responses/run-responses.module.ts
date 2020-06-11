@@ -9,16 +9,21 @@ import {StoreModule} from "@ngrx/store";
 import {runResponsesReducer} from "./store/run-responses.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {RunResponsesEffects} from "./store/run-responses.effects";
+import {SharedModule} from "../shared/shared.module";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent],
-  imports: [
-    CommonModule,
-    GameRunsManagementModule,
-    GameMessagesModule,
-    StoreModule.forFeature('run-responses', runResponsesReducer),
-    EffectsModule.forFeature([RunResponsesEffects]),
-    MatTableModule,
-  ]
+
+    imports: [
+        CommonModule,
+        GameRunsManagementModule,
+        GameMessagesModule,
+        MatTableModule,
+        StoreModule.forFeature('run-responses', runResponsesReducer),
+        EffectsModule.forFeature([RunResponsesEffects]),
+        SharedModule,
+        MatToolbarModule,
+    ]
 })
 export class RunResponsesModule { }
