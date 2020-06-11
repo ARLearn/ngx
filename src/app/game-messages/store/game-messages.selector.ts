@@ -79,7 +79,9 @@ function getAllDependenciesByCondition(dependency, cb, result = []) {
 
 export const getQrCodesSelector = createSelector(getGameMessagesFeature, (state) => {
     const deps = [];
-
+    if (!state.previewMessage) {
+        return deps;
+    }
     state.messages.forEach(x =>
         x.dependsOn &&
         getAllDependenciesByCondition(

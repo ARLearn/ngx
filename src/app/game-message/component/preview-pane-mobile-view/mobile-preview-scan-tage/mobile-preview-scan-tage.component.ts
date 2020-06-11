@@ -13,14 +13,14 @@ interface QrCodeAction {
 @Component({
     selector: 'app-mobile-preview-scan-tag',
     template: `
-        <div>
-            <h4 class="preview-title primary-color">Qr scanner</h4>
+        <div class="full-with-height-container pos-scan-img">
+            <app-preview-navbar></app-preview-navbar>
         </div>
 
         <div class="qr-previews">
             <div class="qr-demo-line" *ngFor="let qr of (qrCodes$ | async)">
-                <div class="qr-label font-regular-16-19-roboto"> {{ qr.action }}</div>
-                <div class="d-none" [ngClass]="qr.action">
+                <div class="qr-label font-regular-14-19-roboto"> {{ qr.action }}</div>
+                <div class="hide" [ngClass]="qr.action">
                     <qr-code [value]="qr.action" [size]="100"></qr-code>
                 </div>
                 <div class="round-button"
@@ -34,11 +34,19 @@ interface QrCodeAction {
         </div>
     `,
     styles: [`
+        .hide {
+            visibility: hidden;
+        }
         .pos-scan-img {
             background: transparent url("/assets/img/scantag/ScanTag2.png") 0% 0% no-repeat padding-box;
             background-size: cover;
         }
 
+        .qr-previews {
+            position: relative;
+            top: 40px;
+        }
+        
         /*.text-preview {*/
         /*    margin: 24px;*/
         /*    margin-top: 24px;*/
@@ -63,7 +71,8 @@ interface QrCodeAction {
 
         .qr-label {
             padding-top: 5px;
-            color: #000000;
+            color: #000000DE;
+
         }
 
         .round-button {
@@ -76,11 +85,11 @@ interface QrCodeAction {
         }
 
         .qr-icon {
-            font-size: 17px;
-            color: #3c4041;
+            /*font-size: 17px;*/
+            color: #BEC3C4;
             padding: 4px;
-            height: 100%;
-            width: 100%;
+            /*height: 100%;*/
+            /*width: 100%;*/
         }
 
         .qr-icon svg .a {

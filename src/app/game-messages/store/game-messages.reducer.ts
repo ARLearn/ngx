@@ -45,7 +45,10 @@ export function reducers(
         }
 
         case actions.GameMessagesActionTypes.MESSAGE_SELECT: {
-            return Object.assign({}, state, {selectedMessage: action.payload.id});
+            return Object.assign({}, state, {
+                selectedMessage: action.payload.id,
+                previewMessage: action.payload.id,
+            });
         }
 
         case actions.GameMessagesActionTypes.TARGET_MESSAGE_SELECT: {
