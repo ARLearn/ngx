@@ -20,11 +20,11 @@ interface QrCodeAction {
         <div class="qr-previews">
             <div class="qr-demo-line" *ngFor="let qr of (qrCodes$ | async)">
                 <div class="qr-label font-regular-14-19-roboto"> {{ qr.action }}</div>
-                <div class="hide" [ngClass]="qr.action">
+                <div class="hide" [ngClass]="qr.action" #el>
                     <qr-code [value]="qr.action" [size]="100"></qr-code>
                 </div>
                 <div class="round-button"
-                     (click)="copyImage(qr.action)"
+                     (click)="copyImage(qr.action, el)"
                      matTooltip="Copy QR code"
                      matTooltipPosition="below"
                 >
@@ -88,8 +88,8 @@ interface QrCodeAction {
             /*font-size: 17px;*/
             color: #BEC3C4;
             padding: 4px;
-            /*height: 100%;*/
-            /*width: 100%;*/
+            height: 100%;
+            width: 100%;
         }
 
         .qr-icon svg .a {
@@ -110,9 +110,9 @@ export class MobilePreviewScanTageComponent implements OnInit {
         this.qrCodes$.subscribe(res => console.log(res));
     }
 
-    async copyImage(type: string) {
+    async copyImage(type: string, el) {
         try {
-            const img = document.querySelector(`.qr-demo-line .${type} img`);
+            const img = el.querySelector(`img`);
             const imgURL = img.getAttribute('src');
             const data = await fetch(imgURL);
             const blob = await data.blob();
