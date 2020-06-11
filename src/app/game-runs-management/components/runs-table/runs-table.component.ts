@@ -72,6 +72,10 @@ import {Router} from "@angular/router";
             background: #f5f5f5;
         }
 
+        tr.bin-element-row {
+            cursor: pointer;
+        }
+
         tr.example-element-row:active {
             background: #efefef;
         }

@@ -25,6 +25,7 @@ $theme: mat-light-theme($primary, $accent);
 @import './generic';
 @import './material-modifications';
 
+
 .my-snack-bar {
   background-color: #f44336;
 }
@@ -40,6 +41,27 @@ body {
 
 body {
   background: #F0F4F5;
+}
+
+.mat-chip.light-chip.mat-standard-chip {
+  &.mat-primary {
+    background-color: transparent;
+
+    &.mat-chip {
+      &-selected {
+        background-color: lighten(mat-color($primary), 34%);
+        color: mat-color($primary);
+      }
+
+      &:focus::after {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+.d-none {
+  display: none !important;
 }
 
 .d-none {

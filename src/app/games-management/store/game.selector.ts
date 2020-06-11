@@ -26,7 +26,7 @@ export const getGameListSorted = createSelector(getGameList, (games) => _.orderB
 export const getGamesFiltersSelector = createSelector(getGameFeature, _filtersProjector);
 
 export const getFilteredGamesSelector = createSelector(getGameListSorted, getGamesFiltersSelector,
-    (games:Game[], filters: string[])=> {
+    (games: Game[], filters: string[]) => {
         return games.filter(game => {
             if (!filters) return true;
             for (let i = 0; i < filters.length; i++) {

@@ -23,6 +23,7 @@ export interface GameMessagesState {
     editMode: number;
     messages: GameMessage[];
     previewMessage: number;
+    selectedScreen: string;
 }
 
 export const gameMessagesInitialState: GameMessagesState = {
@@ -32,6 +33,7 @@ export const gameMessagesInitialState: GameMessagesState = {
     editMode: 1,
     messages: [],
     previewMessage: null,
+    selectedScreen: null,
 };
 
 export interface PreviewData {
