@@ -1,21 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subscription} from "rxjs";
-import {Game} from "../../game-management/store/current-game.state";
-import {getGame} from "../../game-management/store/current-game.selector";
-import {Store} from "@ngrx/store";
-import {State} from "../../core/reducers";
-import {Query} from "../store/run-responses.actions";
-import {GetCurrentRunFromRouterRequestAction, GetGameRunsRequestAction} from "../../game-runs-management/store/game-runs.actions";
-import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
-import {PlayerLoadRequestAction} from "../../player-management/store/player.actions";
-import * as fromRoot from 'src/app/core/selectors/router.selector';
-import {getFilteredGamesSelector, getGameList} from "../../games-management/store/game.selector";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from "rxjs";
+import { Game } from "../../game-management/store/current-game.state";
+import { getGame } from "../../game-management/store/current-game.selector";
+import { Store } from "@ngrx/store";
+import { State } from "../../core/reducers";
+import { Query } from "../store/run-responses.actions";
+import { GetCurrentRunFromRouterRequestAction, GetGameRunsRequestAction } from "../../game-runs-management/store/game-runs.actions";
+import { GetCurrentGameFromRouterRequestAction } from "../../game-management/store/current-game.actions";
+import { PlayerLoadRequestAction } from "../../player-management/store/player.actions";
 import {
     getFilteredMessagesSelector,
     getMultipleMessagesSelector,
     getSelectedScreen
 } from "../../game-messages/store/game-messages.selector";
-import {SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
+import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
 
 @Component({
     selector: 'app-actions-overview',
@@ -153,7 +151,7 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
             if (this.messages) {
                 const mess = this.messages.find(message => message.id === this.selectedScreen);
-                this.selectedImageUrl = mess.fileReferences.background;
+                this.selectedImageUrl = mess && mess.fileReferences.background;
             }
         });
 

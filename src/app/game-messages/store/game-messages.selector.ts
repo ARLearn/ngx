@@ -116,7 +116,9 @@ export const getFilteredMessagesSelector = createSelector(getMessagesSelector, g
 export const getMultipleMessagesSelector = createSelector(getMessagesSelector,
     (messages: GameMessage[]) => {
         return messages.filter(message => {
-            return message.type.toLowerCase().includes('multiple');
+            const entry = message.type.toLowerCase();
+
+            return entry.includes('single') || entry.includes('multiple') || entry.includes('picturequestion');
         });
     });
 

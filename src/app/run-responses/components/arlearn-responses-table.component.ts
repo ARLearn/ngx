@@ -1,13 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {State} from '../../core/reducers';
-import {Observable} from "rxjs";
+import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from '../../core/reducers';
+import { Observable } from "rxjs";
 import * as fromSel from '../store/run-responses.selectors';
-import {MatTableDataSource} from "@angular/material/table";
-import {RunResponse} from "../store/run-responses.state";
-import {getFilteredMessagesSelector, getMessagesSelector, getSelectedScreen} from "../../game-messages/store/game-messages.selector";
-import {GetGameMessagesRequestAction} from "../../game-messages/store/game-messages.actions";
-import {GameMessage} from "../../game-messages/store/game-messages.state";
+import { MatTableDataSource } from "@angular/material/table";
+import { RunResponse } from "../store/run-responses.state";
+import { getMessagesSelector } from "../../game-messages/store/game-messages.selector";
+import { GetGameMessagesRequestAction } from "../../game-messages/store/game-messages.actions";
+import { GameMessage } from "../../game-messages/store/game-messages.state";
 
 @Component({
     selector: 'app-arlearn-responses-table',
