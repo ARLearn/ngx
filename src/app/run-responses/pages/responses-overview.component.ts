@@ -14,6 +14,7 @@ import {
     getSelectedScreen
 } from "../../game-messages/store/game-messages.selector";
 import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
+import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../game-message/store/game-message.actions";
 
 @Component({
     selector: 'app-actions-overview',
@@ -29,13 +30,14 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
                 <div class="run-container">
                     <div class="photo-container" *ngIf="selectedImageUrl">
                         <div class="photo">
-                            <app-filestore-background-image
-                                    *ngIf="selectedImageUrl"
-                                    [paths]="[selectedImageUrl]"
-                                    [deleteButton]="false"
+                            <app-preview-pane-mobile-view></app-preview-pane-mobile-view>
+<!--                            <app-filestore-background-image-->
+<!--                                    *ngIf="selectedImageUrl"-->
+<!--                                    [paths]="[selectedImageUrl]"-->
+<!--                                    [deleteButton]="false"-->
 
-                            >
-                            </app-filestore-background-image>
+<!--                            >-->
+<!--                            </app-filestore-background-image>-->
                         </div>
                     </div>
                     
@@ -116,10 +118,7 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
             margin: 0 30px 0 0;
         }
         .photo {
-            padding: 0 30px 0 0;
             margin: 0 30px 0 0;
-            min-width: 260px;
-            max-width: 260px;
             min-height: 360px;
             position: relative;
         }
@@ -127,6 +126,9 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
             display: block;
             width: 100%;
             height: 100%;
+        }
+        .photo ::ng-deep .preview-outer-pane {
+            top: 0;
         }
     `]
 })
@@ -159,6 +161,7 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
             this.messages = data;
             if (data[0]) {
                 this.store.dispatch(new SetSelectedScreenAction(data[0].id));
+                this.store.dispatch(new GameMessageEditCompletedAction(data[0]));
             }
         }));
 
@@ -171,10 +174,12 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
     onSelect(item) {
         this.store.dispatch(new SetSelectedScreenAction(item.id));
+        this.store.dispatch(new GameMessageEditCompletedAction(item));
     }
 
     deselect() {
         this.store.dispatch(new SetSelectedScreenAction(null));
+        this.store.dispatch(new ResetGameMessageEditAction());
     }
 
     ngOnDestroy() {

@@ -11,6 +11,7 @@ import {EffectsModule} from "@ngrx/effects";
 import {RunResponsesEffects} from "./store/run-responses.effects";
 import {SharedModule} from "../shared/shared.module";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {GameMessageModule} from "../game-message/game-message.module";
 
 @NgModule({
   declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent],
@@ -24,6 +25,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
         EffectsModule.forFeature([RunResponsesEffects]),
         SharedModule,
         MatToolbarModule,
+        GameMessageModule,
     ]
 })
 export class RunResponsesModule { }
