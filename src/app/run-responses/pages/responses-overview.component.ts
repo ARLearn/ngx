@@ -83,7 +83,7 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
             background-color: #ffffff;
             position: fixed;
             bottom: 0;
-            height: 94px;
+            height: 71px;
         }
         .toolbar-white .maxwidth {
             flex: 1;
@@ -157,6 +157,9 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.messages$.subscribe(data => {
             this.messages = data;
+            if (data[0]) {
+                this.store.dispatch(new SetSelectedScreenAction(data[0].id));
+            }
         }));
 
         this.store.dispatch(new GetGameRunsRequestAction());
