@@ -9,12 +9,12 @@ import { GetCurrentRunFromRouterRequestAction, GetGameRunsRequestAction } from "
 import { GetCurrentGameFromRouterRequestAction } from "../../game-management/store/current-game.actions";
 import { PlayerLoadRequestAction } from "../../player-management/store/player.actions";
 import {
-    getFilteredMessagesSelector,
     getMultipleMessagesSelector,
     getSelectedScreen
 } from "../../game-messages/store/game-messages.selector";
 import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
 import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../game-message/store/game-message.actions";
+import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selector';
 
 @Component({
     selector: 'app-actions-overview',
@@ -31,21 +31,9 @@ import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../
                     <div class="photo-container" *ngIf="selectedImageUrl">
                         <div class="photo">
                             <app-preview-pane-mobile-view></app-preview-pane-mobile-view>
-<!--                            <app-filestore-background-image-->
-<!--                                    *ngIf="selectedImageUrl"-->
-<!--                                    [paths]="[selectedImageUrl]"-->
-<!--                                    [deleteButton]="false"-->
-
-<!--                            >-->
-<!--                            </app-filestore-background-image>-->
                         </div>
                     </div>
-                    
- 
-<!--                    <div class="photo" *ngIf="selectedImageUrl">-->
-<!--                        <img [src]="selectedImageUrl" alt="" />-->
-<!--                    </div>-->
-                    <div class="table">
+                    <div class="answers-wrapper">
                         <app-arlearn-responses-table [selectedScreen]="selectedScreen"></app-arlearn-responses-table>
                     </div>
                 </div>
@@ -130,6 +118,11 @@ import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../
         .photo ::ng-deep .preview-outer-pane {
             top: 0;
         }
+        .answers-wrapper {
+            overflow: auto;
+            margin: -1rem;
+            padding: 1rem;
+        }
     `]
 })
 export class ResponsesOverviewComponent implements OnInit, OnDestroy {
@@ -148,6 +141,8 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.store.select(getPlayers).subscribe(console.log);
+
         this.subscription = this.selectedScreen$.subscribe(data => {
             this.selectedScreen = data;
 
