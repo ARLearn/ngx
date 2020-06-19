@@ -49,7 +49,7 @@ import { QRCodeModule } from 'angular2-qrcode';
         PreviewPaneMobileViewComponent, ScreenEditorNavbarComponent, ScreenEditorComponent,
         ScreenEditorTypeSelectComponent, ScreenEditorTypeNarratorComponent, ChangeScreenPreviewDirective,
         ScreenEditorTypeSingleChoiceTestComponent, ScreenEditorTypeMultipleChoiceTestComponent, PickFileInputComponent, MobilePreviewNarratorComponent, PickLocationOnMapComponent, CreateLabelComponent, ScreenEditorTypeVideoObjectComponent, ScreenEditorTypeScanTagComponent, ScreenEditorTypeSingleChoiceImageComponent, ScreenEditorTypeMultipleChoiceImageComponent, AnswerComponentComponent, DependencyReadTempComponent, MobilePreviewVideoComponent, MobilePreviewMultipleChoiceComponent, MobilePreviewMultipleScanComponent, BackgroundImageSelectorComponent, MobilePreviewSingleChoiceComponent, MobilePreviewAnswerFeedbackComponent, MobilePreviewMultipleChoiceImageComponent, PreviewNavbarComponent, MobilePreviewScanTageComponent, McImagePreviewHeaderComponent],
-    exports: [ScreenDetailComponent, PreviewPaneComponent],
+    exports: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneMobileViewComponent],
     imports: [
         CommonModule,
         SharedModule.forRoot(),

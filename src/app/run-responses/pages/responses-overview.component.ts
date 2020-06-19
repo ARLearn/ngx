@@ -9,11 +9,12 @@ import { GetCurrentRunFromRouterRequestAction, GetGameRunsRequestAction } from "
 import { GetCurrentGameFromRouterRequestAction } from "../../game-management/store/current-game.actions";
 import { PlayerLoadRequestAction } from "../../player-management/store/player.actions";
 import {
-    getFilteredMessagesSelector,
     getMultipleMessagesSelector,
     getSelectedScreen
 } from "../../game-messages/store/game-messages.selector";
 import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
+import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../game-message/store/game-message.actions";
+import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selector';
 
 @Component({
     selector: 'app-actions-overview',
@@ -29,21 +30,10 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
                 <div class="run-container">
                     <div class="photo-container" *ngIf="selectedImageUrl">
                         <div class="photo">
-                            <app-filestore-background-image
-                                    *ngIf="selectedImageUrl"
-                                    [paths]="[selectedImageUrl]"
-                                    [deleteButton]="false"
-
-                            >
-                            </app-filestore-background-image>
+                            <app-preview-pane-mobile-view></app-preview-pane-mobile-view>
                         </div>
                     </div>
-                    
- 
-<!--                    <div class="photo" *ngIf="selectedImageUrl">-->
-<!--                        <img [src]="selectedImageUrl" alt="" />-->
-<!--                    </div>-->
-                    <div class="table">
+                    <div class="answers-wrapper">
                         <app-arlearn-responses-table [selectedScreen]="selectedScreen"></app-arlearn-responses-table>
                     </div>
                 </div>
@@ -83,7 +73,7 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
             background-color: #ffffff;
             position: fixed;
             bottom: 0;
-            height: 94px;
+            height: 71px;
         }
         .toolbar-white .maxwidth {
             flex: 1;
@@ -116,10 +106,7 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
             margin: 0 30px 0 0;
         }
         .photo {
-            padding: 0 30px 0 0;
             margin: 0 30px 0 0;
-            min-width: 260px;
-            max-width: 260px;
             min-height: 360px;
             position: relative;
         }
@@ -127,6 +114,14 @@ import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.
             display: block;
             width: 100%;
             height: 100%;
+        }
+        .photo ::ng-deep .preview-outer-pane {
+            top: 0;
+        }
+        .answers-wrapper {
+            overflow: auto;
+            margin: -1rem;
+            padding: 1rem;
         }
     `]
 })
@@ -146,6 +141,8 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.store.select(getPlayers).subscribe(console.log);
+
         this.subscription = this.selectedScreen$.subscribe(data => {
             this.selectedScreen = data;
 
@@ -157,6 +154,10 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.messages$.subscribe(data => {
             this.messages = data;
+            if (data[0]) {
+                this.store.dispatch(new SetSelectedScreenAction(data[0].id));
+                this.store.dispatch(new GameMessageEditCompletedAction(data[0]));
+            }
         }));
 
         this.store.dispatch(new GetGameRunsRequestAction());
@@ -168,10 +169,12 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
     onSelect(item) {
         this.store.dispatch(new SetSelectedScreenAction(item.id));
+        this.store.dispatch(new GameMessageEditCompletedAction(item));
     }
 
     deselect() {
         this.store.dispatch(new SetSelectedScreenAction(null));
+        this.store.dispatch(new ResetGameMessageEditAction());
     }
 
     ngOnDestroy() {
