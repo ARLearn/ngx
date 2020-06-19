@@ -88,8 +88,8 @@ interface QrCodeAction {
             /*font-size: 17px;*/
             color: #BEC3C4;
             padding: 4px;
-            height: 100%;
-            width: 100%;
+            /*height: 100%;*/
+            /*width: 100%;*/
         }
 
         .qr-icon svg .a {

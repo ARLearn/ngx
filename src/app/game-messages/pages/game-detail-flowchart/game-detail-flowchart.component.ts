@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {GameDetailScreensComponent} from '../game-detail-screens/game-detail-screens.component';
 import {Observable, Subscription} from "rxjs";
 import {getFilteredMessagesSelector} from "../../store/game-messages.selector";
@@ -9,7 +9,6 @@ import {
     GameMessageUpdateAction,
 } from "../../../game-message/store/game-message.actions";
 import {getEditMessageSelector} from "../../../game-message/store/game-message.selector";
-import {first, take} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
@@ -18,6 +17,7 @@ import {SetPreviewMessageAction} from "../../store/game-messages.actions";
 
 @Component({
     selector: 'app-game-detail-flowchart',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 

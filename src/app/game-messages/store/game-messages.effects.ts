@@ -5,15 +5,13 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import * as selector from 'src/app/core/selectors/router.selector';
 import {
-  GameMessagesActionTypes,
-  GetGameMessagesCompletedAction,
-  GetGameMessagesRequestAction,
-  GetMessageDeleteResponseAction,
-  NewMessageResponseAction,
-  SaveMessageRequestedAction,
-  SaveMessageResponseAction,
-  SelectMessageAction,
-  SelectMessageFromRouterAction
+    GameMessagesActionTypes,
+    GetGameMessagesCompletedAction,
+    GetGameMessagesRequestAction,
+    GetMessageDeleteResponseAction, NewMessageRequestedAction,
+    NewMessageResponseAction,
+    SelectMessageAction,
+    SelectMessageFromRouterAction
 } from './game-messages.actions';
 import {State} from 'src/app/core/reducers';
 import {GameMessagesService} from '../../core/services/game-messages.service';
@@ -106,49 +104,26 @@ export class GameMessagesEffects {
     )
   );
 
-
   // @Effect()
-  // save_old: Observable<Action> = this.actions$
-  //     .ofType(GameMessagesActionTypes.MESSAGE_SAVE_REQUESTED)
-  //     .withLatestFrom(
-  //         this.store$.select(selector.currentGameId)
-  //     )
-  //     .switchMap(
-  //         ([action, gameId]: [SaveMessageRequestedAction, number]) => this.gameMessages.postMessage(action.payload)
-  //             .map(res =>
+  // save: Observable<Action> = this.actions$.pipe(
+  //   ofType(GameMessagesActionTypes.MESSAGE_SAVE_REQUESTED),
+  //   withLatestFrom(
+  //     this.store$.select(selector.currentGameId)
+  //   ),
+  //   switchMap(
+  //     ([action, gameId]: [SaveMessageRequestedAction, number]) => {
+  //         console.log("in switchmap");
+  //        return this.gameMessages.postMessage(action.payload).pipe(
+  //             map(res =>
   //                 new SaveMessageResponseAction(
   //                     res
   //                 )
-  //             )
-  //     );
-
-  @Effect()
-  save: Observable<Action> = this.actions$.pipe(
-    ofType(GameMessagesActionTypes.MESSAGE_SAVE_REQUESTED),
-    withLatestFrom(
-      this.store$.select(selector.currentGameId)
-    ),
-    switchMap(
-      ([action, gameId]: [SaveMessageRequestedAction, number]) =>
-        this.gameMessages.postMessage(action.payload).pipe(
-          map(res =>
-            new SaveMessageResponseAction(
-              res
-            )
-          ),
-          catchError((error) => of(new SetErrorAction(error.error)))
-        )
-    )
-    // catchError((error) => {
-    //   console.log("CAUGHT ERROR!");
-    //   return
-    //
-    //   Observable.of({
-    //     type: GameMessagesActionTypes.GAME_MESSAGES_ERROR,
-    //     payload: {error}
-    //   });
-    // })
-  );
+  //             ),
+  //             catchError((error) => of(new SetErrorAction(error.error)))
+  //         );
+  //     }
+  //   )
+  // );
 
 
   @Effect()
@@ -157,8 +132,8 @@ export class GameMessagesEffects {
     withLatestFrom(
       this.store$.select(selector.currentGameId)
     ),
-    switchMap(
-      ([action, gameId]: [SaveMessageRequestedAction, number]) => this.gameMessages
+    mergeMap(
+      ([action, gameId]: [NewMessageRequestedAction, number]) => this.gameMessages
         .postMessage(Object.assign(action.payload, {gameId: gameId}))
         .pipe(map(res =>
           new NewMessageResponseAction(

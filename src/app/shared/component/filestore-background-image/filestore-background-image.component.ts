@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges
+} from '@angular/core';
 import {AngularFireStorage} from "angularfire2/storage";
 import {take} from "rxjs/operators";
 
@@ -6,12 +16,13 @@ import {take} from "rxjs/operators";
     selector: 'app-filestore-background-image',
     template: `
         <div class="background-pane"
-             [ngStyle]="{'background-image': 'url(' + url +'?alt=media)'}"
+             [ngStyle]="{'background-image': 'url(&quot;' +  url + '?alt=media&quot;)'}"
         >
             <div *ngIf="deleteButton" class="deleteSplashScreen" (click)="deleteClickedEvent($event)">
                 <mat-icon class="deleteIcon" matPrefix>delete</mat-icon>
             </div>
-            <ng-content></ng-content>
+
+            <!--            <ng-content></ng-content>-->
         </div>
     `,
     styles: [`
@@ -59,7 +70,17 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
 
     url;
 
-    constructor(public afStorage: AngularFireStorage) {
+    // encodeURI(url) {
+    //     return  encodeURI(url);
+    // }
+
+    getBackgroundurl(i) {
+        console.log(i + ' url(' + this.url + '?alt=media)');
+        return 'url(' + this.url + '?alt=media)';
+    }
+
+    constructor(
+        public afStorage: AngularFireStorage) {
     }
 
     ngOnInit() {
@@ -72,15 +93,18 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
             this.afStorage.ref(paths[0]).getMetadata()
                 .pipe(take(1))
                 .subscribe(md => {
-                if (md.contentType.indexOf("video/") !== -1) {
-                    this.isVideo.emit(true);
-                }
+                    if (md.contentType.indexOf("video/") !== -1) {
+                        this.isVideo.emit(true);
+                    }
 
-            });
+                });
             this.afStorage.ref(paths[0]).getDownloadURL()
-                .pipe(take(1))
+                // .pipe(take(1))
                 .subscribe((avatarUrl) => {
-                    this.url = avatarUrl;
+
+                    this.url = avatarUrl;//.replace(" ", "%20");
+
+
                 }, (error) => {
                     this.load(paths.splice(1));
                 });

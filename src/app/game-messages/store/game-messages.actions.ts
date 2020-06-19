@@ -21,7 +21,7 @@ export const GameMessagesActionTypes = {
   MESSAGE_SELECT_FROM_ROUTER: '[GameMessages] Select message from router',
   TARGET_MESSAGE_SELECT: '[GameMessages] Select target message',
 
-  MESSAGE_SAVE_REQUESTED: '[GameMessages] Save message requested',
+  // MESSAGE_SAVE_REQUESTED: '[GameMessages] Save message requested',
   MESSAGE_SAVE_COMPLETED: '[GameMessages] Save message Completed',
 
   MESSAGE_NEW_REQUESTED: '[GameMessages] New message requested',
@@ -114,12 +114,12 @@ export class SetFilterAction implements Action {
 }
 
 
-export class SaveMessageRequestedAction implements Action {
-  type = GameMessagesActionTypes.MESSAGE_SAVE_REQUESTED;
-
-  constructor(public payload: any) {
-  }
-}
+// export class SaveMessageRequestedAction implements Action {
+//   type = GameMessagesActionTypes.MESSAGE_SAVE_REQUESTED;
+//
+//   constructor(public payload: any) {
+//   }
+// }
 
 export class SaveMessageResponseAction implements Action {
   type = GameMessagesActionTypes.MESSAGE_SAVE_COMPLETED;
@@ -172,8 +172,8 @@ export type GameMessagesAction
 
   | SetFilterAction
 
-  | SaveMessageResponseAction
-  | SaveMessageRequestedAction
+  // | SaveMessageResponseAction
+  // | SaveMessageRequestedAction
 
   | NewMessageRequestedAction
   | NewMessageResponseAction
