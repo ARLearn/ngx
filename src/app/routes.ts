@@ -22,6 +22,7 @@ import {ManageUsersComponent} from "./portal-management/pages/manage-users.compo
 import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-library.component";
 import {ActionsOverviewComponent} from "./run-actions/pages/actions-overview.component";
 import {ResponsesOverviewComponent} from "./run-responses/pages/responses-overview.component";
+import {GameDisappearFlowchartComponent} from "./game-messages/pages/game.disappear.flowchart";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -63,6 +64,7 @@ export const APP_ROUTES: Routes = [
                 children: [
                     {path: 'screens', component: GameDetailScreensComponent, pathMatch: 'full'},
                     {path: 'flowchart', component: GameDetailFlowchartComponent, pathMatch: 'full'},
+                    {path: 'flowchart/disappear', component: GameDisappearFlowchartComponent, pathMatch: 'full'},
                     {path: 'settings', component: GameDetailSettingsComponent, pathMatch: 'full'},
                     {path: 'runs', component: RunOverviewComponent, pathMatch: 'full'},
                     {path: 'media', component: MediaLibraryAllFilesComponent, pathMatch: 'full'},

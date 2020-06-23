@@ -13,7 +13,7 @@ import {State} from "../../../core/reducers";
                                         [paths]="[((message$|async)?.fileReferences[key])]"
                                         [deleteButton]="true"
                                         (delete)="deleteAsset()"
-        >
+        >test
             <ng-content></ng-content>
         </app-filestore-background-image>
         <app-asset-selector

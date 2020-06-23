@@ -7,9 +7,9 @@ import {AngularFireStorage} from "angularfire2/storage";
     selector: 'app-filestore-background-video',
     template: `
         <div class="background-pane">
-            <video class="full-with-height-container" controls [attr.src]="url" *ngIf="showControls">
+            <video class="full-width-height-container" controls [attr.src]="url" *ngIf="showControls">
             </video>
-            <video class="full-with-height-container" [attr.src]="url+'#t=1.0'" *ngIf="!showControls">
+            <video class="full-width-height-container" [attr.src]="url+'#t=1.0'" *ngIf="!showControls">
             </video>
             <div *ngIf="deleteButton" class="deleteSplashScreen" (click)="deleteClickedEvent($event)">
                 <mat-icon class="deleteIcon" matPrefix>delete</mat-icon>
@@ -18,8 +18,11 @@ import {AngularFireStorage} from "angularfire2/storage";
         </div>
     `,
     styles: [`
-        video.full-with-height-container {
+        video.full-width-height-container {
             object-fit: cover;
+            position: absolute;
+            height: 100%;
+            width: 100%;
         }
         
         .background-pane {

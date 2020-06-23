@@ -7,6 +7,7 @@
     "start yOUplay": "ng serve --configuration=youplay --port 6200",
     "start NBD": "ng serve --configuration=nbd --port 5200",
     "start NBD-dev": "ng serve --configuration=nbd-dev --port 5200",
+    "start moonlite": "ng serve --configuration=moonlite --port 7200",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

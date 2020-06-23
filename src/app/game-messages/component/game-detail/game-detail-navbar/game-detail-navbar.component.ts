@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {getGame, getLoading} from "../../../../game-management/store/current-game.selector";
 import {ANIMATION_MODULE_TYPE} from "@angular/platform-browser/animations";
 import {environment} from "../../../../../environments/environment";
+import {getAuthIsAdmin} from "../../../../auth/store/auth.selector";
 
 
 @Component({
@@ -20,7 +21,7 @@ import {environment} from "../../../../../environments/environment";
 })
 export class GameDetailNavbarComponent implements OnInit {
   showLanguage: boolean = environment.showTranslate;
-
+  isAdmin$ = this.store.select(getAuthIsAdmin);
   public game$: Observable<Game> = this.store.select(getGame);
   public isLoading$: Observable<boolean> = this.store.select(getLoading);
 

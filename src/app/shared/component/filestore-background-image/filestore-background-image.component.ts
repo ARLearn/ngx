@@ -22,7 +22,7 @@ import {take} from "rxjs/operators";
                 <mat-icon class="deleteIcon" matPrefix>delete</mat-icon>
             </div>
 
-            <!--            <ng-content></ng-content>-->
+                        <ng-content></ng-content>
         </div>
     `,
     styles: [`

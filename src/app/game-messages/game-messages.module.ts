@@ -48,6 +48,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { GameSettingsFieldsComponent } from './component/game-settings-fields.component';
 import { GameSettingsPreviewComponent } from './component/game-settings-preview.component';
 import {GameMessageModule} from "../game-message/game-message.module";
+import {GameDisappearFlowchartComponent} from "./pages/game.disappear.flowchart";
 
 @NgModule({
     imports: [
@@ -113,7 +114,9 @@ import {GameMessageModule} from "../game-message/game-message.module";
         NewMessageCreateComponent,
         AddGameCollaboratorComponent,
         GameSettingsFieldsComponent,
-        GameSettingsPreviewComponent]
+        GameSettingsPreviewComponent,
+        GameDisappearFlowchartComponent
+    ]
 })
 export class GameMessagesModule {
 }

@@ -241,6 +241,45 @@
                   "output": "/assets"
                 }
               ]
+            },
+            "moonlite-prod": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.moonlite-prod.ts"
+                }
+              ],
+              "index": "src/index.html",
+              "styles": [
+                "src/main.moonlite.scss"
+              ],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/dido/WEB-INF/",
+                  "output": "/WEB-INF/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets",
+                  "output": "/assets"
+                }
+              ]
             }
           }
         },
@@ -261,6 +300,9 @@
             },
             "nbd-dev": {
               "browserTarget": "ng-arlearn:build:nbd-dev-remote"
+            },
+            "moonlite": {
+              "browserTarget": "ng-arlearn:build:moonlite-prod"
             }
           }
         },

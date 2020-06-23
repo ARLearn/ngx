@@ -17,14 +17,14 @@ export class PlayerService {
             .get<any>(environment.api_url + '/player/myContacts' + '/' + time);
     }
 
-    getAccounts(ids: string): Observable<any> {
-        return this.http
-            .get<any>(environment.api_url + '/accounts/' + ids);
-    }
-
     getContactsWithResumption(resumptionToken: string, time: number): Observable<any> {
         return this.http
             .get<any>(environment.api_url + '/player/myContacts/' + resumptionToken + '/' + time);
+    }
+
+    getAccounts(ids: string): Observable<any> {
+        return this.http
+            .get<any>(environment.api_url + '/accounts/' + ids);
     }
 
     getPendingContacts(): Observable<any[]> {
