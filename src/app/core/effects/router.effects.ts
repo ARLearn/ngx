@@ -28,7 +28,7 @@ export class RouterEffects {
         tap(() => this.location.back())
     );
 
-    @Effect({ dispatch: false })
+    @Effect({ npdispatch: false })
     navigateForward$ = this.actions$.pipe(
         ofType(RouterActions.ActionTypes.FORWARD),
         tap(() => this.location.forward())

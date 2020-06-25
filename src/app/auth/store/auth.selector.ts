@@ -16,6 +16,7 @@ export const getAuthState = createFeatureSelector<State, any>('authFeature');
 // export const getUserData = (state: AuthState) => state.userData;
 export const getIsUserLoggedIn = (state: AuthState) => state.isLoggedIn;
 export const getIsAdmin = (state: AuthState) => state.isAdmin;
+export const getIsAdvanced = (state: AuthState) => state.isAdvanced;
 export const getIsDistributor = (state: AuthState) => state.isDistributor;
 export const getError = (state: AuthState) => state.error;
 export const currentUser = (state: AuthState) => state.user;
@@ -31,6 +32,7 @@ export const getBearerToken = (state: AuthState) => {
 // export const getAuthUserData = createSelector(getAuthState, getUserData);
 export const getAuthIsLoggedIn = createSelector(getAuthState, getIsUserLoggedIn);
 export const getAuthIsAdmin = createSelector(getAuthState, getIsAdmin);
+export const getAuthIsAvanced = createSelector(getAuthState, getIsAdvanced);
 export const getAuthError = createSelector(getAuthState, getError);
 export const getCurrentUser = createSelector(getAuthState, currentUser);
 

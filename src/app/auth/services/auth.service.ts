@@ -102,6 +102,7 @@ export class AuthService {
                     return {
                         user: user,
                         isAdmin: !!idTokenResult.claims.admin,
+                        isAdvanced: !!idTokenResult.claims.advanced,
                         isDistributor: !!idTokenResult.claims.distributor,
                     };
                 })

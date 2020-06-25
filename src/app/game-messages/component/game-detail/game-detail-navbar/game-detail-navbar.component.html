@@ -40,7 +40,7 @@
                    [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/flowchart'"
                 > FLOWCHART </a>
                 <a mat-tab-link
-                   *ngIf="isAdmin$ |async"
+                   *ngIf="isAdvanced |async"
                    routerLinkActive #rlafd="routerLinkActive"
                    [disabled]="!(game$|async)"
                    [active]="rlafd.isActive"

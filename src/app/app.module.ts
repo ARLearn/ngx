@@ -126,11 +126,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         StoreRouterConnectingModule.forRoot({
             stateKey: 'router' // name of reducer key
         }),
-        // StoreDevtoolsModule.instrument({
-        //     name: 'Youplay dev tools',
-        //     logOnly: environment.production,
-        //
-        // }),
+        StoreDevtoolsModule.instrument({
+            name: 'Youplay dev tools',
+            logOnly: environment.production,
+
+        }),
         MatCheckboxModule,
         AdminModule,
         AgmCoreModule.forRoot({

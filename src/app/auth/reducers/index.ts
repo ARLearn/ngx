@@ -13,6 +13,7 @@ export function reducers(
         user: action.payload.user,
         isLoggedIn: action.payload.user != null,
         isAdmin: action.payload.isAdmin,
+        isAdvanced: action.payload.isAdvanced,
         isDistributor: action.payload.isDistributor,
         error: null
       });
@@ -28,6 +29,7 @@ export function reducers(
       return Object.assign({}, state, {
         userData: null,
         isAdmin: false,
+        isAdvanced: false,
         isDistributor: false,
         isLoggedIn: false
       });
