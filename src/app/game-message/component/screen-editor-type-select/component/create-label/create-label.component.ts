@@ -94,7 +94,6 @@ export class CreateLabelComponent implements OnInit, OnChanges {
     }
 
     publishLabels() {
-
         this.store.dispatch(new GameMessageUpdateAction({label: this.labels.map(l => l.name).join(',')}));
     }
 

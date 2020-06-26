@@ -19,6 +19,12 @@ export interface GpsPosition {
                     [disabled]="!(iCanWrite|async)"
                     [(ngModel)]="locationBased"
                     (change)="slideChange($event)">{{'COMMON.ACTIVE' |translate}}</mat-slide-toggle>
+            <div *ngIf="locationBased" class="location-based">{{'MESSAGE.SHOW_IN_LIST' | translate}}</div>
+            <mat-slide-toggle
+                    [disabled]="!(iCanWrite|async)"
+                    [(ngModel)]="showInList"
+                    (change)="listSlideChange($event)">{{'COMMON.ACTIVE' |translate}}</mat-slide-toggle>
+            
             <div *ngIf="locationBased" class="map-area">
 
                 <agm-map class = "map"
@@ -44,6 +50,7 @@ export class PickLocationOnMapComponent implements OnInit {
     public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
     @Input() locationBased = false;
+    @Input() showInList = false;
     @Input() lat = environment.homeLocation.latitude;
     @Input() lng = environment.homeLocation.longitude;
     @Output() onLocationChange = new EventEmitter<GpsPosition>();
@@ -65,6 +72,10 @@ export class PickLocationOnMapComponent implements OnInit {
             // this.onLocationChange.emit({coords:{lat:this.lat, lng:this.lng}});
             this.store.dispatch(new GameMessageUpdateAction({lat: this.lat, lng: this.lng}));
         }
+    }
+
+    listSlideChange(changeEvent: MatSlideToggleChange) {
+        this.store.dispatch(new GameMessageUpdateAction({showInList: changeEvent.checked}));
     }
 
     newLocation($event: GpsPosition) {

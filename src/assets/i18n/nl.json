@@ -148,6 +148,7 @@
 		"ANSWER_OPTION": "Antwoordoptie",
 		"APPEARS_AFTER": "Dit scherm verschijnt na",
 		"AUDIO_OBJECT": "",
+		"AUDIOQUESTION": "Antwoord met geluid",
 		"BUTTON_TEXT": "Knop tekst",
 		"CONTENT": "Inhoud",
 		"CORRECT_ANSWER": "Goed antwoord",
@@ -181,7 +182,8 @@
 		"SINGLE_IMAGE_CHOICE_TEST": "Enkele keuze vraag met figuren",
 		"START_TYPING_TO_SEARCH": "Start met typen om te zoeken",
 		"VIDEOOBJECT": "Video Object",
-		"VIDEO_OBJECT": "Video scherm"
+		"VIDEO_OBJECT": "Video scherm",
+		"SHOW_IN_LIST" : "Toon scherm in boodschappenlijst?"
 	},
 	"PORTAL_MANAGEMENT": {
 		"LABEL": "Portaal beheer",

@@ -40,10 +40,11 @@ import {combineLatest} from 'rxjs';
                       maxlength="200"></textarea>
             <mat-hint align="end">{{input.value?.length || 00}}/200</mat-hint>
         </mat-form-field>
-
+        
         <app-pick-location-on-map
                 class="gl-pos-between-fields"
                 [locationBased]="(message$|async)?.lat"
+                [showInList]="(message$|async)?.showInList"
                 [lat]="(message$|async)?.lat"
                 [lng]="(message$|async)?.lng"
         >

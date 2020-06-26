@@ -181,7 +181,8 @@
 		"SINGLE_IMAGE_CHOICE_TEST": "Single Image Choice",
 		"START_TYPING_TO_SEARCH": "Start typing to search",
 		"VIDEOOBJECT": "Video Object",
-		"VIDEO_OBJECT": "Video Message"
+		"VIDEO_OBJECT": "Video Message",
+		"SHOW_IN_LIST" : "Show message in message list?"
 	},
 	"PORTAL_MANAGEMENT": {
 		"LABEL": "Portal Management",

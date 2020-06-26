@@ -62,6 +62,7 @@ export interface GameMessageCommon {
     lastModificationDate?: number;
     lat?: number;
     lng?: number;
+    showInList?: boolean;
     fileReferences?: any;
     primaryColor?: string;
 }
