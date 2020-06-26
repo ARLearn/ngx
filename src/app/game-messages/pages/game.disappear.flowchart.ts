@@ -14,6 +14,7 @@ import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
 import {SetPreviewMessageAction} from "../store/game-messages.actions";
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-game-disappear-flowchart',
@@ -21,16 +22,17 @@ import {SetPreviewMessageAction} from "../store/game-messages.actions";
     template: `
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 
-        <div *ngIf="messageAsync.length !== 0 ">
+        <div *ngIf="messages$ | async as messages">
             <lib-wireflow
-                    (selectMessage)="selectMessage($event)"
-                    [messages]="messageAsync"
-                    (messagesChange)="messagesChange($event)"
-                    (deselectMessage)="deselectMessage($event)"
-                    (noneSelected)="noneSelected()"
-                    (onEvent)="onEvent($event)"
-                    [lang]="lang"
-                    [selector]="'disappearOn'"
+                *ngIf="messages.length > 0"
+                (selectMessage)="selectMessage($event)"
+                [messages]="messages"
+                (messagesChange)="messagesChange($event)"
+                (deselectMessage)="deselectMessage($event)"
+                (noneSelected)="noneSelected()"
+                (onEvent)="onEvent($event)"
+                [lang]="lang"
+                [selector]="'disappearOn'"
             ></lib-wireflow>
         </div>
 
@@ -54,8 +56,17 @@ import {SetPreviewMessageAction} from "../store/game-messages.actions";
 })
 export class GameDisappearFlowchartComponent extends GameDetailScreensComponent implements OnInit, OnDestroy {
     editMessage$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
-    public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector);
-    public messageAsync: GameMessage[] = [];
+    public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector).pipe(
+        map(messages => {
+            for (const message of messages) {
+                const path = message && message.fileReferences && message.fileReferences.background;
+                if (path) {
+                    message['backgroundPath'] = this.getDownloadUrl(path);
+                }
+            }
+            return messages;
+        })
+    );
     lang = 'en';
     private messagesSubscription: Subscription;
 
@@ -69,18 +80,6 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
 
     ngOnInit() {
         super.ngOnInit();
-        this.messagesSubscription = this.messages$.subscribe(messages => this.onMessages(messages));
-    }
-
-    private onMessages(messages: GameMessage[]) {
-        this.messageAsync = messages;
-
-        for (const message of messages) {
-            const path = message && message.fileReferences && message.fileReferences.background;
-            if (path) {
-                message['backgroundPath'] = this.getDownloadUrl(path);
-            }
-        }
     }
 
     private getDownloadUrl(path: string) {
