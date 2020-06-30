@@ -15,6 +15,7 @@ import {
 import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
 import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../game-message/store/game-message.actions";
 import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selector';
+import { getEditMessageSelector } from 'src/app/game-message/store/game-message.selector';
 
 @Component({
     selector: 'app-actions-overview',
@@ -103,10 +104,10 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
         }
         .photo-container {
             border-right: 1px solid #e8eaea;
-            margin: 0 30px 0 0;
+            margin: 0 20px 0 0;
         }
         .photo {
-            margin: 0 30px 0 0;
+            margin: 0 20px 0 0;
             min-height: 360px;
             position: relative;
         }
@@ -118,10 +119,14 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
         .photo ::ng-deep .preview-outer-pane {
             top: 0;
         }
+        .photo ::ng-deep .preview-outer-pane .preview-pane {
+            width: 280px;
+        }
         .answers-wrapper {
-            overflow: auto;
+            width: 100%;
             margin: -1rem;
             padding: 1rem;
+            overflow: auto;
         }
     `]
 })
@@ -130,7 +135,8 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     public selectedScreen;
     public messages;
     public selectedImageUrl;
-
+    
+    public editMessage$: Observable<any> = this.store.select(getEditMessageSelector);
     private messages$: Observable<any> = this.store.select(getMultipleMessagesSelector);
     private selectedScreen$: Observable<any> = this.store.select(getSelectedScreen);
     private subscription: Subscription;
@@ -141,8 +147,6 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.store.select(getPlayers).subscribe(console.log);
-
         this.subscription = this.selectedScreen$.subscribe(data => {
             this.selectedScreen = data;
 
