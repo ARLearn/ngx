@@ -26,7 +26,7 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
                             </mat-form-field>
                         </div>
                         <ul class="user-list">
-                            <li class="user-list-item selectable" [class.selected]="user.fullId == selectedUser.fullId" *ngFor="let user of filteredPlayers" (click)="selectUser(user)">
+                            <li class="user-list-item selectable" [class.selected]="selectedUser && user.fullId == selectedUser.fullId" *ngFor="let user of filteredPlayers" (click)="selectUser(user)">
                                 <div class="user-avatar"><mat-icon>people</mat-icon><span class="user-avatar__text">{{ getShortAvatarName(user.name) }}</span></div>
                                 <div class="user-name">{{ user.name }}</div>
                             </li>
@@ -210,7 +210,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.players$.subscribe(players => {
             this.players = players;
-            players[0] && this.selectUser(players[0]);
+            // players[0] && this.selectUser(players[0]);
         }));
     }
 
@@ -234,7 +234,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
     getResponsesImages() {
         return this.responses
-            .filter(r => r.generalItemId == this.selectedScreen && this.selectedUser && r.userId === this.selectedUser.fullId)
+            .filter(r => r.generalItemId == this.selectedScreen && (!this.selectedUser || (r.userId === this.selectedUser.fullId)))
             .map(r => r.responseValue);
     }
 

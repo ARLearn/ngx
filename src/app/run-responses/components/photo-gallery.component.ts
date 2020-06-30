@@ -9,7 +9,7 @@ import {AngularFireStorage} from "angularfire2/storage";
             <div class="masonry-brick" [ngClass]="{'masonry-brick--thin': options[img] === 'thin', 'masonry-brick--wide': options[img] === 'wide', 'masonry-brick--first': i == 0}" *ngFor="let img of images; let i = index">
                 <img [src]="img"  alt="" />
 
-                <div *ngIf="i == 0" class="user-placeholder">
+                <div *ngIf="i == 0 && user" class="user-placeholder">
                     <div class="user">
                         <div class="user__avatar">{{ user.avatar }}</div>
                         <div class="user__name">{{ user.name }}</div>
@@ -105,7 +105,7 @@ import {AngularFireStorage} from "angularfire2/storage";
 })
 export class PhotoGalleryComponent implements OnInit, OnChanges {
     public options = {};
-    @Input() user: any = {};
+    @Input() user: any;
     @Input() responses: any = [];
     public images = [];
     public loading = false;
