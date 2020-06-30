@@ -21,12 +21,12 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
                         <div>
                             <mat-form-field appearance="standard" class="search-input">
                                 <mat-label>Zoek een speler</mat-label>
-                                <input matInput placeholder="Zoek een speler">
+                                <input [(ngModel)]="playerQuery" matInput placeholder="Zoek een speler">
                                 <mat-icon class="search-icon" matPrefix>search</mat-icon>
                             </mat-form-field>
                         </div>
                         <ul class="user-list">
-                            <li class="user-list-item selectable" *ngFor="let user of players">
+                            <li class="user-list-item selectable" [class.selected]="user.fullId == selectedUser.fullId" *ngFor="let user of filteredPlayers" (click)="selectUser(user)">
                                 <div class="user-avatar"><mat-icon>people</mat-icon><span class="user-avatar__text">{{ getShortAvatarName(user.name) }}</span></div>
                                 <div class="user-name">{{ user.name }}</div>
                             </li>
@@ -35,7 +35,7 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
                 </mat-menu>
             </div>
 
-            <app-photo-gallery class="w-100" [responses]="getResponsesImages()"></app-photo-gallery>
+            <app-photo-gallery class="w-100" [responses]="getResponsesImages()" [user]="selectedUser"></app-photo-gallery>
         </ng-container>
 
         <ng-template #answers>
@@ -145,16 +145,20 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
         .user-list-item.selectable .user-name {
             opacity: 0.54;
         }
-        .user-list-item.selectable:hover .user-name {
+        .user-list-item.selectable:hover .user-name,
+        .user-list-item.selectable.selected .user-name {
             opacity: 1;
         }
-        .user-list-item.selectable:hover .user-avatar  {
+        .user-list-item.selectable:hover .user-avatar,
+        .user-list-item.selectable.selected .user-avatar  {
             background: #f44336;
         }
-        .user-list-item.selectable:hover .user-avatar .user-avatar__text {
+        .user-list-item.selectable:hover .user-avatar .user-avatar__text,
+        .user-list-item.selectable.selected .user-avatar .user-avatar__text {
             display: none;
         }
-        .user-list-item.selectable:hover .user-avatar mat-icon {
+        .user-list-item.selectable:hover .user-avatar mat-icon,
+        .user-list-item.selectable.selected .user-avatar mat-icon {
             display: inline-block;
         }
         .user-avatar__text {
@@ -180,12 +184,18 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     public messages$: Observable<any> = this.store.select(getMessagesSelector);
     public editMessage$: Observable<any> = this.store.select(getEditMessageSelector);
     public messagesAsync = {};
-    public players: any[];
+    public players: any[] = [];
+    public selectedUser: any;
+    public playerQuery: string = '';
 
     private responses$: Observable<any> = this.store.select(fromSel.selectAll);
     private players$: Observable<any> = this.store.select(getPlayers);
     private responses: any[];
     private subscription: Subscription;
+
+    get filteredPlayers() {
+        return this.players.filter(p => p.name.toLowerCase().includes(this.playerQuery));
+    }
 
     constructor(private store: Store<State>) {
         this.subscription = this.messages$.subscribe((messages: GameMessage[]) => {
@@ -198,7 +208,10 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
             this.responses = responses;
         }));
 
-        this.subscription.add(this.players$.subscribe(players => this.players = players));
+        this.subscription.add(this.players$.subscribe(players => {
+            this.players = players;
+            players[0] && this.selectUser(players[0]);
+        }));
     }
 
     ngOnInit(): void {
@@ -221,7 +234,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
     getResponsesImages() {
         return this.responses
-            .filter(r => r.generalItemId == this.selectedScreen)
+            .filter(r => r.generalItemId == this.selectedScreen && this.selectedUser && r.userId === this.selectedUser.fullId)
             .map(r => r.responseValue);
     }
 
@@ -245,6 +258,10 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+    }
+
+    selectUser(user) {
+        this.selectedUser = { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name }
     }
 
 }

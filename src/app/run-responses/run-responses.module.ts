@@ -13,6 +13,7 @@ import { RunResponsesEffects } from "./store/run-responses.effects";
 import { SharedModule } from "../shared/shared.module";
 import { GameMessageModule } from "../game-message/game-message.module";
 import { PhotoGalleryComponent } from './components/photo-gallery.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent, PhotoGalleryComponent],
@@ -26,6 +27,7 @@ import { PhotoGalleryComponent } from './components/photo-gallery.component';
         EffectsModule.forFeature([RunResponsesEffects]),
         SharedModule,
         MatToolbarModule,
+        MatProgressSpinnerModule,
         GameMessageModule,
     ]
 })
