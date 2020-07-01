@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ResponsesOverviewComponent} from "./pages/responses-overview.component";
-import {GameRunsManagementModule} from "../game-runs-management/game-runs-management.module";
-import {GameMessagesModule} from "../game-messages/game-messages.module";
-import {ArlearnResponsesTableComponent} from "./components/arlearn-responses-table.component";
-import {MatTableModule} from "@angular/material/table";
-import {StoreModule} from "@ngrx/store";
-import {runResponsesReducer} from "./store/run-responses.reducer";
-import {EffectsModule} from "@ngrx/effects";
-import {RunResponsesEffects} from "./store/run-responses.effects";
-import {SharedModule} from "../shared/shared.module";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {GameMessageModule} from "../game-message/game-message.module";
+import { MatTableModule } from "@angular/material/table";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { ResponsesOverviewComponent } from "./pages/responses-overview.component";
+import { GameRunsManagementModule } from "../game-runs-management/game-runs-management.module";
+import { GameMessagesModule } from "../game-messages/game-messages.module";
+import { ArlearnResponsesTableComponent } from "./components/arlearn-responses-table.component";
+import { runResponsesReducer } from "./store/run-responses.reducer";
+import { RunResponsesEffects } from "./store/run-responses.effects";
+import { SharedModule } from "../shared/shared.module";
+import { GameMessageModule } from "../game-message/game-message.module";
+import { PhotoGalleryComponent } from './components/photo-gallery.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent],
+  declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent, PhotoGalleryComponent],
 
     imports: [
         CommonModule,
@@ -25,6 +27,7 @@ import {GameMessageModule} from "../game-message/game-message.module";
         EffectsModule.forFeature([RunResponsesEffects]),
         SharedModule,
         MatToolbarModule,
+        MatProgressSpinnerModule,
         GameMessageModule,
     ]
 })
