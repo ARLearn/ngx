@@ -235,7 +235,10 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     getResponsesImages() {
         return this.responses
             .filter(r => r.generalItemId == this.selectedScreen && (!this.selectedUser || (r.userId === this.selectedUser.fullId)))
-            .map(r => r.responseValue);
+            .map(r => ({
+                responseValue: r.responseValue,
+                user: this.mapUser(this.players.find(player => player.fullId === r.userId))
+            }));
     }
 
     getMessageName(id: string) {
@@ -258,6 +261,10 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+    }
+
+    mapUser(user) {
+        return { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name };
     }
 
     selectUser(user) {
