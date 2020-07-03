@@ -20,9 +20,6 @@ import {AngularFireStorage} from "angularfire2/storage";
         <div class="load-wrapper" *ngIf="loading">
             <span>Loading...</span>
         </div>
-        <div class="load-wrapper" *ngIf="!loading && images.length === 0">
-            <span>There is no data</span>
-        </div>
     </div>
     `,
     styles: [`
@@ -101,6 +98,7 @@ import {AngularFireStorage} from "angularfire2/storage";
 
         .load-wrapper {
             height: 100%;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
