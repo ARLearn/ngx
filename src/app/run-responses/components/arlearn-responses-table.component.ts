@@ -35,7 +35,7 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
                 </mat-menu>
             </div>
 
-            <app-photo-gallery class="w-100" [responses]="getResponsesImages()" [user]="selectedUser"></app-photo-gallery>
+            <app-photo-gallery class="w-100" [responses]="getResponsesImages()" [user]="selectedUser" (onLoad)="onPhotoGalleryLoading($event)"></app-photo-gallery>
         </ng-container>
 
         <ng-template #answers>
@@ -186,6 +186,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     public messagesAsync = {};
     public players: any[] = [];
     public selectedUser: any;
+    public photoGalleryLoad = false;
     public playerQuery: string = '';
 
     private responses$: Observable<any> = this.store.select(fromSel.selectAll);
@@ -194,7 +195,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     get filteredPlayers() {
-        return this.players.filter(p => p.name.toLowerCase().includes(this.playerQuery));
+        return this.players.filter(p => p.name.toLowerCase().includes(this.playerQuery.toLowerCase()));
     }
 
     constructor(private store: Store<State>) {
@@ -210,7 +211,6 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.players$.subscribe(players => {
             this.players = players;
-            // players[0] && this.selectUser(players[0]);
         }));
     }
 
@@ -267,8 +267,14 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
         return { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name };
     }
 
+    onPhotoGalleryLoading(loading) {
+        this.photoGalleryLoad = loading;
+    }
+
     selectUser(user) {
-        this.selectedUser = { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name }
+        if (!this.photoGalleryLoad) {
+            this.selectedUser = { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name }
+        }
     }
 
 }

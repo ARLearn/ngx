@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {AngularFireStorage} from "angularfire2/storage";
 
 @Component({
@@ -23,10 +23,6 @@ import {AngularFireStorage} from "angularfire2/storage";
     </div>
     `,
     styles: [`
-        .masonry {
-
-        }
-
         .masonry-brick {
             float: left;
             height: 160px;
@@ -112,6 +108,7 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
     public images = [];
     public users = {};
     public loading = false;
+    @Output() public onLoad: EventEmitter<any> = new EventEmitter<any>();
 
 
     constructor(public afStorage: AngularFireStorage) {}
@@ -121,8 +118,8 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
     }
 
     async ngOnChanges(changes: SimpleChanges) {
-        if (changes.user && changes.user.currentValue && changes.user.previousValue &&
-            changes.user.currentValue.fullId !== changes.user.previousValue.fullId
+        if (changes.user && ((changes.user.currentValue && !changes.user.previousValue) ||(changes.user.currentValue && changes.user.previousValue &&
+            changes.user.currentValue.fullId !== changes.user.previousValue.fullId))
         ) {
             await this.loadPhotos();
         }
@@ -131,6 +128,7 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
 
     public async loadPhotos() {
         this.loading = true;
+        this.onLoad.emit(true);
         this.images = [];
         for (const response of this.responses) {
             const url = await this.afStorage.ref(response.responseValue).getDownloadURL().toPromise();
@@ -152,6 +150,7 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
         
         this.images = this.shuffleImages();
         this.loading = false;
+        this.onLoad.emit(false);
     }
 
     public getImageParam(url) {
