@@ -4,7 +4,7 @@ import { Game } from "../../game-management/store/current-game.state";
 import { getGame } from "../../game-management/store/current-game.selector";
 import { Store } from "@ngrx/store";
 import { State } from "../../core/reducers";
-import { Query } from "../store/run-responses.actions";
+import { Query, SelectMessage } from "../store/run-responses.actions";
 import { GetCurrentRunFromRouterRequestAction, GetGameRunsRequestAction } from "../../game-runs-management/store/game-runs.actions";
 import { GetCurrentGameFromRouterRequestAction } from "../../game-management/store/current-game.actions";
 import { PlayerLoadRequestAction } from "../../player-management/store/player.actions";
@@ -14,14 +14,15 @@ import {
 } from "../../game-messages/store/game-messages.selector";
 import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
 import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../game-message/store/game-message.actions";
-import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selector';
 import { getEditMessageSelector } from 'src/app/game-message/store/game-message.selector';
+import { Router } from '@angular/router';
+import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.selector';
 
 @Component({
     selector: 'app-actions-overview',
     template: `
-        <ng-container>
-            <app-game-detail-navbar [game]="game$ | async">
+        <ng-container *ngIf="game$ | async as game">
+            <app-game-detail-navbar [game]="game">
                 <div class="button-placeholder">
 
                 </div>
@@ -48,16 +49,18 @@ import { getEditMessageSelector } from 'src/app/game-message/store/game-message.
                             <mat-chip class="count" color="primary" disableRipple selected>{{ messages.length }}</mat-chip>
                         </mat-chip-list>
                     </div>
-                    <div class="screens">
-                        <mat-chip-list>
-                            <mat-chip
+                    <div class="screens horizontal-scroll-wrapper" (wheel)="onScrollChips($event)">
+                        <ng-container *ngIf="runId$ | async as runId">
+                            <mat-chip-list>
+                                <mat-chip
                                     *ngFor="let item of messages"
                                     color="primary"
                                     class="light-chip"
-                                    (click)="selectedScreen === item.id ? deselect() : onSelect(item)"
+                                    (click)="onSelect('/portal/game/' + (game?.gameId) +'/run/' + runId + '/results/' + item.id)"
                                     [selected]="selectedScreen == item.id"
-                            >{{ item.name }}</mat-chip>
-                        </mat-chip-list>
+                                >{{ item.name }}</mat-chip>
+                            </mat-chip-list>
+                        </ng-container>
                     </div>
                 </div>
             </mat-toolbar>
@@ -96,7 +99,21 @@ import { getEditMessageSelector } from 'src/app/game-message/store/game-message.
             margin-left: 40px;
             width: 100%;
             overflow-x: auto;
-            overflow-y: hidden;
+        }
+        @media all and (min-width: 992px) {
+            .screens {
+                width: 70vw;
+                margin-right: -50%;
+            }
+        }
+        .horizontal-scroll-wrapper::-webkit-scrollbar {
+            width: 1px;
+            height: 1px;
+        }
+
+        .horizontal-scroll-wrapper::-webkit-scrollbar-button {
+            width: 1px;
+            height: 1px;
         }
         ::ng-deep .screens .mat-chip-list-wrapper {
             flex-wrap: nowrap;
@@ -132,6 +149,7 @@ import { getEditMessageSelector } from 'src/app/game-message/store/game-message.
 })
 export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     public game$: Observable<Game> = this.store.select(getGame);
+    public runId$: Observable<any> = this.store.select(getCurrentRunId);
     public selectedScreen;
     public messages;
     public selectedImageUrl;
@@ -143,25 +161,21 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
     constructor(
         private store: Store<State>,
+        private router: Router,
     ) {
     }
 
     ngOnInit(): void {
         this.subscription = this.selectedScreen$.subscribe(data => {
             this.selectedScreen = data;
-
-            if (this.messages) {
-                const mess = this.messages.find(message => message.id === this.selectedScreen);
-                this.selectedImageUrl = mess && mess.fileReferences.background;
-            }
         });
 
         this.subscription.add(this.messages$.subscribe(data => {
             this.messages = data;
-            if (data[0]) {
-                this.store.dispatch(new SetSelectedScreenAction(data[0].id));
-                this.store.dispatch(new GameMessageEditCompletedAction(data[0]));
-            }
+        }));
+
+        this.subscription.add(this.editMessage$.subscribe(message => {
+            this.selectedImageUrl = message && message.fileReferences.background;
         }));
 
         this.store.dispatch(new GetGameRunsRequestAction());
@@ -171,14 +185,15 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
         this.store.dispatch(new Query());
     }
 
-    onSelect(item) {
-        this.store.dispatch(new SetSelectedScreenAction(item.id));
-        this.store.dispatch(new GameMessageEditCompletedAction(item));
+    onSelect(url) {
+        this.router.navigate([url]).then(() => {
+            this.store.dispatch(new SelectMessage());
+        })
     }
 
-    deselect() {
-        this.store.dispatch(new SetSelectedScreenAction(null));
-        this.store.dispatch(new ResetGameMessageEditAction());
+    onScrollChips(event) {
+        document.querySelector('.screens').scrollLeft += event.deltaY;
+        event.preventDefault();
     }
 
     ngOnDestroy() {

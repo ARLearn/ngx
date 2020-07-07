@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {AngularFireStorage} from "angularfire2/storage";
 
 @Component({
@@ -6,13 +6,13 @@ import {AngularFireStorage} from "angularfire2/storage";
     template: `
     <div class="photo-gallery">
         <div *ngIf="!loading" class="masonry">
-            <div class="masonry-brick" [ngClass]="{'masonry-brick--thin': options[img] === 'thin', 'masonry-brick--wide': options[img] === 'wide', 'masonry-brick--first': i == 0}" *ngFor="let img of images; let i = index">
+            <div class="masonry-brick" [ngClass]="{'masonry-brick--thin': options[img] === 'thin', 'masonry-brick--wide': options[img] === 'wide', 'masonry-brick--first': true}" *ngFor="let img of images; let i = index">
                 <img [src]="img"  alt="" />
 
-                <div *ngIf="i == 0 && user" class="user-placeholder">
+                <div *ngIf="users[img]" class="user-placeholder">
                     <div class="user">
-                        <div class="user__avatar">{{ user.avatar }}</div>
-                        <div class="user__name">{{ user.name }}</div>
+                        <div class="user__avatar">{{ users[img].avatar }}</div>
+                        <div class="user__name">{{ users[img].name }}</div>
                     </div>
                 </div>
             </div>
@@ -20,16 +20,9 @@ import {AngularFireStorage} from "angularfire2/storage";
         <div class="load-wrapper" *ngIf="loading">
             <span>Loading...</span>
         </div>
-        <div class="load-wrapper" *ngIf="!loading && images.length === 0">
-            <span>There is no data</span>
-        </div>
     </div>
     `,
     styles: [`
-        .masonry {
-
-        }
-
         .masonry-brick {
             float: left;
             height: 160px;
@@ -54,9 +47,13 @@ import {AngularFireStorage} from "angularfire2/storage";
             left: 0;
             right: 0;
             bottom: 0;
-            display: flex;
+            display: none;
             align-items: flex-end;
-            background: linear-gradient(0deg, rgba(29,29,29,1) 0%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(0deg, rgba(49,49,49,1) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .masonry-brick--first:hover .user-placeholder {
+            display: flex;
         }
 
         .masonry-brick img {
@@ -97,6 +94,7 @@ import {AngularFireStorage} from "angularfire2/storage";
 
         .load-wrapper {
             height: 100%;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -108,7 +106,10 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
     @Input() user: any;
     @Input() responses: any = [];
     public images = [];
+    public users = {};
     public loading = false;
+    @Output() public onLoad: EventEmitter<any> = new EventEmitter<any>();
+
 
     constructor(public afStorage: AngularFireStorage) {}
 
@@ -117,8 +118,11 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
     }
 
     async ngOnChanges(changes: SimpleChanges) {
-        if (changes.user && changes.user.currentValue && changes.user.previousValue &&
-            changes.user.currentValue.fullId !== changes.user.previousValue.fullId
+        if (
+            (changes.responses && this.hasChanged(changes.responses.previousValue, changes.responses.currentValue)) ||
+            changes.user && ((changes.user.currentValue && !changes.user.previousValue) ||
+            (changes.user.currentValue && changes.user.previousValue &&
+            changes.user.currentValue.fullId !== changes.user.previousValue.fullId))
         ) {
             await this.loadPhotos();
         }
@@ -127,12 +131,19 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
 
     public async loadPhotos() {
         this.loading = true;
+        this.onLoad.emit(true);
         this.images = [];
-        for (const respValue of this.responses) {
-            this.images.push(await this.afStorage.ref(respValue).getDownloadURL().toPromise());
+        this.users = {};
+        this.options = {};
+        for (const response of this.responses) {
+            const url = await this.afStorage.ref(response.responseValue).getDownloadURL().toPromise();
+            this.images.push(url);
+            this.users[url] = response.user;
         }
 
-        this.images.forEach(image => this.options[image] = 'thin');
+        this.images.forEach(image => {
+            this.options[image] = 'thin';
+        });
 
         for (const img of this.images) {
             const dimensions = await this.getImageParam(img) as { width: number, height: number };
@@ -144,6 +155,7 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
         
         this.images = this.shuffleImages();
         this.loading = false;
+        this.onLoad.emit(false);
     }
 
     public getImageParam(url) {
@@ -211,6 +223,20 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
             [a[i], a[j]] = [a[j], a[i]];
         }
         return a;
+    }
+
+    private hasChanged(previousResponses: any[], currentResponses: any[]) {
+        if (!previousResponses && currentResponses) {
+            return true;
+        }
+
+        if (previousResponses.length !== currentResponses.length) {
+            return true;
+        }
+
+        return currentResponses.some(response => {
+            return previousResponses.every(prev => prev.responseValue !== response.responseValue)
+        });
     }
 
 }

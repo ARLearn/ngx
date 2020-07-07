@@ -1,12 +1,15 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
-import {currentRunPlayers, getCurrentRunId} from "../store/game-runs.selector";
-import {Store} from "@ngrx/store";
-import {State} from "../../core/reducers";
-import {Game} from "../../game-management/store/current-game.state";
-import {getGame} from "../../game-management/store/current-game.selector";
-import {getAuthIsAdmin} from "../../auth/store/auth.selector";
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Router } from "@angular/router";
+import { Observable, Subscription } from "rxjs";
+import { map } from 'rxjs/operators';
+import { getCurrentRunId } from "../store/game-runs.selector";
+import { Store } from "@ngrx/store";
+import { State } from "../../core/reducers";
+import { Game } from "../../game-management/store/current-game.state";
+import { getGame } from "../../game-management/store/current-game.selector";
+import { getAuthIsAdmin } from "../../auth/store/auth.selector";
+import { getMultipleMessagesSelector } from 'src/app/game-messages/store/game-messages.selector';
+import { GetGameMessagesRequestAction } from 'src/app/game-messages/store/game-messages.actions';
 
 @Component({
     selector: 'app-run-tab-select',
@@ -32,7 +35,7 @@ import {getAuthIsAdmin} from "../../auth/store/auth.selector";
                        routerLinkActive #runtab2="routerLinkActive"
                        [disabled]="getDisabled((game$|async), (runId$ |async))"
                        [active]="runtab2.isActive"
-                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/results'">RESULTATEN</a>
+                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/results/' + (messageId$ |async)">RESULTATEN</a>
                     <a mat-tab-link
                        routerLinkActive #runtab2="routerLinkActive"
                        [disabled]="getDisabled((game$|async), (runId$ |async))"
@@ -47,7 +50,6 @@ import {getAuthIsAdmin} from "../../auth/store/auth.selector";
                 </nav>
             </div>
         </div>
-
     `,
     styles: [`
         .tab-line {
@@ -73,6 +75,9 @@ export class RunTabSelectComponent implements OnInit, OnDestroy {
     // @Input() gameId;
     public game$: Observable<Game> = this.store.select(getGame);
     runId$: Observable<any> = this.store.select(getCurrentRunId);
+    public messageId$ = this.store.select(getMultipleMessagesSelector)
+        .pipe(map(messages => messages[0] && messages[0].id));
+
     subscription: Subscription;
 
     constructor(
@@ -81,6 +86,7 @@ export class RunTabSelectComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.store.dispatch(new GetGameMessagesRequestAction());
     }
 
     getDisabled(gameId, runId) {
