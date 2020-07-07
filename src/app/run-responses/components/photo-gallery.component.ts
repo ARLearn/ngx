@@ -118,7 +118,10 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
     }
 
     async ngOnChanges(changes: SimpleChanges) {
-        if (changes.user && ((changes.user.currentValue && !changes.user.previousValue) ||(changes.user.currentValue && changes.user.previousValue &&
+        if (
+            (changes.responses && this.hasChanged(changes.responses.previousValue, changes.responses.currentValue)) ||
+            changes.user && ((changes.user.currentValue && !changes.user.previousValue) ||
+            (changes.user.currentValue && changes.user.previousValue &&
             changes.user.currentValue.fullId !== changes.user.previousValue.fullId))
         ) {
             await this.loadPhotos();
@@ -130,6 +133,8 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
         this.loading = true;
         this.onLoad.emit(true);
         this.images = [];
+        this.users = {};
+        this.options = {};
         for (const response of this.responses) {
             const url = await this.afStorage.ref(response.responseValue).getDownloadURL().toPromise();
             this.images.push(url);
@@ -218,6 +223,20 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
             [a[i], a[j]] = [a[j], a[i]];
         }
         return a;
+    }
+
+    private hasChanged(previousResponses: any[], currentResponses: any[]) {
+        if (!previousResponses && currentResponses) {
+            return true;
+        }
+
+        if (previousResponses.length !== currentResponses.length) {
+            return true;
+        }
+
+        return currentResponses.some(response => {
+            return previousResponses.every(prev => prev.responseValue !== response.responseValue)
+        });
     }
 
 }

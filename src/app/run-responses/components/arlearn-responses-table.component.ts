@@ -34,8 +34,9 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
                     </div>
                 </mat-menu>
             </div>
-
-            <app-photo-gallery class="w-100" [responses]="getResponsesImages()" [user]="selectedUser" (onLoad)="onPhotoGalleryLoading($event)"></app-photo-gallery>
+            <ng-container *ngIf="selectedScreen && players && players.length">
+                <app-photo-gallery class="w-100" [responses]="getResponsesImages()" [user]="selectedUser" (onLoad)="onPhotoGalleryLoading($event)"></app-photo-gallery>
+            </ng-container>
         </ng-container>
 
         <ng-template #answers>
@@ -264,7 +265,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     }
 
     mapUser(user) {
-        return { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name };
+        return user && { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name };
     }
 
     onPhotoGalleryLoading(loading) {
