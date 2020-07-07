@@ -77,7 +77,7 @@ export const APP_ROUTES: Routes = [
                 children: [
                     {path: 'players', component: RunPlayersPageComponent, pathMatch: 'full'},
                     {path: 'actions', component: ActionsOverviewComponent, pathMatch: 'full'},
-                    {path: 'results', component: ResponsesOverviewComponent, pathMatch: 'full'},
+                    {path: 'results/:messageId', component: ResponsesOverviewComponent, pathMatch: 'full'},
                     {path: 'settings', component: RunSettingsPageComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'players'},
                 ],

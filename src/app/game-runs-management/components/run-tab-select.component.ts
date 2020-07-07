@@ -7,6 +7,8 @@ import {State} from "../../core/reducers";
 import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
 import {getAuthIsAdmin} from "../../auth/store/auth.selector";
+import { getMultipleMessagesSelector, getMessagesSelector, getGameMessagesFeature } from 'src/app/game-messages/store/game-messages.selector';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-run-tab-select',
@@ -81,6 +83,7 @@ export class RunTabSelectComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.game$.subscribe(console.log);
     }
 
     getDisabled(gameId, runId) {
