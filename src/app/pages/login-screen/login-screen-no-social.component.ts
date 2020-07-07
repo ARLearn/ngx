@@ -233,7 +233,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
         }
 
         .style-image-left {
-            background: transparent url("/assets/img/login/login-image.png") 0% 0% no-repeat padding-box;
+            background: transparent url("/assets/img/login/login-image.png") ;
+            background-position: center center;
             background-size: cover;
             border-width: 1px;
         }
