@@ -14,7 +14,6 @@ import {
 } from "../../game-messages/store/game-messages.selector";
 import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
 import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../game-message/store/game-message.actions";
-import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selector';
 import { getEditMessageSelector } from 'src/app/game-message/store/game-message.selector';
 
 @Component({
@@ -48,7 +47,7 @@ import { getEditMessageSelector } from 'src/app/game-message/store/game-message.
                             <mat-chip class="count" color="primary" disableRipple selected>{{ messages.length }}</mat-chip>
                         </mat-chip-list>
                     </div>
-                    <div class="screens">
+                    <div class="screens horizontal-scroll-wrapper" (wheel)="onScrollChips($event)">
                         <mat-chip-list>
                             <mat-chip
                                     *ngFor="let item of messages"
@@ -96,7 +95,21 @@ import { getEditMessageSelector } from 'src/app/game-message/store/game-message.
             margin-left: 40px;
             width: 100%;
             overflow-x: auto;
-            overflow-y: hidden;
+        }
+        @media all and (min-width: 992px) {
+            .screens {
+                width: 70vw;
+                margin-right: -50%;
+            }
+        }
+        .horizontal-scroll-wrapper::-webkit-scrollbar {
+            width: 1px;
+            height: 1px;
+        }
+
+        .horizontal-scroll-wrapper::-webkit-scrollbar-button {
+            width: 1px;
+            height: 1px;
         }
         ::ng-deep .screens .mat-chip-list-wrapper {
             flex-wrap: nowrap;
@@ -179,6 +192,11 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     deselect() {
         this.store.dispatch(new SetSelectedScreenAction(null));
         this.store.dispatch(new ResetGameMessageEditAction());
+    }
+
+    onScrollChips(event) {
+        document.querySelector('.screens').scrollLeft += event.deltaY;
+        event.preventDefault();
     }
 
     ngOnDestroy() {
