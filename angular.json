@@ -255,7 +255,7 @@
                   "with": "src/environments/environment.moonlite-prod.ts"
                 }
               ],
-              "index": "src/index.html",
+              "index": "src/index.dido.html",
               "styles": [
                 "src/main.moonlite.scss"
               ],
@@ -276,7 +276,7 @@
                 },
                 {
                   "glob": "**/*",
-                  "input": "src/assets",
+                  "input": "src/assets-moonlite",
                   "output": "/assets"
                 }
               ]
