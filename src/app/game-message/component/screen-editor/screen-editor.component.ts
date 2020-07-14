@@ -22,6 +22,9 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
                 <app-screen-editor-type-narrator
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.PictureQuestion'">
                 </app-screen-editor-type-narrator>
+                <app-screen-editor-type-narrator
+                        *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.AudioQuestion'">
+                </app-screen-editor-type-narrator>
                 <app-screen-editor-type-single-choice-test
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.SingleChoiceTest'">
                 </app-screen-editor-type-single-choice-test>
