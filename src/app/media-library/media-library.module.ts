@@ -11,7 +11,6 @@ import {reducers} from "./store/media-lib.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {MediaLibraryEffects} from "./store/media-lib.effects";
 import {AppFileTileComponent} from './components/app-file-tile/app-file-tile.component';
-import {FileDropZoneComponent} from './components/file-drop-zone/file-drop-zone.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {FileToUploadComponent} from './components/file-to-upload/file-to-upload.component';
@@ -29,7 +28,6 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         MediaLibContainerComponent,
         MediaLibFilesOverviewComponent,
         AppFileTileComponent,
-        FileDropZoneComponent,
         FileToUploadComponent,
         SelectAssetComponent,
         CreateFolderComponent,
@@ -51,7 +49,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         AssetSelectorComponent,
         MediaLibTabBarComponent,
         MediaLibContainerComponent,
-        LibraryFooterComponent
+        LibraryFooterComponent,
     ]
 })
 export class MediaLibraryModule {

@@ -15,6 +15,7 @@ import {AccountService} from './services/account.service';
 import {MediaLibraryService} from "./services/medialibrary.service";
 import {ActionsService} from "./services/actions.service";
 import {ResponsesService} from "./services/responses.service";
+import { PortalGamesService } from './services/portal-games.service';
 
 export const COMPONENTS = [];
 
@@ -50,7 +51,8 @@ export class CoreModule {
             PlayerService,
             AccountService,
             ActionsService,
-            ResponsesService
+            ResponsesService,
+            PortalGamesService,
         ]
     };
 }

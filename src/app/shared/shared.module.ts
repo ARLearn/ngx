@@ -53,6 +53,7 @@ import {SelectLanguageComponent} from "./language-picker/select-language/select-
 import { TopNavComponent } from './component/header-components/top-nav.component';
 import { AccountSectionComponent } from './component/account/account-section.component';
 import { SubtabsNavbarComponent } from "./component/subtabs-navbar/subtabs-navbar.component";
+import { FileDropZoneComponent } from '../media-library/components/file-drop-zone/file-drop-zone.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -137,7 +138,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ScreenTileComponent,
         SelectLanguageComponent,
         TopNavComponent,
-        AccountSectionComponent
+        AccountSectionComponent,
+        FileDropZoneComponent,
 
     ],
     entryComponents: [
@@ -154,7 +156,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         HoverOverlayComponent,
         SelectLanguageComponent,
         TopNavComponent,
-        AccountSectionComponent
+        AccountSectionComponent,
+        FileDropZoneComponent,
         ]
 })
 export class SharedModule {

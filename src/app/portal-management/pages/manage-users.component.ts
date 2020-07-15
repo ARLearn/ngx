@@ -225,7 +225,7 @@ export class ManageUsersComponent implements OnInit {
     ];
 
 
-    userList: Observable<Player[]> = this.store.select(getSearchedUsers);
+    userList: Observable<any> = this.store.select(getSearchedUsers);
     constructor(private store: Store<State>
     ) {
     }
@@ -238,7 +238,7 @@ export class ManageUsersComponent implements OnInit {
         this.store.dispatch(new SearchUserRequestAction({query: "some query"}));
 
         this.userList.subscribe((users) => {
-            this.dataSource = new MatTableDataSource(users);
+            this.dataSource = new MatTableDataSource(users.accountList);
             this.dataSource.paginator = this.paginator;
         });
     }
