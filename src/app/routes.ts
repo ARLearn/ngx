@@ -55,7 +55,7 @@ export const APP_ROUTES: Routes = [
                     {path: 'librarymgt', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'library', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'usrmgt', component: ManageUsersComponent, pathMatch: 'full'},
-                    {path: 'portal', component: ManageUsersComponent, pathMatch: 'full'},
+                    {path: 'portal', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},
                 ],
             },
