@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from '../../core/reducers';
 import { Observable, Subscription } from "rxjs";
 import * as fromSel from '../store/run-responses.selectors';
-import { getMessagesSelector } from "../../game-messages/store/game-messages.selector";
+import { getMessagesSelector, getSelectedScreen } from "../../game-messages/store/game-messages.selector";
 import { GetGameMessagesRequestAction } from "../../game-messages/store/game-messages.actions";
 import { GameMessage } from "../../game-messages/store/game-messages.state";
 import { getEditMessageSelector } from 'src/app/game-message/store/game-message.selector';
@@ -13,7 +13,7 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
     selector: 'app-arlearn-responses-table',
     template: `
     <div class="answers" *ngIf="editMessage$ | async as editMessage">
-        <ng-container *ngIf="isPictureQuestion(editMessage.type); else answers">
+        <ng-container *ngIf="isMediaQuestion(editMessage.type); else answers">
             <div class="users-filter-wrapper">
                 <button class="actions-btn" mat-button [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }} <mat-icon>keyboard_arrow_down</mat-icon></button>
                 <mat-menu #menu="matMenu" [overlapTrigger]="true" class="rounded-0">
@@ -34,8 +34,11 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
                     </div>
                 </mat-menu>
             </div>
-            <ng-container *ngIf="selectedScreen && players && players.length">
-                <app-photo-gallery class="w-100" [responses]="getResponsesImages()" [user]="selectedUser" (onLoad)="onPhotoGalleryLoading($event)"></app-photo-gallery>
+            <ng-container *ngIf="isPictureQuestion(editMessage.type) && selectedScreen && players && players.length">
+                <app-photo-gallery class="w-100" [responses]="data" [user]="selectedUser" (onLoad)="onGalleryLoading($event)"></app-photo-gallery>
+            </ng-container>
+            <ng-container *ngIf="isAudioQuestion(editMessage.type) && selectedScreen && players && players.length">
+                <app-audio-gallery class="w-100" [responses]="data" [user]="selectedUser" (onLoad)="onGalleryLoading($event)"></app-audio-gallery>
             </ng-container>
         </ng-container>
 
@@ -184,11 +187,13 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     @Input() selectedScreen: any;
     public messages$: Observable<any> = this.store.select(getMessagesSelector);
     public editMessage$: Observable<any> = this.store.select(getEditMessageSelector);
+    private selectedScreen$: Observable<any> = this.store.select(getSelectedScreen);
     public messagesAsync = {};
     public players: any[] = [];
     public selectedUser: any;
-    public photoGalleryLoad = false;
+    public galleryLoad = false;
     public playerQuery: string = '';
+    public data: any;
 
     private responses$: Observable<any> = this.store.select(fromSel.selectAll);
     private players$: Observable<any> = this.store.select(getPlayers);
@@ -208,10 +213,16 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.responses$.subscribe(responses => {
             this.responses = responses;
+            this.filterResponses(this.selectedScreen);
+        }));
+
+        this.subscription.add(this.selectedScreen$.subscribe(data => {
+            this.filterResponses(data);
         }));
 
         this.subscription.add(this.players$.subscribe(players => {
             this.players = players;
+            this.filterResponses(this.selectedScreen);
         }));
     }
 
@@ -233,9 +244,15 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
         return firstName[0].toUpperCase() + lastName[0].toUpperCase();
     }
 
-    getResponsesImages() {
+    filterResponses(selectedScreen) {
+        if (selectedScreen && this.responses && this.players && this.players) {
+            this.data = this.getResponses(selectedScreen);
+        }
+    }
+
+    getResponses(selectedScreen) {
         return this.responses
-            .filter(r => r.generalItemId == this.selectedScreen && (!this.selectedUser || (r.userId === this.selectedUser.fullId)))
+            .filter(r => r.generalItemId == selectedScreen && (!this.selectedUser || (r.userId === this.selectedUser.fullId)))
             .map(r => ({
                 responseValue: r.responseValue,
                 user: this.mapUser(this.players.find(player => player.fullId === r.userId))
@@ -254,8 +271,19 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
         return type.includes('ImageTest');
     }
 
+    isMediaQuestion(type) {
+        return [
+            'PictureQuestion',
+            'AudioQuestion'
+        ].some(messageType => type.includes(messageType));
+    }
+
     isPictureQuestion(type) {
         return type.includes('PictureQuestion');
+    }
+
+    isAudioQuestion(type) {
+        return type.includes('AudioQuestion');
     }
 
     ngOnDestroy() {
@@ -268,13 +296,14 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
         return user && { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name };
     }
 
-    onPhotoGalleryLoading(loading) {
-        this.photoGalleryLoad = loading;
+    onGalleryLoading(loading) {
+        this.galleryLoad = loading;
     }
 
     selectUser(user) {
-        if (!this.photoGalleryLoad) {
-            this.selectedUser = { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name }
+        if (!this.galleryLoad) {
+            this.selectedUser = { fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name };
+            this.filterResponses(this.selectedScreen);
         }
     }
 

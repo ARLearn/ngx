@@ -118,7 +118,7 @@ export const getMultipleMessagesSelector = createSelector(getMessagesSelector,
         return messages.filter(message => {
             const entry = message.type.toLowerCase();
 
-            return entry.includes('single') || entry.includes('multiple') || entry.includes('picturequestion');
+            return entry.includes('single') || entry.includes('multiple') || entry.includes('question');
         });
     });
 
