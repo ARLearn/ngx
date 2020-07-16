@@ -23,6 +23,7 @@ import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-
 import {ActionsOverviewComponent} from "./run-actions/pages/actions-overview.component";
 import {ResponsesOverviewComponent} from "./run-responses/pages/responses-overview.component";
 import {GameDisappearFlowchartComponent} from "./game-messages/pages/game.disappear.flowchart";
+import { ManageGameComponent } from './portal-management/pages/manage-game.component';
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -56,6 +57,7 @@ export const APP_ROUTES: Routes = [
                     {path: 'library', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'usrmgt', component: ManageUsersComponent, pathMatch: 'full'},
                     {path: 'portal', component: ManageGameLibraryComponent, pathMatch: 'full'},
+                    {path: 'portal/:gameId', component: ManageGameComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},
                 ],
             },
