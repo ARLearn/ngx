@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
-import {Game} from "../../game-management/store/current-game.state";
-import {getGame, iAmOwner} from "../../game-management/store/current-game.selector";
+import {Game} from "../store/current-game.state";
+import {getGame, iAmOwner} from "../store/current-game.selector";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {SaveGameRequestAction} from "../../game-management/store/current-game.actions";
+import {SaveGameRequestAction} from "../store/current-game.actions";
 
 @Component({
     selector: 'app-game-settings-fields',

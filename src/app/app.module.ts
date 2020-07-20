@@ -63,6 +63,7 @@ import {RunActionsModule} from "./run-actions/run-actions.module";
 import {RunResponsesModule} from "./run-responses/run-responses.module";
 import {VideoTutorialComponent} from "./tutorial/pages/video-tutorial.component";
 import {TutorialModule} from "./tutorial/tutorial.module";
+import {GameThemesModule} from "./game-themes/game-themes.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -148,6 +149,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GamesManagementModule,
         GameMessagesModule,
         GameMessageModule,
+        GameThemesModule,
         PlayerManagementModule,
         PortalManagementModule,
         FontAwesomeModule,

@@ -7,7 +7,7 @@ import {PlayerOverviewComponent} from './player-management/pages/player-overview
 import {AcceptInvitationComponent} from './player-management/pages/accept-invitation/accept-invitation.component';
 import {GameDetailScreensComponent} from './game-messages/pages/game-detail-screens/game-detail-screens.component';
 import {GameDetailFlowchartComponent} from './game-messages/pages/game-detail-flowchart/game-detail-flowchart.component';
-import {GameDetailSettingsComponent} from './game-messages/pages/game-detail-settings/game-detail-settings.component';
+
 import {AuthGuard} from './auth/guards/auth.guard';
 import {ScreenDetailComponent} from './game-message/pages/screen-detail/screen-detail.component';
 import {RunResultsPageComponent} from "./game-runs-management/pages/run-results-page.component";
@@ -26,6 +26,7 @@ import {GameDisappearFlowchartComponent} from "./game-messages/pages/game.disapp
 import {VideoTutorialComponent} from "./tutorial/pages/video-tutorial.component";
 import {FaqTutorialComponent} from "./tutorial/pages/faq-tutorial.component";
 import { ManageGameComponent } from './portal-management/pages/manage-game.component';
+import {GameDetailSettingsComponent} from "./game-management/pages/game-detail-settings.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},

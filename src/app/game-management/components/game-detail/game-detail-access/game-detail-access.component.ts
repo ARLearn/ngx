@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {Game} from "../../../../game-management/store/current-game.state";
-import {getGame, iAmOwner} from "../../../../game-management/store/current-game.selector";
+import {Game} from "../../../store/current-game.state";
+import {getGame, iAmOwner} from "../../../store/current-game.selector";
 import {filter} from "rxjs/operators";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../../core/reducers";
 import { MatSelectChange } from "@angular/material/select";
-import {GameConfigUpdateAction, GameUpdateAction} from "../../../../game-management/store/current-game.actions";
+import {GameConfigUpdateAction, GameUpdateAction} from "../../../store/current-game.actions";
 
 @Component({
     selector: 'app-game-detail-access',

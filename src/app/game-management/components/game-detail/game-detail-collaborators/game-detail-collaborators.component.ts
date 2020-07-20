@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {AddGameAuthorRequestAction, LoadGameAuthorRequestAction} from "../../../../game-management/store/current-game.actions";
+import {AddGameAuthorRequestAction, LoadGameAuthorRequestAction} from "../../../store/current-game.actions";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../../core/reducers";
 import {Observable} from "rxjs";
-import {gameAccessWithAccount, gameMyAccessWithAccount, iAmOwner, iCanWrite} from "../../../../game-management/store/current-game.selector";
+import {gameAccessWithAccount, gameMyAccessWithAccount, iAmOwner, iCanWrite} from "../../../store/current-game.selector";
 import {AddPlayerDialogComponent} from "../../../../game-runs-management/components/add-player-dialog.component";
 import {AddUserToRunRequestAction} from "../../../../game-runs-management/store/game-runs.actions";
 import {PlayerLoadRequestAction} from "../../../../player-management/store/player.actions";
 import {MatDialog} from "@angular/material/dialog";
-import {AddGameCollaboratorComponent} from "../../../modal/add-game-collaborator.component";
+import {AddGameCollaboratorComponent} from "../../../../game-messages/modal/add-game-collaborator.component";
 
 @Component({
     selector: 'app-game-detail-collaborators',

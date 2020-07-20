@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
-import {Game} from "../../game-management/store/current-game.state";
-import {getGame, iAmOwner} from "../../game-management/store/current-game.selector";
+import {Game} from "../store/current-game.state";
+import {getGame, iAmOwner} from "../store/current-game.selector";
 import {select, Store} from "@ngrx/store";
-import {GameUpdateAction, SaveGameRequestAction} from "../../game-management/store/current-game.actions";
+import {GameUpdateAction, SaveGameRequestAction} from "../store/current-game.actions";
 import {State} from "../../core/reducers";
 
 @Component({
@@ -11,13 +11,14 @@ import {State} from "../../core/reducers";
     template: `
         <div class="selector-full-width">
             <div class="selector-aligned">
-                <app-asset-selector
-                        *ngIf="!((game$|async)?.splashScreen)"
-                        icon="cloud"
-                        [title]="'GAME.CHOOSE_SPLASH'|translate"
-                        [subtitle]="'GAME.CHOOSE_SPLASH_SUB'|translate"
-                        (assetSelect)="attachSplash($event)"
-                ></app-asset-selector>
+<!--                <app-asset-selector-->
+<!--                        *ngIf="!((game$|async)?.splashScreen)"-->
+<!--                        icon="cloud"-->
+<!--                        [title]="'GAME.CHOOSE_SPLASH'|translate"-->
+<!--                        [subtitle]="'GAME.CHOOSE_SPLASH_SUB'|translate"-->
+<!--                        (assetSelect)="attachSplash($event)"-->
+<!--                ></app-asset-selector>-->
+                <app-game-theme-selector></app-game-theme-selector>
                 <div class="splashscreen">
 
                     <app-filestore-background-image

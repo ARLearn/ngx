@@ -1,22 +1,6 @@
 <div class="header primary-background-color ">
     <div class="maxwidth">
         <app-top-nav></app-top-nav>
-        <!--        <div class="root-tabs">-->
-        <!--            <nav mat-tab-nav-bar [backgroundColor]="'primary'">-->
-        <!--                <a mat-tab-link-->
-        <!--                   routerLinkActive #rrla="routerLinkActive"-->
-        <!--                   [active]="rrla.isActive"-->
-        <!--                   [routerLink]="'/portal/root/games'">TEST{{'GAME.MYGAMES'|translate}}</a>-->
-        <!--                <a mat-tab-link-->
-        <!--                   routerLinkActive #rrla1="routerLinkActive"-->
-        <!--                   [active]="rrla1.isActive"-->
-        <!--                   [routerLink]="'/portal/root/connections'"-->
-        <!--                >  {{'CONTACT.CONTACTS' |translate}}</a>-->
-        <!--                <a mat-tab-link-->
-        <!--                   disabled routerLinkActive="tab-selected"> {{'GAME.GAMELIB'|translate}}</a>-->
-        <!--            </nav>-->
-        <!--        </div>-->
-
         <div class="account-dropdown">
             <app-user-drop-down-display></app-user-drop-down-display>
             <select-language *ngIf="showLanguage"></select-language>

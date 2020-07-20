@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {iAmOwner} from "../../../../game-management/store/current-game.selector";
+import {iAmOwner} from "../../../store/current-game.selector";
 
 import {Player} from "../../../../player-management/store/player.state";
-import {AddGameAuthorRequestAction, RemoveGameAuthorRequestAction} from "../../../../game-management/store/current-game.actions";
+import {AddGameAuthorRequestAction, RemoveGameAuthorRequestAction} from "../../../store/current-game.actions";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../../core/reducers";
 import {Observable} from "rxjs";

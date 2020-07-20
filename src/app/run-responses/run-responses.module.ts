@@ -16,6 +16,7 @@ import { GameMessageModule } from "../game-message/game-message.module";
 import { PhotoGalleryComponent } from './components/photo-gallery.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AudioGalleryComponent } from './components/audio-gallery.component';
+import {GameManagementModule} from "../game-management/game-management.module";
 
 @NgModule({
   declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent, PhotoGalleryComponent, AudioGalleryComponent],
@@ -32,6 +33,7 @@ import { AudioGalleryComponent } from './components/audio-gallery.component';
         MatProgressSpinnerModule,
         GameMessageModule,
         NgxAudioPlayerModule,
+        GameManagementModule,
     ]
 })
 export class RunResponsesModule { }

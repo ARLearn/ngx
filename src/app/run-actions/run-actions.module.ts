@@ -10,6 +10,7 @@ import {arlearnActionReducer} from "./store/arlearn-actions.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {ArlearnActionsEffects} from "./store/arlearn-actions.effects";
 import { ArlearnActionsTableComponent } from './components/arlearn-actions-table.component';
+import {GameManagementModule} from "../game-management/game-management.module";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ArlearnActionsTableComponent } from './components/arlearn-actions-table
         StoreModule.forFeature('run-actions', arlearnActionReducer),
         EffectsModule.forFeature([ArlearnActionsEffects]),
 
-        GameRunsManagementModule
+        GameRunsManagementModule,
+        GameManagementModule
     ]
 })
 export class RunActionsModule {

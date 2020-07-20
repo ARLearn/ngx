@@ -1,13 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {Game} from "../../../../game-management/store/current-game.state";
-import {getGame, iAmOwner} from "../../../../game-management/store/current-game.selector";
+import {Game} from "../../../store/current-game.state";
+import {getGame, iAmOwner} from "../../../store/current-game.selector";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../../core/reducers";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {GameMessageUpdateAction, RemoveLocationAction} from "../../../../game-message/store/game-message.actions";
 import {environment} from "../../../../../environments/environment";
-import {GameConfigUpdateAction, GameUpdateAction} from "../../../../game-management/store/current-game.actions";
+import {GameConfigUpdateAction, GameUpdateAction} from "../../../store/current-game.actions";
 import {GpsPosition} from "../../../../game-message/component/screen-editor-type-select/component/pick-location-on-map/pick-location-on-map.component";
 import "rxjs-compat/add/operator/first";
 import {filter} from "rxjs/operators";

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../../core/reducers";
-import {GameConfigUpdateAction} from "../../../../game-management/store/current-game.actions";
+import {GameConfigUpdateAction} from "../../../store/current-game.actions";
 import {Observable} from "rxjs";
 import { iAmOwner } from 'src/app/game-management/store/current-game.selector';
 

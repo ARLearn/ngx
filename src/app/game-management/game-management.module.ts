@@ -34,13 +34,26 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { AddAuthorDialogComponent } from './components/add-author-dialog/add-author-dialog.component';
 
 import {MatChipsModule} from '@angular/material/chips';
+import { GameDetailSettingsComponent } from './pages/game-detail-settings.component';
+import { GameDetailNavbarComponent } from './components/game-detail-navbar.component';
+import {AuthModule} from "../auth/auth.module";
+import {GameSettingsFieldsComponent} from "./components/game-settings-fields.component";
+import {GameSettingsPreviewComponent} from "./components/game-settings-preview.component";
+import {GameDisappearFlowchartComponent} from "../game-messages/pages/game.disappear.flowchart";
+import {GameThemeSelectorComponent} from "./components/game-theme-selector.component";
+import {GameDetailPrimSecColorComponent} from "./components/game-detail/game-detail-prim-sec-color/game-detail-prim-sec-color.component";
+import {GameDetailCollaboratorsComponent} from "./components/game-detail/game-detail-collaborators/game-detail-collaborators.component";
+import {GameDetailCollaboratorEntryComponent} from "./components/game-detail/game-detail-collaborator-entry/game-detail-collaborator-entry.component";
+import {GameDetailAccessComponent} from "./components/game-detail/game-detail-access/game-detail-access.component";
+import {GameDetailCreativeCommonsComponent} from "./components/game-detail/game-detail-creative-commons/game-detail-creative-commons.component";
+import {GameDetailLocationComponent} from "./components/game-detail/game-detail-location/game-detail-location.component";
 
 @NgModule({
   imports: [
     SharedModule.forRoot(),
     StoreModule.forFeature('currentGame', reducers),
     EffectsModule.forFeature([CurrentGameEffects]),
-    MatTableModule, MatPaginatorModule, MatSortModule,  MatButtonModule,
+    MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
@@ -58,18 +71,28 @@ import {MatChipsModule} from '@angular/material/chips';
     MatSelectModule,
     AgmCoreModule.forRoot({
       apiKey: environment.apiKey
-    })
+    }), AuthModule
 
   ],
   entryComponents: [AddAuthorDialogComponent],
-  exports: [GameSidenavComponent, GameDetailPanelComponent],
+  exports: [GameSidenavComponent, GameDetailPanelComponent, GameDetailSettingsComponent, GameDetailNavbarComponent],
   declarations: [GameSidenavComponent, EditorTitleDescriptionComponent,
     GameDetailPanelComponent,
     EditorLocationComponent,
     EditorAccessComponent,
     EditorLicenseComponent,
     EditorAuthorsComponent,
-    AddAuthorDialogComponent]
+    AddAuthorDialogComponent,
+    GameDetailSettingsComponent,
+    GameDetailNavbarComponent,
+    GameSettingsFieldsComponent,
+    GameSettingsPreviewComponent,
+    GameThemeSelectorComponent,
+    GameDetailPrimSecColorComponent,
+    GameDetailCollaboratorsComponent, GameDetailLocationComponent,
+    GameDetailCollaboratorEntryComponent, GameDetailCreativeCommonsComponent,
+    GameDetailAccessComponent
+  ]
 })
 export class GameManagementModule {
 }

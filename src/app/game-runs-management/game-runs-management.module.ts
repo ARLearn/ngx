@@ -30,6 +30,7 @@ import {RunTabSelectComponent} from './components/run-tab-select.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {RunSettingsPageComponent} from './pages/run-settings-page.component';
 import {SettingsFieldsComponent} from './components/settings-fields.component';
+import {GameManagementModule} from "../game-management/game-management.module";
 
 @NgModule({
     imports: [
@@ -49,7 +50,7 @@ import {SettingsFieldsComponent} from './components/settings-fields.component';
         MatMenuModule,
         GameMessagesModule,
         MatAutocompleteModule,
-        ReactiveFormsModule
+        ReactiveFormsModule, GameManagementModule
 
     ],
     entryComponents: [
