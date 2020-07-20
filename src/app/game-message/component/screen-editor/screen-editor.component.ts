@@ -5,7 +5,7 @@ import {getEditMessageSelector} from "../../../game-message/store/game-message.s
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {GameMessageSaveAction, GameMessageUpdateAction} from "../../store/game-message.actions";
-import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
+import {iCanWrite} from 'src/app/game-management/store/current-game.selector';
 
 @Component({
     selector: 'app-screen-editor',
@@ -24,6 +24,12 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
                 </app-screen-editor-type-narrator>
                 <app-screen-editor-type-narrator
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.AudioQuestion'">
+                </app-screen-editor-type-narrator>
+                <app-screen-editor-type-narrator
+                        *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.TextQuestion'">
+                </app-screen-editor-type-narrator>
+                <app-screen-editor-type-narrator
+                        *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.VideoQuestion'">
                 </app-screen-editor-type-narrator>
                 <app-screen-editor-type-single-choice-test
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.SingleChoiceTest'">
@@ -48,9 +54,9 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
             <button mat-stroked-button
                     *ngIf="iCanWrite|async"
                     class="gl-pos-button-right pos-button gl-style-stroke-button gl-style-large-button"
-                    color="primary" (click)="save()" >{{'ACTIONS.SAVE' |translate}}</button>
+                    color="primary" (click)="save()">{{'ACTIONS.SAVE' |translate}}</button>
             <div class="pos-spacer"></div>
-            
+
         </div>
     `,
     styles: [`
@@ -71,12 +77,13 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
         .pos-message {
             position: relative;
         }
-        
+
         .pos-spacer {
             position: relative;
             height: 300px;
         }
-        .pos-button{
+
+        .pos-button {
             width: 131px;
             text-transform: uppercase;
         }
@@ -86,6 +93,7 @@ export class ScreenEditorComponent implements OnInit {
 
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
+
     // selectedType: string;
 
     constructor(private store: Store<State>) {

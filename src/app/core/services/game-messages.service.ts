@@ -64,7 +64,7 @@ export class GameMessagesService {
     }
 }
 
-let messageTransform = (message: any) => {
+const messageTransform = (message: any) => {
     if (message.id) {
         message.id = Number.parseInt(message.id, 10);
     }

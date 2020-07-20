@@ -107,6 +107,9 @@
 		"TITLE": "Titel",
 		"WHO_CAN_SEE": "Wie kan deze game zien?"
 	},
+	"HELP": {
+		"TITLE": "Help"
+	},
 	"HOME": {
 		"SETTINGS": "instellingen",
 		"SIGNIN": "AANMELDEN",
@@ -147,8 +150,8 @@
 		"ANSWER_IMAGE": "vraag Antwoord afbeelding",
 		"ANSWER_OPTION": "Antwoordoptie",
 		"APPEARS_AFTER": "Dit scherm verschijnt na",
-		"AUDIO_OBJECT": "",
 		"AUDIOQUESTION": "Antwoord met geluid",
+		"AUDIO_OBJECT": "",
 		"BUTTON_TEXT": "Knop tekst",
 		"CONTENT": "Inhoud",
 		"CORRECT_ANSWER": "Goed antwoord",
@@ -177,13 +180,15 @@
 		"SCREENS": "Schermen",
 		"SELECT_ASSET": "Kies een asset",
 		"SELECT_BUTTON_TYPE": "Selecteer het knoptype",
+		"SHOW_IN_LIST": "Toon scherm in boodschappenlijst?",
 		"SINGLECHOICEIMAGETEST": "Enkele keuze met figuren",
 		"SINGLECHOICETEST": "Enkele keuze",
 		"SINGLE_IMAGE_CHOICE_TEST": "Enkele keuze vraag met figuren",
 		"START_TYPING_TO_SEARCH": "Start met typen om te zoeken",
+		"TEXTQUESTION": "Antwoord met tekst",
 		"VIDEOOBJECT": "Video Object",
-		"VIDEO_OBJECT": "Video scherm",
-		"SHOW_IN_LIST" : "Toon scherm in boodschappenlijst?"
+		"VIDEOQUESTION": "Antwoord met video",
+		"VIDEO_OBJECT": "Video scherm"
 	},
 	"PORTAL_MANAGEMENT": {
 		"LABEL": "Portaal beheer",
@@ -208,7 +213,8 @@
 		"PLAY": "Speel",
 		"PLAYERS": "Spelers",
 		"RUNS": "Runs",
-		"SELF_REGISTRATION": "Zelfregistratie met QR code"
+		"SELF_REGISTRATION": "Zelfregistratie met QR code",
+		"SHOWPLAYERS": "Toon alle spelers"
 	},
 	"in range": "in range",
 	"next": "next",

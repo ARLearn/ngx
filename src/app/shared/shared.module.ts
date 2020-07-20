@@ -128,7 +128,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         FilestoreBackgroundVideoComponent,
         HeaderBackButtonComponent,
         MatChipsModule,
-        TopLevelNavbarComponent,
+
         SubtabsNavbarComponent,
         ConnectionTileComponent,
         ColorInputComponent,
@@ -140,6 +140,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TopNavComponent,
         AccountSectionComponent,
         FileDropZoneComponent,
+        TopLevelNavbarComponent,
 
     ],
     entryComponents: [

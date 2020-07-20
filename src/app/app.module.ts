@@ -61,6 +61,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {PortalManagementModule} from "./portal-management/portal-management.module";
 import {RunActionsModule} from "./run-actions/run-actions.module";
 import {RunResponsesModule} from "./run-responses/run-responses.module";
+import {VideoTutorialComponent} from "./tutorial/pages/video-tutorial.component";
+import {TutorialModule} from "./tutorial/tutorial.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -150,7 +152,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         PortalManagementModule,
         FontAwesomeModule,
         RunActionsModule,
-        RunResponsesModule
+        RunResponsesModule,
+        TutorialModule
     ],
     providers: [
         ComponentPageTitle,

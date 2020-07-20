@@ -15,7 +15,7 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
     <div class="answers" *ngIf="editMessage$ | async as editMessage">
         <ng-container *ngIf="isMediaQuestion(editMessage.type); else answers">
             <div class="users-filter-wrapper">
-                <button class="actions-btn" mat-button [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }} <mat-icon>keyboard_arrow_down</mat-icon></button>
+                <button class="actions-btn" mat-button [matMenuTriggerFor]="menu">{{ 'RUNS.SHOWPLAYERS' | translate }} <mat-icon>keyboard_arrow_down</mat-icon></button>
                 <mat-menu #menu="matMenu" [overlapTrigger]="true" class="rounded-0">
                     <div class="users-filter" (click) = "$event.stopPropagation()">
                         <div>
@@ -73,6 +73,12 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
     </div>
     `,
     styles: [`
+        .actions-btn{
+            text-transform: uppercase;
+            color: #20272B;
+            opacity: 0.4;
+        }
+        
         .answers {
             display: flex;
             align-items: stretch;
@@ -231,6 +237,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     }
 
     getUsers(answerId) {
+        console.log(this.responses);
         const userIds = this.responses
             .filter(r => r.generalItemId === this.selectedScreen && r.responseValue === answerId)
             .map(r => r.userId);

@@ -5,7 +5,7 @@ export interface RunResponse {
     generalItemId: number;
     runId: number;
     timeStamp: number;
-    userId: number;
+    userId: string;
 }
 
 

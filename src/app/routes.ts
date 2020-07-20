@@ -23,6 +23,8 @@ import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-
 import {ActionsOverviewComponent} from "./run-actions/pages/actions-overview.component";
 import {ResponsesOverviewComponent} from "./run-responses/pages/responses-overview.component";
 import {GameDisappearFlowchartComponent} from "./game-messages/pages/game.disappear.flowchart";
+import {VideoTutorialComponent} from "./tutorial/pages/video-tutorial.component";
+import {FaqTutorialComponent} from "./tutorial/pages/faq-tutorial.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -37,6 +39,15 @@ export const APP_ROUTES: Routes = [
             {path: '', redirectTo: 'categories', pathMatch: 'full'},
             {path: 'admin/featured/overview', component: FeaturedGamesOverviewComponent, pathMatch: 'full'},
             {path: 'category/:id', redirectTo: '/categories/:id', pathMatch: 'full'},
+            {
+                path: 'tutorial', // this will become deprecated
+                children: [
+                    {path: '', redirectTo: 'overview', pathMatch: 'full'},
+                    {path: 'video', component: VideoTutorialComponent, pathMatch: 'full'},
+                    {path: 'faq', component: FaqTutorialComponent, pathMatch: 'full'},
+                    {path: '**', redirectTo: 'overview'},
+                ],
+            },
             {
                 path: 'games', // this will become deprecated
                 children: [

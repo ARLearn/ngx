@@ -107,6 +107,9 @@
 		"TITLE": "Titel",
 		"WHO_CAN_SEE": "Wer kann dieses Spiel sehen?"
 	},
+	"HELP": {
+		"TITLE": "Hilfe"
+	},
 	"HOME": {
 		"SETTINGS": "Einstellungen",
 		"SIGNIN": "EINLOGGEN",
@@ -147,6 +150,7 @@
 		"ANSWER_IMAGE": "Bild antworten",
 		"ANSWER_OPTION": "Antwortoption",
 		"APPEARS_AFTER": "Dieser Schirm erscheint nach",
+		"AUDIOQUESTION": "Antworte mit Ton",
 		"AUDIO_OBJECT": "",
 		"BUTTON_TEXT": "Schaltflächentext",
 		"CONTENT": "Inhalt",
@@ -176,11 +180,14 @@
 		"SCREENS": "Schirme",
 		"SELECT_ASSET": "Wählen Sie einen Asset",
 		"SELECT_BUTTON_TYPE": "Schaltflächentyp auswählen",
+		"SHOW_IN_LIST": "",
 		"SINGLECHOICEIMAGETEST": "Einzelwahl mit Abbildung",
 		"SINGLECHOICETEST": "Single Choice",
 		"SINGLE_IMAGE_CHOICE_TEST": "Single-Choice-Frage mit Abbildung",
 		"START_TYPING_TO_SEARCH": "Beginnen Sie mit der Eingabe, um zu suchen",
+		"TEXTQUESTION": "Antworte mit Text",
 		"VIDEOOBJECT": "Videoobjekt",
+		"VIDEOQUESTION": "Antworte mit Video",
 		"VIDEO_OBJECT": "Videoschirm"
 	},
 	"PORTAL_MANAGEMENT": {
@@ -206,7 +213,8 @@
 		"PLAY": "Spielen",
 		"PLAYERS": "Spieler",
 		"RUNS": "Läuft",
-		"SELF_REGISTRATION": "Selbstregistrierung mit QR-Code"
+		"SELF_REGISTRATION": "Selbstregistrierung mit QR-Code",
+		"SHOWPLAYERS": "Zeige alle Spieler"
 	},
 	"in range": "",
 	"next": "",

@@ -57,3 +57,12 @@ export class RunResponsesEffects {
     ) {
     }
 }
+
+
+// responsesFromServer: {
+//     type: 'org.celstec.arlearn2.beans.run.ResponseList',
+//         deleted: false,
+//
+//         serverTime: '1594898059149',
+//         resumptionToken: 'ClUKFAoJdGltZVN0YW1wEgcIo6jWjbUuEjlqHWV-c2VyaW91cy1nYW1pbmctcGxhdGZvcm0tZGV2chgLEgtSZXNwb25zZUpETxiAgIDg5sXdCAwYACAA'
+// },

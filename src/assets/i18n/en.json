@@ -107,6 +107,9 @@
 		"TITLE": "Title",
 		"WHO_CAN_SEE": "Who can see this game?"
 	},
+	"HELP": {
+		"TITLE": "Help"
+	},
 	"HOME": {
 		"SETTINGS": "Settings",
 		"SIGNIN": "SIGN IN",
@@ -147,6 +150,7 @@
 		"ANSWER_IMAGE": "Answer picture",
 		"ANSWER_OPTION": "Answer option",
 		"APPEARS_AFTER": "This screen appears after",
+		"AUDIOQUESTION": "Answer with sound",
 		"AUDIO_OBJECT": "Audio Message",
 		"BUTTON_TEXT": "Button text",
 		"CONTENT": "Content",
@@ -176,13 +180,15 @@
 		"SCREENS": "Screens",
 		"SELECT_ASSET": "Choose an asset",
 		"SELECT_BUTTON_TYPE": "Select button type",
+		"SHOW_IN_LIST": "Show message in message list?",
 		"SINGLECHOICEIMAGETEST": "Single choice with images",
 		"SINGLECHOICETEST": "Single Choice",
 		"SINGLE_IMAGE_CHOICE_TEST": "Single Image Choice",
 		"START_TYPING_TO_SEARCH": "Start typing to search",
+		"TEXTQUESTION": "Reply with text",
 		"VIDEOOBJECT": "Video Object",
-		"VIDEO_OBJECT": "Video Message",
-		"SHOW_IN_LIST" : "Show message in message list?"
+		"VIDEOQUESTION": "Reply with video",
+		"VIDEO_OBJECT": "Video Message"
 	},
 	"PORTAL_MANAGEMENT": {
 		"LABEL": "Portal Management",
@@ -207,7 +213,8 @@
 		"PLAY": "Play",
 		"PLAYERS": "Players",
 		"RUNS": "Runs",
-		"SELF_REGISTRATION": "Self-registration with QR code"
+		"SELF_REGISTRATION": "Self-registration with QR code",
+		"SHOWPLAYERS": "Show all players"
 	},
 	"in range": "in range",
 	"next": "next",

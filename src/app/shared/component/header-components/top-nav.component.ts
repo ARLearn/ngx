@@ -33,6 +33,11 @@ import {getAuthIsAdmin} from "../../../auth/store/auth.selector";
            #rla3="routerLinkActive"
            [routerLink]="'/portal/root/portal'"
         > {{'PORTAL_MANAGEMENT.LABEL' |translate}}</a>
+        <a
+            class="nav-item uppercase"
+            routerLinkActive="active"
+            #tut="routerLinkActive"
+            [routerLink]="'/portal/tutorial/video'">{{'HELP.TITLE'|translate}}</a>
         
       </nav>
     </div>
