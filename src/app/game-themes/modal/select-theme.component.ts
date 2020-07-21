@@ -15,7 +15,7 @@ import {State} from "../../core/reducers";
           [type]="'back'" (buttonClick)="onNoClick()"></app-modal-esc-button>
     </div>
     <div class="maxwidth">
-      <div class="pos-title primary-color font-medium-32-43-roboto">Maak je thema compleet</div>
+      <div class="pos-title primary-color font-medium-32-43-roboto">Choose your theme</div>
 
     </div>
     
