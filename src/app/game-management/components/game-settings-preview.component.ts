@@ -19,19 +19,6 @@ import {State} from "../../core/reducers";
 <!--                        (assetSelect)="attachSplash($event)"-->
 <!--                ></app-asset-selector>-->
                 <app-game-theme-selector></app-game-theme-selector>
-                <div class="splashscreen">
-
-                    <app-filestore-background-image
-                            *ngIf="!!((game$|async)?.splashScreen)"
-                            [paths]="[(game$|async)?.splashScreen]"
-                    >
-                        <div class="deleteSplashScreen" (click)="deleteSplash($event)">
-                            <mat-icon class="deleteIcon" matPrefix>delete</mat-icon>
-
-                        </div>
-                    </app-filestore-background-image>
-
-                </div>
             </div>
         </div>
     `,
@@ -42,39 +29,41 @@ import {State} from "../../core/reducers";
 
 
         .selector-full-width {
-          position: relative;
+            position: relative;
+            height: 100%;
         }
 
         .selector-aligned {
-          position: absolute;
-          right: 70px;
-          top:78px
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .splashscreen {
-          position: relative;
-          width: 290px;
-          height: 514px;
-          border-radius: 4px;
+            position: relative;
+            width: 290px;
+            height: 514px;
+            border-radius: 4px;
 
         }
 
         .deleteSplashScreen {
-          position: absolute;
-          top: 15px;
-          right: 15px;
-          width: 48px;
-          height: 48px;
-          background: #FAFAFA 0% 0% no-repeat padding-box;
-          border: 1px solid #FFFFFF;
-          border-radius: 2px;
-          opacity: 1;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 48px;
+            height: 48px;
+            background: #FAFAFA 0% 0% no-repeat padding-box;
+            border: 1px solid #FFFFFF;
+            border-radius: 2px;
+            opacity: 1;
         }
         .deleteIcon {
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%,-50%);
-
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
         }
 
     `]

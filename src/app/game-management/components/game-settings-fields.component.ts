@@ -56,8 +56,6 @@ import {SaveGameRequestAction} from "../store/current-game.actions";
         .screen-editor-center {
             min-width: 538px;
             max-width: 937px;
-            display: flex;
-            justify-content: center;
         }
 
         .fields-container {

@@ -23,6 +23,7 @@ export const CurrentGameActionTypes = {
   REMOVE_GAME_AUTHORS_REQUESTED: '[CurrentGame] Remove Game Authors Requested',
 
   DOWNLOAD_GAME_REQUESTED: '[CurrentGame] Download Game Requested',
+  SET_THEME: '[CurrentGame] Set Theme',
   CURRENT_GAME_ERROR: '[CurrentGame]  Error'
 };
 
@@ -119,6 +120,12 @@ export class DownloadGameRequestAction implements Action {
 
   constructor(public payload: any ) {
   }
+}
+
+export class SetSelectedThemeAction implements Action {
+  type = CurrentGameActionTypes.SET_THEME;
+
+  constructor(public payload: any) {}
 }
 
 export class CurrentGameErrorAction implements Action {

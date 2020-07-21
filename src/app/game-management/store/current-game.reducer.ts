@@ -71,6 +71,12 @@ export function reducers(
             });
         }
 
+        case actions.CurrentGameActionTypes.SET_THEME: {
+            return Object.assign({}, state, {
+                selectedTheme: action.payload
+            });
+        }
+
         case actions.CurrentGameActionTypes.CURRENT_GAME_ERROR: {
             return Object.assign({}, state, {
                 saving: false,

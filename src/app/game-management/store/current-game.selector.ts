@@ -21,12 +21,14 @@ const _getButtonDisabled = (state: CurrentGameState) => {
 };
 const _getGame = (state: CurrentGameState) => state.game;
 const _getGameAuthors = (state: CurrentGameState) => state.authors;
+const _getSelectedTheme = (state: CurrentGameState) => state.selectedTheme;
 
 export const getLoading = createSelector(getCurrentGameFeature, _getLoading);
 export const getGame = createSelector(getCurrentGameFeature, _getGame);
 export const getMe = createSelector(getCurrentGameFeature, _me);
 export const getAuthors = createSelector(getCurrentGameFeature, _getGameAuthors);
 export const getButtonDisabled = createSelector(getCurrentGameFeature, _getButtonDisabled);
+export const getSelectedTheme = createSelector(getCurrentGameFeature, _getSelectedTheme);
 
 
 export const gameAccessWithAccount = createSelector(

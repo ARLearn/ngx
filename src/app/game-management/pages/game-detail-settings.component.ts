@@ -13,14 +13,13 @@ import {GetGameMessagesRequestAction} from "../../game-messages/store/game-messa
   selector: 'app-game-detail-settings',
   template: `
     <div class="box">
-      <app-game-detail-navbar class="row header" [game]="game$|async"></app-game-detail-navbar>
-      <div class="row content">
-        <div class="maxwidth">
+      <app-game-detail-navbar class="row mx-0 header" [game]="game$|async"></app-game-detail-navbar>
+      <div class="content h-100">
+        <div class="maxwidth h-100 settings-wrapper">
           <div class="parent">
             <app-game-settings-fields class="editor"></app-game-settings-fields>
             <app-game-settings-preview class="preview-pane"></app-game-settings-preview>
           </div>
-          <div class="space-below-button"></div>
         </div>
         <!--        <div style="background-color: yellow;width: 100px;height:1300px;"></div>-->
       </div>
@@ -39,20 +38,27 @@ import {GetGameMessagesRequestAction} from "../../game-messages/store/game-messa
         }
 
         .editor {
-
             flex: 1;
             width: 937px;
-
         }
 
         .preview-pane {
             flex: 0 0 429px;
-            height: 100%;
             background: #FAFAFA 0% 0% no-repeat padding-box;
             opacity: 1;
+
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 144px;
+            width: 500px;
         }
         .space-below-button {
             height: 50px;
+        }
+      
+        .settings-wrapper {
+            position: unset;
         }
     `]
 })

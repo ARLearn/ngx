@@ -2,6 +2,10 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
+import {selectAll} from "../store/game-theme.selectors";
+import {Observable, Subject} from "rxjs";
+import {AngularFireStorage} from "angularfire2/storage";
+import {GameTheme} from "../store/game-theme.state";
 
 @Component({
   selector: 'app-select-theme',
@@ -17,31 +21,186 @@ import {State} from "../../core/reducers";
     <div class="maxwidth">
       <div class="pos-title primary-color font-medium-32-43-roboto">Choose your theme</div>
 
-    </div>
-    
-    <p>
-      todo work out
-      https://xd.adobe.com/view/9d07f717-73fe-425f-6643-cb780b3d6d20-eb36/screen/30c97da5-8371-41bc-94f0-67c25853aa9c/specs/
-    </p>
+    </div>      
+      <div class="theme-panel">
+        <div class="sidebar">
+          <div>
+            <button class="menu-item selected">Toon alles</button>
+          </div>
+          <div>
+            <button class="menu-item">Illustratief</button>
+          </div>
+          <div>
+            <button class="menu-item">Swirl</button>
+          </div>
+          <div>
+            <button class="menu-item">Tropical</button>
+          </div>
+          <div>
+            <button class="menu-item">Squares</button>
+          </div>
+          
+          <div class="add-btn">
+            <button mat-button color="primary"><mat-icon>add</mat-icon> Eigen thema</button>
+          </div>
+        </div>
+        
+        <div class="theme-items" *ngIf="themes$ | async as themes">
+          <div class="theme-item" *ngFor="let theme of themes" [class.theme-item--selected]="selectedTheme?.themeId == theme.themeId" (click)="select(theme)">
+            <span class="selected-icon" *ngIf="selectedTheme?.themeId == theme.themeId"><mat-icon>done</mat-icon></span>
+            <div class="theme-img">
+              <img src="https://imgv2-1-f.scribdassets.com/img/document/271962386/original/eb330b9c8c/1587890633?v=1" alt="" />
+            </div>
+            <div class="theme-name">
+              {{ theme.backgroundPath }}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <mat-toolbar *ngIf="selectedTheme" class="theme-toolbar">
+        <div class="maxwidth theme-toolbar-wrapper">
+          <div class="theme-info">
+            <div class="image">
+              <img src="https://imgv2-1-f.scribdassets.com/img/document/271962386/original/eb330b9c8c/1587890633?v=1" alt="">
+            </div>
+            <h4>{{ selectedTheme.backgroundPath }}</h4>
+          </div>
+          <div>
+            <button mat-button color="primary" (click)="selectedTheme = null">Deselecteren</button>
+            <button mat-flat-button color="primary" (click)="onSubmit()">Ga verder</button>
+          </div>
+        </div>
+      </mat-toolbar>
   `,
   styles: [`
     .pos-top {
       height: 1px;
     }
-
     .pos-title {
       position: relative;
       margin-top: 83px;
       height: 38px;
       text-align: center;
     }
+    .theme-panel {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 3rem;
+    }
+    .theme-items {
+      display: flex;
+      flex-wrap: wrap;
+    } 
+    .theme-item {
+      margin-right: 20px;
+      margin-bottom: 20px;
+      width: 200px;
+    }
+    .theme-img {
+      height: 100%;
+      max-height: 260px;
+    }
+    .theme-img img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+    .theme-name {
+      background-color: #ffffff;
+      padding: 0.75rem;
+    }
+    .theme-item--selected {
+      position: relative;
+    }
+    .theme-item--selected .selected-icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #ffffff;
+      height: 24px;
+      width: 24px;
+      border-bottom-left-radius: 4px;
+      background-color: #3EA3DC;
+    }
+    .selected-icon mat-icon {
+      font-size: 16px;
+      text-align: center;
+      line-height: 24px;
+    }
+    .sidebar {
+      border-right: 1px solid #DDDDDD;
+      min-width: 250px;
+      padding-right: 20px;
+      margin-right: 60px;
+    }
+    .menu-item {
+      background: none;
+      outline: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin-bottom: 0.15rem;
+      cursor: pointer;
+    }
+    .menu-item.selected {
+      font-weight: 700;
+      background-color: #ffffff;
+    }
+    .menu-item:hover {
+      background-color: #ffffff;
+    }
+      
+    .add-btn {
+      margin-top: 1rem;
+    }
+      
+    .theme-toolbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #ffffff;
+    }
+    
+    .theme-toolbar-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+      
+    .theme-toolbar .image {
+      height: 100%;
+      max-width: 40px;
+      margin-right: 20px;
+    }
+      
+    .theme-toolbar .theme-info {
+      display: flex;
+      align-items: center;
+    }
+      
+    .theme-toolbar img {
+      height: 100%;
+      width: 100%;
+    }
   `]
 })
 export class SelectThemeComponent implements OnInit {
+  public themes$ = this.store.select(selectAll);
+
+  public selectedTheme: GameTheme;
+
+  private submit$: Subject<GameTheme> = new Subject<GameTheme>();
+
+  get submit() {
+    return this.submit$.asObservable();
+  }
 
   constructor(public dialogRef: MatDialogRef<SelectThemeComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              public store: Store<State>) {
+              public store: Store<State>,
+              private afStorage: AngularFireStorage) {
   }
 
   ngOnInit(): void {
@@ -49,5 +208,17 @@ export class SelectThemeComponent implements OnInit {
 
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  select(theme) {
+    this.selectedTheme = theme;
+  }
+
+  onSubmit() {
+    this.submit$.next(this.selectedTheme);
+  }
+
+  private getDownloadUrl(path: string) {
+    return this.afStorage.ref(path).getDownloadURL() as Observable<string>;
   }
 }

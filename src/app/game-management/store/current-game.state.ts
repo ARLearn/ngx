@@ -1,3 +1,5 @@
+import {GameTheme} from "../../game-themes/store/game-theme.state";
+
 export interface CurrentGameState {
     loading: boolean;
     saving: boolean;
@@ -5,13 +7,15 @@ export interface CurrentGameState {
     game?: Game;
     me?: string;
     authors?: GameAuthors[];
+    selectedTheme?: GameTheme;
 }
 
 export const currentGameInitialState: CurrentGameState = {
     saving: false,
     loading: false,
     game: null,
-    authors: []
+    authors: [],
+    selectedTheme: null,
 };
 
 export interface GameAuthors {
