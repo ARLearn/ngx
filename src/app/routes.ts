@@ -47,6 +47,7 @@ export const APP_ROUTES: Routes = [
                     {path: '', redirectTo: 'overview', pathMatch: 'full'},
                     {path: 'video', component: VideoTutorialComponent, pathMatch: 'full'},
                     {path: 'faq', component: FaqTutorialComponent, pathMatch: 'full'},
+                    {path: 'faq/:gameId', component: FaqTutorialComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},
                 ],
             },

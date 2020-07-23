@@ -7,11 +7,12 @@ import {StoreModule} from "@ngrx/store";
 import {reducers} from "./store/tutorial.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {TutorialEffects} from "./store/tutorial.effects";
+import { FaqListQuestionsComponent } from './components/faq-list-questions.component';
 
 
 
 @NgModule({
-  declarations: [VideoTutorialComponent, FaqTutorialComponent],
+  declarations: [VideoTutorialComponent, FaqTutorialComponent, FaqListQuestionsComponent],
   imports: [
     CommonModule,
     SharedModule.forChild(),

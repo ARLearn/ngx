@@ -6,6 +6,7 @@ import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
 import {Observable} from "rxjs";
 import {Game} from "../../game-management/store/current-game.state";
 import {getFaqGames} from "../store/tutorial.selector";
+import * as fromRoot from "../../core/selectors/router.selector";
 
 @Component({
     selector: 'app-faq-tutorial',
@@ -22,8 +23,13 @@ import {getFaqGames} from "../store/tutorial.selector";
             <div *ngFor="let topic of ((faqGames|async))">
                 {{topic.title}}
             </div>
-            
+
         </div>
+        
+        
+        <app-faq-list-questions
+        [gameId]="selectedGame|async"
+        ></app-faq-list-questions>
 
     `,
     styles: []
@@ -31,7 +37,9 @@ import {getFaqGames} from "../store/tutorial.selector";
 export class FaqTutorialComponent implements OnInit {
 
     gameTopicIds = environment.tutorial.faqTopics;
-    faqGames: Observable<Game> = this.store.select(getFaqGames);
+    faqGames: Observable<Game[]> = this.store.select(getFaqGames);
+
+    selectedGame: Observable<any> = this.store.select(fromRoot.selectRouteParam('gameId'));
 
     constructor(private store: Store<State>) {
     }

@@ -65,6 +65,7 @@ export interface GameMessageCommon {
     showInList?: boolean;
     fileReferences?: any;
     primaryColor?: string;
+    sortKey?: number;
 }
 
 
