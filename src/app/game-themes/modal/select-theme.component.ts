@@ -6,6 +6,7 @@ import {selectAll} from "../store/game-theme.selectors";
 import {Observable, Subject} from "rxjs";
 import {AngularFireStorage} from "angularfire2/storage";
 import {GameTheme} from "../store/game-theme.state";
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-select-theme',
@@ -49,10 +50,10 @@ import {GameTheme} from "../store/game-theme.state";
           <div class="theme-item" *ngFor="let theme of themes" [class.theme-item--selected]="selectedTheme?.themeId == theme.themeId" (click)="select(theme)">
             <span class="selected-icon" *ngIf="selectedTheme?.themeId == theme.themeId"><mat-icon>done</mat-icon></span>
             <div class="theme-img">
-              <img src="https://imgv2-1-f.scribdassets.com/img/document/271962386/original/eb330b9c8c/1587890633?v=1" alt="" />
+              <img [src]="theme.backgroundPath | async" alt="" />
             </div>
             <div class="theme-name">
-              {{ theme.backgroundPath }}
+              name
             </div>
           </div>
         </div>
@@ -62,9 +63,9 @@ import {GameTheme} from "../store/game-theme.state";
         <div class="maxwidth theme-toolbar-wrapper">
           <div class="theme-info">
             <div class="image">
-              <img src="https://imgv2-1-f.scribdassets.com/img/document/271962386/original/eb330b9c8c/1587890633?v=1" alt="">
+              <img [src]="selectedTheme.backgroundPath | async" alt="" />
             </div>
-            <h4>{{ selectedTheme.backgroundPath }}</h4>
+            <h4>selected theme</h4>
           </div>
           <div>
             <button mat-button color="primary" (click)="selectedTheme = null">Deselecteren</button>
@@ -187,9 +188,16 @@ import {GameTheme} from "../store/game-theme.state";
   `]
 })
 export class SelectThemeComponent implements OnInit {
-  public themes$ = this.store.select(selectAll);
+  public themes$ = this.store.select(selectAll)
+      .pipe(map(themes => {
+        return themes.map(theme => ({
+          ...theme,
+          backgroundPath: this.getDownloadUrl(theme.backgroundPath),
+          iconPath: this.getDownloadUrl(theme.iconPath),
+        }))
+      }));
 
-  public selectedTheme: GameTheme;
+  public selectedTheme: any;
 
   private submit$: Subject<GameTheme> = new Subject<GameTheme>();
 
@@ -218,7 +226,7 @@ export class SelectThemeComponent implements OnInit {
     this.submit$.next(this.selectedTheme);
   }
 
-  private getDownloadUrl(path: string) {
-    return this.afStorage.ref(path).getDownloadURL() as Observable<string>;
+  getDownloadUrl(path: string) {
+    return this.afStorage.ref(path).getDownloadURL().toPromise();
   }
 }

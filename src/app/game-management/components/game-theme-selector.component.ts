@@ -1,11 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {SelectThemeComponent} from "../../game-themes/modal/select-theme.component";
 import {Query} from "../../game-themes/store/game-theme.actions";
-import { SetSelectedThemeAction } from '../store/current-game.actions';
+import {SetSelectedThemeAction, SetSelectedThemeOptionsAction} from '../store/current-game.actions';
 import {getSelectedTheme} from "../store/current-game.selector";
+import {Observable, Subject} from "rxjs";
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-game-theme-selector',
@@ -14,7 +16,7 @@ import {getSelectedTheme} from "../store/current-game.selector";
             <div class="game-theme-selector full">
                 <div class="theme-wrapper">
                     <div class="theme-background">
-                        <img src="https://imgv2-1-f.scribdassets.com/img/document/271962386/original/eb330b9c8c/1587890633?v=1" alt="" />
+                        <img [src]="theme.backgroundPath | async" alt="" />
                     </div>
                     
                     <div class="colors">
@@ -22,7 +24,7 @@ import {getSelectedTheme} from "../store/current-game.selector";
                             <app-color-input
                                     [label]="'COMMON.PRIMARY_COLOR'|translate"
                                     [color]="theme.primaryColor"
-                                    [canEdit]="false"
+                                    [canEdit]="true"
                                     (onChange)="primColorChange($event)"
                             ></app-color-input>
                         </div>
@@ -31,7 +33,7 @@ import {getSelectedTheme} from "../store/current-game.selector";
                             <app-color-input
                                     [label]="'COMMON.SECONDARY_COLOR'|translate"
                                     [color]="theme.primaryColor"
-                                    [canEdit]="false"
+                                    [canEdit]="true"
                                     (onChange)="primColorChange($event)"
                             ></app-color-input>
                         </div>
@@ -41,13 +43,13 @@ import {getSelectedTheme} from "../store/current-game.selector";
                                 <label>Icon afbeelding</label>
                             </div>
                             <div class="theme-icon__img">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Screw_Head_-_Square_External.svg/480px-Screw_Head_-_Square_External.svg.png" alt="" />
+                                <img [src]="theme.iconPath | async" alt="" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="theme-btn-wrapper">
-                    <button mat-flat-button color="primary" class="theme-btn">Aanpassent</button>
+                    <button mat-flat-button color="primary" class="theme-btn" (click)="openSelectModal(theme)">Aanpassent</button>
                 </div>
             </div>
         </ng-container>
@@ -101,7 +103,7 @@ import {getSelectedTheme} from "../store/current-game.selector";
         
         .theme-background {
             width: 160px;
-            height: 240px;
+            height: 246px;
             margin-right: 2rem;
         }
         
@@ -143,8 +145,10 @@ import {getSelectedTheme} from "../store/current-game.selector";
         `
     ]
 })
-export class GameThemeSelectorComponent implements OnInit {
-    public theme$ = this.store.select(getSelectedTheme);
+export class GameThemeSelectorComponent implements OnInit, OnDestroy {
+    public theme$ = this.store.select(getSelectedTheme) as Observable<any>;
+
+    private unsubscribe$: Subject<void> = new Subject<void>();
 
     constructor(
         private store: Store<State>,
@@ -153,22 +157,30 @@ export class GameThemeSelectorComponent implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(new Query());
-        this.theme$.subscribe(console.log);
     }
 
-    openSelectModal() {
+    openSelectModal(theme = null) {
         const dialogRef = this.dialog.open(SelectThemeComponent, {
             panelClass: ['modal-fullscreen', "modal-dialog"],
             data: {}
         });
 
-        dialogRef.componentInstance.submit.subscribe((theme) => {
-            this.store.dispatch(new SetSelectedThemeAction(theme));
-            this.dialog.closeAll();
-        });
+        dialogRef.componentInstance.selectedTheme = theme;
+
+        dialogRef.componentInstance.submit
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((theme) => {
+                this.store.dispatch(new SetSelectedThemeAction(theme));
+                this.dialog.closeAll();
+            });
     }
 
     primColorChange(event) {
+        this.store.dispatch(new SetSelectedThemeOptionsAction({ primaryColor: event }));
+    }
 
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }
