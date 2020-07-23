@@ -18,7 +18,7 @@ import {AccountInfoComponent} from "./auth/pages/account-info/account-info.compo
 import {LoginScreenNoSocialComponent} from "./pages/login-screen/login-screen-no-social.component";
 import {RunSettingsPageComponent} from "./game-runs-management/pages/run-settings-page.component";
 import {environment} from "../environments/environment";
-import {ManageUsersComponent} from "./portal-management/pages/manage-users.component";
+import {ManageUsersComponent} from "./portal-user-management/pages/manage-users.component";
 import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-library.component";
 import {ActionsOverviewComponent} from "./run-actions/pages/actions-overview.component";
 import {ResponsesOverviewComponent} from "./run-responses/pages/responses-overview.component";

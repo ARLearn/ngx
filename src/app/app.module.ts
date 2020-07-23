@@ -64,6 +64,7 @@ import {RunResponsesModule} from "./run-responses/run-responses.module";
 import {VideoTutorialComponent} from "./tutorial/pages/video-tutorial.component";
 import {TutorialModule} from "./tutorial/tutorial.module";
 import {GameThemesModule} from "./game-themes/game-themes.module";
+import {PortalUserManagementModule} from "./portal-user-management/portal-user-management.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -152,6 +153,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         GameThemesModule,
         PlayerManagementModule,
         PortalManagementModule,
+        PortalUserManagementModule,
         FontAwesomeModule,
         RunActionsModule,
         RunResponsesModule,

@@ -48,12 +48,12 @@ export const PlayerActionTypes = {
     ADD_CONTACT_COMPLETED: '[Players] Add Contact Completed',
 };
 
-export class SearchUserRequestAction implements Action {
-    type = PlayerActionTypes.SEARCH_USER_REQUESTED;
-
-    constructor(public payload: { query: string } = null) {
-    }
-}
+// export class SearchUserRequestAction implements Action {
+//     type = PlayerActionTypes.SEARCH_USER_REQUESTED;
+//
+//     constructor(public payload: { query: string } = null) {
+//     }
+// }
 
 export class SearchUserCompletedAction implements Action {
     type = PlayerActionTypes.SEARCH_USER_COMPLETED;

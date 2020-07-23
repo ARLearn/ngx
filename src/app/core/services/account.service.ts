@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {GameMessage} from "../../game-messages/store/game-messages.state";
 import {map} from "rxjs/operators";
+import {Player} from "../../player-management/store/player.state";
 
 
 @Injectable()
@@ -22,10 +23,10 @@ export class AccountService {
         .get<any>(environment.api_url + '/account/create');
   }
 
-  search(query: string): Observable<any[]> {
-    query = 'test bibliotheek';
+  search(query: string): Observable<Player[]> {
+
     return this.http
-        .get<any>(environment.api_url + '/usermgt/accounts/' + query);
+        .get<any>(environment.api_url + '/usermgt/accounts/' + query).pipe(map(result => result.accountList));
   }
 
   updateExpiration(fullId: string, expiration: number, action:any): Observable<any[]> {

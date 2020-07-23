@@ -21,7 +21,7 @@ import {Action} from "@ngrx/store/src/models";
     `,
     styles: [`
         :host {
-            position: absolute;
+            //position: absolute;
             width: 100%;
             height: 35px;
             margin-top: 29px;

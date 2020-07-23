@@ -1,13 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Store } from "@ngrx/store";
-import { State } from "../../core/reducers";
-import { SearchUserRequestAction } from "../../player-management/store/player.actions";
-import { Observable } from "rxjs";
-import { Player } from "../../player-management/store/player.state";
-import { getSearchedUsers } from "../../player-management/store/player.selector";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
-import { SelectionModel } from "@angular/cdk/collections";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {State} from "../../core/reducers";
+// import {SearchUserRequestAction} from "../../player-management/store/player.actions";
+import {Observable} from "rxjs";
+import {Player} from "../../player-management/store/player.state";
+import {getSearchedUsers} from "../../player-management/store/player.selector";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {SelectionModel} from "@angular/cdk/collections";
+import {SetGamesFilterAction} from "../../games-management/store/game.actions";
+import {Query} from "../store/portal-users.actions";
+import {selectAll} from '../store/portal-users.selectors';
 
 @Component({
     selector: 'app-manage-users',
@@ -21,24 +24,36 @@ import { SelectionModel } from "@angular/cdk/collections";
                      <span>
                         {{ selection.selected.length }} {{ 'SELECTED' | translate }} >
                      </span>
-                    <button class="actions-btn" mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }} <mat-icon>keyboard_arrow_down</mat-icon></button>
+                    <button class="actions-btn" mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }}
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                    </button>
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item>Item 1</button>
                         <button mat-menu-item>Item 2</button>
                     </mat-menu>
                 </div>
                 <div>
-                    <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Organsitie <mat-icon>arrow_drop_down</mat-icon></button>
+                    <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Organsitie
+                        <mat-icon>arrow_drop_down</mat-icon>
+                    </button>
                     <mat-menu #orgMenu="matMenu">
                         <button mat-menu-item>Item 1</button>
                         <button mat-menu-item>Item 2</button>
+                        <button mat-menu-item>Item 3</button>
                     </mat-menu>
                 </div>
-
+                <div>
+                    <app-search-button
+                            [placeholder]="'MESSAGE.START_TYPING_TO_SEARCH' | translate"
+                            [dispatchAction]="dispatchAction"
+                            [filter]="filter"
+                    >
+                    </app-search-button>
+                </div>
             </div>
 
 
-            <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
+            <table mat-table [dataSource]="dataSource" matSort>
 
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
@@ -65,7 +80,11 @@ import { SelectionModel } from "@angular/cdk/collections";
 
                 <ng-container matColumnDef="location">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)"><mat-chip-list><mat-chip color="secondary" selected>Bibliotheek Brussel</mat-chip></mat-chip-list></td>
+                    <td mat-cell *matCellDef="let row" (click)="click(row)">
+                        <mat-chip-list>
+                            <mat-chip color="secondary" selected>{{row.label}}</mat-chip>
+                        </mat-chip-list>
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="email">
@@ -104,7 +123,6 @@ import { SelectionModel } from "@angular/cdk/collections";
             </table>
         </div>
 
-        {{userList|async|json}}
     `,
     styles: [`
         .full-width-container {
@@ -213,6 +231,10 @@ export class ManageUsersComponent implements OnInit {
     displayedColumns = ['select', 'name', 'location', 'email', 'lastModificationDate', 'controls'];
     dataSource: MatTableDataSource<Player>;
     selection = new SelectionModel<Player>(true, []);
+
+    public dispatchAction = new Query();
+    public filter: string;
+
     subMenuItems = [
         {
             routerLink: '/portal/root/portal',
@@ -225,7 +247,8 @@ export class ManageUsersComponent implements OnInit {
     ];
 
 
-    userList: Observable<any> = this.store.select(getSearchedUsers);
+    userList: Observable<any> = this.store.select(selectAll);
+
     constructor(private store: Store<State>
     ) {
     }
@@ -235,10 +258,11 @@ export class ManageUsersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.store.dispatch(new SearchUserRequestAction({query: "some query"}));
+        // this.store.dispatch(new Query("stefaan"));
 
         this.userList.subscribe((users) => {
-            this.dataSource = new MatTableDataSource(users.accountList);
+            console.log(users);
+            this.dataSource = new MatTableDataSource(users);
             this.dataSource.paginator = this.paginator;
         });
     }
