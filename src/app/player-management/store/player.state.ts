@@ -6,7 +6,7 @@ export interface PlayerState {
   invitation: Invitation;
   loadingComplete: boolean;
   filter: string[];
-  portalPlayers: Player[];
+  // portalPlayers: Player[];
 }
 
 export const playersInitialState: PlayerState = {
@@ -17,7 +17,7 @@ export const playersInitialState: PlayerState = {
   pendingInvitationsToMe: [],
   invitation: null,
   loadingComplete: false,
-  portalPlayers: []
+  // portalPlayers: []
 };
 
 

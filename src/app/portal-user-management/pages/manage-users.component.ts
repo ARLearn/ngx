@@ -4,7 +4,6 @@ import {State} from "../../core/reducers";
 // import {SearchUserRequestAction} from "../../player-management/store/player.actions";
 import {Observable} from "rxjs";
 import {Player} from "../../player-management/store/player.state";
-import {getSearchedUsers} from "../../player-management/store/player.selector";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";

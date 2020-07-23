@@ -23,8 +23,6 @@ import {
     RemovePendingContactsRequestAction,
     ResendPendingCompletedAction,
     ResendPendingRequestedAction,
-    SearchUserCompletedAction,
-    SearchUserRequestAction,
     SetInvitationIdCompletedAction, UpdateAccountExpirationCompletedAction, UpdateAccountExpirationRequestAction
 } from './player.actions';
 import {State} from 'src/app/core/reducers';
@@ -83,27 +81,27 @@ export class PlayerEffects {
             )
         );
 
-    @Effect()
-    searchUsers: Observable<Action> = this.actions$
-        .pipe(
-            ofType(PlayerActionTypes.SEARCH_USER_REQUESTED),
-            mergeMap((action: SearchUserRequestAction) => this.accounts
-                .search(action.payload.query)
-            ),
-            map(res =>
-                    new SearchUserCompletedAction(res),
-                catchError((error) => {
-                    return of(new SetErrorAction(error.error));
-                })
-            )
-        );
+    // @Effect()
+    // searchUsers: Observable<Action> = this.actions$
+    //     .pipe(
+    //         ofType(PlayerActionTypes.SEARCH_USER_REQUESTED),
+    //         mergeMap((action: SearchUserRequestAction) => this.accounts
+    //             .search(action.payload.query)
+    //         ),
+    //         map(res =>
+    //                 new SearchUserCompletedAction(res),
+    //             catchError((error) => {
+    //                 return of(new SetErrorAction(error.error));
+    //             })
+    //         )
+    //     );
 
     @Effect()
     updateExpiration: Observable<Action> = this.actions$
         .pipe(
             ofType(PlayerActionTypes.UPDATE_ACCOUNT_EXP_REQUESTED),
             mergeMap((action: UpdateAccountExpirationRequestAction) => this.accounts
-                .updateExpiration(action.payload.fullId, action.payload.expiration, action )
+                .updateExpiration(action.payload.fullId, action.payload.expiration, action)
             ),
             map(res =>
                     new UpdateAccountExpirationCompletedAction(res),

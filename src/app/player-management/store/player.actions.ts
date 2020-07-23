@@ -4,8 +4,8 @@ import {GameMessagesActionTypes} from "../../game-messages/store/game-messages.a
 import {PortalUserActionTypes} from "../../user-management/store/portal-user.actions";
 
 export const PlayerActionTypes = {
-    SEARCH_USER_REQUESTED: '[PortalUsers] Search User Requested',
-    SEARCH_USER_COMPLETED: '[PortalUsers] Search User Completed',
+    // SEARCH_USER_REQUESTED: '[PortalUsers] Search User Requested',
+    // SEARCH_USER_COMPLETED: '[PortalUsers] Search User Completed',
 
     UPDATE_ACCOUNT_EXP_REQUESTED: '[PortalUsers] Update Account Expiration Requested',
     UPDATE_ACCOUNT_EXP_COMPLETED: '[PortalUsers] Update Account Expiration Completed',
@@ -55,12 +55,12 @@ export const PlayerActionTypes = {
 //     }
 // }
 
-export class SearchUserCompletedAction implements Action {
-    type = PlayerActionTypes.SEARCH_USER_COMPLETED;
-
-    constructor(public payload: any) {
-    }
-}
+// export class SearchUserCompletedAction implements Action {
+//     type = PlayerActionTypes.SEARCH_USER_COMPLETED;
+//
+//     constructor(public payload: any) {
+//     }
+// }
 export class UpdateAccountExpirationRequestAction implements Action {
     type = PlayerActionTypes.UPDATE_ACCOUNT_EXP_REQUESTED;
 

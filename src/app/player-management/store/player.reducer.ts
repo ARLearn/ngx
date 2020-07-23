@@ -129,11 +129,11 @@ export function reducers(
             return playersInitialState;
         }
 
-        case actions.PlayerActionTypes.SEARCH_USER_COMPLETED: {
-            return Object.assign({}, state, {
-                portalPlayers: action.payload
-            });
-        }
+        // case actions.PlayerActionTypes.SEARCH_USER_COMPLETED: {
+        //     return Object.assign({}, state, {
+        //         portalPlayers: action.payload
+        //     });
+        // }
 
         default: {
             return state;
