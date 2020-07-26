@@ -36,7 +36,8 @@ import * as fromRoot from "../../core/selectors/router.selector";
 })
 export class FaqTutorialComponent implements OnInit {
 
-    gameTopicIds = environment.tutorial.faqTopics;
+    // gameTopicIds = environment.tutorial.faqTopics;
+    gameTopicIds = [];
     faqGames: Observable<Game[]> = this.store.select(getFaqGames);
 
     selectedGame: Observable<any> = this.store.select(fromRoot.selectRouteParam('gameId'));

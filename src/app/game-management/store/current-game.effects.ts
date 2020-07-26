@@ -9,7 +9,7 @@ import {
     AddGameAuthorRequestAction,
     DownloadGameRequestAction,
     GetCurrentGameFromRouterRequestAction,
-    LoadGameAuthorRequestAction, RemoveGameAuthorRequestAction
+    LoadGameAuthorRequestAction, RemoveGameAuthorRequestAction, SetSelectedThemeAction
 } from './current-game.actions';
 
 import {State} from 'src/app/core/reducers';
@@ -144,6 +144,24 @@ export class CurrentGameEffects {
             (
                 [action, game]: [RemoveGameAuthorRequestAction, Game]
             ) => this.gameService.revokeAuthors(game.gameId, action.payload.fullId).pipe(
+                map(res => {
+                    return new actions.LoadGameAuthorRequestAction();
+                }),
+                catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
+            )
+        )
+    );
+
+    @Effect()
+    saveTheme: Observable<Action> = this.actions$.pipe(
+        ofType(actions.CurrentGameActionTypes.SET_THEME),
+        withLatestFrom(
+            this.store$.pipe(select(getGame))
+        ),
+        mergeMap(
+            (
+                [action, game]: [SetSelectedThemeAction, Game]
+            ) => this.gameService.saveTheme(game.gameId, action.payload.themeId).pipe(
                 map(res => {
                     return new actions.LoadGameAuthorRequestAction();
                 }),

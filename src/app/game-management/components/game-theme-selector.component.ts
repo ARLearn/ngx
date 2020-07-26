@@ -1,29 +1,32 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
+import {Observable, Subject, Subscription} from "rxjs";
+import {takeUntil, withLatestFrom} from 'rxjs/operators';
+import {AngularFireStorage} from "angularfire2/storage";
+
 import {State} from "../../core/reducers";
 import {SelectThemeComponent} from "../../game-themes/modal/select-theme.component";
 import {Query} from "../../game-themes/store/game-theme.actions";
-import {SetSelectedThemeAction, SetSelectedThemeOptionsAction} from '../store/current-game.actions';
+import {SetSelectedThemeAction} from '../store/current-game.actions';
 import {getSelectedTheme} from "../store/current-game.selector";
-import {Observable, Subject} from "rxjs";
-import { takeUntil } from 'rxjs/operators';
+import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
 
 @Component({
     selector: 'app-game-theme-selector',
     template: `
-        <ng-container *ngIf="theme$ | async as theme; else selectThemeRef">
+        <ng-container *ngIf="selectedTheme; else selectThemeRef">
             <div class="game-theme-selector full">
                 <div class="theme-wrapper">
                     <div class="theme-background">
-                        <img [src]="theme.backgroundPath | async" alt="" />
+                        <img [src]="selectedTheme.backgroundPath | async" alt="" />
                     </div>
                     
                     <div class="colors">
                         <div class="primary-color">
                             <app-color-input
                                     [label]="'COMMON.PRIMARY_COLOR'|translate"
-                                    [color]="theme.primaryColor"
+                                    [color]="selectedTheme.primaryColor"
                                     [canEdit]="true"
                                     (onChange)="primColorChange($event)"
                             ></app-color-input>
@@ -32,7 +35,7 @@ import { takeUntil } from 'rxjs/operators';
                         <div class="secondary-color">
                             <app-color-input
                                     [label]="'COMMON.SECONDARY_COLOR'|translate"
-                                    [color]="theme.primaryColor"
+                                    [color]="selectedTheme.primaryColor"
                                     [canEdit]="true"
                                     (onChange)="primColorChange($event)"
                             ></app-color-input>
@@ -43,13 +46,13 @@ import { takeUntil } from 'rxjs/operators';
                                 <label>Icon afbeelding</label>
                             </div>
                             <div class="theme-icon__img">
-                                <img [src]="theme.iconPath | async" alt="" />
+                                <img [src]="selectedTheme.iconPath | async" alt="" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="theme-btn-wrapper">
-                    <button mat-flat-button color="primary" class="theme-btn" (click)="openSelectModal(theme)">Aanpassent</button>
+                    <button mat-flat-button color="primary" class="theme-btn" (click)="openSelectModal(selectedTheme)">Aanpassent</button>
                 </div>
             </div>
         </ng-container>
@@ -146,17 +149,28 @@ import { takeUntil } from 'rxjs/operators';
     ]
 })
 export class GameThemeSelectorComponent implements OnInit, OnDestroy {
-    public theme$ = this.store.select(getSelectedTheme) as Observable<any>;
+    public theme$ = this.store.select(getSelectedTheme) as Observable<number>;
+    public themes$ = this.store.select(selectAll) as Observable<any>;
+    public selectedTheme: any;
 
-    private unsubscribe$: Subject<void> = new Subject<void>();
+    private subscription: Subscription = new Subscription();
 
     constructor(
         private store: Store<State>,
-                public dialog: MatDialog) {
-    }
+        public dialog: MatDialog,
+        private afStorage: AngularFireStorage
+    ) {}
 
     ngOnInit(): void {
         this.store.dispatch(new Query());
+
+        this.subscription.add(this.theme$.pipe(withLatestFrom(this.themes$)).subscribe(([theme, themes]) => {
+            this.selectedTheme = themes.find(t => t.themeId == theme);
+            if (this.selectedTheme) {
+                this.selectedTheme.backgroundPath = this.getDownloadUrl(this.selectedTheme.backgroundPath);
+                this.selectedTheme.iconPath = this.getDownloadUrl(this.selectedTheme.iconPath);
+            }
+        }));
     }
 
     openSelectModal(theme = null) {
@@ -167,20 +181,23 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
 
         dialogRef.componentInstance.selectedTheme = theme;
 
-        dialogRef.componentInstance.submit
-            .pipe(takeUntil(this.unsubscribe$))
+        this.subscription.add(dialogRef.componentInstance.submit
             .subscribe((theme) => {
                 this.store.dispatch(new SetSelectedThemeAction(theme));
                 this.dialog.closeAll();
-            });
+            }));
     }
 
-    primColorChange(event) {
-        this.store.dispatch(new SetSelectedThemeOptionsAction({ primaryColor: event }));
-    }
+    primColorChange(event) {}
 
     ngOnDestroy() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
+        this.subscription.unsubscribe();
+    }
+
+    getDownloadUrl(path: string) {
+        if (typeof path !== 'string') {
+            return path;
+        }
+        return this.afStorage.ref(path).getDownloadURL().toPromise();
     }
 }

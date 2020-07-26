@@ -73,13 +73,7 @@ export function reducers(
 
         case actions.CurrentGameActionTypes.SET_THEME: {
             return Object.assign({}, state, {
-                selectedTheme: action.payload
-            });
-        }
-
-        case actions.CurrentGameActionTypes.SET_THEME_OPTIONS: {
-            return Object.assign({}, state,{
-                selectedTheme: { ...state.selectedTheme, ...action.payload }
+                game: {...state.game, theme: action.payload.themeId}
             });
         }
 

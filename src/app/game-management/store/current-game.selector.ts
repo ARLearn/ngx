@@ -21,7 +21,7 @@ const _getButtonDisabled = (state: CurrentGameState) => {
 };
 const _getGame = (state: CurrentGameState) => state.game;
 const _getGameAuthors = (state: CurrentGameState) => state.authors;
-const _getSelectedTheme = (state: CurrentGameState) => state.selectedTheme;
+const _getSelectedTheme = (state: CurrentGameState) => state.game?.theme;
 
 export const getLoading = createSelector(getCurrentGameFeature, _getLoading);
 export const getGame = createSelector(getCurrentGameFeature, _getGame);

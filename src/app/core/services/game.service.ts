@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {map} from "rxjs/operators";
 import {Game} from "../../game-management/store/current-game.state";
@@ -73,6 +73,12 @@ export class GameService {
     revokeAuthors(gameId: number, fullId: string) {
         return this.http
             .get<any>(environment.api_url + '/game/access/revoke/' + gameId + '/' + fullId);
+    }
+
+    saveTheme(gameId: number, themeId: string) {
+        console.log('TODO: save theme', gameId, themeId);
+
+        return of(true);
     }
 }
 

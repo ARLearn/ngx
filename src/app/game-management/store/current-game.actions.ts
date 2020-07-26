@@ -24,7 +24,6 @@ export const CurrentGameActionTypes = {
 
   DOWNLOAD_GAME_REQUESTED: '[CurrentGame] Download Game Requested',
   SET_THEME: '[CurrentGame] Set Theme',
-  SET_THEME_OPTIONS: '[CurrentGame] Set Theme Options',
   CURRENT_GAME_ERROR: '[CurrentGame]  Error'
 };
 
@@ -125,12 +124,6 @@ export class DownloadGameRequestAction implements Action {
 
 export class SetSelectedThemeAction implements Action {
   type = CurrentGameActionTypes.SET_THEME;
-
-  constructor(public payload: any) {}
-}
-
-export class SetSelectedThemeOptionsAction implements Action {
-  type = CurrentGameActionTypes.SET_THEME_OPTIONS;
 
   constructor(public payload: any) {}
 }

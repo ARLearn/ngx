@@ -53,7 +53,7 @@ import { map } from 'rxjs/operators';
               <img [src]="theme.backgroundPath | async" alt="" />
             </div>
             <div class="theme-name">
-              name
+              {{ theme.name }}
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ import { map } from 'rxjs/operators';
             <div class="image">
               <img [src]="selectedTheme.backgroundPath | async" alt="" />
             </div>
-            <h4>selected theme</h4>
+            <h4>{{ selectedTheme.name }}</h4>
           </div>
           <div>
             <button mat-button color="primary" (click)="selectedTheme = null">Deselecteren</button>
@@ -227,6 +227,9 @@ export class SelectThemeComponent implements OnInit {
   }
 
   getDownloadUrl(path: string) {
+    if (typeof path !== 'string') {
+      return path;
+    }
     return this.afStorage.ref(path).getDownloadURL().toPromise();
   }
 }
