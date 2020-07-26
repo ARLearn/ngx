@@ -19,18 +19,29 @@ import {selectAll} from '../store/portal-users.selectors';
         </app-top-level-navbar>
         <div class="users maxwidth">
             <div class="mb-4 mt-5 d-flex align-items-center justify-content-between">
-                <div>
-                     <span>
-                        {{ selection.selected.length }} {{ 'SELECTED' | translate }} >
-                     </span>
-                    <button class="actions-btn" mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }}
-                        <mat-icon>keyboard_arrow_down</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item>Item 1</button>
-                        <button mat-menu-item>Item 2</button>
-                    </mat-menu>
+                <div class="d-flex align-items-center">
+                    <div class="selects">
+                         <span>
+                            {{ selection.selected.length }} {{ 'SELECTED' | translate }} >
+                         </span>
+                        <button class="actions-btn" mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }}
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item>Item 1</button>
+                            <button mat-menu-item>Item 2</button>
+                        </mat-menu>
+                    </div>
+                    <div>
+                        <app-search-button
+                                [placeholder]="'MESSAGE.START_TYPING_TO_SEARCH' | translate"
+                                [dispatchAction]="dispatchAction"
+                                [filter]="filter"
+                        >
+                        </app-search-button>
+                    </div>
                 </div>
+                
                 <div>
                     <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Organsitie
                         <mat-icon>arrow_drop_down</mat-icon>
@@ -40,14 +51,6 @@ import {selectAll} from '../store/portal-users.selectors';
                         <button mat-menu-item>Item 2</button>
                         <button mat-menu-item>Item 3</button>
                     </mat-menu>
-                </div>
-                <div>
-                    <app-search-button
-                            [placeholder]="'MESSAGE.START_TYPING_TO_SEARCH' | translate"
-                            [dispatchAction]="dispatchAction"
-                            [filter]="filter"
-                    >
-                    </app-search-button>
                 </div>
             </div>
 
@@ -222,6 +225,12 @@ import {selectAll} from '../store/portal-users.selectors';
                 display: none;
             }
         }
+        
+        .selects {
+            border-right: 1px solid #e0e0e0;
+            padding-right: 10px;
+            margin-right: 30px;
+        }
 
     `]
 })
@@ -249,8 +258,7 @@ export class ManageUsersComponent implements OnInit {
     userList: Observable<any> = this.store.select(selectAll);
 
     constructor(private store: Store<State>
-    ) {
-    }
+    ) {}
 
     click(item) {
         console.log(item);
