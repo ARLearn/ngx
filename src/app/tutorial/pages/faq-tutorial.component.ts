@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from "@ngrx/store";
 import { State } from 'src/app/core/reducers';
 import {getFaqGames} from "../store/tutorial.selector";
+import {environment} from "../../../environments/environment";
+import {Game} from "../../game-management/store/current-game.state";
+import {Observable} from "rxjs";
+import * as fromRoot from "../../core/selectors/router.selector";
+import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
 
 @Component({
   selector: 'app-faq-tutorial',
@@ -13,6 +18,9 @@ import {getFaqGames} from "../store/tutorial.selector";
       <div class="maxwidth">
         <div class="questions-wrapper">
           <div class="sidebar">
+            <button class="btn-category" *ngFor="let topic of ((faqGames|async))">
+              {{topic.title}}
+            </button>
             <button class="btn-category selected">Getting started</button>
             <button class="btn-category">Creating games</button>
             <button class="btn-category">Exploring games</button>
@@ -71,6 +79,11 @@ import {getFaqGames} from "../store/tutorial.selector";
 })
 export class FaqTutorialComponent implements OnInit {
 
+  gameTopicIds = environment.tutorial.faqTopics;
+  faqGames: Observable<Game[]> = this.store.select(getFaqGames);
+
+  selectedGame: Observable<any> = this.store.select(fromRoot.selectRouteParam('gameId'));
+
   subMenuItems = [
     {
       routerLink: '/portal/tutorial/video',
@@ -84,6 +97,8 @@ export class FaqTutorialComponent implements OnInit {
 
   constructor(public store: Store<State>) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetTutorialGamesRequestAction(gameId)));
+  }
 
 }
