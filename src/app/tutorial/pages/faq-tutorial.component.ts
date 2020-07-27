@@ -1,54 +1,89 @@
-import {Component, OnInit} from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {Store} from "@ngrx/store";
-import {State} from "../../core/reducers";
-import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
-import {Observable} from "rxjs";
-import {Game} from "../../game-management/store/current-game.state";
+import { Component, OnInit } from '@angular/core';
+import { Store } from "@ngrx/store";
+import { State } from 'src/app/core/reducers';
 import {getFaqGames} from "../store/tutorial.selector";
-import * as fromRoot from "../../core/selectors/router.selector";
 
 @Component({
-    selector: 'app-faq-tutorial',
-    template: `
-        <app-top-level-navbar [title]="'Help'">
-        </app-top-level-navbar>
+  selector: 'app-faq-tutorial',
+  template: `
+    <app-top-level-navbar [title]="'FAQ'">
+      <app-subtabs-navbar [items]="subMenuItems"></app-subtabs-navbar>
+    </app-top-level-navbar>
+    <div class="bg-white">
+      <div class="maxwidth">
+        <div class="questions-wrapper">
+          <div class="sidebar">
+            <button class="btn-category selected">Getting started</button>
+            <button class="btn-category">Creating games</button>
+            <button class="btn-category">Exploring games</button>
+            <button class="btn-category">Templates</button>
+            <button class="btn-category">Tips & tricks</button>
+            <button class="btn-category">Account</button>
+            <button class="btn-category">Meer...</button>
+          </div>
 
-        <div class="context-tabs">
-
+          <div class="main-content">
+            <app-faq-list-questions></app-faq-list-questions>
         </div>
-        <div class="full-width-container maxwidth">
-            <h1>These are the topics that go in the left pane</h1>
-            {{gameTopicIds}}
-            <div *ngFor="let topic of ((faqGames|async))">
-                {{topic.title}}
-            </div>
-
         </div>
-        
-        
-        <app-faq-list-questions
-        [gameId]="selectedGame|async"
-        ></app-faq-list-questions>
-
-    `,
-    styles: []
+      </div>
+    </div>
+  `,
+  styles: [
+      `
+     .questions-wrapper {
+       display: flex;
+       min-height: calc(100vh - 144px);
+     }
+     .sidebar {
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       min-width: 280px;
+       margin-right: 40px;
+       padding-right: 50px;
+       
+       border-right: 1px solid #DDDDDD;
+     }
+    .btn-category {
+      display: block;
+      width: 100%;
+      margin-bottom: 2px;
+      padding: 0.5rem 1rem;
+      background: none;
+      text-align: left;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-category.selected {
+      font-weight: 500;
+    }
+    .btn-category.selected,
+    .btn-category:hover {
+      background-color: #f2f9fd;
+    }
+    .main-content {
+      flex: 1;
+    }
+    `
+  ]
 })
 export class FaqTutorialComponent implements OnInit {
 
-    // gameTopicIds = environment.tutorial.faqTopics;
-    gameTopicIds = [];
-    faqGames: Observable<Game[]> = this.store.select(getFaqGames);
+  subMenuItems = [
+    {
+      routerLink: '/portal/tutorial/video',
+      label: 'HELP.VIDEO_INSTRUCTIONS'
+    },
+    {
+      routerLink: '/portal/tutorial/faq',
+      label: 'HELP.QUESTIONS'
+    },
+  ];
 
-    selectedGame: Observable<any> = this.store.select(fromRoot.selectRouteParam('gameId'));
+  constructor(public store: Store<State>) { }
 
-    constructor(private store: Store<State>) {
-    }
-
-
-    ngOnInit(): void {
-
-        this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetTutorialGamesRequestAction(gameId)));
-    }
+  ngOnInit(): void {}
 
 }

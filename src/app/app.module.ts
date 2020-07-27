@@ -61,7 +61,6 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {PortalManagementModule} from "./portal-management/portal-management.module";
 import {RunActionsModule} from "./run-actions/run-actions.module";
 import {RunResponsesModule} from "./run-responses/run-responses.module";
-import {VideoTutorialComponent} from "./tutorial/pages/video-tutorial.component";
 import {TutorialModule} from "./tutorial/tutorial.module";
 import {GameThemesModule} from "./game-themes/game-themes.module";
 import {PortalUserManagementModule} from "./portal-user-management/portal-user-management.module";
