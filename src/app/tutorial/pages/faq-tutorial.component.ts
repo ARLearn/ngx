@@ -31,7 +31,8 @@ import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
           </div>
 
           <div class="main-content">
-            <app-faq-list-questions></app-faq-list-questions>
+            <app-faq-list-questions       [gameId]="selectedGame|async"
+                ></app-faq-list-questions>
         </div>
         </div>
       </div>
