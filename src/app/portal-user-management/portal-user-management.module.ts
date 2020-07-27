@@ -6,11 +6,12 @@ import {portalUserReducer} from "./store/portal-users.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {PortalUsersEffects} from "./store/portal-users.effects";
 import {SharedModule} from "../shared/shared.module";
+import {ManageUserComponent} from "./pages/manage-user.component";
 
 
 
 @NgModule({
-  declarations: [ManageUsersComponent],
+  declarations: [ManageUsersComponent, ManageUserComponent],
   imports: [
     SharedModule.forChild(),
     CommonModule,
