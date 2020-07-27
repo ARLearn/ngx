@@ -43,6 +43,5 @@ export class TutorialEffects {
         private store: Store<State>,
         private portalGamesService: GameService,
         private messagesService: GameMessagesService,
-    ) {
-    }
+    ) {}
 }

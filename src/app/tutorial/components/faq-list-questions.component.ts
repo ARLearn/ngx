@@ -9,19 +9,37 @@ import {sortedMessages} from "../store/tutorial.selector";
 @Component({
     selector: 'app-faq-list-questions',
     template: `
-        <div>
-            <h1>Veelgestelde vragen (FAQ)</h1>
-            {{gameId}}
-        </div>
+        <h2 class="title">Veelgestelde vragen</h2>
 
-        <div *ngFor="let questions of ((questions|async))">
-            {{questions.name}}
-            <b>and in html</b>
-            {{questions.richText}}
+        <div class="topic">
+            <h4 class="topic-heading primary-color">Aanschaf</h4>
+
+            <div class="topic-questions">
+                <app-question *ngFor="let question of ((questions|async))" [question]="question"></app-question>
+            </div>
         </div>
 
     `,
-    styles: []
+    styles: [
+        `
+            .title {
+                margin-top: 60px;
+                font-weight: 500;
+            }
+            .topic {
+                margin-top: 40px;
+            }
+            .topic-heading {
+                padding: 10px 20px;
+                margin-bottom: 20px;
+                font-weight: 400;
+                background-color: rgba(62, 163, 220, 0.07);
+            }
+            ::ng-deep .topic-questions > *:first-child .question {
+                border-top: 1px solid #F0F0F0;
+            }
+        `
+    ]
 })
 export class FaqListQuestionsComponent implements OnInit, OnChanges {
 

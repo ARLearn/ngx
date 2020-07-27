@@ -23,9 +23,10 @@ import {ManageGameLibraryComponent} from "./portal-management/pages/manage-game-
 import {ActionsOverviewComponent} from "./run-actions/pages/actions-overview.component";
 import {ResponsesOverviewComponent} from "./run-responses/pages/responses-overview.component";
 import {GameDisappearFlowchartComponent} from "./game-messages/pages/game.disappear.flowchart";
-import {VideoTutorialComponent} from "./tutorial/pages/video-tutorial.component";
+import {VideosTutorialComponent} from "./tutorial/pages/videos-tutorial.component";
+import {VideoTutorialComponent} from './tutorial/pages/video-tutorial.component';
 import {FaqTutorialComponent} from "./tutorial/pages/faq-tutorial.component";
-import { ManageGameComponent } from './portal-management/pages/manage-game.component';
+import {ManageGameComponent} from './portal-management/pages/manage-game.component';
 import {GameDetailSettingsComponent} from "./game-management/pages/game-detail-settings.component";
 
 export const APP_ROUTES: Routes = [
@@ -45,7 +46,8 @@ export const APP_ROUTES: Routes = [
                 path: 'tutorial', // this will become deprecated
                 children: [
                     {path: '', redirectTo: 'overview', pathMatch: 'full'},
-                    {path: 'video', component: VideoTutorialComponent, pathMatch: 'full'},
+                    {path: 'video', component: VideosTutorialComponent, pathMatch: 'full'},
+                    {path: 'video/:videoId', component: VideoTutorialComponent, pathMatch: 'full'},
                     {path: 'faq', component: FaqTutorialComponent, pathMatch: 'full'},
                     {path: 'faq/:gameId', component: FaqTutorialComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},

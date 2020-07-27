@@ -1,6 +1,5 @@
 import {Game} from "../../game-management/store/current-game.state";
-import {GameMessage} from "../../game-messages/store/game-messages.state";
-
+import {GameMessage} from "../../game-messages/store/types";
 
 export interface TutorialState {
     faqGames: Game[];
@@ -11,4 +10,3 @@ export const initialTutorialState: TutorialState = {
     faqGames: [],
     messages: []
 };
-
