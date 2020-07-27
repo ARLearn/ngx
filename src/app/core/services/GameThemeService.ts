@@ -29,7 +29,14 @@ export class GameThemeService {
     }
 
 
+    createTheme(theme: any): Observable<any> {
+        return this.http
+            .post<any>(environment.api_url + '/game/theme/create', theme);
+    }
+
 }
+
+
 const gameThemeTransform = (theme: any) => {
     if (theme.themeId) {
         theme.themeId = Number.parseInt(theme.themeId, 10);

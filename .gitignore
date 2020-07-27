@@ -5,6 +5,8 @@ ngx.iml
 src/WEB-INF
 src/environments/environment.*
 
+**/firebase-pk.json
+
 /dist
 /tmp
 /out-tsc
@@ -52,3 +54,9 @@ src/environments
 .idea
 
 nodejs-scripts/
+
+#exclude dido
+src/app/pages/homepage/homepage.dido.html
+src/app/pages/login-screen/login-screen.component.dido.html
+src/main.moonlite.scss
+src/webinf/dido/
