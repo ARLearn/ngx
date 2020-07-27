@@ -7,10 +7,8 @@ export function reducers(
     state = initialTutorialState, action: actions.TutorialAction): TutorialState {
     switch (action.type) {
         case actions.TutorialActionTypes.GET_FAQ_GAMES_SUCCESS: {
-            //todo: this is not entirely correct... filter out doubles...
-
             return {
-                faqGames: [action.payload, ...state.faqGames],
+                faqGames: [action.payload, ...state.faqGames.filter(game => game.gameId != action.payload.gameId)],
                 messages: state.messages
             };
         }
