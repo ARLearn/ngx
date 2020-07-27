@@ -1,5 +1,5 @@
 import {arlearnActionsAdapter, RunResponseState} from './run-responses.reducer';
-import {createFeatureSelector} from '@ngrx/store';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 
 export const getArlearnActionsState = createFeatureSelector<RunResponseState>('run-responses');
 
@@ -9,3 +9,7 @@ export const {
     selectAll,
     selectTotal,
 } = arlearnActionsAdapter.getSelectors(getArlearnActionsState);
+
+export const getServerTime = createSelector(getArlearnActionsState, (state) => {
+    return state.serverTime;
+});

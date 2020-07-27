@@ -13,6 +13,7 @@ import {State} from "../../core/reducers";
 import { GameMessagesService } from 'src/app/core/services/game-messages.service';
 import { GameMessageEditCompletedAction } from 'src/app/game-message/store/game-message.actions';
 import { SetSelectedScreenAction } from 'src/app/game-messages/store/game-messages.actions';
+import {getServerTime} from "./run-responses.selectors";
 
 
 @Injectable()
@@ -25,10 +26,11 @@ export class RunResponsesEffects {
         withLatestFrom(
             this.store.select(fromRoot.selectRouteParam('runId')),
             this.store.select(fromRoot.selectRouteParam('messageId')),
+            this.store.select(getServerTime),
         ),
-        mergeMap(([action, runId, messageId]: [Query, string, string]) => {
+        mergeMap(([action, runId, messageId, serverTime]: [Query, string, string, number]) => {
             this.store.dispatch(new SelectMessage());
-            return this.responsesService.getResponses(runId, 1, null);
+            return this.responsesService.getResponses(runId, serverTime, null);
         }),
         map(arr => {
             return new AddAll(arr);
