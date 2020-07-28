@@ -54,6 +54,7 @@ import { TopNavComponent } from './component/header-components/top-nav.component
 import { AccountSectionComponent } from './component/account/account-section.component';
 import { SubtabsNavbarComponent } from "./component/subtabs-navbar/subtabs-navbar.component";
 import { FileDropZoneComponent } from '../media-library/components/file-drop-zone/file-drop-zone.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -84,6 +85,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         MatChipsModule,
         AuthModule,
         MatMenuModule,
+        MatDatepickerModule,
 
         MatGridListModule,
 
@@ -128,6 +130,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         FilestoreBackgroundVideoComponent,
         HeaderBackButtonComponent,
         MatChipsModule,
+        MatDatepickerModule,
 
         SubtabsNavbarComponent,
         ConnectionTileComponent,

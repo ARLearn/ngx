@@ -237,7 +237,6 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     }
 
     getUsers(answerId) {
-        console.log(this.responses);
         const userIds = this.responses
             .filter(r => r.generalItemId === this.selectedScreen && r.responseValue === answerId)
             .map(r => r.userId);

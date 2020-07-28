@@ -20,14 +20,7 @@ import {Game} from './current-game.state';
 import FileSaver from 'file-saver';
 import {getMessagesSelector} from '../../game-messages/store/game-messages.selector';
 import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {
-    GameRunsActionTypes,
-    GetGameRunsCompletedAction,
-    GetGameRunsRequestAction
-} from '../../game-runs-management/store/game-runs.actions';
 import * as selector from '../../core/selectors/router.selector';
-import {SetErrorAction} from '../../shared/store/shared.actions';
-import {delay} from 'rxjs/operators';
 
 
 @Injectable()
@@ -169,5 +162,4 @@ export class CurrentGameEffects {
             )
         )
     );
-
 }

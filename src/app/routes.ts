@@ -28,6 +28,7 @@ import {VideoTutorialComponent} from './tutorial/pages/video-tutorial.component'
 import {FaqTutorialComponent} from "./tutorial/pages/faq-tutorial.component";
 import {ManageGameComponent} from './portal-management/pages/manage-game.component';
 import {GameDetailSettingsComponent} from "./game-management/pages/game-detail-settings.component";
+import {ManageUserComponent} from "./portal-user-management/pages/manage-user.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -72,6 +73,7 @@ export const APP_ROUTES: Routes = [
                     {path: 'librarymgt', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'library', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'usrmgt', component: ManageUsersComponent, pathMatch: 'full'},
+                    {path: 'usrmgt/:userId', component: ManageUserComponent, pathMatch: 'full'},
                     {path: 'portal', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'portal/:gameId', component: ManageGameComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},
