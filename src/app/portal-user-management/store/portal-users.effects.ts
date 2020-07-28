@@ -2,7 +2,16 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {act, Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
-import {AddAll, Query, PortalUserActionTypes, SelectMessage} from './portal-users.actions';
+import {
+    AddAll,
+    Query,
+    PortalUserActionTypes,
+    SelectMessage,
+    GetAccountRequest,
+    UpdateOne,
+    AddOne,
+    UpdateAccountRequest
+} from './portal-users.actions';
 import {map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 
 
@@ -30,6 +39,25 @@ export class PortalUsersEffects {
         })
     );
 
+    @Effect() getAccount$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.GET_REQ),
+        switchMap((action: GetAccountRequest) => {
+            return this.accounts.getWithId(action.fullId);
+        }),
+        map(arr => {
+            return new AddOne(arr);
+        })
+    );
+
+    @Effect() updateAccount$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.UPDATE_ACCOUNT_REQ),
+        switchMap((action: UpdateAccountRequest) => {
+            return this.accounts.updateAccount(action.account);
+        }),
+        map(arr => {
+            return new AddOne(arr);
+        })
+    );
 
     constructor(private actions$: Actions,
                 private store: Store<State>,

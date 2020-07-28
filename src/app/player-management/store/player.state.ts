@@ -42,16 +42,20 @@ export interface PendingInvitation {
 
 export interface Player {
   accountType: number;
+  firebaseId?: string;
   email: string;
-  familyName: string;
+  familyName?: string;
   fullId: string;
-  givenName: string;
+  givenName?: string;
   localId: string;
   name: string;
-  picture: string;
+  picture?: string;
+  password?: string;
   error?: string;
   accessRights?: string;
-  isConnection: boolean;
+  label?: string;
+  isConnection?: boolean;
+  expirationDate?: number;
 
 }
 

@@ -10,28 +10,49 @@ import {Player} from "../../player-management/store/player.state";
 @Injectable()
 export class AccountService {
 
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  get(): Observable<any[]> {
-    return this.http
-      .get<any>(environment.api_url + '/account/accountDetails');
-  }
+    get(): Observable<any[]> {
+        return this.http
+            .get<any>(environment.api_url + '/account/accountDetails');
+    }
 
-  recreate(): Observable<any> {
-    return this.http
-        .get<any>(environment.api_url + '/account/create');
-  }
+    getWithId(fullId: string): Observable<Player> {
+        return this.http
+            .get<any>(environment.api_url + '/account/' + fullId);
+    }
 
-  search(query: string): Observable<Player[]> {
+    recreate(): Observable<any> {
+        return this.http
+            .get<any>(environment.api_url + '/account/create');
+    }
 
-    return this.http
-        .get<any>(environment.api_url + '/usermgt/accounts/' + query).pipe(map(result => result.accountList));
-  }
+    search(query: string): Observable<Player[]> {
 
-  updateExpiration(fullId: string, expiration: number, action:any): Observable<any[]> {
-    return this.http
-        .get<any>(environment.api_url + `/usermgt/accounts/${fullId}/setExpiration/${expiration}`);
-  }
+        return this.http
+            .get<any>(environment.api_url + '/usermgt/accounts/' + query).pipe(map(result => result.accountList));
+    }
+
+    updateExpiration(fullId: string, expiration: number, action: any): Observable<any[]> {
+        return this.http
+            .get<any>(environment.api_url + `/usermgt/accounts/${fullId}/setExpiration/${expiration}`);
+    }
+
+    updateAccount(account: Player): Observable<Player> {
+        return this.http
+            .post<Player>(environment.api_url + '/account/update', account);
+    }
+
+    createAccount(account: Player): Observable<Player> {
+        //email
+        //password
+        //name
+        //are mandatory
+        //accountType should be 7 (but is ignored)
+
+        return this.http
+            .post<Player>(environment.api_url + '/account/create', account);
+    }
 }
 

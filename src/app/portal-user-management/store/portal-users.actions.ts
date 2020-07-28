@@ -4,6 +4,9 @@ import {Player} from "../../player-management/store/player.state";
 
 export enum PortalUserActionTypes {
     QUERY = '[PortalUser] Query',
+    GET_REQ = '[PortalUser] Get account request',
+    UPDATE_ACCOUNT_REQ = '[PortalUser] Update Account',
+
     ADD_ONE = '[PortalUser] Add One',
     UPDATE_ONE = '[PortalUser] Update One',
     DELETE_ONE = '[PortalUser] Delete One',
@@ -21,6 +24,22 @@ export class Query implements Action {
     setFilter(filter: string[]) {
         this.query = filter[0];
     }
+}
+
+export class GetAccountRequest implements Action {
+    readonly type = PortalUserActionTypes.GET_REQ;
+
+    constructor(public fullId: string = null) {
+    }
+
+}
+
+export class UpdateAccountRequest implements Action {
+    readonly type = PortalUserActionTypes.UPDATE_ACCOUNT_REQ;
+
+    constructor(public account: Player = null) {
+    }
+
 }
 
 export class AddOne implements Action {

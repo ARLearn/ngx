@@ -221,6 +221,12 @@
 		"SELF_REGISTRATION": "Zelfregistratie met QR code",
 		"SHOWPLAYERS": "Toon alle spelers"
 	},
+	"USER": {
+		"EMAIL": "E-mail",
+		"EXPIRE_DATE": "Vervaldatum",
+		"GENERIC": "Algemeen",
+		"NAME": "Naam"
+	},
 	"in range": "in range",
 	"next": "next",
 	"read": "read",

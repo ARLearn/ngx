@@ -75,9 +75,9 @@ import {selectAll} from '../store/portal-users.selectors';
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="name">
+                <ng-container matColumnDef="name" >
                     <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.NAME' | translate }}</th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)" class="name">{{row.name}}</td>
+                    <td mat-cell *matCellDef="let row"  class="name-pointer name" [routerLink]="'/portal/root/usrmgt/'+row.fullId" >{{row.name}} test</td>
                 </ng-container>
 
                 <ng-container matColumnDef="location">
@@ -127,6 +127,10 @@ import {selectAll} from '../store/portal-users.selectors';
 
     `,
     styles: [`
+        .name-pointer {
+            cursor: pointer;
+        }
+        
         .full-width-container {
             background-color: #F0F4F5; /*todo move up*/
         }

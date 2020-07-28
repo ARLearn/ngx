@@ -221,6 +221,12 @@
 		"SELF_REGISTRATION": "Self-registration with QR code",
 		"SHOWPLAYERS": "Show all players"
 	},
+	"USER": {
+		"EMAIL": "Email",
+		"EXPIRE_DATE": "Expiration date",
+		"GENERIC": "General",
+		"NAME": "Name"
+	},
 	"in range": "in range",
 	"next": "next",
 	"read": "read",

@@ -221,6 +221,12 @@
 		"SELF_REGISTRATION": "Selbstregistrierung mit QR-Code",
 		"SHOWPLAYERS": "Zeige alle Spieler"
 	},
+	"USER": {
+		"EMAIL": "E-Mail",
+		"EXPIRE_DATE": "Haltbarkeitsdatum",
+		"GENERIC": "Allgemein",
+		"NAME": "Name"
+	},
 	"in range": "",
 	"next": "",
 	"read": "",
