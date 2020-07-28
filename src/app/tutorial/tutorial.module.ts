@@ -12,6 +12,7 @@ import { FaqListQuestionsComponent } from './components/faq-list-questions.compo
 import {QuestionComponent} from "./components/question.component";
 import {VideoCardsComponent} from "./components/video-cards.component";
 import {VideosTutorialComponent} from "./pages/videos-tutorial.component";
+import { VideoCardComponent } from './components/video-card.component';
 
 
 
@@ -23,6 +24,7 @@ import {VideosTutorialComponent} from "./pages/videos-tutorial.component";
     FaqTutorialComponent,
     FaqListQuestionsComponent,
     QuestionComponent,
+    VideoCardComponent,
   ],
   imports: [
     CommonModule,

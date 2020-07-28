@@ -19,12 +19,12 @@ import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
                 <div class="questions-wrapper">
                     <div class="sidebar">
                         <button
-                                [ngClass]="{'selected': topic.gameId === (selectedGame|async)}"
-                                [routerLink]="'/portal/tutorial/faq/'+topic.gameId"
-                                class="btn-category" *ngFor="let topic of ((faqGames|async))">
-                            {{topic.title}}
+                        [ngClass]="{'selected': topic.gameId === (selectedGame|async)}"
+                        [routerLink]="'/portal/tutorial/faq/'+topic.gameId"
+                        class="btn-category" *ngFor="let topic of ((faqGames|async))">
+                        {{topic.title}}
                         </button>
-<!--                        <button class="btn-category selected">Getting started</button>-->
+                        <!--                        <button class="btn-category selected">Getting started</button>-->
 <!--                        <button class="btn-category">Creating games</button>-->
 <!--                        <button class="btn-category">Exploring games</button>-->
 <!--                        <button class="btn-category">Templates</button>-->
@@ -109,7 +109,10 @@ export class FaqTutorialComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetTutorialGamesRequestAction(gameId)));
+        this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetTutorialGamesRequestAction({
+            gameId: gameId,
+            faq: true
+        })));
     }
 
 }

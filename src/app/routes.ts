@@ -47,7 +47,8 @@ export const APP_ROUTES: Routes = [
                 children: [
                     {path: '', redirectTo: 'overview', pathMatch: 'full'},
                     {path: 'video', component: VideosTutorialComponent, pathMatch: 'full'},
-                    {path: 'video/:videoId', component: VideoTutorialComponent, pathMatch: 'full'},
+                    {path: 'video/:gameId', component: VideosTutorialComponent, pathMatch: 'full'},
+                    {path: 'video/:gameId/:videoId', component: VideoTutorialComponent, pathMatch: 'full'},
                     {path: 'faq', component: FaqTutorialComponent, pathMatch: 'full'},
                     {path: 'faq/:gameId', component: FaqTutorialComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},

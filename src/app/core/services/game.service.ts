@@ -23,7 +23,7 @@ export class GameService {
 
     }
 
-    get(gameId: number): Observable<any> {
+    get(gameId: number): Observable<Game> {
         return this.http
             .get<any>(environment.api_url + '/game/' + gameId)
             .pipe(map(transOneGame));
@@ -97,7 +97,7 @@ let gameTrans = (res: any) => {
     return res;
 };
 
-let transOneGame = (game: Game) => {
+const transOneGame = (game: Game) => {
     if (!game.config) {
         game.config = {};
 

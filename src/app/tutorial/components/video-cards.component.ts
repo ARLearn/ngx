@@ -1,63 +1,67 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {State} from "../../core/reducers";
+import {GetGameRequestAction} from "../store/tutorial.actions";
+import {Observable} from "rxjs";
+import {GameMessage} from "../../game-messages/store/types";
+import {sortedMessages} from "../store/tutorial.selector";
 
 @Component({
-  selector: 'app-video-cards',
-  template: `
-    <h4 class="topic-heading primary-color">{{ category }}</h4>
-    <div class="card-wrapper">
-      <mat-card *ngFor="let video of videos" class="question-card" routerLink="/portal/tutorial/video/1">
-        <img class="question-card-image" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-        <mat-card-content>
-          <h4 class="question-card-title">
-            Webinar Serious Gaming Platform - Een initiatief van NBD Biblion
-          </h4>
-          <p class="question-card-meta">
-            Bekijken, 7 min.
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  `,
-  styles: [
-      `
-      .topic-heading {
-        padding: 14px 20px;
-        margin: 50px 0 30px;
-        font-weight: 400;
-        background-color: rgba(62, 163, 220, 0.07);
-      }
-      .card-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 16px;
-      }
-      .question-card {
-        box-shadow: none;
-        border-radius: 0;
-        border: 1px solid #EEEEEE;
-        cursor: pointer;
-      }
-      .question-card-image {
-        height: 180px;
-        object-fit: cover;
-      }
-      .question-card-title {
-        padding-top: 10px;
-        font-size: 14px;
-      }
-      .question-card-meta {
-        padding: 10px 0 5px;
-      }
-    `
-  ]
+    selector: 'app-video-cards',
+    template: `
+        <h4 class="topic-heading primary-color">{{ category }} {{showAllVideos}}</h4>
+        <div class="card-wrapper">
+            <app-video-card *ngFor="let video of (videos$ | async)" class="question-card"
+                            [video]="video"></app-video-card>
+        </div>
+    `,
+    styles: [
+            `
+            .question-card {
+                box-shadow: none;
+                border-radius: 0;
+                border: 1px solid #EEEEEE;
+                cursor: pointer;
+            }
+            
+            .topic-heading {
+                padding: 14px 20px;
+                margin: 50px 0 30px;
+                font-weight: 400;
+                background-color: rgba(62, 163, 220, 0.07);
+            }
+
+            .card-wrapper {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 16px;
+            }
+
+
+        `
+    ]
 })
-export class VideoCardsComponent implements OnInit {
-  @Input() category = 'Test';
-  @Input() videos = [1, 2];
+export class VideoCardsComponent implements OnInit, OnChanges {
+    @Input() category = 'Test';
+    @Input() videos = [1, 2];
+    @Input() showAllVideos = true;
 
-  constructor() { }
+    @Input() gameId: number;
+    videos$: Observable<GameMessage[]> = this.store.select(sortedMessages);
 
-  ngOnInit(): void {
-  }
+    constructor(private store: Store<State>) {
+    }
+
+
+    ngOnInit(): void {
+
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (this.gameId != null) {
+            this.store.dispatch(new GetGameRequestAction(this.gameId));
+        }
+
+    }
 
 }

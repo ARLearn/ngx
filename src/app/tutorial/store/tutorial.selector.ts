@@ -12,6 +12,7 @@ export interface State extends fromRoot.State {
 
 export const getTutorialFeature = createFeatureSelector<State, TutorialState>('tutorial-games');
 export const getFaqGames = createSelector(getTutorialFeature, (state) => state.faqGames);
+export const getVideoGames = createSelector(getTutorialFeature, (state) => state.videoGames);
 export const getMessages = createSelector(getTutorialFeature, (state) => state.messages);
 
 
@@ -31,5 +32,25 @@ export const currentFaqGame = createSelector(fromRootSelector.selectRouteParam('
             return environment.tutorial.defaultFaq;
         }
         return id;
+    }
+);
+
+export const currentVideoGame = createSelector(fromRootSelector.selectRouteParam('gameId'), (id) => {
+        if (!id) {
+            return 'all';
+        }
+        return id;
+    }
+);
+
+export const currentVideoMessage = createSelector(
+    getMessages,
+    fromRootSelector.selectRouteParam('gameId'),
+    fromRootSelector.selectRouteParam('videoId'), (messages, gameId, videoId) => {
+        if (messages.length === 0) {
+            return null;
+        }
+        return messages.filter(message => ((Number.parseInt(message.gameId + '', 10) === Number.parseInt(gameId, 10))
+            && (message.id === Number.parseInt(videoId, 10))))[0];
     }
 );

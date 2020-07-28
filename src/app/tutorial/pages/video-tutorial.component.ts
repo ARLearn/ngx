@@ -1,4 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {State} from "../../core/reducers";
+import {GetGameRequestAction, GetTutorialGamesRequestAction} from "../store/tutorial.actions";
+import {Observable} from "rxjs";
+import {currentVideoMessage} from "../store/tutorial.selector";
+import {GameMessage} from "../../game-messages/store/game-messages.state";
+import * as fromRootSelector from "../../core/selectors/router.selector";
+import {AngularFireStorage} from "angularfire2/storage";
+
 
 @Component({
     selector: 'app-video-tutorial',
@@ -14,49 +23,32 @@ import {Component, OnInit} from '@angular/core';
                 </div>
                 <main class="main">
                     <div class="main-content">
-                        <h2 class="title">Webinar Serious Gaming Platform Een initiatief van NBD Biblion</h2>
+                        <h2 class="title">{{(selectedMessage|async)?.name}}</h2>
                         <p>Bekijken, 7 min.</p>
 
                         <div class="video">
                             <video id='video' controls="controls" preload='none'
                                    poster="http://media.w3.org/2010/05/sintel/poster.png">
-                                <source id='mp4' src="http://media.w3.org/2010/05/sintel/trailer.mp4" type='video/mp4'/>
-                                <source id='webm' src="http://media.w3.org/2010/05/sintel/trailer.webm" type='video/webm'/>
-                                <source id='ogv' src="http://media.w3.org/2010/05/sintel/trailer.ogv" type='video/ogg'/>
+                                <source id='mp4' [src]="(videoUrl |async)" type='video/mp4'/>
+<!--                                <source id='webm' src="http://media.w3.org/2010/05/sintel/trailer.webm" type='video/webm'/>-->
+<!--                                <source id='ogv' src="http://media.w3.org/2010/05/sintel/trailer.ogv" type='video/ogg'/>-->
                                 <p>Your user agent does not support the HTML5 Video element.</p>
                             </video>
                         </div>
 
                         <article class="article">
+                            {{videoUrl |async}}
                             <h5 class="article-title">Tussenkopje lorum ipsim dolor sit amet</h5>
 
-                            <p class="article-body">Vestibulum id ligula porta felis euismod semper. Aenean eu leo quam. Pellentesque ornare
-                                sem lacinia quam venenatis vestibulum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras
-                                mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor
-                                ligula, eget lacinia odio sem nec elit. Lorum ipseum dolor sit amet. Curabitur blandit tempus porttitor.
-                                Etiam porta sem malesuada magna mollis euismod. Morbi leo risus, porta ac consectetur ac, vestibulum at
-                                eros. Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis
-                                dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia
-                                odio sem nec elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-                                Cras justo odio, dapibus ac facilisis in, egestas eget quam. Sed posuere consectetur est at lobortis.
-                                Curabitur blandit tempus porttitor. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Cras
-                                mattis consectetur purus sit amet fermentum. Maecenas sed diam eget risus varius blandit sit amet non magna.
-                                Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-                                faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Morbi leo risus,
-                                porta ac consectetur ac, vestibulum at eros. Donec sed odio dui. Vivamus sagittis lacus vel augue laoreet
-                                rutrum faucibus dolorauctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia
-                                odio sem nec elit. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nulla
-                                vitae elit libero, a pharetra augue. Maecenas faucibus mollis interdum. Vestibulum id ligula porta felis
-                                euismod semper. Nulla vitae elit libero, a pharetra augue. Nullam id dolor id nibh ultricies vehicula ut id
-                                elit.</p>
+                            <p class="article-body">{{(selectedMessage|async)?.richText}}</p>
                         </article>
                     </div>
 
                     <div class="meta">
                         <span class="meta-item">{{ 'HELP.BACK_TO' | translate }}: <a class="primary-color"
-                                                               routerLink="/portal/tutorial/video">Introductie</a></span>
+                                                                                     routerLink="/portal/tutorial/video">Introductie</a></span>
                         <span class="meta-item">{{ 'HELP.NEXT' | translate }}: <a class="primary-color"
-                                                             routerLink="/portal/tutorial/video">Een account aanmaken</a></span>
+                                                                                  routerLink="/portal/tutorial/video">Een account aanmaken</a></span>
                     </div>
 
                     <div class="main-content">
@@ -138,7 +130,12 @@ import {Component, OnInit} from '@angular/core';
         }
     `]
 })
-export class VideoTutorialComponent implements OnInit {
+export class VideoTutorialComponent implements OnInit, OnChanges {
+
+    videoUrl: Observable<string>;
+
+    selectedMessage: Observable<GameMessage> = this.store.select(currentVideoMessage);
+    gameId: Observable<string> = this.store.select(fromRootSelector.selectRouteParam('gameId'));
     subMenuItems = [
         {
             routerLink: '/portal/tutorial/video',
@@ -150,10 +147,24 @@ export class VideoTutorialComponent implements OnInit {
         },
     ];
 
-    constructor() {
+    constructor(public store: Store<State>, public afStorage: AngularFireStorage) {
     }
 
     ngOnInit(): void {
+        this.ngOnChanges();
+    }
+
+    ngOnChanges(): void {
+        this.selectedMessage.subscribe(video => {
+            if (video != null) {
+                console.log("video url is ",video.fileReferences['video']);
+                this.videoUrl = this.afStorage.ref(video.fileReferences['video']).getDownloadURL();
+            }
+
+            }
+        );
+        this.gameId.subscribe(id =>
+            this.store.dispatch(new GetGameRequestAction(Number.parseInt(id, 10))));
     }
 
 }

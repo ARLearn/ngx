@@ -14,14 +14,14 @@ export const TutorialActionTypes = {
 export class GetTutorialGamesRequestAction implements Action {
     type = TutorialActionTypes.GET_FAQ_GAMES;
 
-    constructor(public payload: any) {
+    constructor(public payload: { gameId: number; faq: boolean }) {
     }
 }
 
 export class GetTutorialGameSuccessAction implements Action {
     type = TutorialActionTypes.GET_FAQ_GAMES_SUCCESS;
 
-    constructor(public payload: Game) {
+    constructor(public payload: { game: Game, faq: boolean }) {
     }
 }
 

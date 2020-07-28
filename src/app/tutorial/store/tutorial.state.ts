@@ -3,10 +3,12 @@ import {GameMessage} from "../../game-messages/store/types";
 
 export interface TutorialState {
     faqGames: Game[];
+    videoGames: Game[];
     messages: GameMessage[];
 }
 
 export const initialTutorialState: TutorialState = {
     faqGames: [],
+    videoGames: [],
     messages: []
 };
