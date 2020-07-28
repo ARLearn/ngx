@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
+import {GameTheme} from "../../game-themes/store/game-theme.state";
 
 
 @Injectable()
@@ -29,7 +30,7 @@ export class GameThemeService {
     }
 
 
-    createTheme(theme: any): Observable<any> {
+    createTheme(theme: GameTheme): Observable<any> {
         return this.http
             .post<any>(environment.api_url + '/game/theme/create', theme);
     }
