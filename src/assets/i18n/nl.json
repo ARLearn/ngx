@@ -108,7 +108,12 @@
 		"WHO_CAN_SEE": "Wie kan deze game zien?"
 	},
 	"HELP": {
-		"TITLE": "Help"
+		"BACK": "Terug",
+		"BACK_TO": "Terug naar",
+		"NEXT": "Volgende",
+		"QUESTIONS": "Veelgestelde vragen",
+		"TITLE": "Help",
+		"VIDEO_INSTRUCTIONS": "Video instructies"
 	},
 	"HOME": {
 		"SETTINGS": "instellingen",

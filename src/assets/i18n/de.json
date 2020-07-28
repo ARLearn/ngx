@@ -108,7 +108,12 @@
 		"WHO_CAN_SEE": "Wer kann dieses Spiel sehen?"
 	},
 	"HELP": {
-		"TITLE": "Hilfe"
+		"BACK": "Zurück",
+		"BACK_TO": "Zurück zu",
+		"NEXT": "Weiter",
+		"QUESTIONS": "Häufig gestellte Fragen",
+		"TITLE": "Hilfe",
+		"VIDEO_INSTRUCTIONS": "Videoanweisungen"
 	},
 	"HOME": {
 		"SETTINGS": "Einstellungen",

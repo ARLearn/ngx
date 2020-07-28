@@ -92,7 +92,6 @@ export class FaqTutorialComponent implements OnInit {
     defaultGame = environment.tutorial.defaultFaq;
     faqGames: Observable<Game[]> = this.store.select(getFaqGames);
 
-    // selectedGame: Observable<any> = this.store.select(fromRoot.selectRouteParam('gameId'));
     selectedGame: Observable<any> = this.store.select(currentFaqGame);
 
     subMenuItems = [
