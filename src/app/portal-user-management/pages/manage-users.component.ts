@@ -77,7 +77,7 @@ import {selectAll} from '../store/portal-users.selectors';
 
                 <ng-container matColumnDef="name" >
                     <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.NAME' | translate }}</th>
-                    <td mat-cell *matCellDef="let row"  class="name-pointer name" [routerLink]="'/portal/root/usrmgt/'+row.fullId" >{{row.name}} test</td>
+                    <td mat-cell *matCellDef="let row"  class="name-pointer name" [routerLink]="'/portal/root/usrmgt/'+row.fullId" >{{row.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="location">

@@ -12,7 +12,7 @@ export const {
 } = arlearnActionsAdapter.getSelectors(getArlearnActionsState);
 
 
-export const currentUser = createSelector(fromRootSelector.selectRouteParam('userId'), selectEntities, (id, accounts) => {
+export const selectedUser = createSelector(fromRootSelector.selectRouteParam('userId'), selectEntities, (id, accounts) => {
         if (!accounts) {
             return null;
         }
