@@ -32,7 +32,7 @@ export class RunService {
     }
 
 
-    listRuns(gameId: number): Observable<GameRun[]> {
+    listRuns(gameId: string): Observable<GameRun[]> {
         return this.http
             .get<any>(environment.api_url + '/runs/' + gameId + '/list')
             .pipe(

@@ -49,11 +49,11 @@ export class MediaLibraryEffects {
     loadFolders$: Observable<Action> = this.actions$.pipe(
         ofType(MediaLibraryActionTypes.GET_FOLDER_LIST_REQUESTED, MediaLibraryActionTypes.SET_RELPATH),
         withLatestFrom(
-            this.store$.select(selector.currentGameId),
+            this.store$.select(selector.selectRouteParam('gameId')),
             this.store$.select(getRelativePath)
         ),
         switchMap(
-            ([action, gameId, path]: [GetGameMessagesRequestAction, number, string]) =>
+            ([action, gameId, path]: [GetGameMessagesRequestAction, string, string]) =>
                 this.medialib.getFiles(gameId || action.payload.gameId, path).pipe(
                     map(res =>
                         new GetFolderListCompletedAction(
@@ -69,11 +69,11 @@ export class MediaLibraryEffects {
     deleteFiles: Observable<Action> = this.actions$.pipe(
         ofType(MediaLibraryActionTypes.DELETE_SELECT_FILE),
         withLatestFrom(
-            this.store$.select(selector.currentGameId),
+            this.store$.select(selector.selectRouteParam('gameId')),
             this.store$.select(getSelectedFiles)
         ),
         switchMap(
-            ([action, gameId, files]: [GetGameMessagesRequestAction, number, string[]]) =>
+            ([action, gameId, files]: [GetGameMessagesRequestAction, string, string[]]) =>
                 this.medialib.deleteFiles(gameId || action.payload.gameId, files).pipe(
                     map(res =>
                         new GetFolderListRequestAction(

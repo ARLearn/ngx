@@ -17,6 +17,7 @@ import {State} from 'src/app/core/reducers';
 import {GameMessagesService} from '../../core/services/game-messages.service';
 import {catchError, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import {SetErrorAction} from '../../shared/store/shared.actions';
+import * as fromRootSelector from "../../core/selectors/router.selector";
 
 
 @Injectable()
@@ -57,10 +58,10 @@ export class GameMessagesEffects {
     //     return action.payload;
     // })
     withLatestFrom(
-      this.store$.select(selector.currentGameId)
+      this.store$.select(selector.selectRouteParam('gameId'))
     ),
     switchMap(
-      ([action, gameId]: [GetGameMessagesRequestAction, number]) =>
+      ([action, gameId]: [GetGameMessagesRequestAction, string]) =>
         this.gameMessages.listMessages(gameId || action.payload.gameId).pipe(
           map(res =>
             new GetGameMessagesCompletedAction(
@@ -91,10 +92,10 @@ export class GameMessagesEffects {
   delete: Observable<Action> = this.actions$.pipe(
     ofType(GameMessagesActionTypes.MESSAGES_DELETE_REQUESTED),
     withLatestFrom(
-      this.store$.select(selector.currentGameId)
+      this.store$.select(selector.selectRouteParam('gameId'))
     ),
     mergeMap(
-      ([action, gameId]: [GetGameMessagesRequestAction, number]) => this.gameMessages.deleteMessage(gameId, action.payload).pipe(
+      ([action, gameId]: [GetGameMessagesRequestAction, string]) => this.gameMessages.deleteMessage(gameId, action.payload).pipe(
         map(res =>
           new GetMessageDeleteResponseAction(
             res
@@ -130,11 +131,11 @@ export class GameMessagesEffects {
   new = this.actions$.pipe(
     ofType(GameMessagesActionTypes.MESSAGE_NEW_REQUESTED),
     withLatestFrom(
-      this.store$.select(selector.currentGameId)
+      this.store$.select(selector.selectRouteParam('gameId'))
     ),
     mergeMap(
-      ([action, gameId]: [NewMessageRequestedAction, number]) => this.gameMessages
-        .postMessage(Object.assign(action.payload, {gameId: gameId}))
+      ([action, gameId]: [NewMessageRequestedAction, string]) => this.gameMessages
+        .postMessage(Object.assign(action.payload, {gameId: Number.parseInt(gameId, 10)}))
         .pipe(map(res =>
           new NewMessageResponseAction(
             res

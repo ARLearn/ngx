@@ -15,24 +15,24 @@ export const getCurrentUrl = createSelector(
   (state: fromRouter.RouterReducerState) => state.state.url
 );
 
-
-export const currentGameId = createSelector(
-  getRouter,
-  router => {
-    // console.log(router.state)
-    if (router == null
-      || router.state.root.firstChild.firstChild == null
-    ) {
-      if (router != null && router.state.root.firstChild.params.gameId) {
-        return router.state.root.firstChild.params.gameId;
-      }
-      return null;
-    }
-
-
-    return router.state.root.firstChild.firstChild.params.gameId;
-  }
-);
+//
+// export const currentGameId = createSelector(
+//   getRouter,
+//   router => {
+//     // console.log(router.state)
+//     if (router == null
+//       || router.state.root.firstChild.firstChild == null
+//     ) {
+//       if (router != null && router.state.root.firstChild.params.gameId) {
+//         return router.state.root.firstChild.params.gameId;
+//       }
+//       return null;
+//     }
+//
+//
+//     return router.state.root.firstChild.firstChild.params.gameId;
+//   }
+// );
 
 export const currentRunId = createSelector(
     getRouter,
@@ -84,43 +84,6 @@ export const invitationId = createSelector(
     return router.state.root.firstChild.params.id;
   }
 );
-
-
-// export const currentBinId = createSelector(
-//   getRouter,
-//   router => {
-//     if (router == null
-//       || router.state.root.firstChild.firstChild == null
-//       ) {
-//
-//       return null;
-//     }
-//     return router.state.root.firstChild.firstChild.params.solarBinId}
-// );
-//
-// export const currentDistributor = createSelector(
-//   getRouter,
-//   router => {
-//     if (router == null
-//       || router.state.root.firstChild.firstChild == null
-//       ) {
-//
-//       return null;
-//     }
-//     return router.state.root.firstChild.firstChild.params.distributorId}
-// );
-//
-// export const currentCustomer = createSelector(
-//   getRouter,
-//   router => {
-//     if (router == null
-//       || router.state.root.firstChild.firstChild == null
-//       ) {
-//
-//       return null;
-//     }
-//     return router.state.root.firstChild.firstChild.params.customerId}
-// );
 
 
 export const {

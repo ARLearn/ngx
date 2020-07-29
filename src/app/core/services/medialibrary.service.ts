@@ -22,7 +22,7 @@ export class MediaLibraryService {
         private afStorage: AngularFireStorage) {
     }
 
-    getFiles(gameId: number, path): Observable<any> {
+    getFiles(gameId: string, path): Observable<any> {
         // this.afStorage.ref('game').child(`${gameId}`).listAll().then(x => console.log(x));
         const storage: Storage = this.afStorage.storage;
         return from(storage.ref('game').child(`${gameId}${path}`).listAll()).pipe(map(res => {
@@ -38,7 +38,7 @@ export class MediaLibraryService {
         }));
     }
 
-    deleteFiles(gameId: number, files: String[]): Observable<any[]> {
+    deleteFiles(gameId: string, files: String[]): Observable<any[]> {
         files.forEach((file) => console.log("deleting ", file));
         const storage: Storage = this.afStorage.storage;
         const batch = files.map((path) => {

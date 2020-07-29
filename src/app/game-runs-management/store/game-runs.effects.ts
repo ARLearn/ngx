@@ -56,10 +56,10 @@ export class GameRunsEffects {
     init$: Observable<Action> = this.actions$.pipe(
         ofType(GameRunsActionTypes.GAME_RUNS_REQUESTED, GameRunsActionTypes.DELETE_RUN_COMPLETED),
         withLatestFrom(
-            this.store$.select(selector.currentGameId)
+            this.store$.select(selector.selectRouteParam('gameId'))
         ),
         switchMap(
-            ([action, gameId]: [GetGameRunsRequestAction, number]) =>
+            ([action, gameId]: [GetGameRunsRequestAction, string]) =>
                 this.gameRuns.listRuns(gameId || action.payload.gameId).pipe(
                     map(res =>
                         new GetGameRunsCompletedAction(
@@ -75,11 +75,11 @@ export class GameRunsEffects {
     createRun: Observable<Action> = this.actions$.pipe(
         ofType(GameRunsActionTypes.CREATE_RUN_REQUESTED),
         withLatestFrom(
-            this.store$.select(selector.currentGameId)
+            this.store$.select(selector.selectRouteParam('gameId'))
         ),
         switchMap(
-            ([action, gameId]: [CreateRunRequestAction, number]) =>
-                this.gameRuns.createRun(Object.assign(action.payload, {gameId: gameId})).pipe(
+            ([action, gameId]: [CreateRunRequestAction, string]) =>
+                this.gameRuns.createRun(Object.assign(action.payload, {gameId: Number.parseInt(gameId, 10)})).pipe(
                     map(res =>
                         new GetGameRunsRequestAction()
                     ),

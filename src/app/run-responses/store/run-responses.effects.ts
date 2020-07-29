@@ -43,7 +43,7 @@ export class RunResponsesEffects {
             this.store.select(fromRoot.selectRouteParam('messageId'))
         ),
         mergeMap(([action, messageId]: [Query, string]) => {
-            return this.messagesService.getMessage(parseInt(messageId));
+            return this.messagesService.getMessage(parseInt(messageId, 10));
         }),
         map(message => {
             message && this.store.dispatch(new SetSelectedScreenAction(message.id));

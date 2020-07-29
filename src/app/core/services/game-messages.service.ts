@@ -29,7 +29,7 @@ export class GameMessagesService {
             );
     }
 
-    deleteMessage(gameId: number, messageId: number) {
+    deleteMessage(gameId: string, messageId: number) {
 
         return this.http
             .delete(environment.api_url + '/generalItems/gameId/' + gameId + '/itemId/' + messageId)
@@ -37,7 +37,6 @@ export class GameMessagesService {
     }
 
     postMessage(message: GameMessage) {
-        console.log("message to post", message);
         message = Object.assign({}, message);
         if (message.fileReferences) {
             message.fileReferences = Object.keys(message.fileReferences).map(key => Object.assign({

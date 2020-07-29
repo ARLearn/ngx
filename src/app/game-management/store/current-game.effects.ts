@@ -20,7 +20,7 @@ import {Game} from './current-game.state';
 import FileSaver from 'file-saver';
 import {getMessagesSelector} from '../../game-messages/store/game-messages.selector';
 import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import * as selector from '../../core/selectors/router.selector';
+import * as fromRootSelector from "../../core/selectors/router.selector";
 
 
 @Injectable()
@@ -37,10 +37,10 @@ export class CurrentGameEffects {
     getGameFromRouter: Observable<Action> = this.actions$.pipe(
         ofType(actions.CurrentGameActionTypes.GET_CURRENT_GAME_FROM_ROUTER_REQUESTED),
         withLatestFrom(
-            this.store$.select(selector.currentGameId)
+            this.store$.select(fromRootSelector.selectRouteParam('gameId'))
         ),
-        switchMap(([action, gameId]: [GetCurrentGameFromRouterRequestAction, number]) =>
-            this.gameService.get(gameId).pipe(
+        switchMap(([action, gameId]: [GetCurrentGameFromRouterRequestAction, string]) =>
+            this.gameService.get(Number.parseInt(gameId, 10)).pipe(
                 map(res => (new actions.SetCurrentGameCompletedAction(res))),
                 catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
             )
