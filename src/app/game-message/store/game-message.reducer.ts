@@ -1,7 +1,7 @@
 import * as actions from './game-message.actions';
 import {gameMessageInitialState, GameMessageState} from './game-message.state';
 import {GameMessage, MultipleChoiceScreen} from "../../game-messages/store/game-messages.state";
-import {gameMessageMapper} from "../../game-messages/store/game-messages.reducer";
+// import {gameMessageMapper} from "../../game-messages/store/game-messages.reducer";
 import {GameMessagesActionTypes} from "../../game-messages/store/game-messages.actions";
 import {AuthActionTypes} from "../../auth/store/auth.actions";
 
@@ -10,7 +10,8 @@ export function reducers(
     switch (action.type) {
 
         case actions.GameMessageActionTypes.GAME_MESSAGE_EDIT_COMPLETED: {
-            return Object.assign({}, state, {editMessage: gameMessageMapper(action.payload)});
+            return Object.assign({}, state, {editMessage: (action.payload)});
+            //return Object.assign({}, state, {editMessage: gameMessageMapper(action.payload)});
         }
 
         case actions.GameMessageActionTypes.RESET_GAME_MESSAGE_EDIT: {

@@ -4,7 +4,7 @@ import {GameMessage} from "../../../game-messages/store/game-messages.state";
 import {getEditMessageSelector} from "../../../game-message/store/game-message.selector";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
-import {GameMessageSaveAction, GameMessageUpdateAction} from "../../store/game-message.actions";
+import {GameMessageSaveAction} from "../../store/game-message.actions";
 import {iCanWrite} from 'src/app/game-management/store/current-game.selector';
 
 @Component({

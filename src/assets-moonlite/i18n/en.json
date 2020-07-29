@@ -1,0 +1,242 @@
+{
+	"ACTIONS": {
+		"BACK": "Back",
+		"DELETE_PLAYER": "Remove",
+		"DELETE_RUN": "Delete run",
+		"ESC": "Esc",
+		"RE_INVITE": "re-invite",
+		"SAVE": "Save",
+		"SELECT": "Select"
+	},
+	"ADMIN": {
+		"FEATURED": {
+			"GAME_LIST": "Featured Games List"
+		}
+	},
+	"COMMON": {
+		"ACTIVE": "Active",
+		"ADMIN": "Admin",
+		"BROWSE": "Browse",
+		"FRIENDS": "Friends",
+		"GAMES": "Games",
+		"LAST_MODIFICATION": "Last modification",
+		"MAP": "Map",
+		"MESSAGES": "Messages",
+		"OVERVIEW": "Overview",
+		"PRIMARY_COLOR": "Primary color"
+	},
+	"CONFIG": {
+		"CANCEL": "Cancel",
+		"CREATE": "Create",
+		"LANG": {
+			"DE": "German",
+			"EN": "English",
+			"ES": "Spanish",
+			"FR": "French",
+			"NL": "Dutch"
+		},
+		"SAVE": "Save",
+		"SELECT_LANGUAGE": "Select language"
+	},
+	"CONTACT": {
+		"ADD": "Add Contact",
+		"ADD_COLLAB_BUTTON": "Add",
+		"ADD_COLLAB_NAME_AUTO": "Name (auto-complete)",
+		"ADD_PERSONAL": "Add personal note",
+		"ADD_PERSONAL_MESSAGE": "Personal message",
+		"ADD_PLAYER": "Add Player",
+		"ALLCONTACTS": "All contacts",
+		"COLLABORATORS": "Collaborators",
+		"CONTACTS": "All contacts",
+		"EDITOR": "Author",
+		"EMAIL": "Contact Email",
+		"FRIENDS": "Friends",
+		"INVITE": "Invite",
+		"OWNER": "Owner",
+		"PENDING": "Pending",
+		"START_TYPING_TO_SEARCH": "",
+		"VIEWER": "Viewer"
+	},
+	"GAME": {
+		"ABOUT": "About",
+		"ACCESS": {
+			"LINK": "Anyone with link",
+			"PRIVATE": "Private",
+			"PUBLIC": "Public on web"
+		},
+		"ACCESS_WHO": "Who can see the game?",
+		"ADDGAME": "ADD GAME",
+		"ADD_COLLABORATOR": "Add Collaborator",
+		"AUTHORS": "Authors",
+		"AUTHORS_CREATE_CONTENT": "view contributors",
+		"CHOOSE_SPLASH": "Choose splash screen",
+		"CHOOSE_SPLASH_SUB": "your home screen & assets, or",
+		"COLLABORATOR": "Collaborator",
+		"CREATE_BUTTON_TITLE": "Create Game",
+		"DEFINE_LOCATION": "Define game location",
+		"DELETEGAME": "DELETE GAME",
+		"DEPGRAPH": "Dependency Graph",
+		"DESCRIBE_GAME": "Describe your game",
+		"EDITGAME": "CUSTOMIZE GAME",
+		"FEATURED": "Featured games",
+		"GAMELIB": "Game library",
+		"IMPORTGAME": "IMPORT GAME",
+		"LICENSE": {
+			"CC-BY": "Attribution CC BY",
+			"CC-BY-NC": "Attribution-NonCommercial BY-NC",
+			"CC-BY-NC-ND": "Attribution-NonCommercial-NoDerivs BY-NC-ND",
+			"CC-BY-NC-SA": "Attribution-NonCommercial-ShareAlike BY-NC-SA",
+			"CC-BY-ND": "Attribution-NoDerivs BY-ND",
+			"CC-BY-SA": "Attribution-ShareAlike BY-SA",
+			"CHOOSE": "Choose a creative commons license",
+			"LICENSE": "License",
+			"PICK": "Pick a creative commons license"
+		},
+		"LIST": "My Games",
+		"LOCATION": "Location",
+		"LOCATION_BASED": "Location based",
+		"MANAGE_PLAYERS": "Manage players",
+		"MESSAGES": "Messages",
+		"MYGAMES": "My Games",
+		"NAME_FIELD": "Name of the game",
+		"NEW_GAME_SCRATCH": "",
+		"NEW_GAME_SUBTITLE": "",
+		"NEW_GAME_TITLE": "",
+		"PUBLIC_ACCESS": "Public access",
+		"QUESTION": "Question",
+		"TITLE": "Title",
+		"WHO_CAN_SEE": "Who can see this game?"
+	},
+	"HOME": {
+		"SETTINGS": "Settings",
+		"SIGNIN": "SIGN IN",
+		"SIGNOUT": "SIGN OUT"
+	},
+	"LIBRARY": {
+		"LABEL": "library"
+	},
+	"LOGIN": {
+		"APP_SUB_TITLE": "Welcome! Login with your dido account",
+		"APP_TITLE": "DIDO APPS",
+		"EMAIL": "Email",
+		"EMAIL_ADDRESS": "Email address",
+		"FACEBOOK_LOGIN": "FACEBOOK LOGIN",
+		"FORGOT_PASSWORD": "Forgot password",
+		"GOOGLE_LOGIN": "Google Login",
+		"OR": "or",
+		"PASSWORD": "Password",
+		"REMEMBER_ME": "Remember me",
+		"SOCIAL": "Social Login",
+		"SUBMIT": "Submit",
+		"TITLE": "Login with your account"
+	},
+	"MEDIA": {
+		"DELETE": "delete",
+		"DRAG_FILES": "Drag your file",
+		"FOLDER_NAME": "Folder Name",
+		"MEDIA": "Media",
+		"MEDIA_BIBLIOTHEEK": "Media library",
+		"NEW_FOLDER": "New map",
+		"OR_CLICK_FILES": "or click to upload your files",
+		"SELECTED": "Selected"
+	},
+	"MESSAGE": {
+		"ADD_ANSWER_OPTION": "Add answer option",
+		"ADD_DEPENDENCY": "Add dependency",
+		"ANSWERS": "Answers",
+		"ANSWER_IMAGE": "Answer picture",
+		"ANSWER_OPTION": "Answer option",
+		"APPEARS_AFTER": "This screen appears after",
+		"AUDIOQUESTION": "",
+		"AUDIO_OBJECT": "Audio Message",
+		"BUTTON_TEXT": "Button text",
+		"CONTENT": "Content",
+		"CORRECT_ANSWER": "Correct answer",
+		"CREATE": "Make screen",
+		"CREATE_TITLE": "",
+		"DELETEMESSAGE": "Remove Screen",
+		"DEPENDENCY": "Dependency",
+		"DETAIL": "Detail",
+		"DRAG_OR_ADD_IMAGE": "Drag your files or click to upload your image",
+		"EDIT_MESSAGE": "Edit screen",
+		"FEEDBACK_IMAGE": "Feedback image",
+		"FEEDBACK_POSSIBLE": "Feedback possible",
+		"MAKE_DEPENDENT": "Make the message dependent",
+		"MAX150CHAR": "Maximum 200 characters",
+		"MULTIPLECHOICEIMAGETEST": "Multiple choice with images",
+		"MULTIPLECHOICETEST": "Multiple Choice",
+		"MULTIPLE_IMAGE_CHOICE_TEST": "Multiple Image Choice with images",
+		"NAME_FIELD": "Name of your screen",
+		"NARRATORITEM": "Narrator Item",
+		"NEXT": "Next",
+		"OPTION_CORRECT": "This option is correct",
+		"PICTUREQUESTION": "Reply with a picture",
+		"QR_SCANNER": "QR Scanner",
+		"SCAN": "Scan",
+		"SCANTAG": "Scan",
+		"SCREENS": "Screens",
+		"SELECT_ASSET": "Choose an asset",
+		"SELECT_BUTTON_TYPE": "Select button type",
+		"SHOW_IN_LIST": "Show message in message list?",
+		"SINGLECHOICEIMAGETEST": "Single choice with images",
+		"SINGLECHOICETEST": "Single Choice",
+		"SINGLE_IMAGE_CHOICE_TEST": "Single Image Choice",
+		"START_TYPING_TO_SEARCH": "Start typing to search",
+		"VIDEOOBJECT": "Video Object",
+		"VIDEO_OBJECT": "Video Message"
+	},
+	"PORTAL_MANAGEMENT": {
+		"LABEL": "Portal Management",
+		"USERS": "Users"
+	},
+	"ROW_HEADERS": {
+		"DATE": "Date",
+		"ID": "Identifier",
+		"LABEL": "Label",
+		"LABEL_TT": "A label makes authoring more convenient and can be used to filter content while authoring. They are not shown on the player.",
+		"NAME": "Title",
+		"NAME_TT": "This is the title of the message as it will appear in the message list on the player.",
+		"PLAYER_NAME": "Player name",
+		"SEARCH": "Search",
+		"TIME": "Time",
+		"TITLE": "Title"
+	},
+	"RUNS": {
+		"GROUP_NAME": "Name of the group",
+		"MAKE_GROUP": "Make group",
+		"MAKE_RUN": "Create new group",
+		"PLAY": "Play",
+		"PLAYERS": "Players",
+		"RUNS": "Runs",
+		"SELF_REGISTRATION": "Self-registration with QR code"
+	},
+	"in range": "in range",
+	"next": "next",
+	"read": "read",
+	"wireflow": {
+		"action-modal": {
+			"namePlaceholder": "QR label",
+			"title": "Provide an QR label"
+		},
+		"btns": {
+			"cancel": "Cancel",
+			"confirm": "Confirm",
+			"details": "Details"
+		},
+		"proximity-modal": {
+			"latitude": "Latitude",
+			"latitudePlaceholder": "Enter latitude",
+			"longitude": "Longitude",
+			"longitudePlaceholder": "Enter longitude",
+			"radius": "Radius",
+			"radiusPlaceholder": "Enter radius",
+			"searchLocation": "Search for location",
+			"selectType": "Select Type",
+			"title": "Proximity"
+		},
+		"time-modal": {
+			"secondsPlaceholder": "please enter number of seconds",
+			"title": "Timer"
+		}
+	}
+}

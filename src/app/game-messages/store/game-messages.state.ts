@@ -1,3 +1,6 @@
+import {EntityState} from "@ngrx/entity";
+import {messagesAdapter, OnlyMessagesState} from "./game-messages.reducer";
+
 export enum PreviewType {
     NONE = 0,
     Message = 1,
@@ -14,6 +17,7 @@ export enum PreviewType {
 }
 
 
+
 export interface GameMessagesState {
     gameId: number;
     selectedMessage: number;
@@ -21,20 +25,11 @@ export interface GameMessagesState {
     preview?: PreviewData;
     targetMessage?: number;
     editMode: number;
-    messages: GameMessage[];
+    messages: OnlyMessagesState;
     previewMessage: number;
     selectedScreen: string;
 }
 
-export const gameMessagesInitialState: GameMessagesState = {
-    gameId: null,
-    selectedMessage: null,
-    filter: [],
-    editMode: 1,
-    messages: [],
-    previewMessage: null,
-    selectedScreen: null,
-};
 
 export interface PreviewData {
     selectedPreview: PreviewType;
@@ -123,3 +118,9 @@ export interface ProximityDependency extends Dependency {
 }
 
 export type DependencyUnion = ProximityDependency | AndDependency | OrDependency | TimeDependency | ActionDependency ;
+
+export interface GeneralItemList {
+    generalItems: GameMessage[];
+    serverTime: number;
+    resumptionToken?: string;
+}

@@ -10,7 +10,7 @@ import {map, startWith} from "rxjs/operators";
 import {Observable} from 'rxjs';
 import {combineLatest} from 'rxjs';
 
-import {getMessagesSelector} from "../../../../../game-messages/store/game-messages.selector";
+import {getMessagesSelector, getCurrentGameMessages} from "../../../../../game-messages/store/game-messages.selector";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {GameMessageUpdateAnswerAction, GameMessageUpdateDependencyAction} from "../../../../store/game-message.actions";
 import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
@@ -23,19 +23,19 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
 export class DependencyReadTempComponent {
 
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
-    allmessages$: Observable<GameMessage[]> = this.store.select(getMessagesSelector);
+    // allmessages$: Observable<GameMessage[]> = this.store.select(selectAll);
     public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
     stateCtrl = new FormControl('');
     filteredMessages: Observable<GameMessage[]>;
-    localOk: boolean = false;
+    localOk = false;
 
     constructor(
         private store: Store<State>,
     ) {
         this.filteredMessages = combineLatest([
             this.stateCtrl.valueChanges.pipe(startWith('')),
-            this.store.pipe(select(getMessagesSelector))
+            this.store.pipe(select(getCurrentGameMessages))
         ]).pipe(
             map(([value, messages]: [GameMessage, GameMessage[]]) =>
                 value ? this._filterMessages(value, messages) : messages.slice())
@@ -45,7 +45,7 @@ export class DependencyReadTempComponent {
                 console.log("val is", val);
             })
         );
-        var subscription = this.message$.subscribe((m) => {
+        let subscription = this.message$.subscribe((m) => {
             // this.stateCtrl.setValue(m);
 
             setTimeout(() => {
@@ -53,8 +53,8 @@ export class DependencyReadTempComponent {
                 if (m.dependsOn) {
                     const dependency: ActionDependency = <ActionDependency>m.dependsOn;
                     const id = Number.parseInt('' + dependency.generalItemId, 10);
-                    subscription = this.store.select(getMessagesSelector).subscribe(ms => {
-                        const temp = ms.filter((am) => am.id == id)[0];
+                    subscription = this.store.select(getCurrentGameMessages).subscribe(ms => {
+                        const temp = ms.filter((am) => am.id === id)[0];
                         this.stateCtrl.setValue(temp);
                         setTimeout(() => {
                             subscription.unsubscribe();

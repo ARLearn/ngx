@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { GameMessage } from "../../../../game-messages/store/game-messages.state";
-import {getFilteredMessagesSelector, getMessagesSelector, getQrCodesSelector} from "../../../../game-messages/store/game-messages.selector";
+import {getFilteredMessagesSelector, getMessagesSelector, getQrCodesSelector, getCurrentGameMessages} from "../../../../game-messages/store/game-messages.selector";
 import { Store } from "@ngrx/store";
 import { State } from "../../../../core/reducers";
 
@@ -100,7 +100,8 @@ interface QrCodeAction {
     encapsulation: ViewEncapsulation.None
 })
 export class MobilePreviewScanTageComponent implements OnInit {
-    public messages$: Observable<GameMessage[]> = this.store.select(getMessagesSelector);
+    //public messages$: Observable<GameMessage[]> = this.store.select(getMessagesSelector);
+    public messages$: Observable<GameMessage[]> = this.store.select(getCurrentGameMessages);
     public qrCodes$: Observable<QrCodeAction[]> = this.store.select(getQrCodesSelector);
 
     constructor(private http: HttpClient, public store: Store<State>) {
