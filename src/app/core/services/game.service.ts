@@ -67,7 +67,7 @@ export class GameService {
 
     addAuthors(gameId: number, fullId: string, role: string) {
         return this.http
-            .get<any>(environment.api_url + '/game/access/' + gameId + '/' + fullId + '/'+role);
+            .get<any>(environment.api_url + '/game/access/' + gameId + '/' + fullId + '/' + role);
     }
 
     revokeAuthors(gameId: number, fullId: string) {
@@ -104,6 +104,9 @@ const transOneGame = (game: Game) => {
     }
     if (!game.config.primaryColor) {
         game.config.primaryColor = '#D61081';
+    }
+    if (game.lastModificationDate) {
+        game.lastModificationDate = Number.parseInt(game.lastModificationDate + '', 10);
     }
     if (!game.config.secondaryColor) {
         game.config.secondaryColor = '#3EA3DC';

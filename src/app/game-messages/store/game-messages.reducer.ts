@@ -174,7 +174,8 @@ export function reducers(
 //         gameMessage.gameId = parseInt('' + gameMessage.gameId, 10);
 //     }
 //     if (gameMessage.dependsOn && (<ActionDependency>gameMessage.dependsOn).generalItemId) {
-//         (<ActionDependency>gameMessage.dependsOn).generalItemId = parseInt('' + (<ActionDependency>gameMessage.dependsOn).generalItemId, 10);
+//         (<ActionDependency>gameMessage.dependsOn).generalItemId =
+//         parseInt('' + (<ActionDependency>gameMessage.dependsOn).generalItemId, 10);
 //     }
 //     if (!gameMessage.showFeedback) {
 //         gameMessage.showFeedback = false;

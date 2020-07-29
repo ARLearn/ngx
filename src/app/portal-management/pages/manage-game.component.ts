@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/core/reducers';
 import { GetPortalGameRequestAction } from '../store/portal-games.actions';
-import { getPortalGame } from '../store/portal-games.selector';
+import {getPortalEditGame, getPortalGame} from '../store/portal-games.selector';
 
 @Component({
   selector: 'app-manage-game',
   template: `
-    <app-top-level-navbar [backUrl]="'/portal/root/portal'" [title]="'Van Nelle Fabriek het zelf'">
+    <app-top-level-navbar [backUrl]="'/portal/root/portal'" [title]="(game$ | async)?.title">
     </app-top-level-navbar>
     <div class="game maxwidth d-flex" *ngIf="game$ | async as game">
       <div class="game-icon">
@@ -175,7 +175,7 @@ import { getPortalGame } from '../store/portal-games.selector';
   `]
 })
 export class ManageGameComponent implements OnInit {
-  public game$ = this.store.select(getPortalGame);
+  public game$ = this.store.select(getPortalEditGame);
 
   constructor(private store: Store<State>) { }
 
