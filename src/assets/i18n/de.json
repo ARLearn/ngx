@@ -19,6 +19,7 @@
 		"BROWSE": "Durchsuchen",
 		"FRIENDS": "Freunde",
 		"GAMES": "Spiele",
+		"ICON_IMAGE": "Symbolbild",
 		"LAST_MODIFICATION": "Letzte Änderung",
 		"MAP": "Karte",
 		"MESSAGES": "Mitteilungen",
@@ -77,6 +78,8 @@
 		"DELETEGAME": "SPIEL LÖSCHEN",
 		"DEPGRAPH": "Abhängigkeitsdiagramm",
 		"DESCRIBE_GAME": "",
+		"DESCRIPTION": "Erklären Sie, für wen dieses Spiel ist ...",
+		"DESCRIPTION_FIELD": "Beschreibung",
 		"EDITGAME": "SPIEL ANPASSEN",
 		"FEATURED": "",
 		"GAMELIB": "Spielbibliothek",
@@ -104,6 +107,7 @@
 		"NEW_GAME_TITLE": "",
 		"PUBLIC_ACCESS": "Öffentlicher Zugang",
 		"QUESTION": "Frage",
+		"SWITCH_THEME": "Ändern",
 		"TITLE": "Titel",
 		"WHO_CAN_SEE": "Wer kann dieses Spiel sehen?"
 	},
@@ -196,6 +200,13 @@
 		"VIDEO_OBJECT": "Videoschirm"
 	},
 	"PORTAL_MANAGEMENT": {
+		"GAMES": {
+			"CATEGORY": "Kategorie",
+			"FEATURED": "Vorgestellt",
+			"FEATURED_IN_LIBRARY": "In der Bibliothek markieren",
+			"LOGIN_MANDATORY": "Login ist erforderlich",
+			"USER_ACCESS": "Greifen Sie auf Benutzer zu"
+		},
 		"LABEL": "Portalverwaltung",
 		"USERS": "Benutzer"
 	},

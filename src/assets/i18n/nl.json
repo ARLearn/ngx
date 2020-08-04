@@ -19,6 +19,7 @@
 		"BROWSE": "Browse",
 		"FRIENDS": "Vrienden",
 		"GAMES": "Spellen",
+		"ICON_IMAGE": "Icoon afbeelding",
 		"LAST_MODIFICATION": "Laatste wijziging",
 		"MAP": "Kaart",
 		"MESSAGES": "Berichten",
@@ -77,6 +78,8 @@
 		"DELETEGAME": "SPEL VERWIJDEREN",
 		"DEPGRAPH": "Afhankelijkheidsgrafiek",
 		"DESCRIBE_GAME": "Beschrijf je spel",
+		"DESCRIPTION": "Leg uit voor wie deze game bedoeld is...",
+		"DESCRIPTION_FIELD": "Beschrijving",
 		"EDITGAME": "SPEL AANPASSEN",
 		"FEATURED": "",
 		"GAMELIB": "Spel bibliotheek",
@@ -104,6 +107,7 @@
 		"NEW_GAME_TITLE": "Maak een nieuwe game",
 		"PUBLIC_ACCESS": "Publieke toegang",
 		"QUESTION": "Vraag",
+		"SWITCH_THEME": "Aanpassen",
 		"TITLE": "Titel",
 		"WHO_CAN_SEE": "Wie kan deze game zien?"
 	},
@@ -196,6 +200,13 @@
 		"VIDEO_OBJECT": "Video scherm"
 	},
 	"PORTAL_MANAGEMENT": {
+		"GAMES": {
+			"CATEGORY": "Categorie",
+			"FEATURED": "Uitgelicht",
+			"FEATURED_IN_LIBRARY": "Uitlichten in bibliotheek",
+			"LOGIN_MANDATORY": "Inloggen is vereist",
+			"USER_ACCESS": "Toegang gebruikers"
+		},
 		"LABEL": "Portaal beheer",
 		"USERS": "Gebruikers"
 	},

@@ -19,6 +19,7 @@
 		"BROWSE": "Browse",
 		"FRIENDS": "Friends",
 		"GAMES": "Games",
+		"ICON_IMAGE": "Icon image",
 		"LAST_MODIFICATION": "Last modification",
 		"MAP": "Map",
 		"MESSAGES": "Messages",
@@ -77,6 +78,8 @@
 		"DELETEGAME": "DELETE GAME",
 		"DEPGRAPH": "Dependency Graph",
 		"DESCRIBE_GAME": "Describe your game",
+		"DESCRIPTION": "Explain who this game is for ...",
+		"DESCRIPTION_FIELD": "Description",
 		"EDITGAME": "CUSTOMIZE GAME",
 		"FEATURED": "Featured games",
 		"GAMELIB": "Game library",
@@ -104,6 +107,7 @@
 		"NEW_GAME_TITLE": "",
 		"PUBLIC_ACCESS": "Public access",
 		"QUESTION": "Question",
+		"SWITCH_THEME": "Change",
 		"TITLE": "Title",
 		"WHO_CAN_SEE": "Who can see this game?"
 	},
@@ -196,6 +200,13 @@
 		"VIDEO_OBJECT": "Video Message"
 	},
 	"PORTAL_MANAGEMENT": {
+		"GAMES": {
+			"CATEGORY": "Category",
+			"FEATURED": "Featured",
+			"FEATURED_IN_LIBRARY": "Feature in library",
+			"LOGIN_MANDATORY": "Login is required",
+			"USER_ACCESS": "User access"
+		},
 		"LABEL": "Portal Management",
 		"USERS": "Users"
 	},
