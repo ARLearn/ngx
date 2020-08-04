@@ -70,7 +70,10 @@ export class CurrentGameEffects {
                 }),
                 catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
             )
-        )
+        ),
+        tap((res: any) => {
+            this.router.navigate(['/portal/game/' + res.payload.gameId + '/detail/screens']);
+        })
     );
 
     @Effect({dispatch: false})

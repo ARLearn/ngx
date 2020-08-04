@@ -33,6 +33,7 @@ export class GameMessagesService {
 
 
     listMessagesWithCursor(gameId: string, cursor: string): Observable<GeneralItemList> {
+        console.log("in list messages with curusor", gameId, cursor);
         return this.http
             .get<GeneralItemList>(environment.api_url + '/generalItems/gameId/' + gameId + '/cursor/' + cursor).pipe(
                 map(res => {

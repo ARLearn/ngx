@@ -19,6 +19,7 @@ export function reducers(
             if (!action.payload.accountList) {
                 return state;
             }
+            console.log("hier");
             action.payload.accountList = action.payload.accountList.map(account => account.name != null ? account: Object.assign(account, {name: account.email}));
             action.payload.accountList = action.payload.accountList.map(account => Object.assign(account, {isConnection: true}));
             return Object.assign({}, state, {

@@ -22,6 +22,7 @@ export function reducers(
 
         case actions.CurrentGameActionTypes.SET_CURRENT_GAME_COMPLETED: {
 
+            console.log("set current game");
             return Object.assign({}, state, {
                 loading: false,
                 game: action.payload

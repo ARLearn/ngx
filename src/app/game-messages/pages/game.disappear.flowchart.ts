@@ -94,6 +94,7 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
     }
 
     messagesChange(messages: GameMessage[]) {
+        console.log("message change trigger");
         messages.map(message => this.store.dispatch(new GameMessageDirectSaveAction(message)));
     }
 

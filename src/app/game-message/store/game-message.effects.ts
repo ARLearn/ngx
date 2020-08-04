@@ -49,6 +49,7 @@ export class GameMessageEffects {
         )
     );
 
+
     @Effect()
     saveMessage: Observable<Action> = this.actions$.pipe(
         ofType(GameMessageActionTypes.GAME_MESSAGE_SAVE),

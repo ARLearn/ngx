@@ -38,8 +38,8 @@ import {MatDialog} from "@angular/material/dialog";
 
         .inner-circle {
             position: absolute;
-            bottom: 7px;
-            left: 7px;
+            bottom: 6px;
+            left: 6px;
             width: 22px;
             height: 22px;
             /*background: #D61081 0% 0% no-repeat padding-box;*/

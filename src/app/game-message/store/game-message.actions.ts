@@ -125,6 +125,7 @@ export class GameMessageDirectSaveAction implements Action {
     type = GameMessageActionTypes.GAME_MESSAGE_DIRECT_SAVE;
 
     constructor(public payload: GameMessage) {
+        console.log("direct save");
     }
 }
 

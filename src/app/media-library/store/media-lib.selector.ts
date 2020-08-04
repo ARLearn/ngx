@@ -30,6 +30,7 @@ export const getAbsolutePath = createSelector(getMediaLibFeature, _absPath);
 export const getSelectedFiles = createSelector(getMediaLibFeature, _selectedFiles);
 
 export const filesAvailableForUploading = createSelector(getFilesToUpload, (files) => {
+    console.log("check files available?");
     if (files.filter((f) => f.uploading).length >= 2) {
         return false;
     }

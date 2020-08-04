@@ -5,6 +5,7 @@ import {getGame, iAmOwner} from "../store/current-game.selector";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {SaveGameRequestAction} from "../store/current-game.actions";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
     selector: 'app-game-settings-fields',
@@ -20,15 +21,34 @@ import {SaveGameRequestAction} from "../store/current-game.actions";
                            (ngModelChange)="gameTitleChange($event)">
 
                 </mat-form-field>
-                <app-game-detail-prim-sec-color
-                        [primColor]="(game$|async)?.config?.primaryColor"
-                        [secColor]="(game$|async)?.config?.secondaryColor"
-                ></app-game-detail-prim-sec-color>
+
+                <mat-form-field class="game-form-title">
+                    <mat-label>{{'GAME.DESCRIPTION_FIELD'|translate}}</mat-label>
+                    <textarea matInput [placeholder]="'GAME.DESCRIPTION'|translate"
+                              [disabled]="!(iAmOwner|async)"
+                              [ngModel]="localgame?.description"
+                              (ngModelChange)="gameDescriptionChange($event)"></textarea>
+
+                </mat-form-field>
+                <!--                <app-game-detail-prim-sec-color-->
+                <!--                        [primColor]="(game$|async)?.config?.primaryColor"-->
+                <!--                        [secColor]="(game$|async)?.config?.secondaryColor"-->
+                <!--                ></app-game-detail-prim-sec-color>-->
 
                 <app-game-detail-collaborators></app-game-detail-collaborators>
                 <app-game-detail-access [accessValue]="(game$|async)?.sharing"></app-game-detail-access>
                 <app-game-detail-creative-commons
                         *ngIf="(game$|async)?.sharing == 3"></app-game-detail-creative-commons>
+
+                <div class="account-private">Inloggen vereist</div>
+                <mat-slide-toggle
+                        [disabled]="!(iAmOwner|async) &&(game$|async)?.sharing == 3"
+                        [ngModel]="localgame?.privateMode"
+                        (change)="gamePrivateChange($event)">
+                    <div *ngIf="!localgame?.privateMode">Zonder account spelen</div>
+                    <div *ngIf="localgame?.privateMode">Account nodig</div>
+                </mat-slide-toggle>
+
                 <app-game-detail-location></app-game-detail-location>
 
                 <button *ngIf="iAmOwner|async"
@@ -38,6 +58,15 @@ import {SaveGameRequestAction} from "../store/current-game.actions";
         </div>
     `,
     styles: [`
+        .account-private {
+            margin-top: 17px;
+            margin-bottom: 15px;
+            text-align: left;
+            font: 100 12px/16px Roboto;
+            letter-spacing: 0;
+            color: #0000008A;
+            opacity: 1;
+        }
 
         .title {
             margin-top: 74px;
@@ -92,6 +121,10 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
         this.localgame.title = event;
     }
 
+    gameDescriptionChange(event: any) {
+        this.localgame.description = event;
+    }
+
     submit() {
 
         this.store.dispatch(new SaveGameRequestAction(this.localgame));
@@ -102,5 +135,9 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
         if (this.gameSubscription) {
             this.gameSubscription.unsubscribe();
         }
+    }
+
+    gamePrivateChange($event: MatSlideToggleChange) {
+        this.localgame.privateMode = $event.checked;
     }
 }

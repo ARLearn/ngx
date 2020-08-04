@@ -60,10 +60,18 @@ export class GameEffects {
         map((action: actions.GetGameCursorListRequestAction) => action),
         switchMap((payload: any) =>
             this.gameService.list(payload.payload.cursor).pipe(
-                mergeMap(res => [
-                        new actions.GetGameListCompletedAction(res.games)
-                        // new actions.GetGameCursorListRequestAction({cursor: res.resumptionToken})
-                    ]
+                mergeMap(res => {
+                    if (res.resumptionToken != null) {
+                        return [
+                            new actions.GetGameListCompletedAction(res.games),
+                            new actions.GetGameCursorListRequestAction({cursor: res.resumptionToken})
+                        ];
+                    }
+                        return [
+                            new actions.GetGameListCompletedAction(res.games)
+                            // new actions.GetGameCursorListRequestAction({cursor: res.resumptionToken})
+                        ];
+                    }
                 ),
                 catchError((error) => of(new SetErrorAction(error.error)))
             )

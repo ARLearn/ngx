@@ -25,6 +25,7 @@ export const mediaLibraryInitialState: MediaLibraryState = {
 export interface FileToUpload {
     uploading: boolean;
     completed: boolean;
+    customPath: boolean;
     file: File;
     progress: number;
     pathPrefix: string;

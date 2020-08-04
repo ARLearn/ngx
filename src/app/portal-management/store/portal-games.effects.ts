@@ -39,7 +39,6 @@ export class PortalGamesEffects {
         .pipe(
             ofType(PortalGamesActionTypes.GET_PORTAL_GAME),
             withLatestFrom(this.store.select(fromRoot.selectRouteParam('gameId'))),
-            tap(x => console.log),
             mergeMap(([action, gameId]: [GetPortalGameRequestAction, string]) => this.gameService.get(action.payload || Number.parseInt(gameId, 10))),
             map((game) => new SetPortalGameAction(game as PortalGame))
         );

@@ -40,11 +40,24 @@ export function reducers(
         }
 
         case actions.MediaLibraryActionTypes.SET_FILES_TO_UPLOAD: {
+            if (action.payload.customPath) {
+                const fl: FileList = action.payload.files;
+                return Object.assign({}, state, {
+                    filesToUpload: [{
+                        uploading: false,
+                        completed: false,
+                        customPath: true,
+                        pathPrefix: action.payload.customPath,
+                        file: Array.from(fl)[0]
+                    }]
+                });
+            }
             const fl: FileList = action.payload.files;
             const ar = Array.from(fl).map((file: File) => {
                 return {
                     uploading: false,
                     completed: false,
+                    customPath: false,
                     pathPrefix: state.absolutePath + state.relativePath,
                     file: file
                 };

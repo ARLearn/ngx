@@ -27,6 +27,7 @@ export function reducers(
     state = portalGamesInitialState, action: actions.PortalGamesAction): PortalGamesState {
     switch (action.type) {
         case actions.PortalGamesActionTypes.SET_PORTAL_GAME: {
+            action.payload.icon = '1'; //todo, make dynamic
             return Object.assign({}, state, {
 
                 portalGames: gamesAdapter.upsertOne(action.payload, state.portalGames),

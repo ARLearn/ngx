@@ -54,8 +54,8 @@ export class MediaLibraryService {
     }
 
 
-    upload(file: File, pathPrefix: string) {
-        const task: AngularFireUploadTask = this.afStorage.upload(pathPrefix + '/' + file.name, file);
+    upload(file: File, path: string) {
+        const task: AngularFireUploadTask = this.afStorage.upload(path, file);
         return task.percentageChanges().subscribe((value: number) => {
             this.store$.dispatch(new UpdateUpload({
                 filename: file.name,

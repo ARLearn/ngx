@@ -13,7 +13,6 @@ export class GameService {
     }
 
     list(cursor: string): Observable<{ games: any[]; resumptionToken: string }> {
-        // console.log("in game list");
         let path = '/game/list';
         if (cursor) {
             path += '?resumptionToken=' + cursor;

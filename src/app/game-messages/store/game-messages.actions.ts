@@ -42,7 +42,7 @@ export class GetGameMessagesRequestAction implements Action {
 export class GetGameMessagesCompletedAction implements Action {
     type = GameMessagesActionTypes.GAME_MESSAGES_COMPLETED;
 
-    constructor(public payload: { gameId: number, items: GameMessage[] }) {
+    constructor(public payload: { gameId: number, items: GameMessage[], cursor?: string }) {
     }
 }
 
@@ -125,6 +125,7 @@ export class SaveMessageResponseAction implements Action {
     type = GameMessagesActionTypes.MESSAGE_SAVE_COMPLETED;
 
     constructor(public payload: GameMessage) {
+        console.log("call message save");
     }
 }
 

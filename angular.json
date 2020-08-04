@@ -24,7 +24,7 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/main.scss"
             ],
@@ -80,9 +80,9 @@
               ],
               "index": "src/index.html",
               "styles": [
-                {
-                  "input": "src/main.youplay.scss"
-                }
+                "./node_modules/bootstrap/dist/css/bootstrap.css",
+                "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+                "src/main.youplay.scss"
               ],
               "optimization": false,
               "outputHashing": "all",
@@ -109,9 +109,9 @@
               ],
               "index": "src/index.html",
               "styles": [
-                {
-                  "input": "src/main.youplay.scss"
-                }
+                "./node_modules/bootstrap/dist/css/bootstrap.css",
+                "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+                "src/main.youplay.scss"
               ],
               "optimization": false,
               "outputHashing": "all",
@@ -150,9 +150,9 @@
               ],
               "index": "src/index.nbd.html",
               "styles": [
-                {
-                  "input": "src/main.nbd.scss"
-                }
+                "./node_modules/bootstrap/dist/css/bootstrap.css",
+                "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+                "src/main.nbd.scss"
               ],
               "optimization": false,
               "outputHashing": "all",
@@ -179,8 +179,11 @@
               ],
               "index": "src/index.html",
               "styles": [
+                "./node_modules/bootstrap/dist/css/bootstrap.css",
+                "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
                 "src/main.nbd.scss"
               ],
+
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
@@ -218,8 +221,11 @@
               ],
               "index": "src/index.html",
               "styles": [
+                "./node_modules/bootstrap/dist/css/bootstrap.css",
+                "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
                 "src/main.nbd.scss"
               ],
+
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
@@ -257,6 +263,8 @@
               ],
               "index": "src/index.dido.html",
               "styles": [
+                "./node_modules/bootstrap/dist/css/bootstrap.css",
+                "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
                 "src/main.moonlite.scss"
               ],
               "optimization": false,

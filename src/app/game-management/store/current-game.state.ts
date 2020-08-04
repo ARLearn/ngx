@@ -36,6 +36,7 @@ export interface Game {
     licenseCode?: string;
     config?: GameConfig;
     splashScreen?: string;
+    privateMode?: boolean;
 
 }
 

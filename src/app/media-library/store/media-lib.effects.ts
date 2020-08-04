@@ -100,9 +100,11 @@ export class MediaLibraryEffects {
     @Effect({dispatch: false})
     startUpload: Observable<Action> = this.actions$.pipe(
         ofType(MediaLibraryActionTypes.START_UPLOAD, MediaLibraryActionTypes.UPDATE_UPLOAD),
+
         withLatestFrom(
             this.store$.select(filesAvailableForUploading)
         ),
+        tap(x => console.log("restart called", x)),
         debounceTime(200),
         filter(x => x[1]),
         tap(x => console.log("restart called")),
@@ -112,7 +114,12 @@ export class MediaLibraryEffects {
         map(f => {
             const ftu: FileToUpload = f[1];
             console.log("file to up", ftu.file.name);
-            return this.medialib.upload(ftu.file, ftu.pathPrefix);
+            if (ftu.customPath) {
+                return this.medialib.upload(ftu.file, ftu.pathPrefix);
+            } else {
+                return this.medialib.upload(ftu.file, ftu.pathPrefix + '/' + ftu.file);
+            }
+
         }),
 
         tap(console.log)

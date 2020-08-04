@@ -15,7 +15,7 @@ import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
 @Component({
     selector: 'app-game-theme-selector',
     template: `
-        <ng-container *ngIf="selectedTheme; else selectThemeRef">
+        <ng-container *ngIf="selectedTheme">
             <div class="game-theme-selector full">
                 <div class="theme-wrapper">
                     <div class="theme-background">
@@ -27,23 +27,23 @@ import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
                             <app-color-input
                                     [label]="'COMMON.PRIMARY_COLOR'|translate"
                                     [color]="selectedTheme.primaryColor"
-                                    [canEdit]="true"
+                                    [canEdit]="false"
                                     (onChange)="primColorChange($event)"
                             ></app-color-input>
                         </div>
                         
-                        <div class="secondary-color">
-                            <app-color-input
-                                    [label]="'COMMON.SECONDARY_COLOR'|translate"
-                                    [color]="selectedTheme.primaryColor"
-                                    [canEdit]="true"
-                                    (onChange)="primColorChange($event)"
-                            ></app-color-input>
-                        </div>
+<!--                        <div class="secondary-color">-->
+<!--                            <app-color-input-->
+<!--                                    [label]="'COMMON.SECONDARY_COLOR'|translate"-->
+<!--                                    [color]="selectedTheme.primaryColor"-->
+<!--                                    [canEdit]="true"-->
+<!--                                    (onChange)="primColorChange($event)"-->
+<!--                            ></app-color-input>-->
+<!--                        </div>-->
                         
                         <div class="theme-icon">
                             <div>
-                                <label>Icon afbeelding</label>
+                                <label>{{'COMMON.ICON_IMAGE'|translate}}</label>
                             </div>
                             <div class="theme-icon__img">
                                 <img [src]="selectedTheme.iconPath | async" alt="" />
@@ -52,19 +52,19 @@ import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
                     </div>
                 </div>
                 <div class="theme-btn-wrapper">
-                    <button mat-flat-button color="primary" class="theme-btn" (click)="openSelectModal(selectedTheme)">Aanpassent</button>
+                    <button mat-flat-button color="primary" class="theme-btn" (click)="openSelectModal(selectedTheme)">{{'GAME.SWITCH_THEME'|translate}}</button>
                 </div>
             </div>
         </ng-container>
         
-        <ng-template #selectThemeRef>
-            <div class="game-theme-selector">
-                <mat-icon class="game-theme-selector-icon">image</mat-icon>
-                <h3 class="game-theme-selector-title">Kies jouw thema</h3>
-                <p class="game-theme-selector-description">Kies een standaard thema of maak jouw eigen thema</p>
-                <button class="theme-btn" mat-raised-button color="primary" (click)="openSelectModal()">Select theme</button>
-            </div>
-        </ng-template>
+<!--        <ng-template #selectThemeRef>-->
+<!--            <div class="game-theme-selector">-->
+<!--                <mat-icon class="game-theme-selector-icon">image</mat-icon>-->
+<!--                <h3 class="game-theme-selector-title">Kies jouw thema</h3>-->
+<!--                <p class="game-theme-selector-description">Kies een standaard thema of maak jouw eigen thema</p>-->
+<!--                <button class="theme-btn" mat-raised-button color="primary" (click)="openSelectModal()">Select theme</button>-->
+<!--            </div>-->
+<!--        </ng-template>-->
     `,
     styles: [
         `

@@ -38,7 +38,7 @@ export class GetFolderListCompletedAction implements Action {
 export class SetFilesToUploadAction implements Action {
     type = MediaLibraryActionTypes.SET_FILES_TO_UPLOAD;
 
-    constructor(public payload: { files: FileList }) {
+    constructor(public payload: { files: FileList, customPath?: string }) {
     }
 }
 

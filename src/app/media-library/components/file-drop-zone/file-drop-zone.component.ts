@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {SetFilesToUploadAction, SetUploadModusAction} from "../../store/media-lib.actions";
@@ -45,6 +45,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 export class FileDropZoneComponent implements OnInit {
 
     @Input() isOpen;
+    @Input() customPath: string;
+    @Output() fileDropped = new EventEmitter();
 
 
     constructor(public store: Store<State>) {
@@ -56,7 +58,18 @@ export class FileDropZoneComponent implements OnInit {
     uploadFile(event: FileList) {
         console.log(event.length);
         console.log(event.item(0).name);
-        this.store.dispatch(new SetFilesToUploadAction({files: event}));
+        if (this.customPath) {
+            this.store.dispatch(new SetFilesToUploadAction({
+                customPath: this.customPath,
+                files: event
+            }));
+        } else {
+            this.store.dispatch(new SetFilesToUploadAction({
+                files: event
+            }));
+        }
+
+        this.fileDropped.emit();
     }
 
     close(event) {
