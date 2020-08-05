@@ -13,6 +13,7 @@ export interface State extends fromRoot.State {
 
 export const getPortalGamesFeature = createFeatureSelector<State, PortalGamesState>('portalGames');
 export const getPortalGames = createSelector(getPortalGamesFeature, (state) => state.portalGames);
+export const getCategories = createSelector(getPortalGamesFeature, (state) => state.categories);
 export const getPortalGame = createSelector(getPortalGamesFeature, (state) => state.portalGame);
 export const getQueryResult = createSelector(getPortalGamesFeature, (state) => state.queryGames);
 

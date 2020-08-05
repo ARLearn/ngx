@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {State} from 'src/app/core/reducers';
-import {GetPortalGameRequestAction} from '../store/portal-games.actions';
+import {GetCategoriesRequestAction, GetPortalGameRequestAction} from '../store/portal-games.actions';
 import {getPortalEditGame, getPortalGame} from '../store/portal-games.selector';
+import * as fromCategories from '../store/category.selectors';
 import {StartUploadAction} from "../../media-library/store/media-lib.actions";
 
 @Component({
@@ -31,9 +32,9 @@ import {StartUploadAction} from "../../media-library/store/media-lib.actions";
                             <mat-form-field>
                                 <mat-label>{{'PORTAL_MANAGEMENT.GAMES.CATEGORY' |translate}}</mat-label>
                                 <mat-select>
-                                    <mat-option>Option 1</mat-option>
-                                    <mat-option>Option 2</mat-option>
-                                    <mat-option>Option 3</mat-option>
+                                    <mat-option *ngFor="let category of (categories|async)">{{category.title}}</mat-option>
+<!--                                    <mat-option>Option 2</mat-option>-->
+<!--                                    <mat-option>Option 3</mat-option>-->
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -180,12 +181,13 @@ import {StartUploadAction} from "../../media-library/store/media-lib.actions";
 })
 export class ManageGameComponent implements OnInit {
     public game$ = this.store.select(getPortalEditGame);
-
+    public categories = this.store.select(fromCategories.selectAll);
     constructor(private store: Store<State>) {
     }
 
     ngOnInit(): void {
         this.store.dispatch(new GetPortalGameRequestAction());
+        this.store.dispatch(new GetCategoriesRequestAction());
     }
 
     handleUploadFile() {

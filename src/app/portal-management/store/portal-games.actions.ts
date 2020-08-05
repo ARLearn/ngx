@@ -1,11 +1,13 @@
 import {Action} from '@ngrx/store';
-import {PortalGame} from './portal-games.state';
+import {Category, PortalGame} from './portal-games.state';
 import {Game} from "../../game-management/store/current-game.state";
 
 export const PortalGamesActionTypes = {
     GET_PORTAL_GAMES: '[PortalGames] Get portal games',
     SET_PORTAL_GAMES: '[PortalGames] Set portal games',
 
+    GET_CATEGORIES: '[PortalGames] Get categories',
+    SET_CATEGORIES: '[PortalGames] Set categories',
 
     SEARCH_PORTAL_GAMES: '[PortalGames] Search portal games',
     SEARCH_PORTAL_GAMES_SUCCESS: '[PortalGames] Search portal games success',
@@ -26,6 +28,20 @@ export class SetPortalGamesAction implements Action {
     type = PortalGamesActionTypes.SET_PORTAL_GAMES;
 
     constructor(public payload: Game[]) {
+    }
+}
+
+export class GetCategoriesRequestAction implements Action {
+    type = PortalGamesActionTypes.GET_CATEGORIES;
+
+    constructor(public payload = null) {
+    }
+}
+
+export class SetCategoriesAction implements Action {
+    type = PortalGamesActionTypes.SET_CATEGORIES;
+
+    constructor(public payload: Category[]) {
     }
 }
 

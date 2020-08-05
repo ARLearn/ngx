@@ -156,7 +156,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         FontAwesomeModule,
         RunActionsModule,
         RunResponsesModule,
-        TutorialModule
+        TutorialModule,
     ],
     providers: [
         ComponentPageTitle,

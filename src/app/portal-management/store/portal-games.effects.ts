@@ -9,7 +9,7 @@ import {
     SetPortalGamesAction,
     SetPortalGameAction,
     SearchPortalGamesRequestAction,
-    GetPortalGameRequestAction
+    GetPortalGameRequestAction, SetCategoriesAction
 } from './portal-games.actions';
 import {mergeMap, map, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 import {PortalGamesService} from 'src/app/core/services/portal-games.service';
@@ -42,6 +42,15 @@ export class PortalGamesEffects {
             mergeMap(([action, gameId]: [GetPortalGameRequestAction, string]) => this.gameService.get(action.payload || Number.parseInt(gameId, 10))),
             map((game) => new SetPortalGameAction(game as PortalGame))
         );
+
+    @Effect()
+    getCategories: Observable<Action> = this.actions$
+        .pipe(
+            ofType(PortalGamesActionTypes.GET_CATEGORIES),
+            mergeMap((action) => this.portalGamesService.categories('nl')),
+            map((categories) => new SetCategoriesAction(categories))
+        );
+
 
     @Effect()
     getPortalGames: Observable<Action> = this.actions$

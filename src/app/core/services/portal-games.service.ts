@@ -5,7 +5,7 @@ import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {Player} from "../../player-management/store/player.state";
 import {Game} from "../../game-management/store/current-game.state";
-import {PortalGame} from "../../portal-management/store/portal-games.state";
+import {Category, PortalGame} from "../../portal-management/store/portal-games.state";
 
 
 @Injectable()
@@ -18,6 +18,13 @@ export class PortalGamesService {
         return this.http
             .get<any>(environment.api_url + '/games/library/search/' + query)
             .pipe(map(result => result.games));
+    }
+
+    categories(lang: string): Observable<Category[]> {
+
+        return this.http
+            .get<any>(environment.api_url + '/games/library/category/' + lang)
+            .pipe(map(result => result.categoryList.map(transCategory)));
     }
 
     list(): Observable<any[]> {
@@ -80,3 +87,16 @@ export class PortalGamesService {
         });
     }
 }
+
+
+const transCategory = (category: Category) => {
+
+    if (category.id) {
+        category.id = Number.parseInt(category.id + '', 10);
+    }
+    if (category.categoryId) {
+        category.categoryId = Number.parseInt(category.categoryId + '', 10);
+    }
+    return category;
+
+};

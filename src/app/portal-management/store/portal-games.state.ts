@@ -1,4 +1,4 @@
-import {OnlyGameState} from "./portal-games.reducer";
+import {CategoryState, OnlyGameState} from "./portal-games.reducer";
 
 export interface PortalGame {
     gameId: number;
@@ -16,9 +16,17 @@ export interface PortalGame {
     featured: boolean;
 }
 
+export interface Category {
+    id: number;
+    categoryId: number;
+    title: string;
+    lang: string;
+}
+
 export interface PortalGamesState {
     queryGames: PortalGame[];
     portalGames: OnlyGameState;
+    categories: CategoryState;
     portalGame: PortalGame;
 }
 

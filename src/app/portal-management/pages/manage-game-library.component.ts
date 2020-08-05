@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {State} from '../../core/reducers';
-import {GetPortalGamesRequestAction, SearchPortalGamesRequestAction} from '../store/portal-games.actions';
+import {GetCategoriesRequestAction, GetPortalGamesRequestAction, SearchPortalGamesRequestAction} from '../store/portal-games.actions';
 import {getPortalGames, getQueryGames} from '../store/portal-games.selector';
 
 @Component({
@@ -218,6 +218,8 @@ export class ManageGameLibraryComponent implements OnInit {
 
     ngOnInit(): void {
         // this.store.dispatch(new GetPortalGamesRequestAction());
+
+
     }
 
     onQueryChange(query: string) {
