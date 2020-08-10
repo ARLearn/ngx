@@ -25,7 +25,7 @@ export interface GameAuthors {
 export interface Game {
     gameId?: number;
     title: string;
-    // iconAbreviation: string;
+    iconAbbreviation?: string;
     description: string;
     lat?: number;
     lng?: number;
