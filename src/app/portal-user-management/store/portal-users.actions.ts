@@ -12,7 +12,8 @@ export enum PortalUserActionTypes {
     DELETE_ONE = '[PortalUser] Delete One',
     GET_ALL = '[PortalUser] Get All',
     ADD_ALL = '[PortalUser] Add All',
-    SELECT_MESSAGE = '[PortalUser] Select Message'
+    SELECT_MESSAGE = '[PortalUser] Select Message',
+    SELECT_PLAYER = '[PortalUser] Select Player',
 }
 
 export class Query implements Action {
@@ -81,12 +82,19 @@ export class AddAll implements Action {
     }
 }
 
+export class SelectPlayer implements Action {
+    readonly type = PortalUserActionTypes.SELECT_PLAYER;
+
+    constructor(public response: Player) {}
+}
+
 export class SelectMessage implements Action {
     readonly type = PortalUserActionTypes.SELECT_MESSAGE;
 
     constructor() {
     }
 }
+
 
 export type RunResponseActions
     = Query
@@ -95,4 +103,5 @@ export type RunResponseActions
     | UpdateOne
     | DeleteOne
     | GetAll
+    | SelectPlayer
     | SelectMessage;

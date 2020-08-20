@@ -1,13 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 // import {SearchUserRequestAction} from "../../player-management/store/player.actions";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Player} from "../../player-management/store/player.state";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
-import {SetGamesFilterAction} from "../../games-management/store/game.actions";
 import {Query} from "../store/portal-users.actions";
 import {selectAll, selectUsersQueryLoading} from '../store/portal-users.selectors';
 
@@ -249,7 +248,7 @@ import {selectAll, selectUsersQueryLoading} from '../store/portal-users.selector
 
     `]
 })
-export class ManageUsersComponent implements OnInit {
+export class ManageUsersComponent implements OnInit, OnDestroy {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns = ['select', 'name', 'location', 'email', 'lastModificationDate', 'controls'];
     dataSource: MatTableDataSource<Player>;
@@ -259,6 +258,8 @@ export class ManageUsersComponent implements OnInit {
     public filter: string;
 
     public loading$ = this.store.select(selectUsersQueryLoading);
+
+    private subscription = new Subscription();
 
     subMenuItems = [
         {
@@ -284,11 +285,15 @@ export class ManageUsersComponent implements OnInit {
     ngOnInit(): void {
         // this.store.dispatch(new Query("stefaan"));
 
-        this.userList.subscribe((users) => {
+        this.subscription.add(this.userList.subscribe((users) => {
             console.log(users);
             this.dataSource = new MatTableDataSource(users);
             this.dataSource.paginator = this.paginator;
-        });
+        }));
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     isAllSelected() {

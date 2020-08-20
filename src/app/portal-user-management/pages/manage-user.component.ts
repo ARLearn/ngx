@@ -8,7 +8,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {SetGamesFilterAction} from "../../games-management/store/game.actions";
-import {GetAccountRequest, Query, UpdateAccountRequest} from "../store/portal-users.actions";
+import {GetAccountRequest, Query, SelectPlayer, UpdateAccountRequest} from "../store/portal-users.actions";
 import {selectedUser} from '../store/portal-users.selectors';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import * as fromRootSelector from "../../core/selectors/router.selector";
@@ -162,7 +162,7 @@ export class ManageUserComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
         this.ngOnChanges(null);
         this.subscription.add(this.selectedUser$.pipe(filter(user => !!user)).subscribe(user => {
-            this.user = user;
+            this.user = { ...user };
 
             if (this.user.expirationDate && Number(this.user.expirationDate) > 0) {
                 this.user.expirationDate = new Date(Number(this.user.expirationDate)) as any;
@@ -212,5 +212,6 @@ export class ManageUserComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+        this.store.dispatch(new SelectPlayer(null));
     }
 }

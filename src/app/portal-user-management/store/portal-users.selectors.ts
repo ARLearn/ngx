@@ -11,14 +11,5 @@ export const {
     selectTotal,
 } = arlearnActionsAdapter.getSelectors(getArlearnActionsState);
 
-
-export const selectedUser = createSelector(fromRootSelector.selectRouteParam('userId'), selectEntities, (id, accounts) => {
-        if (!accounts) {
-            return null;
-        }
-        return accounts[id];
-    }
-);
-
-
 export const selectUsersQueryLoading = createSelector(getArlearnActionsState, state => state.queryLoading);
+export const selectedUser = createSelector(getArlearnActionsState, state => state.selectedPlayer);

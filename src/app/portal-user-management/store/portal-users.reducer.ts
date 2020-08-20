@@ -4,7 +4,8 @@ import {Player} from "../../player-management/store/player.state";
 
 
 export interface PortalUserState extends EntityState<Player> {
-    queryLoading: boolean,
+    queryLoading?: boolean,
+    selectedPlayer?: Player,
 }
 
 export function selectIdentifier(a: Player): string {
@@ -16,7 +17,8 @@ export const arlearnActionsAdapter = createEntityAdapter<Player>(
 );
 
 const initialState: PortalUserState = arlearnActionsAdapter.getInitialState({
-    queryLoading: false
+    queryLoading: false,
+    selectedPlayer: null,
 });
 
 export function portalUserReducer(
@@ -28,6 +30,8 @@ export function portalUserReducer(
             return { ...state, queryLoading: true };
         case PortalUserActionTypes.ADD_ONE:
             return arlearnActionsAdapter.addOne(action.response, state);
+        case PortalUserActionTypes.SELECT_PLAYER:
+            return { ...state, selectedPlayer: action.response };
         case PortalUserActionTypes.UPDATE_ONE:
             return arlearnActionsAdapter.updateOne({
                 id: action.id,
