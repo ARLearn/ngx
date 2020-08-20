@@ -89,7 +89,8 @@ export class SelectMessage implements Action {
 }
 
 export type RunResponseActions
-    = AddOne
+    = Query
+    | AddOne
     | AddAll
     | UpdateOne
     | DeleteOne

@@ -20,13 +20,6 @@ import Debounce from 'debounce-decorator';
 
     `,
     styles: [`
-        :host {
-            //position: absolute;
-            width: 100%;
-            height: 35px;
-            margin-top: 29px;
-        }
-
         .pos-field {
             position: relative;
             width: 320px;

@@ -9,7 +9,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {SetGamesFilterAction} from "../../games-management/store/game.actions";
 import {Query} from "../store/portal-users.actions";
-import {selectAll} from '../store/portal-users.selectors';
+import {selectAll, selectUsersQueryLoading} from '../store/portal-users.selectors';
 
 @Component({
     selector: 'app-manage-users',
@@ -32,13 +32,15 @@ import {selectAll} from '../store/portal-users.selectors';
                             <button mat-menu-item>Item 2</button>
                         </mat-menu>
                     </div>
-                    <div>
+                    <div class="search-wrapper">
                         <app-search-button
                                 [placeholder]="'MESSAGE.START_TYPING_TO_SEARCH' | translate"
                                 [dispatchAction]="dispatchAction"
                                 [filter]="filter"
                         >
                         </app-search-button>
+                        
+                        <span *ngIf="loading$ | async" class="spinner primary-color"><i class="fa fa-spin fa-spinner"></i></span>
                     </div>
                 </div>
                 
@@ -235,6 +237,15 @@ import {selectAll} from '../store/portal-users.selectors';
             padding-right: 10px;
             margin-right: 30px;
         }
+        
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-wrapper .spinner {
+            margin-left: 1rem;
+        }
 
     `]
 })
@@ -246,6 +257,8 @@ export class ManageUsersComponent implements OnInit {
 
     public dispatchAction = new Query();
     public filter: string;
+
+    public loading$ = this.store.select(selectUsersQueryLoading);
 
     subMenuItems = [
         {

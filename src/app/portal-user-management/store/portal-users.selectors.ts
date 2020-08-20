@@ -19,3 +19,6 @@ export const selectedUser = createSelector(fromRootSelector.selectRouteParam('us
         return accounts[id];
     }
 );
+
+
+export const selectUsersQueryLoading = createSelector(getArlearnActionsState, state => state.queryLoading);
