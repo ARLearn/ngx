@@ -1,8 +1,8 @@
-import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 // import {SearchUserRequestAction} from "../../player-management/store/player.actions";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Player} from "../../player-management/store/player.state";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
@@ -12,14 +12,16 @@ import {GetAccountRequest, Query, UpdateAccountRequest} from "../store/portal-us
 import {selectedUser} from '../store/portal-users.selectors';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import * as fromRootSelector from "../../core/selectors/router.selector";
+import {filter} from "rxjs/operators";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
     selector: 'app-manage-user',
     template: `
 
-        <app-top-level-navbar [backUrl]="'/portal/root/usrmgt'" [title]="(selectedUser|async)?.name">
+        <app-top-level-navbar [backUrl]="'/portal/root/usrmgt'" [title]="(selectedUser$|async)?.name">
         </app-top-level-navbar>
-        <div class="user maxwidth" *ngIf="(selectedUser|async)">
+        <div class="user maxwidth" *ngIf="(selectedUser$|async)">
             <div class="info">
                 <h4 class="primary-color">{{ 'USER.GENERIC' | translate }}</h4>
 
@@ -27,8 +29,10 @@ import * as fromRootSelector from "../../core/selectors/router.selector";
                     <mat-form-field>
                         <mat-label>{{ 'USER.NAME' | translate }}</mat-label>
                         <input matInput
-                               [disabled]="(selectedUser|async).accountType != 7"
-                               placeholder="Jouw naam" [value]="(selectedUser|async).name">
+                               [disabled]="(selectedUser$|async).accountType != 7"
+                               placeholder="Jouw naam"
+                               [(ngModel)]="user.name"
+                        >
                     </mat-form-field>
                 </div>
 
@@ -37,22 +41,27 @@ import * as fromRootSelector from "../../core/selectors/router.selector";
                         <mat-label>{{ 'USER.EMAIL' | translate }}</mat-label>
                         <input matInput
                                disabled="true"
-                               placeholder="Email" [value]="(selectedUser|async).email">
+                               placeholder="Email" [value]="(selectedUser$|async).email">
                     </mat-form-field>
                 </div>
 
                 <div class="form-field">
                     <mat-form-field class="example-chip-list">
                         <mat-chip-list #chipList aria-label="Fruit selection">
-                            <mat-chip [selectable]="true"
-                                      [removable]="true">
-                                123
+                            <mat-chip
+                                *ngFor="let label of labels"
+                                [selectable]="true"
+                                [removable]="true"
+                                (removed)="removeLabel(label)"
+                            >
+                                {{ label }}
                                 <mat-icon matChipRemove>cancel</mat-icon>
                             </mat-chip>
                             <input placeholder="Labels"
                                    [matChipInputFor]="chipList"
                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                   [matChipInputAddOnBlur]="true">
+                                   [matChipInputAddOnBlur]="true"
+                                   (matChipInputTokenEnd)="addLabel($event)">
                         </mat-chip-list>
                     </mat-form-field>
                 </div>
@@ -60,7 +69,7 @@ import * as fromRootSelector from "../../core/selectors/router.selector";
                 <div class="form-field">
                     <mat-form-field>
                         <mat-label>{{ 'USER.EXPIRE_DATE' | translate }}</mat-label>
-                        <input matInput [matDatepicker]="picker">
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="user.expirationDate">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -135,39 +144,73 @@ import * as fromRootSelector from "../../core/selectors/router.selector";
 
     `]
 })
-export class ManageUserComponent implements OnInit, OnChanges {
+export class ManageUserComponent implements OnInit, OnChanges, OnDestroy {
 
     separatorKeysCodes: number[] = [ENTER, COMMA];
     currentUserId: Observable<string> = this.store.select(fromRootSelector.selectRouteParam('userId'));
 
-    selectedUser: Observable<Player> = this.store.select(selectedUser);
+    selectedUser$: Observable<Player> = this.store.select(selectedUser);
 
-    constructor(private store: Store<State>) {
-    }
+    user: Player;
+    labels: string[] = [];
+
+    private subscription = new Subscription();
+
+    constructor(private store: Store<State>) {}
 
 
     ngOnInit(): void {
         this.ngOnChanges(null);
+        this.subscription.add(this.selectedUser$.pipe(filter(user => !!user)).subscribe(user => {
+            this.user = user;
 
+            if (this.user.expirationDate && Number(this.user.expirationDate) > 0) {
+                this.user.expirationDate = new Date(Number(this.user.expirationDate)) as any;
+            }
+
+            this.labels = this.user.label.split(';');
+        }));
+
+    }
+
+    addLabel(event: MatChipInputEvent) {
+        const input = event.input;
+        const value = event.value;
+
+        if ((value || '').trim()) {
+            this.labels.push(value.trim());
+        }
+
+        if (input) {
+            input.value = '';
+        }
+    }
+
+    removeLabel(label: string): void {
+        const index = this.labels.indexOf(label);
+
+        if (index >= 0) {
+            this.labels.splice(index, 1);
+        }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.currentUserId.subscribe(userId => this.store.dispatch(new GetAccountRequest(userId)));
+        this.subscription.add(
+            this.currentUserId.subscribe(userId => this.store.dispatch(new GetAccountRequest(userId)))
+        );
     }
 
     save() {
-        const account: Player = {
-            "localId": "116743449349920850150",
-            "firebaseId": "UHv7zBZlDJQEBWlmqSgVhO50W5D2",
-            "accountType": 2,
-            "email": "stefaan.ternier@gmail.com",
-            "name": "stefaan Ternier (gmail)",
-            "label": "Dilsen bibliotheek;Open Universiteit Nederland",
-            "picture": "https://lh3.googleusercontent.com/a-/AAuE7mAef8ckla4oidgVEstZRNJOYHjnQQ7vKnOQ_jJeGk0",
-            "expirationDate": 1595951888000,
-            "fullId": "2:116743449349920850150"
-        };
-        console.log('saving account');
-        this.store.dispatch(new UpdateAccountRequest(account));
+        const payload = {
+            ...this.user,
+            expirationDate: this.user.expirationDate ? (this.user.expirationDate as any).getTime() : -1,
+            label: this.labels.join(';'),
+        }
+
+        this.store.dispatch(new UpdateAccountRequest(payload));
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 }
