@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
-import {SetGamesFilterAction} from "../../../games-management/store/game.actions";
 import {Action} from "@ngrx/store/src/models";
+import Debounce from 'debounce-decorator';
 
 @Component({
     selector: 'app-search-button',
     template: `
 
-        <mat-form-field class="pos-field">
+        <mat-form-field class="pos-field search-input">
             <mat-label>{{'ROW_HEADERS.SEARCH' | translate}}</mat-label>
             <input matInput [placeholder]="placeholder"
                    [(ngModel)]="filter"
@@ -45,6 +45,7 @@ export class SearchButtonComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    @Debounce(300)
     onFilterChange(filter) {
         if (filter === '') {
             this.dispatchAction.setFilter([]);

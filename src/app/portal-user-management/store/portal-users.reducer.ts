@@ -33,12 +33,10 @@ export function portalUserReducer(
         case PortalUserActionTypes.GET_ALL:
             return arlearnActionsAdapter.addMany(action.responses, state);
         case PortalUserActionTypes.ADD_ALL:
-            console.log(action);
             if (!action.players) {
                 return state;
             }
-
-            return arlearnActionsAdapter.upsertMany(action.players, state);
+            return arlearnActionsAdapter.upsertMany(action.players, arlearnActionsAdapter.removeAll(state));
         default:
             return state;
     }

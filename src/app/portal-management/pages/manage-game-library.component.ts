@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
+import Debounce from 'debounce-decorator';
+
 import {State} from '../../core/reducers';
 import {GetCategoriesRequestAction, GetPortalGamesRequestAction, SearchPortalGamesRequestAction} from '../store/portal-games.actions';
 import {getPortalGames, getQueryGames} from '../store/portal-games.selector';
@@ -217,18 +219,18 @@ export class ManageGameLibraryComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // this.store.dispatch(new GetPortalGamesRequestAction());
+        this.store.dispatch(new GetPortalGamesRequestAction());
 
 
     }
 
+    @Debounce(300)
     onQueryChange(query: string) {
-        console.log("query is now", query);
         if (query.length > 2) {
             console.log("query is now", query);
             this.store.dispatch(new SearchPortalGamesRequestAction(query));
+        } else {
+            this.store.dispatch(new GetPortalGamesRequestAction());
         }
-
-
     }
 }
