@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {
     AddAll,
     Query,
     PortalUserActionTypes,
     GetAccountRequest,
-    UpdateAccountRequest, SelectPlayer
+    UpdateAccountRequest, SelectPlayer, AddOne, CreateAccountRequest, CreateAccountError, CreateAccountSuccess
 } from './portal-users.actions';
-import {map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
 
 import {State} from "../../core/reducers";
 import {AccountService} from "../../core/services/account.service";
+import {Player} from "../../player-management/store/player.state";
 
 
 @Injectable()
@@ -40,6 +41,19 @@ export class PortalUsersEffects {
         })
     );
 
+    @Effect() createAccount$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.CREATE_ACCOUNT_REQ),
+        switchMap((action: CreateAccountRequest) => {
+            return this.accounts.createAccount(action.account).pipe(
+                map(arr => {
+                    return new CreateAccountSuccess(arr)
+                }),
+                catchError(() => of(new CreateAccountError(`Can't add this user, please, check your data!`)))
+            );
+        }),
+
+    );
+
     @Effect() updateAccount$: Observable<Action> = this.actions$.pipe(
         ofType(PortalUserActionTypes.UPDATE_ACCOUNT_REQ),
         switchMap((action: UpdateAccountRequest) => {
@@ -50,9 +64,13 @@ export class PortalUsersEffects {
         })
     );
 
+    @Effect() addAccount$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.CREATE_ACCOUNT_SUCCESS),
+        map((action: CreateAccountSuccess) => new AddOne(action.account)),
+    );
+
     constructor(private actions$: Actions,
                 private store: Store<State>,
                 private accounts: AccountService,
-    ) {
-    }
+    ) {}
 }
