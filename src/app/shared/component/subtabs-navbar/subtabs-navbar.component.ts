@@ -19,6 +19,8 @@ import {environment} from "../../../../environments/environment";
         .subtabs {
             position: absolute;
             top: 96px;
+            
+            width: 100%;
         }
 
         ::ng-deep .mat-tab-links .mat-tab-link {
