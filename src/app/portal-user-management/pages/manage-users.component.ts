@@ -1,21 +1,30 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {State} from "../../core/reducers";
-// import {SearchUserRequestAction} from "../../player-management/store/player.actions";
-import {Observable} from "rxjs";
-import {Player} from "../../player-management/store/player.state";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatTableDataSource} from "@angular/material/table";
-import {SelectionModel} from "@angular/cdk/collections";
-import {SetGamesFilterAction} from "../../games-management/store/game.actions";
-import {Query} from "../store/portal-users.actions";
-import {selectAll} from '../store/portal-users.selectors';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Store } from "@ngrx/store";
+import { MatDialog } from "@angular/material/dialog";
+import { Observable, Subscription } from "rxjs";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { SelectionModel } from "@angular/cdk/collections";
+
+import { State } from "../../core/reducers";
+import { Player } from "../../player-management/store/player.state";
+import { Query, CreateAccountRequest } from "../store/portal-users.actions";
+import { selectAll, selectUsersQueryLoading } from '../store/portal-users.selectors';
+import { AddUserDialogComponent } from "../components/add-user-dialog.component";
 
 @Component({
     selector: 'app-manage-users',
     template: `
         <app-top-level-navbar [title]="'Portaal beheer'">
             <app-subtabs-navbar [items]="subMenuItems"></app-subtabs-navbar>
+
+            <div class="button-placeholder" (click)="addUser()">
+                <div class="button-center">
+                    <button color="accent" mat-fab>
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
         </app-top-level-navbar>
         <div class="users maxwidth">
             <div class="mb-4 mt-5 d-flex align-items-center justify-content-between">
@@ -32,13 +41,15 @@ import {selectAll} from '../store/portal-users.selectors';
                             <button mat-menu-item>Item 2</button>
                         </mat-menu>
                     </div>
-                    <div>
+                    <div class="search-wrapper">
                         <app-search-button
                                 [placeholder]="'MESSAGE.START_TYPING_TO_SEARCH' | translate"
                                 [dispatchAction]="dispatchAction"
                                 [filter]="filter"
                         >
                         </app-search-button>
+                        
+                        <span *ngIf="loading$ | async" class="spinner primary-color"><i class="fa fa-spin fa-spinner"></i></span>
                     </div>
                 </div>
                 
@@ -235,10 +246,19 @@ import {selectAll} from '../store/portal-users.selectors';
             padding-right: 10px;
             margin-right: 30px;
         }
+        
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-wrapper .spinner {
+            margin-left: 1rem;
+        }
 
     `]
 })
-export class ManageUsersComponent implements OnInit {
+export class ManageUsersComponent implements OnInit, OnDestroy {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns = ['select', 'name', 'location', 'email', 'lastModificationDate', 'controls'];
     dataSource: MatTableDataSource<Player>;
@@ -246,6 +266,10 @@ export class ManageUsersComponent implements OnInit {
 
     public dispatchAction = new Query();
     public filter: string;
+
+    public loading$ = this.store.select(selectUsersQueryLoading);
+
+    private subscription = new Subscription();
 
     subMenuItems = [
         {
@@ -261,7 +285,9 @@ export class ManageUsersComponent implements OnInit {
 
     userList: Observable<any> = this.store.select(selectAll);
 
-    constructor(private store: Store<State>
+    constructor(
+        public dialog: MatDialog,
+        private store: Store<State>,
     ) {}
 
     click(item) {
@@ -271,11 +297,15 @@ export class ManageUsersComponent implements OnInit {
     ngOnInit(): void {
         // this.store.dispatch(new Query("stefaan"));
 
-        this.userList.subscribe((users) => {
+        this.subscription.add(this.userList.subscribe((users) => {
             console.log(users);
             this.dataSource = new MatTableDataSource(users);
             this.dataSource.paginator = this.paginator;
-        });
+        }));
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     isAllSelected() {
@@ -299,4 +329,14 @@ export class ManageUsersComponent implements OnInit {
         return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row`;
     }
 
+
+    addUser() {
+        const dialogRef = this.dialog.open(AddUserDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+        });
+
+        this.subscription.add(dialogRef.componentInstance.submit.subscribe((result) => {
+            this.store.dispatch(new CreateAccountRequest(result));
+        }));
+    }
 }

@@ -1,28 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
-import {act, Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Observable, of} from 'rxjs';
 import {
     AddAll,
     Query,
     PortalUserActionTypes,
-    SelectMessage,
     GetAccountRequest,
-    UpdateOne,
-    AddOne,
-    UpdateAccountRequest
+    UpdateAccountRequest, SelectPlayer, AddOne, CreateAccountRequest, CreateAccountError, CreateAccountSuccess
 } from './portal-users.actions';
-import {map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
 
-import {ResponsesService} from "../../core/services/responses.service";
-import * as selector from "../../core/selectors/router.selector";
-import * as fromRoot from "../../core/selectors/router.selector";
 import {State} from "../../core/reducers";
-import {GameMessagesService} from 'src/app/core/services/game-messages.service';
-import {GameMessageEditCompletedAction} from 'src/app/game-message/store/game-message.actions';
-import {SetSelectedScreenAction} from 'src/app/game-messages/store/game-messages.actions';
 import {AccountService} from "../../core/services/account.service";
+import {Player} from "../../player-management/store/player.state";
 
 
 @Injectable()
@@ -45,8 +37,21 @@ export class PortalUsersEffects {
             return this.accounts.getWithId(action.fullId);
         }),
         map(arr => {
-            return new AddOne(arr);
+            return new SelectPlayer(arr);
         })
+    );
+
+    @Effect() createAccount$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.CREATE_ACCOUNT_REQ),
+        switchMap((action: CreateAccountRequest) => {
+            return this.accounts.createAccount(action.account).pipe(
+                map(arr => {
+                    return new CreateAccountSuccess(arr)
+                }),
+                catchError(() => of(new CreateAccountError(`Can't add this user, please, check your data!`)))
+            );
+        }),
+
     );
 
     @Effect() updateAccount$: Observable<Action> = this.actions$.pipe(
@@ -55,13 +60,17 @@ export class PortalUsersEffects {
             return this.accounts.updateAccount(action.account);
         }),
         map(arr => {
-            return new AddOne(arr);
+            return new SelectPlayer(arr);
         })
+    );
+
+    @Effect() addAccount$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.CREATE_ACCOUNT_SUCCESS),
+        map((action: CreateAccountSuccess) => new AddOne(action.account)),
     );
 
     constructor(private actions$: Actions,
                 private store: Store<State>,
                 private accounts: AccountService,
-    ) {
-    }
+    ) {}
 }

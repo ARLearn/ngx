@@ -33,6 +33,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {GameMessageModule} from "../game-message/game-message.module";
 import {GameDisappearFlowchartComponent} from "./pages/game.disappear.flowchart";
 import {GameManagementModule} from "../game-management/game-management.module";
+import { environment } from '../../environments/environment';
 
 
 @NgModule({
@@ -42,7 +43,9 @@ import {GameManagementModule} from "../game-management/game-management.module";
         StoreModule.forFeature('gameMessages', reducers),
         EffectsModule.forFeature([GameMessagesEffects]),
         MediaLibraryModule,
-        WireflowModule,
+        WireflowModule.forRoot({
+            gMapKey: environment.apiKey,
+        }),
         AuthModule,
         MatMenuModule,
         MatCheckboxModule,

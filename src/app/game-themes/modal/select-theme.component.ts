@@ -3,10 +3,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {selectAll} from "../store/game-theme.selectors";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, combineLatest, Observable, of, Subject} from "rxjs";
 import {AngularFireStorage} from "angularfire2/storage";
 import {GameTheme} from "../store/game-theme.state";
-import { map } from 'rxjs/operators';
+import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
 
 @Component({
   selector: 'app-select-theme',
@@ -25,20 +25,8 @@ import { map } from 'rxjs/operators';
     </div>      
       <div class="theme-panel">
         <div class="sidebar">
-          <div>
-            <button class="menu-item selected">Toon alles</button>
-          </div>
-          <div>
-            <button class="menu-item">Illustratief</button>
-          </div>
-          <div>
-            <button class="menu-item">Swirl</button>
-          </div>
-          <div>
-            <button class="menu-item">Tropical</button>
-          </div>
-          <div>
-            <button class="menu-item">Squares</button>
+          <div *ngFor="let category of categories">
+            <button class="menu-item" [class.selected]="selectedCategory == category" (click)="selectedCategory != category && selectCategory(category)">{{ category }}</button>
           </div>
           
           <div class="add-btn">
@@ -188,16 +176,26 @@ import { map } from 'rxjs/operators';
   `]
 })
 export class SelectThemeComponent implements OnInit {
+
+  public selectCategory$ = new BehaviorSubject(null);
+
   public themes$ = this.store.select(selectAll)
-      .pipe(map(themes => {
-        return themes.map(theme => ({
+    .pipe(
+      mergeMap((themes) => this.selectCategory$.pipe(map(cat => [cat, themes]))),
+      map(([category, themes]) => {
+
+        return themes.filter(theme => category == null || (theme.category == category)).map(theme => ({
           ...theme,
           backgroundPath: this.getDownloadUrl(theme.backgroundPath),
           iconPath: this.getDownloadUrl(theme.iconPath),
-        }))
-      }));
+        }));
+    })
+  );
 
   public selectedTheme: any;
+  public selectedCategory: any;
+  public categories;
+
 
   private submit$: Subject<GameTheme> = new Subject<GameTheme>();
 
@@ -212,6 +210,13 @@ export class SelectThemeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.themes$.subscribe((themes) => {
+      const categories = themes.map(x => x.category).filter(x => !!x);
+
+      this.categories = categories.filter((item, i) => {
+        return categories.indexOf(item) === i;
+      });
+    });
   }
 
   onNoClick() {
@@ -220,6 +225,11 @@ export class SelectThemeComponent implements OnInit {
 
   select(theme) {
     this.selectedTheme = theme;
+  }
+
+  selectCategory(category) {
+    this.selectedCategory = category;
+    this.selectCategory$.next(category);
   }
 
   onSubmit() {

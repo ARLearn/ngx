@@ -5,21 +5,25 @@ import {Player} from "../../player-management/store/player.state";
 export enum PortalUserActionTypes {
     QUERY = '[PortalUser] Query',
     GET_REQ = '[PortalUser] Get account request',
+    CREATE_ACCOUNT_REQ = '[PortalUser] Create Account',
     UPDATE_ACCOUNT_REQ = '[PortalUser] Update Account',
+
+    CREATE_ACCOUNT_SUCCESS = '[PortalUser] Create Account Success',
+    CREATE_ACCOUNT_ERROR = '[PortalUser] Create Account Error',
 
     ADD_ONE = '[PortalUser] Add One',
     UPDATE_ONE = '[PortalUser] Update One',
     DELETE_ONE = '[PortalUser] Delete One',
     GET_ALL = '[PortalUser] Get All',
     ADD_ALL = '[PortalUser] Add All',
-    SELECT_MESSAGE = '[PortalUser] Select Message'
+    SELECT_MESSAGE = '[PortalUser] Select Message',
+    SELECT_PLAYER = '[PortalUser] Select Player',
 }
 
 export class Query implements Action {
     readonly type = PortalUserActionTypes.QUERY;
 
-    constructor(public query: string = null) {
-    }
+    constructor(public query: string = null) {}
 
     setFilter(filter: string[]) {
         this.query = filter[0];
@@ -29,69 +33,86 @@ export class Query implements Action {
 export class GetAccountRequest implements Action {
     readonly type = PortalUserActionTypes.GET_REQ;
 
-    constructor(public fullId: string = null) {
-    }
+    constructor(public fullId: string = null) {}
 
+}
+
+export class CreateAccountRequest implements Action {
+    readonly type = PortalUserActionTypes.CREATE_ACCOUNT_REQ;
+
+    constructor(public account: Player = null) {}
+
+}
+
+export class CreateAccountSuccess implements Action {
+    readonly type = PortalUserActionTypes.CREATE_ACCOUNT_SUCCESS;
+
+    constructor(public account: Player = null) {}
+
+}
+
+export class CreateAccountError implements Action {
+    readonly type = PortalUserActionTypes.CREATE_ACCOUNT_ERROR;
+
+    constructor(public message: string, public account: Player = null) {}
 }
 
 export class UpdateAccountRequest implements Action {
     readonly type = PortalUserActionTypes.UPDATE_ACCOUNT_REQ;
 
-    constructor(public account: Player = null) {
-    }
+    constructor(public account: Player = null) {}
 
 }
 
 export class AddOne implements Action {
     readonly type = PortalUserActionTypes.ADD_ONE;
 
-    constructor(public response: Player) {
-    }
+    constructor(public response: Player) {}
 }
 
 export class UpdateOne implements Action {
     readonly type = PortalUserActionTypes.UPDATE_ONE;
 
-    constructor(
-        public id: string,
-        public changes: Partial<Player>,
-    ) {
-    }
+    constructor(public id: string, public changes: Partial<Player>) {}
 }
 
 export class DeleteOne implements Action {
     readonly type = PortalUserActionTypes.DELETE_ONE;
 
-    constructor(public id: string) {
-    }
+    constructor(public id: string) {}
 }
 
 export class GetAll implements Action {
     readonly type = PortalUserActionTypes.GET_ALL;
 
-    constructor(public responses: Player[]) {
-    }
+    constructor(public responses: Player[]) {}
 }
 
 export class AddAll implements Action {
     readonly type = PortalUserActionTypes.ADD_ALL;
 
-    constructor(public players: Player[]
-    ) {
-    }
+    constructor(public players: Player[]) {}
+}
+
+export class SelectPlayer implements Action {
+    readonly type = PortalUserActionTypes.SELECT_PLAYER;
+
+    constructor(public response: Player) {}
 }
 
 export class SelectMessage implements Action {
     readonly type = PortalUserActionTypes.SELECT_MESSAGE;
 
-    constructor() {
-    }
+    constructor() {}
 }
 
+
 export type RunResponseActions
-    = AddOne
+    = Query
+    | AddOne
     | AddAll
     | UpdateOne
     | DeleteOne
     | GetAll
+    | SelectPlayer
     | SelectMessage;

@@ -1,16 +1,17 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Store} from "@ngrx/store";
-import {Observable, Subject, Subscription} from "rxjs";
-import {takeUntil, withLatestFrom} from 'rxjs/operators';
-import {AngularFireStorage} from "angularfire2/storage";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
+import { Store } from "@ngrx/store";
+import { Observable, Subscription } from "rxjs";
+import {filter, withLatestFrom} from 'rxjs/operators';
+import { AngularFireStorage } from "angularfire2/storage";
 
-import {State} from "../../core/reducers";
-import {SelectThemeComponent} from "../../game-themes/modal/select-theme.component";
-import {Query} from "../../game-themes/store/game-theme.actions";
-import {SetSelectedThemeAction} from '../store/current-game.actions';
-import {getSelectedTheme} from "../store/current-game.selector";
+import { State } from "../../core/reducers";
+import { SelectThemeComponent } from "../../game-themes/modal/select-theme.component";
+import { Query } from "../../game-themes/store/game-theme.actions";
+import { SetSelectedThemeAction } from '../store/current-game.actions';
+import { getSelectedTheme } from "../store/current-game.selector";
 import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
+import {ThemeSettingsComponent} from "../../game-themes/modal/theme-settings.component";
 
 @Component({
     selector: 'app-game-theme-selector',
@@ -56,15 +57,6 @@ import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
                 </div>
             </div>
         </ng-container>
-        
-<!--        <ng-template #selectThemeRef>-->
-<!--            <div class="game-theme-selector">-->
-<!--                <mat-icon class="game-theme-selector-icon">image</mat-icon>-->
-<!--                <h3 class="game-theme-selector-title">Kies jouw thema</h3>-->
-<!--                <p class="game-theme-selector-description">Kies een standaard thema of maak jouw eigen thema</p>-->
-<!--                <button class="theme-btn" mat-raised-button color="primary" (click)="openSelectModal()">Select theme</button>-->
-<!--            </div>-->
-<!--        </ng-template>-->
     `,
     styles: [
         `
@@ -164,8 +156,23 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.store.dispatch(new Query());
 
-        this.subscription.add(this.theme$.pipe(withLatestFrom(this.themes$)).subscribe(([theme, themes]) => {
+        this.subscription.add(this.themes$.subscribe(themes => {
+            if (!this.selectedTheme) {
+                this.selectedTheme = themes.find(t => t.themeId == '1');
+
+                if (this.selectedTheme) {
+                    this.selectedTheme.backgroundPath = this.getDownloadUrl(this.selectedTheme.backgroundPath);
+                    this.selectedTheme.iconPath = this.getDownloadUrl(this.selectedTheme.iconPath);
+                }
+            }
+        }));
+
+        this.subscription.add(this.theme$.pipe(
+            withLatestFrom(this.themes$),
+            filter(([_, themes]) => themes && themes.length)
+        ).subscribe(([theme, themes]) => {
             this.selectedTheme = themes.find(t => t.themeId == theme);
+
             if (this.selectedTheme) {
                 this.selectedTheme.backgroundPath = this.getDownloadUrl(this.selectedTheme.backgroundPath);
                 this.selectedTheme.iconPath = this.getDownloadUrl(this.selectedTheme.iconPath);
@@ -183,8 +190,20 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
 
         this.subscription.add(dialogRef.componentInstance.submit
             .subscribe((theme) => {
-                this.store.dispatch(new SetSelectedThemeAction(theme));
-                this.dialog.closeAll();
+                const dialogThemeRef = this.dialog.open(ThemeSettingsComponent, {
+                    panelClass: ['modal-fullscreen', "modal-dialog"],
+                    data: {}
+                });
+
+                dialogThemeRef.componentInstance.selectedTheme = theme;
+
+
+                this.subscription.add(dialogThemeRef.componentInstance.submit.subscribe(({theme: thm, iconAbbreviation}) => {
+                    this.store.dispatch(new SetSelectedThemeAction(thm));
+                    // TODO: make game updating (set iconAbbreviation)
+                    console.log('iconAbbreviation: ', iconAbbreviation);
+                    this.dialog.closeAll();
+                }));
             }));
     }
 
