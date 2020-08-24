@@ -20,7 +20,8 @@ export class AccountService {
 
     getWithId(fullId: string): Observable<Player> {
         return this.http
-            .get<any>(environment.api_url + '/account/' + fullId);
+            .get<any>(environment.api_url + '/account/' + fullId)
+            .pipe(map(account => this.populateAccount(account)));
     }
 
     recreate(): Observable<any> {
@@ -31,7 +32,11 @@ export class AccountService {
     search(query: string): Observable<Player[]> {
 
         return this.http
-            .get<any>(environment.api_url + '/usermgt/accounts/' + query).pipe(map(result => result.accountList));
+            .get<any>(environment.api_url + '/usermgt/accounts/' + query)
+            .pipe(
+                map(result => result.accountList),
+                map(accounts => accounts && accounts.map(account => this.populateAccount(account)))
+            );
     }
 
     updateExpiration(fullId: string, expiration: number, action: any): Observable<any[]> {
@@ -41,7 +46,8 @@ export class AccountService {
 
     updateAccount(account: Player): Observable<Player> {
         return this.http
-            .post<Player>(environment.api_url + '/account/update', account);
+            .post<Player>(environment.api_url + '/account/update', account)
+            .pipe(map(account => this.populateAccount(account)));
     }
 
     createAccount(account: Player): Observable<Player> {
@@ -52,7 +58,16 @@ export class AccountService {
         //accountType should be 7 (but is ignored)
 
         return this.http
-            .post<Player>(environment.api_url + '/account/create', account);
+            .post<Player>(environment.api_url + '/account/create', account)
+            .pipe(map(account => this.populateAccount(account)));
+    }
+
+
+    private populateAccount(account) {
+        return account && {
+            ...account,
+            labels: account.label && account.label.split(';'),
+        }
     }
 }
 
