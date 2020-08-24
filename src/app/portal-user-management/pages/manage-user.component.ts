@@ -168,7 +168,7 @@ export class ManageUserComponent implements OnInit, OnChanges, OnDestroy {
                 this.user.expirationDate = new Date(Number(this.user.expirationDate)) as any;
             }
 
-            this.labels = this.user.label.split(';');
+            this.labels = (this.user as any).labels
         }));
 
     }
@@ -203,7 +203,7 @@ export class ManageUserComponent implements OnInit, OnChanges, OnDestroy {
     save() {
         const payload = {
             ...this.user,
-            expirationDate: this.user.expirationDate ? (this.user.expirationDate as any).getTime() : -1,
+            expirationDate: this.user.expirationDate > 0 ? (this.user.expirationDate as any).getTime() : -1,
             label: this.labels.join(';'),
         }
 

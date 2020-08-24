@@ -11,6 +11,7 @@ import { Player } from "../../player-management/store/player.state";
 import { Query, CreateAccountRequest } from "../store/portal-users.actions";
 import { selectAll, selectUsersQueryLoading } from '../store/portal-users.selectors';
 import { AddUserDialogComponent } from "../components/add-user-dialog.component";
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-manage-users',
@@ -94,8 +95,8 @@ import { AddUserDialogComponent } from "../components/add-user-dialog.component"
                 <ng-container matColumnDef="location">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let row" (click)="click(row)">
-                        <mat-chip-list>
-                            <mat-chip color="secondary" selected>{{row.label}}</mat-chip>
+                        <mat-chip-list *ngIf="row.labels">
+                            <mat-chip color="secondary" *ngFor="let label of row.labels" selected>{{label}}</mat-chip>
                         </mat-chip-list>
                     </td>
                 </ng-container>
@@ -283,7 +284,8 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
     ];
 
 
-    userList: Observable<any> = this.store.select(selectAll);
+    userList: Observable<any> = this.store.select(selectAll)
+        // .pipe(map(users => users.map(user => ({ ...user, labels: user.label && user.label.split(';') }))));
 
     constructor(
         public dialog: MatDialog,
