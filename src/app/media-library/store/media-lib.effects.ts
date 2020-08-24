@@ -117,7 +117,7 @@ export class MediaLibraryEffects {
             if (ftu.customPath) {
                 return this.medialib.upload(ftu.file, ftu.pathPrefix);
             } else {
-                return this.medialib.upload(ftu.file, ftu.pathPrefix + '/' + ftu.file);
+                return this.medialib.upload(ftu.file, ftu.pathPrefix + '/' + ftu.file.name);
             }
 
         }),
