@@ -3,11 +3,17 @@ import {Store} from '@ngrx/store';
 import {State} from '../../../core/reducers';
 import {GetGameMessagesRequestAction, SelectMessageFromRouterAction} from '../../../game-messages/store/game-messages.actions';
 import {GetCurrentGameFromRouterRequestAction} from '../../../game-management/store/current-game.actions';
-import {GameMessageEditAction, ResetGameMessageEditAction} from '../../store/game-message.actions';
+import {
+    GameMessageEditAction,
+    GameMessageEditCompletedAction,
+    ResetGameMessageEditAction
+} from '../../store/game-message.actions';
 import {Observable, Subscription} from "rxjs";
 import {GameMessage} from "../../../game-messages/store/types";
 import {getEditMessageSelector} from "../../store/game-message.selector";
 import {Router} from "@angular/router";
+import { tap } from 'rxjs/operators';
+import {getGame} from "../../../game-management/store/current-game.selector";
 
 @Component({
     selector: 'app-screen-detail',

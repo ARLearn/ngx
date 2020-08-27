@@ -22,6 +22,10 @@ import {take} from "rxjs/operators";
                 <mat-icon class="deleteIcon" matPrefix>delete</mat-icon>
             </div>
 
+            <div *ngIf="editButton" class="deleteSplashScreen" (click)="editClickedEvent($event)">
+                <mat-icon class="deleteIcon" matPrefix>create</mat-icon>
+            </div>
+
                         <ng-content></ng-content>
         </div>
     `,
@@ -64,7 +68,9 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
 
     @Input() paths: string[];
     @Input() deleteButton = false;
+    @Input() editButton = false;
     @Output() delete = new EventEmitter<boolean>();
+    @Output() edit = new EventEmitter<boolean>();
     @Output() isVideo = new EventEmitter<boolean>();
 
 
@@ -115,6 +121,11 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
     deleteClickedEvent(event) {
         event.stopPropagation();
         this.delete.emit(true);
+    }
+
+    editClickedEvent(event) {
+        event.stopPropagation();
+        this.edit.emit(true);
     }
 
     ngOnChanges(changes: SimpleChanges): void {

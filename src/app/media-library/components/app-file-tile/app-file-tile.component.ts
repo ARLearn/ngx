@@ -53,7 +53,7 @@ import {getSelectedFiles} from "../../store/media-lib.selector";
         .overlay-transparent {
             position: absolute;
             z-index: 2;
-            width: 148px;
+            width: 152px;
             height: 240px;
 
             border: 2px solid #3EA3DC;
