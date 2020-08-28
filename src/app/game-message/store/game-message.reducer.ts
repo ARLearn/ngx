@@ -1,7 +1,6 @@
 import * as actions from './game-message.actions';
 import {gameMessageInitialState, GameMessageState} from './game-message.state';
 import {GameMessage, MultipleChoiceScreen} from "../../game-messages/store/game-messages.state";
-// import {gameMessageMapper} from "../../game-messages/store/game-messages.reducer";
 import {GameMessagesActionTypes} from "../../game-messages/store/game-messages.actions";
 import {AuthActionTypes} from "../../auth/store/auth.actions";
 
