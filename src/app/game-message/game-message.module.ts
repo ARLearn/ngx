@@ -44,11 +44,41 @@ import { McImagePreviewHeaderComponent } from './component/preview-pane-header/m
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import { QRCodeModule } from 'angular2-qrcode';
+
 @NgModule({
-    declarations: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneHeaderComponent,
-        PreviewPaneMobileViewComponent, ScreenEditorNavbarComponent, ScreenEditorComponent,
-        ScreenEditorTypeSelectComponent, ScreenEditorTypeNarratorComponent, ChangeScreenPreviewDirective,
-        ScreenEditorTypeSingleChoiceTestComponent, ScreenEditorTypeMultipleChoiceTestComponent, PickFileInputComponent, MobilePreviewNarratorComponent, PickLocationOnMapComponent, CreateLabelComponent, ScreenEditorTypeVideoObjectComponent, ScreenEditorTypeScanTagComponent, ScreenEditorTypeSingleChoiceImageComponent, ScreenEditorTypeMultipleChoiceImageComponent, AnswerComponentComponent, DependencyReadTempComponent, MobilePreviewVideoComponent, MobilePreviewMultipleChoiceComponent, MobilePreviewMultipleScanComponent, BackgroundImageSelectorComponent, MobilePreviewSingleChoiceComponent, MobilePreviewAnswerFeedbackComponent, MobilePreviewMultipleChoiceImageComponent, PreviewNavbarComponent, MobilePreviewScanTageComponent, McImagePreviewHeaderComponent],
+    declarations: [
+        ScreenDetailComponent,
+        PreviewPaneComponent,
+        PreviewPaneHeaderComponent,
+        PreviewPaneMobileViewComponent,
+        ScreenEditorNavbarComponent,
+        ScreenEditorComponent,
+        ScreenEditorTypeSelectComponent,
+        ScreenEditorTypeNarratorComponent,
+        ChangeScreenPreviewDirective,
+        ScreenEditorTypeSingleChoiceTestComponent,
+        ScreenEditorTypeMultipleChoiceTestComponent,
+        PickFileInputComponent,
+        MobilePreviewNarratorComponent,
+        PickLocationOnMapComponent,
+        CreateLabelComponent,
+        ScreenEditorTypeVideoObjectComponent,
+        ScreenEditorTypeScanTagComponent,
+        ScreenEditorTypeSingleChoiceImageComponent,
+        ScreenEditorTypeMultipleChoiceImageComponent,
+        AnswerComponentComponent,
+        DependencyReadTempComponent,
+        MobilePreviewVideoComponent,
+        MobilePreviewMultipleChoiceComponent,
+        MobilePreviewMultipleScanComponent,
+        BackgroundImageSelectorComponent,
+        MobilePreviewSingleChoiceComponent,
+        MobilePreviewAnswerFeedbackComponent,
+        MobilePreviewMultipleChoiceImageComponent,
+        PreviewNavbarComponent,
+        MobilePreviewScanTageComponent,
+        McImagePreviewHeaderComponent
+    ],
     exports: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneMobileViewComponent],
     imports: [
         CommonModule,
