@@ -21,7 +21,14 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
                            (ngModelChange)="gameTitleChange($event)">
 
                 </mat-form-field>
+                <mat-form-field class="game-form-title">
+                    <mat-label>{{'GAME.ICON_ABR'|translate}}</mat-label>
+                    <input matInput
+                           [disabled]="!(iAmOwner|async)"
+                           [ngModel]="localgame?.iconAbbreviation"
+                           (ngModelChange)="gameIconAbbrChange($event)">
 
+                </mat-form-field>
                 <mat-form-field class="game-form-title">
                     <mat-label>{{'GAME.DESCRIPTION_FIELD'|translate}}</mat-label>
                     <textarea matInput [placeholder]="'GAME.DESCRIPTION'|translate"
@@ -119,6 +126,10 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
 
     gameTitleChange(event: any) {
         this.localgame.title = event;
+    }
+
+    gameIconAbbrChange(event: any) {
+        this.localgame.iconAbbreviation = event;
     }
 
     gameDescriptionChange(event: any) {
