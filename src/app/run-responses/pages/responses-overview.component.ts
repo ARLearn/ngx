@@ -12,9 +12,6 @@ import {
     getMultipleMessagesSelector,
     getSelectedScreen
 } from "../../game-messages/store/game-messages.selector";
-import { SetSelectedScreenAction} from "../../game-messages/store/game-messages.actions";
-import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../game-message/store/game-message.actions";
-import { getEditMessageSelector } from 'src/app/game-message/store/game-message.selector';
 import { Router } from '@angular/router';
 import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.selector';
 
@@ -30,7 +27,7 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
             <div class="full-width-container maxwidth">
                 <app-run-tab-select></app-run-tab-select>
                 <div class="run-container">
-                    <div class="photo-container" *ngIf="selectedImageUrl">
+                    <div class="photo-container">
                         <div class="photo">
                             <app-preview-pane-mobile-view></app-preview-pane-mobile-view>
                         </div>
@@ -152,9 +149,7 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     public runId$: Observable<any> = this.store.select(getCurrentRunId);
     public selectedScreen;
     public messages;
-    public selectedImageUrl;
-    
-    public editMessage$: Observable<any> = this.store.select(getEditMessageSelector);
+
     private messages$: Observable<any> = this.store.select(getMultipleMessagesSelector);
     private selectedScreen$: Observable<any> = this.store.select(getSelectedScreen);
     private subscription: Subscription;
@@ -172,10 +167,6 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.messages$.subscribe(data => {
             this.messages = data;
-        }));
-
-        this.subscription.add(this.editMessage$.subscribe(message => {
-            this.selectedImageUrl = message && message.fileReferences.background;
         }));
 
         this.store.dispatch(new GetGameRunsRequestAction());

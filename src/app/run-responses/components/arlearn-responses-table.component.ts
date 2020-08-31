@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from '../../core/reducers';
 import { Observable, Subscription } from "rxjs";
 import * as fromSel from '../store/run-responses.selectors';
-import { getMessagesSelector, getSelectedScreen } from "../../game-messages/store/game-messages.selector";
+import { getCurrentGameMessages, getSelectedScreen } from "../../game-messages/store/game-messages.selector";
 import { GetGameMessagesRequestAction } from "../../game-messages/store/game-messages.actions";
 import { GameMessage } from "../../game-messages/store/game-messages.state";
 import { getEditMessageSelector } from 'src/app/game-message/store/game-message.selector';
@@ -191,7 +191,7 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
 })
 export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     @Input() selectedScreen: any;
-    public messages$: Observable<any> = this.store.select(getMessagesSelector);
+    public messages$: Observable<any> = this.store.select(getCurrentGameMessages);
     public editMessage$: Observable<any> = this.store.select(getEditMessageSelector);
     private selectedScreen$: Observable<any> = this.store.select(getSelectedScreen);
     public messagesAsync = {};
@@ -212,9 +212,12 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
     constructor(private store: Store<State>) {
         this.subscription = this.messages$.subscribe((messages: GameMessage[]) => {
-            messages.forEach(message => {
-                this.messagesAsync[message.id] = message;
-            });
+            if (messages.length) {
+                messages.forEach(message => {
+                    this.messagesAsync[message.id] = message;
+                });
+            }
+
         });
 
         this.subscription.add(this.responses$.subscribe(responses => {
@@ -245,9 +248,13 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     }
 
     getShortAvatarName(name) {
-        const [firstName, lastName] = name.split(' ');
+        const names = name.split(' ');
 
-        return firstName[0].toUpperCase() + lastName[0].toUpperCase();
+        if (names.length === 1) {
+            return names[0][0].toUpperCase();
+        }
+
+        return names[0][0].toUpperCase() + names[1][0].toUpperCase();
     }
 
     filterResponses(selectedScreen) {
@@ -280,7 +287,8 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     isMediaQuestion(type) {
         return [
             'PictureQuestion',
-            'AudioQuestion'
+            'AudioQuestion',
+            'VideoQuestion'
         ].some(messageType => type.includes(messageType));
     }
 
