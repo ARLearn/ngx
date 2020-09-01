@@ -1,10 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {State} from 'src/app/core/reducers';
-import {GetCategoriesRequestAction, GetPortalGameRequestAction} from '../store/portal-games.actions';
+import {
+    GetCategoriesRequestAction,
+    GetPortalGameRequestAction,
+    SetFeaturedRequest,
+    SetPortalGameCategoryRequest
+} from '../store/portal-games.actions';
 import {getPortalEditGame, getPortalGame} from '../store/portal-games.selector';
 import * as fromCategories from '../store/category.selectors';
 import {StartUploadAction} from "../../media-library/store/media-lib.actions";
+import {MatSelectChange} from "@angular/material/select";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
     selector: 'app-manage-game',
@@ -31,31 +38,35 @@ import {StartUploadAction} from "../../media-library/store/media-lib.actions";
                         <div class="form-group">
                             <mat-form-field>
                                 <mat-label>{{'PORTAL_MANAGEMENT.GAMES.CATEGORY' |translate}}</mat-label>
-                                <mat-select>
-                                    <mat-option *ngFor="let category of (categories|async)">{{category.title}}</mat-option>
-<!--                                    <mat-option>Option 2</mat-option>-->
-<!--                                    <mat-option>Option 3</mat-option>-->
+                                <mat-select
+                                        (selectionChange)="saveCategory($event)"
+                                >
+                                    <mat-option *ngFor="let category of (categories|async)"
+                                                [value]="category.categoryId"
+                                    >{{category.title}}</mat-option>
+                                    <!--                                    <mat-option>Option 2</mat-option>-->
+                                    <!--                                    <mat-option>Option 3</mat-option>-->
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
-                        <div class="form-group">
-                            <mat-form-field>
-                                <mat-label>{{'CONFIG.SELECT_LANGUAGE' | translate}}</mat-label>
-                                <mat-select>
-                                    <mat-option value="nl">{{'CONFIG.LANG.NL' | translate}}</mat-option>
-                                    <mat-option value="en">{{'CONFIG.LANG.EN'| translate}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <mat-form-field>-->
+<!--                                <mat-label>{{'CONFIG.SELECT_LANGUAGE' | translate}}</mat-label>-->
+<!--                                <mat-select>-->
+<!--                                    <mat-option value="nl">{{'CONFIG.LANG.NL' | translate}}</mat-option>-->
+<!--                                    <mat-option value="en">{{'CONFIG.LANG.EN'| translate}}</mat-option>-->
+<!--                                </mat-select>-->
+<!--                            </mat-form-field>-->
+<!--                        </div>-->
 
-                        <div class="form-group">
-                            <label class="form-label">{{'PORTAL_MANAGEMENT.GAMES.USER_ACCESS' |translate}}</label>
-                            <div>
-                                <mat-slide-toggle
-                                        color="primary">{{'PORTAL_MANAGEMENT.GAMES.LOGIN_MANDATORY' | translate}}</mat-slide-toggle>
-                            </div>
-                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label class="form-label">{{'PORTAL_MANAGEMENT.GAMES.USER_ACCESS' |translate}}</label>-->
+<!--                            <div>-->
+<!--                                <mat-slide-toggle-->
+<!--                                        color="primary">{{'PORTAL_MANAGEMENT.GAMES.LOGIN_MANDATORY' | translate}}</mat-slide-toggle>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
 
                     <div class="form-drag-drop">
@@ -63,7 +74,9 @@ import {StartUploadAction} from "../../media-library/store/media-lib.actions";
                             <div class="form-group">
                                 <label class="form-label">{{'PORTAL_MANAGEMENT.GAMES.FEATURED_IN_LIBRARY' |translate}}</label>
                                 <div>
-                                    <mat-slide-toggle color="primary">{{'PORTAL_MANAGEMENT.GAMES.FEATURED' |translate}}</mat-slide-toggle>
+                                    <mat-slide-toggle 
+                                            (change)="setFeatured($event)"
+                                            color="primary">{{'PORTAL_MANAGEMENT.GAMES.FEATURED' |translate}}</mat-slide-toggle>
                                 </div>
                             </div>
 
@@ -74,10 +87,13 @@ import {StartUploadAction} from "../../media-library/store/media-lib.actions";
                         </div>
 
                         <div>
-                            <app-file-drop-zone
-                                    [customPath]="'/featuredGames/backgrounds/'+(game$|async)?.gameId+'.png'"
-                                    (fileDropped)="handleUploadFile()"
-                                    [isOpen]="true"></app-file-drop-zone>
+                            <app-featured-image-drag-drop
+                                    [gameId]="(game$ |async)?.gameId"
+                            ></app-featured-image-drag-drop>
+<!--                            <app-file-drop-zone-->
+<!--                                    [customPath]="'/featuredGames/backgrounds/'+(game$|async)?.gameId+'.png'"-->
+<!--                                    (fileDropped)="handleUploadFile()"-->
+<!--                                    [isOpen]="true"></app-file-drop-zone>-->
                         </div>
 
                     </div>
@@ -182,6 +198,7 @@ import {StartUploadAction} from "../../media-library/store/media-lib.actions";
 export class ManageGameComponent implements OnInit {
     public game$ = this.store.select(getPortalEditGame);
     public categories = this.store.select(fromCategories.selectAll);
+
     constructor(private store: Store<State>) {
     }
 
@@ -194,5 +211,24 @@ export class ManageGameComponent implements OnInit {
         console.log("todo handle this event");
         this.store.dispatch(new StartUploadAction());
 
+    }
+
+    saveCategory(event: MatSelectChange) {
+        this.game$.subscribe(g => {
+            this.store.dispatch(new SetPortalGameCategoryRequest({
+                gameId: g.gameId,
+                categoryId: event.value
+            }));
+        }).unsubscribe();
+
+    }
+
+    setFeatured(event: MatSlideToggleChange) {
+        this.game$.subscribe(g => {
+            this.store.dispatch(new SetFeaturedRequest({
+                gameId: g.gameId,
+                value: event.checked
+            }));
+        }).unsubscribe();
     }
 }

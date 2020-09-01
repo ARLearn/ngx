@@ -15,6 +15,12 @@ export const PortalGamesActionTypes = {
 
     GET_PORTAL_GAME: '[PortalGame] Get portal game',
     SET_PORTAL_GAME: '[PortalGame] Set portal game',
+
+    SET_PORTAL_GAME_CATEGORY_REQUEST: '[PortalGame] Set portal game category request',
+    SET_PORTAL_GAME_CATEGORY_RESPONSE: '[PortalGame] Set portal game category response',
+
+    SET_FEATURED_REQUEST: '[PortalGame] Set featured request',
+    SET_FEATURED_RESPONSE: '[PortalGame] Set featured response',
 };
 
 export class GetPortalGamesRequestAction implements Action {
@@ -67,8 +73,40 @@ export class SetPortalGameAction implements Action {
     }
 }
 
+export class SetPortalGameCategoryRequest implements Action {
+    type = PortalGamesActionTypes.SET_PORTAL_GAME_CATEGORY_REQUEST;
+
+    constructor(public payload: { gameId: number, categoryId: number }) {
+    }
+}
+
+export class SetPortalGameCategoryResponse implements Action {
+    type = PortalGamesActionTypes.SET_PORTAL_GAME_CATEGORY_RESPONSE;
+
+    constructor(public payload: any) {
+    }
+}
+
+
+export class SetFeaturedRequest implements Action {
+    type = PortalGamesActionTypes.SET_FEATURED_REQUEST;
+
+    constructor(public payload: { gameId: number, value:boolean}) {
+    }
+}
+
+export class SetFeaturedResponse implements Action {
+    type = PortalGamesActionTypes.SET_FEATURED_RESPONSE;
+
+    constructor(public payload: any) {
+    }
+}
+
+
 export type PortalGamesAction =
     GetPortalGamesRequestAction
     | SetPortalGamesAction
     | GetPortalGameRequestAction
-    | SetPortalGameAction;
+    | SetPortalGameAction
+    | SetFeaturedResponse
+    | SetPortalGameCategoryResponse;

@@ -9,10 +9,11 @@ import { ManageGameComponent } from './pages/manage-game.component';
 import { SharedModule } from "../shared/shared.module";
 import { PortalGamesEffects } from './store/portal-games.effects';
 import { reducers } from './store/portal-games.reducer';
+import { FeaturedImageDragDropComponent } from './components/featured-image-drag-drop.component';
 
 
 @NgModule({
-  declarations: [ManageGameLibraryComponent, ManageGameComponent],
+  declarations: [ManageGameLibraryComponent, ManageGameComponent, FeaturedImageDragDropComponent],
   imports: [
     SharedModule.forChild(),
     CommonModule,

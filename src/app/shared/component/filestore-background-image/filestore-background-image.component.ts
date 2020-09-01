@@ -72,7 +72,7 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
     @Output() delete = new EventEmitter<boolean>();
     @Output() edit = new EventEmitter<boolean>();
     @Output() isVideo = new EventEmitter<boolean>();
-
+    @Output() loadFailure = new EventEmitter<boolean>();
 
     url;
 
@@ -112,6 +112,7 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
 
 
                 }, (error) => {
+                    this.loadFailure.emit();
                     this.load(paths.splice(1));
                 });
         }

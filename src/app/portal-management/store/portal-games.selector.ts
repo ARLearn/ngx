@@ -25,8 +25,11 @@ export const {
 } = gamesAdapter.getSelectors(getPortalGames);
 
 export const getQueryGames = createSelector(getQueryResult, selectEntities, (queryResult, cachedGames) => {
-    // console.log(queryResult, cachedGames);
+    console.log(queryResult, cachedGames);
     // console.log(queryResult.map(result => Object.assign(result, cachedGames[result.gameId])));
+    if (!queryResult) {
+        return [];
+    }
     return queryResult.map(result => Object.assign(result, cachedGames[result.gameId]));
 });
 

@@ -24,10 +24,32 @@ export class PortalGamesService {
 
         return this.http
             .get<any>(environment.api_url + '/games/library/category/' + lang)
-            .pipe(map(result => result.categoryList.map(transCategory)));
+            .pipe(map(result => result.categoryList ? result.categoryList.map(transCategory) : []));
     }
 
-    list(): Observable<any[]> {
+    setPortalGameCategory(gameId: number, categoryId: number) {
+        return this.http
+            .post<any>(environment.api_url + '/games/library/category/' + gameId + "/" + categoryId, {});
+    }
+
+    setFeatured(lang: string, gameId: number, rank: number, on: boolean) {
+        if (on) {
+            return this.http
+                .post<any>(environment.api_url + '/games/featured/create/' + lang + "/" + gameId + "/" + rank, {});
+        } else {
+            return this.http
+                .delete<any>(environment.api_url + '/games/featured/delete/' + lang + "/" + gameId);
+        }
+
+    }
+
+    list() {
+        return this.http
+            .get<any>(environment.api_url + '/games/library/recent')
+            .pipe(map(result => result.games));
+    }
+
+    listOld(): Observable<any[]> {
         return of([
             {
                 gameId: 1,
