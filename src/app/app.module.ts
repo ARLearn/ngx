@@ -64,6 +64,7 @@ import {RunResponsesModule} from "./run-responses/run-responses.module";
 import {TutorialModule} from "./tutorial/tutorial.module";
 import {GameThemesModule} from "./game-themes/game-themes.module";
 import {PortalUserManagementModule} from "./portal-user-management/portal-user-management.module";
+import {UserLibraryModule} from "./user-library/user-library.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 
 @NgModule({
-    declarations: [AppComponent, LoginScreenComponent, LoginScreenNoSocialComponent],
+    declarations: [AppComponent, LoginScreenComponent,
+        LoginScreenNoSocialComponent],
     exports: [
         TranslateModule
     ],
@@ -157,6 +159,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         RunActionsModule,
         RunResponsesModule,
         TutorialModule,
+        UserLibraryModule
     ],
     providers: [
         ComponentPageTitle,
