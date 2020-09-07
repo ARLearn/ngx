@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {GetFeaturedGames} from "../store/user-library.actions";
+import {GetFeaturedGames, GetRecentGamesRequestAction} from "../store/user-library.actions";
 import {Observable} from "rxjs";
 import {Game} from "../../game-management/store/current-game.state";
 import { selectAll } from '../store/user-library.selectors';
 import Debounce from 'debounce-decorator';
+import {Query} from "../../game-themes/store/game-theme.actions";
 
 @Component({
     selector: 'app-game-library-user',
@@ -35,7 +36,11 @@ import Debounce from 'debounce-decorator';
                     </mat-form-field>
                 </div>
             </div>
+            <app-library-games-table>
+
+            </app-library-games-table>
         </div>
+        
     `,
     styles: [`
         .search-input {
@@ -50,12 +55,16 @@ export class GameLibraryUserComponent implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(new GetFeaturedGames());
+        this.store.dispatch(new GetRecentGamesRequestAction());
+        this.store.dispatch(new Query());
     }
 
     @Debounce(300)
     onQueryChange(query: string) {
         if (query.length > 2) {
             console.log("query is now", query);
+        } else {
+            this.store.dispatch(new GetRecentGamesRequestAction());
         }
     }
 

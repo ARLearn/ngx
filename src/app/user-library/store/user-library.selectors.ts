@@ -11,6 +11,7 @@ export interface State extends fromRoot.State {
 export const getGameLibraryFeature = createFeatureSelector<State, UserLibraryState>('gameLibrary');
 
 export const getFeaturedGames = createSelector(getGameLibraryFeature, (state) => state.featuredGames);
+export const getQueryResult = createSelector(getGameLibraryFeature, (state) => state.queryGames);
 
 export const {
     selectIds,
@@ -18,3 +19,14 @@ export const {
     selectAll,
     selectTotal,
 } = gamesAdapter.getSelectors(getFeaturedGames);
+
+
+export const getLibraryQueryGames = createSelector(getQueryResult, (queryResult) => {
+    // console.log(queryResult, cachedGames);
+    // console.log(queryResult.map(result => Object.assign(result, cachedGames[result.gameId])));
+    if (!queryResult) {
+        return [];
+    }
+    return queryResult;
+    // return queryResult.map(result => Object.assign(result, cachedGames[result.gameId]));
+});

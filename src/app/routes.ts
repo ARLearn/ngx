@@ -73,6 +73,7 @@ export const APP_ROUTES: Routes = [
                     {path: 'pending', component: PendingPlayersOverviewComponent, pathMatch: 'full'},
                     {path: 'librarymgt', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'library', component: GameLibraryUserComponent, pathMatch: 'full'},
+                    {path: 'library/game/:gameId', component: GameLibraryUserComponent, pathMatch: 'full'},
                     {path: 'usrmgt', component: ManageUsersComponent, pathMatch: 'full'},
                     {path: 'usrmgt/:userId', component: ManageUserComponent, pathMatch: 'full'},
                     {path: 'portal', component: ManageGameLibraryComponent, pathMatch: 'full'},

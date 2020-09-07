@@ -51,6 +51,7 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
         <app-pick-location-on-map
                 class="gl-pos-between-fields"
                 [locationBased]="(message$|async)?.lat"
+                [showInList]="(message$|async)?.showInList"
                 [lat]="(message$|async)?.lat"
                 [lng]="(message$|async)?.lng"
         >

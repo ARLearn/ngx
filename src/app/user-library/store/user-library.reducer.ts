@@ -19,7 +19,8 @@ export const gamesAdapter = createEntityAdapter<Game>(
 );
 
 const userLibraryInitialState: UserLibraryState = {
-    featuredGames: gamesAdapter.getInitialState()
+    featuredGames: gamesAdapter.getInitialState(),
+    queryGames: [],
 };
 
 
@@ -31,6 +32,12 @@ export function reducers(
             console.log("payload is ", action.payload);
             return Object.assign({}, state, {
                 featuredGames: gamesAdapter.upsertMany(action.payload, state.featuredGames),
+            });
+        }
+
+        case actions.UserLibraryActionTypes.SET_RECENT_GAMES: {
+            return Object.assign({}, state, {
+                queryGames: action.payload == null ? [] : action.payload,
             });
         }
 

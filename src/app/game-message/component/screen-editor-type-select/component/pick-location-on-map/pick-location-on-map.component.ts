@@ -21,7 +21,8 @@ export interface GpsPosition {
                     (change)="slideChange($event)">{{'COMMON.ACTIVE' |translate}}</mat-slide-toggle>
             <div *ngIf="locationBased" class="location-based">{{'MESSAGE.SHOW_IN_LIST' | translate}}</div>
             <mat-slide-toggle
-                    [disabled]="!(iCanWrite|async)"
+                    *ngIf="locationBased"
+                    [disabled]="!(iCanWrite|async) "
                     [(ngModel)]="showInList"
                     (change)="listSlideChange($event)">{{'COMMON.ACTIVE' |translate}}</mat-slide-toggle>
             
@@ -67,8 +68,12 @@ export class PickLocationOnMapComponent implements OnInit {
     slideChange(changeEvent: MatSlideToggleChange) {
         if (!changeEvent.checked) {
             this.store.dispatch(new RemoveLocationAction());
+            this.store.dispatch(new GameMessageUpdateAction({showInList: true}));
+            // this.showInList = true;
         } else {
             this.ngOnInit();
+            this.store.dispatch(new GameMessageUpdateAction({showInList: true}));
+            // this.showInList = true;
             // this.onLocationChange.emit({coords:{lat:this.lat, lng:this.lng}});
             this.store.dispatch(new GameMessageUpdateAction({lat: this.lat, lng: this.lng}));
         }
