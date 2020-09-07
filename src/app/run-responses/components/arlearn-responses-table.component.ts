@@ -40,6 +40,9 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
             <ng-container *ngIf="isAudioQuestion(editMessage.type) && selectedScreen && players && players.length">
                 <app-audio-gallery class="w-100" [responses]="data" [user]="selectedUser" (onLoad)="onGalleryLoading($event)"></app-audio-gallery>
             </ng-container>
+            <ng-container *ngIf="isTextQuestion(editMessage.type) && selectedScreen">
+                <app-text-questions-gallery class="w-100" [responses]="data" [user]="selectedUser" (onLoad)="onGalleryLoading($event)"></app-text-questions-gallery>
+            </ng-container>
         </ng-container>
 
         <ng-template #answers>
@@ -258,7 +261,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     }
 
     filterResponses(selectedScreen) {
-        if (selectedScreen && this.responses && this.players && this.players) {
+        if (selectedScreen && this.responses && this.players) {
             this.data = this.getResponses(selectedScreen);
         }
     }
@@ -268,7 +271,8 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
             .filter(r => r.generalItemId == selectedScreen && (!this.selectedUser || (r.userId === this.selectedUser.fullId)))
             .map(r => ({
                 responseValue: r.responseValue,
-                user: this.mapUser(this.players.find(player => player.fullId === r.userId))
+                user: this.mapUser(this.players.find(player => player.fullId === r.userId)),
+                timestamp: r.timestamp,
             }));
     }
 
@@ -288,7 +292,8 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
         return [
             'PictureQuestion',
             'AudioQuestion',
-            'VideoQuestion'
+            'VideoQuestion',
+            'TextQuestion',
         ].some(messageType => type.includes(messageType));
     }
 
@@ -298,6 +303,10 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
     isAudioQuestion(type) {
         return type.includes('AudioQuestion');
+    }
+
+    isTextQuestion(type) {
+        return type.includes('TextQuestion');
     }
 
     ngOnDestroy() {

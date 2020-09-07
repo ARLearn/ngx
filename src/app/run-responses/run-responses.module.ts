@@ -16,10 +16,17 @@ import { GameMessageModule } from "../game-message/game-message.module";
 import { PhotoGalleryComponent } from './components/photo-gallery.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AudioGalleryComponent } from './components/audio-gallery.component';
-import {GameManagementModule} from "../game-management/game-management.module";
+import { GameManagementModule } from "../game-management/game-management.module";
+import { TextQuestionsGalleryComponent } from "./components/text-questions-gallery.component";
 
 @NgModule({
-  declarations: [ResponsesOverviewComponent, ArlearnResponsesTableComponent, PhotoGalleryComponent, AudioGalleryComponent],
+  declarations: [
+      ResponsesOverviewComponent,
+      ArlearnResponsesTableComponent,
+      PhotoGalleryComponent,
+      AudioGalleryComponent,
+      TextQuestionsGalleryComponent,
+  ],
 
     imports: [
         CommonModule,
