@@ -1,13 +1,15 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {Game} from '../store/current-game.state';
-import {Store} from "@ngrx/store";
-import {State} from "../../core/reducers";
-import {Location} from "@angular/common";
-import {Observable} from "rxjs";
-import {getGame, getLoading} from "../store/current-game.selector";
-import {ANIMATION_MODULE_TYPE} from "@angular/platform-browser/animations";
-import {environment} from "../../../environments/environment";
-import {getAuthIsAdmin, getAuthIsAvanced} from "../../auth/store/auth.selector";
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Location } from "@angular/common";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+
+import { Game } from '../store/current-game.state';
+import { State } from "../../core/reducers";
+import { getGame, getLoading } from "../store/current-game.selector";
+import { ANIMATION_MODULE_TYPE } from "@angular/platform-browser/animations";
+import { environment } from "../../../environments/environment";
+import { getAuthIsAvanced } from "../../auth/store/auth.selector";
 
 //todo delete
 @Component({
@@ -29,40 +31,40 @@ import {getAuthIsAdmin, getAuthIsAvanced} from "../../auth/store/auth.selector";
                     <nav mat-tab-nav-bar [backgroundColor]="'primary'">
                         <a mat-tab-link
                            [disabled]="!(game$|async)"
-                           routerLinkActive #rla="routerLinkActive"
-                           [active]="rla.isActive"
+                           routerLinkActive="" #rla="routerLinkActive"
+                           [active]="rla.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/screens'])"
                            [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/screens'">{{'MESSAGE.SCREENS'|translate}}</a>
                         <a mat-tab-link
                            routerLinkActive #rlaf="routerLinkActive"
                            [disabled]="!(game$|async)"
-                           [active]="rlaf.isActive"
+                           [active]="rlaf.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/flowchart'], true)"
                            [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/flowchart'"
                         > FLOWCHART </a>
                         <a mat-tab-link
                            *ngIf="isAdvanced |async"
                            routerLinkActive #rlafd="routerLinkActive"
                            [disabled]="!(game$|async)"
-                           [active]="rlafd.isActive"
+                           [active]="rlafd.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/flowchart/disappear'], true)"
                            [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/flowchart/disappear'"
                         > DISAPPEAR CHART </a>
                         <a mat-tab-link
                            routerLinkActive #rla3="routerLinkActive"
                            [disabled]="!(game$|async)"
-                           [active]="rla3.isActive"
+                           [active]="rla3.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/settings'])"
                            [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/settings'"
-                           routerLinkActive="tab-selected"> {{'HOME.SETTINGS'|translate}} </a>
+                        > {{'HOME.SETTINGS'|translate}} </a>
                         <a mat-tab-link
                            routerLinkActive #rla4="routerLinkActive"
                            [disabled]="!(game$|async)"
-                           [active]="rla4.isActive"
+                           [active]="rla4.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/runs']) || isActive(['/portal/game/'+(game$|async)?.gameId+'/run'])"
                            [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/runs'"
-                           routerLinkActive="tab-selected"> {{'RUNS.PLAY'|translate}} </a>
+                        > {{'RUNS.PLAY'|translate}} </a>
                         <a mat-tab-link
                            routerLinkActive #rla5="routerLinkActive"
                            [disabled]="!(game$|async)"
-                           [active]="rla5.isActive"
+                           [active]="rla5.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/media'])"
                            [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/media'"
-                           routerLinkActive="tab-selected"> {{'MEDIA.MEDIA' |translate}} </a>
+                        > {{'MEDIA.MEDIA' |translate}} </a>
                     </nav>
                 </div>
                 <ng-content></ng-content>
@@ -161,6 +163,7 @@ export class GameDetailNavbarComponent implements OnInit {
 
     constructor(
         private location: Location,
+        private router: Router,
         public store: Store<State>
     ) {
     }
@@ -170,5 +173,9 @@ export class GameDetailNavbarComponent implements OnInit {
 
     back() {
         this.location.back();
+    }
+
+    isActive(instruction: any[], exact = false): boolean {
+        return this.router.isActive(this.router.createUrlTree(instruction), exact);
     }
 }
