@@ -9,10 +9,11 @@ import {UserLibraryEffects} from "./store/user-library.effects";
 import { FeaturedBannerComponent } from './components/featured-banner.component';
 import { LibraryGamesTableComponent } from './components/library-games-table.component';
 import { GameIconComponent } from './components/game-icon.component';
+import { GameLibararyUserViewgameComponent } from './pages/game-libarary-user-viewgame.component';
 
 
 @NgModule({
-  declarations: [GameLibraryUserComponent, FeaturedBannerComponent, LibraryGamesTableComponent, GameIconComponent],
+  declarations: [GameLibraryUserComponent, FeaturedBannerComponent, LibraryGamesTableComponent, GameIconComponent, GameLibararyUserViewgameComponent],
     imports: [
         CommonModule,
         SharedModule.forChild(),

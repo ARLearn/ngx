@@ -6,7 +6,8 @@
 		"ESC": "SLUIT",
 		"RE_INVITE": "verstuur opnieuw",
 		"SAVE": "Opslaan",
-		"SELECT": "Selecteer"
+		"SELECT": "Selecteer",
+		"DELETE_USER" : "Verwijder gebruiker"
 	},
 	"ADMIN": {
 		"FEATURED": {
@@ -236,7 +237,8 @@
 		"EMAIL": "E-mail",
 		"EXPIRE_DATE": "Vervaldatum",
 		"GENERIC": "Algemeen",
-		"NAME": "Naam"
+		"NAME": "Naam",
+		"PASSWORD": "Wachtwoord"
 	},
 	"in range": "in range",
 	"next": "next",

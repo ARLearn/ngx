@@ -13,10 +13,12 @@ import {State} from "../../core/reducers";
         </div>
         <div class="featured-outer">
             <div
+                    
                     *ngFor="let game of (featuredGames|async)"
                     class="featured-image">
 
-                <div class="positioned-image">
+                <div class="positioned-image"
+                     [routerLink]="'/portal/root/library/game/' + game.gameId">
                     <app-filestore-background-image
 
                             [paths]="['/featuredGames/backgrounds/'+game.gameId+'.png']"
@@ -39,6 +41,7 @@ import {State} from "../../core/reducers";
             .featured-outer {
                 display: flex;
                 margin-top: 22px;
+                cursor: pointer;
             }
 
             .featured-image {

@@ -105,10 +105,15 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
         }
 
         .description {
-            max-width: 320px;
+            /*max-width: 320px;*/
             font-size: 12px;
             margin: 0;
             color: #1919198A;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            line-height: 1.8em;
+            word-wrap: break-word;
+            overflow: hidden;
         }
 
         .date,
@@ -144,7 +149,7 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
 })
 export class LibraryGamesTableComponent implements OnInit {
     public data$ = this.store.select(getLibraryQueryGames);
-    public displayedColumns: string[] = ['icon', 'title', 'date', 'category', 'language', 'private', 'rate'];
+    public displayedColumns: string[] = ['icon', 'title', 'date', ]; //'category', 'language', 'private', 'rate'
 
     constructor(private store: Store<State>) {
     }

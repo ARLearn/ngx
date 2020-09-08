@@ -48,7 +48,7 @@ export class GameIconComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
+        this.store.dispatch(new Query());
 
     }
 

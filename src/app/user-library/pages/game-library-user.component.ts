@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {GetFeaturedGames, GetRecentGamesRequestAction} from "../store/user-library.actions";
+import {GetFeaturedGames, GetRecentGamesRequestAction, SearchGamesRequestAction} from "../store/user-library.actions";
 import {Observable} from "rxjs";
 import {Game} from "../../game-management/store/current-game.state";
 import { selectAll } from '../store/user-library.selectors';
@@ -14,7 +14,7 @@ import {Query} from "../../game-themes/store/game-theme.actions";
         <app-top-level-navbar [title]="'Game Library'">
 
         </app-top-level-navbar>
-        <div class="game-library maxwidth">
+        <div class="maxwidth">
             <div class="mb-3 d-flex align-items-center justify-content-between">
                 <div class="search-input">
           
@@ -63,6 +63,7 @@ export class GameLibraryUserComponent implements OnInit {
     onQueryChange(query: string) {
         if (query.length > 2) {
             console.log("query is now", query);
+            this.store.dispatch(new SearchGamesRequestAction(query));
         } else {
             this.store.dispatch(new GetRecentGamesRequestAction());
         }

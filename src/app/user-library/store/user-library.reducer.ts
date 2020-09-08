@@ -24,7 +24,6 @@ const userLibraryInitialState: UserLibraryState = {
 };
 
 
-
 export function reducers(
     state = userLibraryInitialState, action: actions.UserLibraryActions): UserLibraryState {
     switch (action.type) {
@@ -38,6 +37,17 @@ export function reducers(
         case actions.UserLibraryActionTypes.SET_RECENT_GAMES: {
             return Object.assign({}, state, {
                 queryGames: action.payload == null ? [] : action.payload,
+            });
+        }
+
+        case actions.UserLibraryActionTypes.SET_GAME: {
+            if (state.queryGames.filter(g => g.gameId === action.payload.gameId).length !== 0) {
+                return Object.assign({}, state, {
+                    queryGames: state.queryGames.map(g => g.gameId === action.payload.gameId ? action.payload : g),
+                });
+            }
+            return Object.assign({}, state, {
+                queryGames: action.payload == null ? [] : [action.payload],
             });
         }
 
