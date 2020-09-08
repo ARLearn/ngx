@@ -1,16 +1,17 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {Location} from "@angular/common";
-import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
-import {Observable} from "rxjs";
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Location } from "@angular/common";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
-import {Game} from '../store/current-game.state';
-import {State} from "../../core/reducers";
-import {getGame, getLoading} from "../store/current-game.selector";
-import {ANIMATION_MODULE_TYPE} from "@angular/platform-browser/animations";
-import {environment} from "../../../environments/environment";
-import {getAuthIsAvanced} from "../../auth/store/auth.selector";
+import { Game } from '../store/current-game.state';
+import { State } from "../../core/reducers";
+import { getGame, getLoading } from "../store/current-game.selector";
+import { ANIMATION_MODULE_TYPE } from "@angular/platform-browser/animations";
+import { environment } from "../../../environments/environment";
+import { getAuthIsAvanced } from "../../auth/store/auth.selector";
 
+//todo delete
 @Component({
     selector: 'app-game-detail-navbar',
     template: `
@@ -29,41 +30,50 @@ import {getAuthIsAvanced} from "../../auth/store/auth.selector";
                 <div class="context-tabs" *ngIf="game$|async as game">
                     <nav mat-tab-nav-bar [backgroundColor]="'primary'">
                         <a mat-tab-link
-                           [disabled]="!(game$|async)"
-                           routerLinkActive="" #rla="routerLinkActive"
-                           [active]="rla.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/screens'])"
-                           [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/screens'">{{'MESSAGE.SCREENS'|translate}}</a>
+
+                           [disabled]="!game"
+                           routerLinkActive #rl_screens="routerLinkActive"
+                           [active]="rl_screens.isActive"
+                           [ngClass]="{'active-color': rl_screens.isActive}"
+                           [routerLink]="'/portal/game/'+game.gameId+'/detail/screens'">{{'MESSAGE.SCREENS'|translate}}
+                        </a>
                         <a mat-tab-link
-                           routerLinkActive #rlaf="routerLinkActive"
-                           [disabled]="!(game$|async)"
-                           [active]="rlaf.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/flowchart'], true)"
-                           [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/flowchart'"
+                           routerLinkActive #rl_flowchart="routerLinkActive"
+                           [disabled]="!game"
+                           [active]="rl_flowchart.isActive"
+                           [ngClass]="{'active-color': rl_flowchart.isActive}"
+                           [routerLink]="'/portal/game/'+game.gameId+'/detail/flowchart/appear'"
                         > FLOWCHART </a>
                         <a mat-tab-link
                            *ngIf="isAdvanced |async"
-                           routerLinkActive #rlafd="routerLinkActive"
-                           [disabled]="!(game$|async)"
-                           [active]="rlafd.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/flowchart/disappear'], true)"
-                           [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/flowchart/disappear'"
+                           routerLinkActive #rl_disappear="routerLinkActive"
+                           [disabled]="!game"
+                           [active]="rl_disappear.isActive"
+                           [ngClass]="{'active-color': rl_disappear.isActive}"
+                           [routerLink]="'/portal/game/'+game.gameId+'/detail/flowchart/disappear'"
                         > DISAPPEAR CHART </a>
                         <a mat-tab-link
-                           routerLinkActive #rla3="routerLinkActive"
-                           [disabled]="!(game$|async)"
-                           [active]="rla3.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/settings'])"
-                           [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/settings'"
-                        > {{'HOME.SETTINGS'|translate}} </a>
+                           routerLinkActive #rl_settings="routerLinkActive"
+                           [disabled]="!game"
+                           [active]="rl_settings.isActive"
+                           [ngClass]="{'active-color': rl_settings.isActive}"
+                           [routerLink]="'/portal/game/'+game.gameId+'/detail/settings'"
+                           routerLinkActive="tab-selected"> {{'HOME.SETTINGS'|translate}} </a>
                         <a mat-tab-link
-                           routerLinkActive #rla4="routerLinkActive"
-                           [disabled]="!(game$|async)"
-                           [active]="rla4.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/runs']) || isActive(['/portal/game/'+(game$|async)?.gameId+'/run'])"
-                           [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/runs'"
-                        > {{'RUNS.PLAY'|translate}} </a>
+                           routerLinkActive #rl_runs="routerLinkActive"
+                           [disabled]="!game"
+                           [active]="rl_runs.isActive"
+                           [ngClass]="{'active-color': rl_runs.isActive}"
+                           [routerLink]="'/portal/game/'+game.gameId+'/detail/runs'"
+                           routerLinkActive="tab-selected"> {{'RUNS.PLAY'|translate}} </a>
                         <a mat-tab-link
-                           routerLinkActive #rla5="routerLinkActive"
-                           [disabled]="!(game$|async)"
-                           [active]="rla5.isActive || isActive(['/portal/game/'+(game$|async)?.gameId+'/detail/media'])"
-                           [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/media'"
-                        > {{'MEDIA.MEDIA' |translate}} </a>
+                           routerLinkActive #rl_media="routerLinkActive"
+                           [disabled]="!game"
+                           [active]="rl_media.isActive"
+                           [ngClass]="{'active-color': rl_media.isActive}"
+                           [routerLink]="'/portal/game/'+game.gameId+'/detail/media'"
+                           routerLinkActive="tab-selected"> {{'MEDIA.MEDIA' |translate}} </a>
+
                     </nav>
                 </div>
                 <ng-content></ng-content>
@@ -74,7 +84,7 @@ import {getAuthIsAvanced} from "../../auth/store/auth.selector";
     styles: [`
 
         .header {
-            top: 0;
+            top: 0px;
             right: 307px;
             width: 100%;
             height: 144px;
@@ -83,22 +93,22 @@ import {getAuthIsAvanced} from "../../auth/store/auth.selector";
 
         select-language {
             position: absolute;
-            top: 0;
-            right: 0;
+            top: 0px;
+            right: 0px;
 
 
         }
 
         app-user-drop-down-display {
             position: absolute;
-            top: 0;
+            top: 0px;
             right: 40px;
         }
 
         .account-dropdown {
             position: absolute;
-            top: 0;
-            right: 0;
+            top: 0px;
+            right: 0px;
             width: 250px;
             height: 50px;
 
@@ -138,7 +148,7 @@ import {getAuthIsAvanced} from "../../auth/store/auth.selector";
             text-transform: uppercase;
             opacity: 1;
         }
-
+        
         a.mat-tab-link.active-color {
             color: #FFFFFF;
             opacity: 1;
