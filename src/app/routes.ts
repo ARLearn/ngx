@@ -30,6 +30,7 @@ import {ManageGameComponent} from './portal-management/pages/manage-game.compone
 import {GameDetailSettingsComponent} from "./game-management/pages/game-detail-settings.component";
 import {ManageUserComponent} from "./portal-user-management/pages/manage-user.component";
 import {GameLibraryUserComponent} from "./user-library/pages/game-library-user.component";
+import {GameLibararyUserViewgameComponent} from "./user-library/pages/game-libarary-user-viewgame.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -73,7 +74,7 @@ export const APP_ROUTES: Routes = [
                     {path: 'pending', component: PendingPlayersOverviewComponent, pathMatch: 'full'},
                     {path: 'librarymgt', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'library', component: GameLibraryUserComponent, pathMatch: 'full'},
-                    {path: 'library/game/:gameId', component: GameLibraryUserComponent, pathMatch: 'full'},
+                    {path: 'library/game/:gameId', component: GameLibararyUserViewgameComponent, pathMatch: 'full'},
                     {path: 'usrmgt', component: ManageUsersComponent, pathMatch: 'full'},
                     {path: 'usrmgt/:userId', component: ManageUserComponent, pathMatch: 'full'},
                     {path: 'portal', component: ManageGameLibraryComponent, pathMatch: 'full'},
@@ -85,7 +86,7 @@ export const APP_ROUTES: Routes = [
                 path: 'game/:gameId/detail',
                 children: [
                     {path: 'screens', component: GameDetailScreensComponent, pathMatch: 'full'},
-                    {path: 'flowchart', component: GameDetailFlowchartComponent, pathMatch: 'full'},
+                    {path: 'flowchart/appear', component: GameDetailFlowchartComponent, pathMatch: 'full'},
                     {path: 'flowchart/disappear', component: GameDisappearFlowchartComponent, pathMatch: 'full'},
                     {path: 'settings', component: GameDetailSettingsComponent, pathMatch: 'full'},
                     {path: 'runs', component: RunOverviewComponent, pathMatch: 'full'},

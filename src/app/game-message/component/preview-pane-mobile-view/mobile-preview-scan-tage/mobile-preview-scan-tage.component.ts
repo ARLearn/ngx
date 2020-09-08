@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { GameMessage } from "../../../../game-messages/store/game-messages.state";
@@ -100,6 +100,9 @@ interface QrCodeAction {
     encapsulation: ViewEncapsulation.None
 })
 export class MobilePreviewScanTageComponent implements OnInit {
+
+    @Input() hideControls = false;
+
     //public messages$: Observable<GameMessage[]> = this.store.select(getMessagesSelector);
     public messages$: Observable<GameMessage[]> = this.store.select(getCurrentGameMessages);
     public qrCodes$: Observable<QrCodeAction[]> = this.store.select(getQrCodesSelector);

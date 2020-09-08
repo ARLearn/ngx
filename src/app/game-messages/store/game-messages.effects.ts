@@ -55,27 +55,22 @@ export class GameMessagesEffects {
     @Effect()
     init$: Observable<Action> = this.actions$.pipe(
         ofType(GameMessagesActionTypes.GAME_MESSAGES_REQUESTED, GameMessagesActionTypes.GAME_MESSAGES_COMPLETED),
-        // .distinct((action: GetGameMessagesRequestAction) => {
-        //     return action.payload;
-        // })
         withLatestFrom(
             this.store$.select(selector.selectRouteParam('gameId')),
             this.store$.select(getCurrentGame)
         ),
         filter(([action, gameId, stateGameId]: [GetGameMessagesRequestAction, string, number]) => {
-            console.log(action, action.payload == null || action.payload.cursor !== 'stop');
-
             return action.payload == null || action.payload.cursor !== 'stop';
         }),
         filter(([action, gameId, stateGameId]: [GetGameMessagesRequestAction, string, number]) => {
-            console.log('cond is ', action instanceof  GetGameMessagesCompletedAction,  Number.parseInt(gameId, 10) !== stateGameId);
+            // console.log('cond is ', action instanceof  GetGameMessagesCompletedAction,  Number.parseInt(gameId, 10) !== stateGameId);
             return  action instanceof  GetGameMessagesCompletedAction ||  Number.parseInt(gameId, 10) !== stateGameId;
         }),
         mergeMap(
             ([action, gameId, stateGameId]: [GetGameMessagesRequestAction, string, number]) =>
                 this.gameMessages.listMessagesWithCursor(gameId || action.payload.gameId, action?.payload?.cursor || '*').pipe(
                     map(res => {
-                            console.log("res is", res);
+                            //console.log("res is", res);
                             const completed = new GetGameMessagesCompletedAction(
                                 {
                                     gameId: Number.parseInt(gameId, 10),

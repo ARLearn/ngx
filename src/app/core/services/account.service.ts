@@ -47,7 +47,7 @@ export class AccountService {
     updateAccount(account: Player): Observable<Player> {
         return this.http
             .post<Player>(environment.api_url + '/account/update', account)
-            .pipe(map(account => this.populateAccount(account)));
+            .pipe(map(acc => this.populateAccount(acc)));
     }
 
     createAccount(account: Player): Observable<Player> {
@@ -67,7 +67,12 @@ export class AccountService {
         return account && {
             ...account,
             labels: account.label && account.label.split(';'),
-        }
+        };
+    }
+
+    deleteAccount(fullId: string): Observable<Player> {
+        return this.http
+            .delete<Player>(environment.api_url + '/account/' + fullId);
     }
 }
 

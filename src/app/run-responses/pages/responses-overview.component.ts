@@ -25,11 +25,13 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
                 </div>
             </app-game-detail-navbar>
             <div class="full-width-container maxwidth">
-                <app-run-tab-select></app-run-tab-select>
+                <app-run-tab-select
+                        [selectedScreen]="selectedScreen"
+                ></app-run-tab-select>
                 <div class="run-container">
                     <div class="photo-container">
                         <div class="photo">
-                            <app-preview-pane-mobile-view></app-preview-pane-mobile-view>
+                            <app-preview-pane-mobile-view hideControls="true"></app-preview-pane-mobile-view>
                         </div>
                     </div>
                     <div class="answers-wrapper">

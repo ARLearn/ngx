@@ -168,7 +168,7 @@ export class ManageUserComponent implements OnInit, OnChanges, OnDestroy {
                 this.user.expirationDate = new Date(Number(this.user.expirationDate)) as any;
             }
 
-            this.labels = (this.user as any).labels
+            this.labels = (this.user as any).labels || [];
         }));
 
     }

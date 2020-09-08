@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Store } from "@ngrx/store";
-import { MatDialog } from "@angular/material/dialog";
-import { Observable, Subscription } from "rxjs";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
-import { SelectionModel } from "@angular/cdk/collections";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {MatDialog} from "@angular/material/dialog";
+import {Observable, Subscription} from "rxjs";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {SelectionModel} from "@angular/cdk/collections";
 
-import { State } from "../../core/reducers";
-import { Player } from "../../player-management/store/player.state";
-import { Query, CreateAccountRequest } from "../store/portal-users.actions";
-import { selectAll, selectUsersQueryLoading } from '../store/portal-users.selectors';
-import { AddUserDialogComponent } from "../components/add-user-dialog.component";
-import { map } from 'rxjs/operators';
+import {State} from "../../core/reducers";
+import {Player} from "../../player-management/store/player.state";
+import {Query, CreateAccountRequest, DeleteAccountRequest} from "../store/portal-users.actions";
+import {selectAll, selectUsersQueryLoading} from '../store/portal-users.selectors';
+import {AddUserDialogComponent} from "../components/add-user-dialog.component";
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-manage-users',
@@ -34,7 +34,8 @@ import { map } from 'rxjs/operators';
                          <span>
                             {{ selection.selected.length }} {{ 'SELECTED' | translate }} >
                          </span>
-                        <button class="actions-btn" mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }}
+                        <button class="actions-btn" mat-flat-button color="primary"
+                                [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }}
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
@@ -49,11 +50,11 @@ import { map } from 'rxjs/operators';
                                 [filter]="filter"
                         >
                         </app-search-button>
-                        
+
                         <span *ngIf="loading$ | async" class="spinner primary-color"><i class="fa fa-spin fa-spinner"></i></span>
                     </div>
                 </div>
-                
+
                 <div>
                     <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Organsitie
                         <mat-icon>arrow_drop_down</mat-icon>
@@ -87,9 +88,10 @@ import { map } from 'rxjs/operators';
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="name" >
+                <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.NAME' | translate }}</th>
-                    <td mat-cell *matCellDef="let row"  class="name-pointer name" [routerLink]="'/portal/root/usrmgt/'+row.fullId" >{{row.name}} </td>
+                    <td mat-cell *matCellDef="let row" class="name-pointer name"
+                        [routerLink]="'/portal/root/usrmgt/'+row.fullId">{{row.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="location">
@@ -119,7 +121,7 @@ import { map } from 'rxjs/operators';
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item>
+                            <button mat-menu-item (click)="deleteUser(row.fullId)">
                                 <mat-icon>delete_forever</mat-icon>
                                 <span>{{ 'ACTIONS.DELETE_USER' | translate }}</span>
                             </button>
@@ -142,7 +144,7 @@ import { map } from 'rxjs/operators';
         .name-pointer {
             cursor: pointer;
         }
-        
+
         .full-width-container {
             background-color: #F0F4F5; /*todo move up*/
         }
@@ -241,18 +243,18 @@ import { map } from 'rxjs/operators';
                 display: none;
             }
         }
-        
+
         .selects {
             border-right: 1px solid #e0e0e0;
             padding-right: 10px;
             margin-right: 30px;
         }
-        
+
         .search-wrapper {
             display: flex;
             align-items: center;
         }
-        
+
         .search-wrapper .spinner {
             margin-left: 1rem;
         }
@@ -284,13 +286,15 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
     ];
 
 
-    userList: Observable<any> = this.store.select(selectAll)
-        // .pipe(map(users => users.map(user => ({ ...user, labels: user.label && user.label.split(';') }))));
+    userList: Observable<any> = this.store.select(selectAll);
+
+    // .pipe(map(users => users.map(user => ({ ...user, labels: user.label && user.label.split(';') }))));
 
     constructor(
         public dialog: MatDialog,
         private store: Store<State>,
-    ) {}
+    ) {
+    }
 
     click(item) {
         console.log(item);
@@ -340,5 +344,9 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
         this.subscription.add(dialogRef.componentInstance.submit.subscribe((result) => {
             this.store.dispatch(new CreateAccountRequest(result));
         }));
+    }
+
+    deleteUser(userId: string) {
+        this.store.dispatch(new DeleteAccountRequest(userId));
     }
 }

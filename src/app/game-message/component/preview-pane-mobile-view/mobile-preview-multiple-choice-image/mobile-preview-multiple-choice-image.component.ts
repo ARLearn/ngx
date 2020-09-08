@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {GameMessage} from "../../../../game-messages/store/game-messages.state";
 import {getEditMessageSelector, selectedColor} from "../../../store/game-message.selector";
@@ -9,7 +9,9 @@ import {GameMessageUpdateFileReferenceAction} from "../../../store/game-message.
 @Component({
     selector: 'app-mobile-preview-multiple-choice-image',
     template: `
-            <app-background-image-selector>
+            <app-background-image-selector
+                    [hideControls]="hideControls"
+            >
                 <app-preview-navbar></app-preview-navbar>
                 <div class="full-with-height-container">
                     <div class="text-box-preview">
@@ -55,6 +57,7 @@ import {GameMessageUpdateFileReferenceAction} from "../../../store/game-message.
     `]
 })
 export class MobilePreviewMultipleChoiceImageComponent implements OnInit {
+    @Input() hideControls = false;
 
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     selectedColor$: Observable<string> = this.store.select(selectedColor);

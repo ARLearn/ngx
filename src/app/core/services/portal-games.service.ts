@@ -51,10 +51,15 @@ export class PortalGamesService {
 
     }
 
-    list() {
+    list(): Observable<Game[]> {
         return this.http
             .get<any>(environment.api_url + '/games/library/recent')
             .pipe(map(result => result.games));
+    }
+
+    getGame(gameId: string): Observable<Game> {
+        return this.http
+            .get<any>(environment.api_url + '/games/library/game/' + gameId);
     }
 
     listOld(): Observable<any[]> {
@@ -99,7 +104,7 @@ export class PortalGamesService {
                 featured: true,
             },
         ]);
-    }
+    };
 
     get(id: string): Observable<any> {
         return of({
@@ -115,7 +120,7 @@ export class PortalGamesService {
             reviews: 14,
             featured: true,
         });
-    }
+    };
 }
 
 

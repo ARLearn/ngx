@@ -227,6 +227,9 @@ export class SharedModule {
         this.matIconRegistry.addSvgIcon(
             `qrcode`,
             this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/img/components/qr_code.svg'));
+        this.matIconRegistry.addSvgIcon(
+            `remix`,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/img/components/remix.svg'));
     }
 
     static forRoot(): ModuleWithProviders<SharedModule> {

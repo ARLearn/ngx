@@ -7,7 +7,14 @@ import {
     Query,
     PortalUserActionTypes,
     GetAccountRequest,
-    UpdateAccountRequest, SelectPlayer, AddOne, CreateAccountRequest, CreateAccountError, CreateAccountSuccess
+    UpdateAccountRequest,
+    SelectPlayer,
+    AddOne,
+    CreateAccountRequest,
+    CreateAccountError,
+    CreateAccountSuccess,
+    DeleteAccountRequest,
+    DeleteAccountResponse
 } from './portal-users.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
@@ -61,6 +68,16 @@ export class PortalUsersEffects {
         }),
         map(arr => {
             return new SelectPlayer(arr);
+        })
+    );
+
+    @Effect() deleteAccount$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.DELETE_ACCOUNT_REQ),
+        switchMap((action: DeleteAccountRequest) => {
+            return this.accounts.deleteAccount(action.fullId);
+        }),
+        map(arr => {
+            return new DeleteAccountResponse(arr);
         })
     );
 

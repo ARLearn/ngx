@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
-import { Router } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
-import { map } from 'rxjs/operators';
-import { getCurrentRunId } from "../store/game-runs.selector";
-import { Store } from "@ngrx/store";
-import { State } from "../../core/reducers";
-import { Game } from "../../game-management/store/current-game.state";
-import { getGame } from "../../game-management/store/current-game.selector";
-import { getAuthIsAdmin } from "../../auth/store/auth.selector";
-import { getMultipleMessagesSelector } from 'src/app/game-messages/store/game-messages.selector';
-import { GetGameMessagesRequestAction } from 'src/app/game-messages/store/game-messages.actions';
+import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import {Router} from "@angular/router";
+import {Observable, Subscription} from "rxjs";
+import {map} from 'rxjs/operators';
+import {getCurrentRunId} from "../store/game-runs.selector";
+import {Store} from "@ngrx/store";
+import {State} from "../../core/reducers";
+import {Game} from "../../game-management/store/current-game.state";
+import {getGame} from "../../game-management/store/current-game.selector";
+import {getAuthIsAdmin} from "../../auth/store/auth.selector";
+import {getMultipleMessagesSelector} from 'src/app/game-messages/store/game-messages.selector';
+import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-messages.actions';
 
 @Component({
     selector: 'app-run-tab-select',
@@ -23,30 +23,36 @@ import { GetGameMessagesRequestAction } from 'src/app/game-messages/store/game-m
             </button>
 
 
-            <div class="run-tabs">
-                <nav mat-tab-nav-bar class="nav-override style-upper">
+            <div class="run-tabs" *ngIf="game$ |async as game">
+                <nav mat-tab-nav-bar class="nav-override style-upper" *ngIf="runId$ |async as runId">
                     <a mat-tab-link
                        routerLinkActive #runtab1="routerLinkActive"
-                       [disabled]="getDisabled((game$|async), (runId$ |async))"
+                       [disabled]="getDisabled(game, runId)"
                        [active]="runtab1.isActive"
-                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/players'">{{'RUNS.PLAYERS'|translate}}</a>
-                    <a mat-tab-link
-                       *ngIf="isAdmin$ |async"
-                       routerLinkActive #runtab2="routerLinkActive"
-                       [disabled]="getDisabled((game$|async), (runId$ |async))"
-                       [active]="runtab2.isActive"
-                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/results/' + (messageId$ |async)">RESULTATEN</a>
+                       [ngClass]="{'active-black':runtab1.isActive}"
+                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/players'">{{'RUNS.PLAYERS'|translate}}</a>
+
                     <a mat-tab-link
                        routerLinkActive #runtab2="routerLinkActive"
-                       [disabled]="getDisabled((game$|async), (runId$ |async))"
+                       [routerLinkActiveOptions]="{exact: true}"
+                       [disabled]="getDisabled(game, runId)"
                        [active]="runtab2.isActive"
-                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/settings'">{{'HOME.SETTINGS'|translate}}</a>
+                       [ngClass]="{'active-black':runtab2.isActive}"
+                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/results/' + selectedScreen">RESULTATEN</a>
+                    
+                    <a mat-tab-link
+                       routerLinkActive #runtab3="routerLinkActive"
+                       [disabled]="getDisabled(game, runId)"
+                       [ngClass]="{'active-black':runtab3.isActive}"
+                       [active]="runtab3.isActive"
+                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/settings'">{{'HOME.SETTINGS'|translate}}</a>
                     <a mat-tab-link
                        *ngIf="isAdmin$ |async"
                        routerLinkActive #runtabactions="routerLinkActive"
-                       [disabled]="getDisabled((game$|async), (runId$ |async))"
+                       [disabled]="getDisabled(game, runId)"
+                       [ngClass]="{'active-black':runtabactions.isActive}"
                        [active]="runtabactions.isActive"
-                       [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/run/'+(runId$ |async)+'/actions'">ACTIONS</a>
+                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/actions'">ACTIONS</a>
                 </nav>
             </div>
         </div>
@@ -58,11 +64,17 @@ import { GetGameMessagesRequestAction } from 'src/app/game-messages/store/game-m
             align-items: center;
         }
 
+        .active-black {
+            color: black;
+            opacity: 1;
+        }
+
         .mat-tab-links > .mat-tab-label-active {
 
             text-transform: uppercase;
             opacity: 1;
         }
+
         .style-upper {
             text-transform: uppercase;
         }
@@ -70,7 +82,7 @@ import { GetGameMessagesRequestAction } from 'src/app/game-messages/store/game-m
     `]
 })
 export class RunTabSelectComponent implements OnInit, OnDestroy {
-
+    @Input() selectedScreen: any;
     isAdmin$ = this.store.select(getAuthIsAdmin);
     // @Input() gameId;
     public game$: Observable<Game> = this.store.select(getGame);

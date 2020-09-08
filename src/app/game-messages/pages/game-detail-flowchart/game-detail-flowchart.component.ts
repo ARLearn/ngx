@@ -63,6 +63,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
                     message['backgroundPath'] = this.getDownloadUrl(path);
                 }
             }
+            console.log("MESSAGE!!!!", messages);
             return messages;
         })
     );
@@ -93,6 +94,8 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     }
 
     messagesChange(messages: GameMessage[]) {
+        console.log("message is changed in game-detail-flowchart.compontent.ts line 97");
+// this message should not be called when loaading...
         messages.map(message => this.store.dispatch(new GameMessageDirectSaveAction(message)));
     }
 

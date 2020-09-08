@@ -1,6 +1,6 @@
 import {Router} from '@angular/router';
 import {Action, Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
+import {EMPTY, Observable, of, timer} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
@@ -11,7 +11,7 @@ import * as actions_current from '../../game-management/store/current-game.actio
 import {State} from 'src/app/core/reducers';
 
 import {GameService} from 'src/app/core/services/game.service';
-import {catchError, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, debounce, debounceTime, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import {SetErrorAction} from '../../shared/store/shared.actions';
 import {getGame} from '../../game-management/store/current-game.selector';
 import {Game} from '../../game-management/store/current-game.state';
@@ -40,6 +40,7 @@ export class GameEffects {
             actions.GameActionTypes.CREATE_GAME_COMPLETED,
             AuthActionTypes.LOGIN_COMPLETED
         ),
+        debounce(action => action.type === actions.GameActionTypes.CREATE_GAME_COMPLETED ? timer(1000) : EMPTY),
         map((action: actions.GetGameListRequestAction) => action),
         switchMap((payload: any) =>
             this.gameService.list(null).pipe(
@@ -61,12 +62,12 @@ export class GameEffects {
         switchMap((payload: any) =>
             this.gameService.list(payload.payload.cursor).pipe(
                 mergeMap(res => {
-                    if (res.resumptionToken != null) {
-                        return [
-                            new actions.GetGameListCompletedAction(res.games),
-                            new actions.GetGameCursorListRequestAction({cursor: res.resumptionToken})
-                        ];
-                    }
+                        if (res.resumptionToken != null) {
+                            return [
+                                new actions.GetGameListCompletedAction(res.games),
+                                new actions.GetGameCursorListRequestAction({cursor: res.resumptionToken})
+                            ];
+                        }
                         return [
                             new actions.GetGameListCompletedAction(res.games)
                             // new actions.GetGameCursorListRequestAction({cursor: res.resumptionToken})
@@ -143,7 +144,7 @@ export class GameEffects {
                 map(res => {
                     return new actions.CreateGameCompletedAction(res);
                 }),
-                catchError((error) => of(new SetErrorAction(error.error)))
+                catchError((error) => of(new SetErrorAction(error.error))),
             )
         )
     );

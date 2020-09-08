@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {GameMessage} from "../../../../game-messages/store/game-messages.state";
 import {getEditMessageSelector} from "../../../store/game-message.selector";
@@ -12,7 +12,7 @@ import {GameMessageUpdateAction} from "../../../store/game-message.actions";
         <app-filestore-background-video
                 *ngIf="!(!(message$|async)?.fileReferences || !((message$|async)?.fileReferences['video']))"
                 [paths]="[((message$|async)?.fileReferences['video'])]"
-                [deleteButton]="true"
+                [deleteButton]="!hideControls"
                 (delete)="deleteAsset($event)"
         >
             <app-preview-navbar></app-preview-navbar>
@@ -29,6 +29,7 @@ import {GameMessageUpdateAction} from "../../../store/game-message.actions";
     styleUrls: ['./mobile-preview-video.component.css']
 })
 export class MobilePreviewVideoComponent implements OnInit {
+    @Input() hideControls = false;
 
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
 

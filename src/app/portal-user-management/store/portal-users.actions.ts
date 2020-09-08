@@ -8,6 +8,9 @@ export enum PortalUserActionTypes {
     CREATE_ACCOUNT_REQ = '[PortalUser] Create Account',
     UPDATE_ACCOUNT_REQ = '[PortalUser] Update Account',
 
+    DELETE_ACCOUNT_REQ = '[PortalUser] Delete Account request',
+    DELETE_ACCOUNT_RES = '[PortalUser] Delete Account response',
+
     CREATE_ACCOUNT_SUCCESS = '[PortalUser] Create Account Success',
     CREATE_ACCOUNT_ERROR = '[PortalUser] Create Account Error',
 
@@ -18,6 +21,18 @@ export enum PortalUserActionTypes {
     ADD_ALL = '[PortalUser] Add All',
     SELECT_MESSAGE = '[PortalUser] Select Message',
     SELECT_PLAYER = '[PortalUser] Select Player',
+}
+
+export class DeleteAccountRequest implements Action {
+    readonly type = PortalUserActionTypes.DELETE_ACCOUNT_REQ;
+
+    constructor(public fullId: string = null) {}
+}
+
+export class DeleteAccountResponse implements Action {
+    readonly type = PortalUserActionTypes.DELETE_ACCOUNT_RES;
+
+    constructor(public account: Player) {}
 }
 
 export class Query implements Action {
@@ -115,4 +130,5 @@ export type RunResponseActions
     | DeleteOne
     | GetAll
     | SelectPlayer
-    | SelectMessage;
+    | SelectMessage
+    | DeleteAccountResponse;

@@ -27,8 +27,8 @@ import {MatDialog} from "@angular/material/dialog";
         <ng-template #bg>
             <app-filestore-background-image
                     [paths]="[((message$|async)?.fileReferences[key]) || selectedTheme?.backgroundPath]"
-                    [deleteButton]="!((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
-                    [editButton]="(!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key]))"
+                    [deleteButton]="!hideControls && !((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
+                    [editButton]="!hideControls && ((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
                     (delete)="deleteAsset()"
                     (edit)="select()"
             >
@@ -39,6 +39,7 @@ import {MatDialog} from "@angular/material/dialog";
     styleUrls: ['./background-image-selector.component.css']
 })
 export class BackgroundImageSelectorComponent implements OnInit, OnDestroy {
+    @Input() hideControls = false;
 
     @Input() key = 'background';
 

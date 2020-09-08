@@ -8,7 +8,9 @@ import {State} from "../../../../core/reducers";
 @Component({
     selector: 'app-mobile-preview-answer-feedback',
     template: `
-        <app-background-image-selector [key]="answer.isCorrect?'correct':'wrong'">
+        <app-background-image-selector
+                [hideControls]="hideControls"
+                [key]="answer.isCorrect?'correct':'wrong'">
             <app-preview-navbar></app-preview-navbar>
             <div class="full-with-height-container">
                 <div class="text-box-preview">
@@ -26,7 +28,7 @@ import {State} from "../../../../core/reducers";
     `]
 })
 export class MobilePreviewAnswerFeedbackComponent implements OnInit {
-
+    @Input() hideControls = false;
     @Input() answer: any;
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
 

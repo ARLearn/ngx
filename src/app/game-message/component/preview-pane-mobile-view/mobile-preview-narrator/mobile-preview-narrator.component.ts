@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {GameMessage} from "../../../../game-messages/store/game-messages.state";
 import {getEditMessageSelector, selectedColor} from "../../../store/game-message.selector";
@@ -10,12 +10,14 @@ import {GameMessageUpdateAction} from "../../../store/game-message.actions";
     selector: 'app-mobile-preview-narrator',
     template: `
 
-        <app-background-image-selector>
+        <app-background-image-selector
+                [hideControls]="hideControls"
+        >
             <div class="full-with-height-container">
                 <app-preview-navbar></app-preview-navbar>
                 <div class="text-box-preview">
                     <div class="text-preview font-regular-16-24-roboto">
-                        {{(message$|async)?.richText}}
+                        {{(message$|async)?.richText}} 
                     </div>
                     <button
                             class="gl-pos-button-right pos-button"
@@ -43,7 +45,7 @@ import {GameMessageUpdateAction} from "../../../store/game-message.actions";
     `]
 })
 export class MobilePreviewNarratorComponent implements OnInit {
-
+    @Input() hideControls = false;
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     selectedColor$: Observable<string> = this.store.select(selectedColor);
 
