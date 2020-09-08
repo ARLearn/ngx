@@ -14,36 +14,40 @@
             <nav mat-tab-nav-bar [backgroundColor]="'primary'">
                 <a mat-tab-link
                    [disabled]="!(game$|async)"
-                   routerLinkActive #rla="routerLinkActive"
+                   #rla="routerLinkActive"
                    [active]="rla.isActive"
-                   [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/screens'">{{'MESSAGE.SCREENS'|translate}}</a>
+                   [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/screens'"
+                   routerLinkActive="tab-selected"
+                >{{'MESSAGE.SCREENS'|translate}}</a>
                 <a mat-tab-link
-                   routerLinkActive #rlaf="routerLinkActive"
+                   #rlaf="routerLinkActive"
                    [disabled]="!(game$|async)"
                    [active]="rlaf.isActive"
                    [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/flowchart'"
+                   routerLinkActive="tab-selected"
                 > FLOWCHART </a>
                 <a mat-tab-link
                    *ngIf="isAdvanced |async"
-                   routerLinkActive #rlafd="routerLinkActive"
+                   #rlafd="routerLinkActive"
                    [disabled]="!(game$|async)"
                    [active]="rlafd.isActive"
                    [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/flowchart/disappear'"
+                   routerLinkActive="tab-selected"
                 > DISAPPEAR CHART </a>
                 <a mat-tab-link
-                   routerLinkActive #rla3="routerLinkActive"
+                   #rla3="routerLinkActive"
                    [disabled]="!(game$|async)"
                    [active]="rla3.isActive"
                    [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/settings'"
                    routerLinkActive="tab-selected"> {{'HOME.SETTINGS'|translate}} </a>
                 <a mat-tab-link
-                   routerLinkActive #rla4="routerLinkActive"
+                   #rla4="routerLinkActive"
                    [disabled]="!(game$|async)"
                    [active]="rla4.isActive"
                    [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/runs'"
                    routerLinkActive="tab-selected"> {{'RUNS.PLAY'|translate}} </a>
                 <a mat-tab-link
-                   routerLinkActive #rla5="routerLinkActive"
+                   #rla5="routerLinkActive"
                    [disabled]="!(game$|async)"
                    [active]="rla5.isActive"
                    [routerLink]="'/portal/game/'+(game$|async)?.gameId+'/detail/media'"
