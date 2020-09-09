@@ -28,6 +28,7 @@ export interface GameMessagesState {
     messages: OnlyMessagesState;
     previewMessage: number;
     selectedScreen: string;
+    loading: boolean;
 }
 
 

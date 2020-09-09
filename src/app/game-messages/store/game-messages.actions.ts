@@ -30,6 +30,7 @@ export const GameMessagesActionTypes = {
     GAME_MESSAGES_ERROR: '[GameMessages]  Error',
 
     SET_SELECTED_SCREEN: '[GameMessages] Set selected screen',
+    SET_LOADING: '[GameMessages] Set loading',
 };
 
 export class GetGameMessagesRequestAction implements Action {
@@ -157,6 +158,13 @@ export class SetSelectedScreenAction implements Action {
     }
 }
 
+export class SetLoadingAction implements Action {
+    type = GameMessagesActionTypes.SET_LOADING;
+
+    constructor(public payload: boolean) {
+    }
+}
+
 export type GameMessagesAction
     = GetGameMessagesRequestAction
     | GetGameMessagesCompletedAction
@@ -179,4 +187,5 @@ export type GameMessagesAction
     | NewMessageRequestedAction
     | NewMessageResponseAction
 
-    | GetGameMessagesErrorAction;
+    | GetGameMessagesErrorAction
+    | SetLoadingAction;

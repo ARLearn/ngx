@@ -55,6 +55,7 @@ export const getNodesSelector = createSelector(getGameMessagesFeature, (state) =
 }));
 
 export const getSelectedScreen = createSelector(getGameMessagesFeature, state => state.selectedScreen);
+export const getMessagesLoading = createSelector(getGameMessagesFeature, state => state.loading);
 
 // export const getDependenciesSelector = createSelector(getMessagesSelector, (messages) => messages.map(item => {
 //     if (item.dependsOn.type === "org.celstec.arlearn2.beans.dependencies.ActionDependency") {
