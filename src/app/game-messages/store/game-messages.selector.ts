@@ -92,12 +92,13 @@ function getAllDependenciesByCondition(dependency, cb, result = []) {
     return result;
 }
 
-export const getQrCodesSelector = createSelector(getGameMessagesFeature, (state) => {
+export const getQrCodesSelector = createSelector(getGameMessagesFeature, getCurrentGameMessages, (state, messages) => {
     const deps = [];
     if (!state.previewMessage) {
         return deps;
     }
-    state.messages.forEach(x =>
+
+    messages.forEach(x =>
         x.dependsOn &&
         getAllDependenciesByCondition(
             x.dependsOn,
