@@ -53,21 +53,21 @@ import { getAuthIsAvanced } from "../../auth/store/auth.selector";
                            [routerLink]="'/portal/game/'+game.gameId+'/detail/flowchart/disappear'"
                         > DISAPPEAR CHART </a>
                         <a mat-tab-link
-                           routerLinkActive #rl_settings="routerLinkActive"
+                           #rl_settings="routerLinkActive"
                            [disabled]="!game"
                            [active]="rl_settings.isActive"
                            [ngClass]="{'active-color': rl_settings.isActive}"
                            [routerLink]="'/portal/game/'+game.gameId+'/detail/settings'"
                            routerLinkActive="tab-selected"> {{'HOME.SETTINGS'|translate}} </a>
                         <a mat-tab-link
-                           routerLinkActive #rl_runs="routerLinkActive"
+                           #rl_runs="routerLinkActive"
                            [disabled]="!game"
                            [active]="rl_runs.isActive"
                            [ngClass]="{'active-color': rl_runs.isActive}"
                            [routerLink]="'/portal/game/'+game.gameId+'/detail/runs'"
                            routerLinkActive="tab-selected"> {{'RUNS.PLAY'|translate}} </a>
                         <a mat-tab-link
-                           routerLinkActive #rl_media="routerLinkActive"
+                           #rl_media="routerLinkActive"
                            [disabled]="!game"
                            [active]="rl_media.isActive"
                            [ngClass]="{'active-color': rl_media.isActive}"
@@ -177,7 +177,6 @@ export class GameDetailNavbarComponent implements OnInit {
 
     constructor(
         private location: Location,
-        private router: Router,
         public store: Store<State>
     ) {
     }
@@ -187,9 +186,5 @@ export class GameDetailNavbarComponent implements OnInit {
 
     back() {
         this.location.back();
-    }
-
-    isActive(instruction: any[], exact = false): boolean {
-        return this.router.isActive(this.router.createUrlTree(instruction), exact);
     }
 }

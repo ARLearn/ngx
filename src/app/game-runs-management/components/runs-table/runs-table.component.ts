@@ -128,7 +128,7 @@ export class RunsTableComponent implements OnInit {
     }
 
     click(gameRun: GameRun) {
-        this.router.navigate([`portal/game/${gameRun.gameId}/run/${gameRun.runId}/players`]);
+        this.router.navigate([`portal/game/${gameRun.gameId}/detail/runs/${gameRun.runId}/players`]);
     }
 
 

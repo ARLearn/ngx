@@ -30,7 +30,7 @@ import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-mes
                        [disabled]="getDisabled(game, runId)"
                        [active]="runtab1.isActive"
                        [ngClass]="{'active-black':runtab1.isActive}"
-                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/players'">{{'RUNS.PLAYERS'|translate}}</a>
+                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/players'">{{'RUNS.PLAYERS'|translate}}</a>
 
                     <a mat-tab-link
                        routerLinkActive #runtab2="routerLinkActive"
@@ -38,21 +38,21 @@ import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-mes
                        [disabled]="getDisabled(game, runId)"
                        [active]="runtab2.isActive"
                        [ngClass]="{'active-black':runtab2.isActive}"
-                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/results/' + selectedScreen">RESULTATEN</a>
+                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/results/' + selectedScreen">RESULTATEN</a>
                     
                     <a mat-tab-link
                        routerLinkActive #runtab3="routerLinkActive"
                        [disabled]="getDisabled(game, runId)"
                        [ngClass]="{'active-black':runtab3.isActive}"
                        [active]="runtab3.isActive"
-                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/settings'">{{'HOME.SETTINGS'|translate}}</a>
+                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/settings'">{{'HOME.SETTINGS'|translate}}</a>
                     <a mat-tab-link
                        *ngIf="isAdmin$ |async"
                        routerLinkActive #runtabactions="routerLinkActive"
                        [disabled]="getDisabled(game, runId)"
                        [ngClass]="{'active-black':runtabactions.isActive}"
                        [active]="runtabactions.isActive"
-                       [routerLink]="'/portal/game/'+game.gameId+'/run/'+runId+'/actions'">ACTIONS</a>
+                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/actions'">ACTIONS</a>
                 </nav>
             </div>
         </div>

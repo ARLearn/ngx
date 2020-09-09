@@ -55,7 +55,7 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
                                     *ngFor="let item of messages"
                                     color="primary"
                                     class="light-chip"
-                                    (click)="onSelect('/portal/game/' + (game?.gameId) +'/run/' + runId + '/results/' + item.id)"
+                                    (click)="onSelect('/portal/game/' + (game?.gameId) +'/detail/runs/' + runId + '/results/' + item.id)"
                                     [selected]="selectedScreen == item.id"
                                 >{{ item.name }}</mat-chip>
                             </mat-chip-list>
