@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {GameDetailScreensComponent} from '../game-detail-screens/game-detail-screens.component';
 import {Observable, Subscription} from "rxjs";
-import {getFilteredMessagesSelector} from "../../store/game-messages.selector";
+import {getFilteredMessagesSelector, getMessagesLoading} from "../../store/game-messages.selector";
 import {GameMessage} from "../../store/game-messages.state";
 import {
     GameMessageDirectSaveAction,
@@ -14,7 +14,7 @@ import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
 import {SetPreviewMessageAction} from "../../store/game-messages.actions";
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-game-detail-flowchart',
@@ -24,7 +24,7 @@ import { map } from 'rxjs/operators';
 
         <div *ngIf="messages$ | async as messages">
             <lib-wireflow
-            *ngIf="messages.length > 0"
+                    *ngIf="messages.length > 0 && !((loading$ | async))"
                     (selectMessage)="selectMessage($event)"
                     [messages]="messages"
                     (messagesChange)="messagesChange($event)"
@@ -63,10 +63,12 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
                     message['backgroundPath'] = this.getDownloadUrl(path);
                 }
             }
-            console.log("MESSAGE!!!!", messages);
+
             return messages;
         })
     );
+    loading$ = this.store.select(getMessagesLoading);
+
     lang = 'en';
     private messagesSubscription: Subscription;
 
@@ -117,7 +119,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     onEvent(event) {
         switch (event.type) {
             case 'newOutputAdded': {
-                if (event.nodeType === 'ScanTag') {
+                if (event.nodeType === 'ScanTag' || event.nodeType === 'TextQuestion') {
                     this.store.dispatch(new GameMessageUpdateAction(event.payload.outputs));
                 }
 

@@ -28,6 +28,7 @@ export const gameMessagesInitialState: GameMessagesState = {
     messages: messagesAdapter.getInitialState(),
     previewMessage: null,
     selectedScreen: null,
+    loading: false,
 };
 
 export function reducers(
@@ -44,15 +45,22 @@ export function reducers(
             // return Object.assign({}, state, {messages: []});
         }
 
+        case actions.GameMessagesActionTypes.SET_LOADING: {
+            return {...state, loading: action.payload};
+
+            // return Object.assign({}, state, {messages: []});
+        }
+
         case actions.GameMessagesActionTypes.GAME_MESSAGES_COMPLETED: {
             if (!action.payload.items) {
-                return state;
+                return {...state, loading: false};
             } else {
                 console.log("state was", state.messages);
                 return Object.assign({}, state, {
                     gameId: action.payload.gameId,
                     // selectedMessage: null,
-                    messages: messagesAdapter.addMany(action.payload.items, state.messages)
+                    messages: messagesAdapter.addMany(action.payload.items, state.messages),
+                    loading: false,
                 });
 
 
@@ -78,7 +86,8 @@ export function reducers(
             //     messages: [action.payload]
             // });
             return Object.assign({}, state, {
-                messages: messagesAdapter.upsertOne(action.payload, state.messages)
+                messages: messagesAdapter.upsertOne(action.payload, state.messages),
+                loading: false,
             });
         }
 

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {GameDetailScreensComponent} from './game-detail-screens/game-detail-screens.component';
 import {Observable, Subscription} from "rxjs";
-import {getFilteredMessagesSelector} from "../store/game-messages.selector";
+import {getFilteredMessagesSelector, getMessagesLoading} from "../store/game-messages.selector";
 import {GameMessage} from "../store/game-messages.state";
 import {
     GameMessageDirectSaveAction,
@@ -24,7 +24,7 @@ import { map } from 'rxjs/operators';
 
         <div *ngIf="messages$ | async as messages">
             <lib-wireflow
-                *ngIf="messages.length > 0"
+                *ngIf="messages.length > 0 && !(loading$ | async)"
                 (selectMessage)="selectMessage($event)"
                 [messages]="messages"
                 (messagesChange)="messagesChange($event)"
@@ -68,6 +68,7 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
         })
     );
     lang = 'en';
+    loading$ = this.store.select(getMessagesLoading);
     private messagesSubscription: Subscription;
 
     constructor(

@@ -96,7 +96,7 @@ export const APP_ROUTES: Routes = [
                 ],
             },
             {
-                path: 'game/:gameId/run/:runId',
+                path: 'game/:gameId/detail/runs/:runId',
                 children: [
                     {path: 'players', component: RunPlayersPageComponent, pathMatch: 'full'},
                     {path: 'actions', component: ActionsOverviewComponent, pathMatch: 'full'},

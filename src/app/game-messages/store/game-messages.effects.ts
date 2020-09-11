@@ -11,7 +11,7 @@ import {
     GetMessageDeleteResponseAction, NewMessageRequestedAction,
     NewMessageResponseAction,
     SelectMessageAction,
-    SelectMessageFromRouterAction
+    SelectMessageFromRouterAction, SetLoadingAction
 } from './game-messages.actions';
 import {State} from 'src/app/core/reducers';
 import {GameMessagesService} from '../../core/services/game-messages.service';
@@ -68,7 +68,9 @@ export class GameMessagesEffects {
         }),
         mergeMap(
             ([action, gameId, stateGameId]: [GetGameMessagesRequestAction, string, number]) =>
-                this.gameMessages.listMessagesWithCursor(gameId || action.payload.gameId, action?.payload?.cursor || '*').pipe(
+            {
+                this.store$.dispatch(new SetLoadingAction(true));
+                return this.gameMessages.listMessagesWithCursor(gameId || action.payload.gameId, action?.payload?.cursor || '*').pipe(
                     map(res => {
                             //console.log("res is", res);
                             const completed = new GetGameMessagesCompletedAction(
@@ -90,6 +92,7 @@ export class GameMessagesEffects {
                         }
                     )
                 )
+            }
         )
     );
 
