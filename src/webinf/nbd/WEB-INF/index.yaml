@@ -37,6 +37,11 @@ indexes:
       - name: owner
       - name: lastModificationDate
         direction: asc
+  - kind: GameJDO
+    properties:
+      - name: sharing
+      - name: lastModificationDate
+        direction: desc
   - kind: GeneralItemJDO
     properties:
       - name: gameId
@@ -106,3 +111,4 @@ indexes:
       - name: email
       - name: lastModificationDateGame
         direction: desc
+

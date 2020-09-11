@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "6P5Y98AHUX.nl.nbdbiblion.seriousnbd",
+        "paths": [
+          "/game/*"
+        ],
+        "components": [
+          {
+            "/": "/game/*",
+            "comment": "Matches any URL whose path starts with /game/"
+          }
+        ]
+      }
+    ]
+  }
+}
