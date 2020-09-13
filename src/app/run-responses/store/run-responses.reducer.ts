@@ -31,6 +31,8 @@ export function runResponsesReducer(
             }, state);
         case RunResponseActionTypes.DELETE_ONE:
             return arlearnActionsAdapter.removeOne(action.id, state);
+        case RunResponseActionTypes.CLEAR:
+            return arlearnActionsAdapter.removeAll({...state, serverTime: 1});
         case RunResponseActionTypes.GET_ALL:
             return arlearnActionsAdapter.addMany(action.responses, state);
         case RunResponseActionTypes.ADD_ALL:

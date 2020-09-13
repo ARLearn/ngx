@@ -4,7 +4,7 @@ import { Game } from "../../game-management/store/current-game.state";
 import { getGame } from "../../game-management/store/current-game.selector";
 import { Store } from "@ngrx/store";
 import { State } from "../../core/reducers";
-import { Query, SelectMessage } from "../store/run-responses.actions";
+import {Clear, Query, SelectMessage} from "../store/run-responses.actions";
 import { GetCurrentRunFromRouterRequestAction, GetGameRunsRequestAction } from "../../game-runs-management/store/game-runs.actions";
 import { GetCurrentGameFromRouterRequestAction } from "../../game-management/store/current-game.actions";
 import { PlayerLoadRequestAction } from "../../player-management/store/player.actions";
@@ -25,9 +25,7 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
                 </div>
             </app-game-detail-navbar>
             <div class="full-width-container maxwidth">
-                <app-run-tab-select
-                        [selectedScreen]="selectedScreen"
-                ></app-run-tab-select>
+                <app-run-tab-select></app-run-tab-select>
                 <div class="run-container">
                     <div class="photo-container">
                         <div class="photo">
@@ -193,5 +191,7 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+
+        this.store.dispatch(new Clear());
     }
 }

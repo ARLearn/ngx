@@ -40,6 +40,9 @@ import { getPlayers } from 'src/app/game-runs-management/store/game-runs.selecto
             <ng-container *ngIf="isAudioQuestion(editMessage.type) && selectedScreen && players && players.length">
                 <app-audio-gallery class="w-100" [responses]="data" [user]="selectedUser" (onLoad)="onGalleryLoading($event)"></app-audio-gallery>
             </ng-container>
+            <ng-container *ngIf="isVideoQuestion(editMessage.type) && selectedScreen && players && players.length">
+                <app-video-gallery class="w-100" [responses]="data" [user]="selectedUser" (onLoad)="onGalleryLoading($event)"></app-video-gallery>
+            </ng-container>
             <ng-container *ngIf="isTextQuestion(editMessage.type) && selectedScreen">
                 <app-text-questions-gallery class="w-100" [responses]="data" [user]="selectedUser" (onLoad)="onGalleryLoading($event)"></app-text-questions-gallery>
             </ng-container>
@@ -303,6 +306,10 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
     isAudioQuestion(type) {
         return type.includes('AudioQuestion');
+    }
+
+    isVideoQuestion(type) {
+        return type.includes('VideoQuestion');
     }
 
     isTextQuestion(type) {

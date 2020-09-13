@@ -8,7 +8,7 @@ import {State} from "../../core/reducers";
 import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
 import {getAuthIsAdmin} from "../../auth/store/auth.selector";
-import {getMultipleMessagesSelector} from 'src/app/game-messages/store/game-messages.selector';
+import {getMultipleMessagesSelector, getSelectedScreen} from 'src/app/game-messages/store/game-messages.selector';
 import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-messages.actions';
 
 @Component({
@@ -36,9 +36,9 @@ import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-mes
                        routerLinkActive #runtab2="routerLinkActive"
                        [routerLinkActiveOptions]="{exact: true}"
                        [disabled]="getDisabled(game, runId)"
-                       [active]="runtab2.isActive"
+                       [active]="runtab2.isActive || isActiveResults()"
                        [ngClass]="{'active-black':runtab2.isActive}"
-                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/results/' + selectedScreen">RESULTATEN</a>
+                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/results/' + (messageId$ | async)">RESULTATEN</a>
                     
                     <a mat-tab-link
                        routerLinkActive #runtab3="routerLinkActive"
@@ -82,15 +82,13 @@ import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-mes
     `]
 })
 export class RunTabSelectComponent implements OnInit, OnDestroy {
-    @Input() selectedScreen: any;
     isAdmin$ = this.store.select(getAuthIsAdmin);
-    // @Input() gameId;
-    public game$: Observable<Game> = this.store.select(getGame);
+    game$: Observable<Game> = this.store.select(getGame);
     runId$: Observable<any> = this.store.select(getCurrentRunId);
-    public messageId$ = this.store.select(getMultipleMessagesSelector)
+    messageId$ = this.store.select(getMultipleMessagesSelector)
         .pipe(map(messages => messages[0] && messages[0].id));
 
-    subscription: Subscription;
+    private subscription: Subscription;
 
     constructor(
         private store: Store<State>,
@@ -110,6 +108,10 @@ export class RunTabSelectComponent implements OnInit, OnDestroy {
             this.router.navigate(['portal/game/' + game.gameId + '/detail/runs']);
         });
 
+    }
+
+    isActiveResults() {
+        return this.router.url.includes('/results/');
     }
 
     ngOnDestroy(): void {
