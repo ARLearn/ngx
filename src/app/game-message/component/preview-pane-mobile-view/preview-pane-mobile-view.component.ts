@@ -91,6 +91,17 @@ import {State} from "../../../core/reducers";
                                 *ngIf="(aggregatePreviewSelector$|async).ptype !== 'answer'">
                         </app-mobile-preview-multiple-choice-image>
                     </div>
+                    <div *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.CombinationLock'">
+                        <app-mobile-preview-answer-feedback
+                                [hideControls]="hideControls"
+                                [answer]="(aggregatePreviewSelector$|async).data"
+                                *ngIf="(aggregatePreviewSelector$|async).ptype === 'answer'"
+                        ></app-mobile-preview-answer-feedback>
+                        <app-mobile-preview-combinationlock
+                                [hideControls]="hideControls"
+                                *ngIf="(aggregatePreviewSelector$|async).ptype !== 'answer'">
+                        </app-mobile-preview-combinationlock>
+                    </div>
                 </div>
             </div>
         </div>

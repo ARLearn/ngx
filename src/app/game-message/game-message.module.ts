@@ -46,6 +46,9 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import { QRCodeModule } from 'angular2-qrcode';
 import { ScreenEditorTypeAudioObjectComponent } from './component/screen-editor-type-select/screen-editor-type-audio-object.component';
 import { MobilePreviewAudioComponent } from './component/preview-pane-mobile-view/mobile-preview-audio.component';
+import { MobilePreviewCombinationlockComponent } from './component/preview-pane-mobile-view/mobile-preview-combinationlock.component';
+import { ScreenEditorTypeCombinationlockComponent } from './component/screen-editor-type-select/screen-editor-type-combinationlock.component';
+import { CombinationEntryComponent } from './component/preview-pane-mobile-view/components/combination-entry.component';
 
 @NgModule({
     declarations: [
@@ -81,7 +84,10 @@ import { MobilePreviewAudioComponent } from './component/preview-pane-mobile-vie
         MobilePreviewScanTageComponent,
         McImagePreviewHeaderComponent,
         ScreenEditorTypeAudioObjectComponent,
-        MobilePreviewAudioComponent
+        MobilePreviewAudioComponent,
+        MobilePreviewCombinationlockComponent,
+        ScreenEditorTypeCombinationlockComponent,
+        CombinationEntryComponent
     ],
     exports: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneMobileViewComponent],
     imports: [

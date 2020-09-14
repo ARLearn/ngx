@@ -154,6 +154,7 @@
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Add answer option",
+		"ADD_COMBINATION_OPTION": "Add Combination",
 		"ADD_DEPENDENCY": "Add dependency",
 		"ANSWERS": "Answers",
 		"ANSWER_IMAGE": "Answer picture",

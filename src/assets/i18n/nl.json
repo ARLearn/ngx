@@ -155,6 +155,7 @@
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Antwoordoptie toevoegen",
+		"ADD_COMBINATION_OPTION": "Combinatie toevoegen",
 		"ADD_DEPENDENCY": "Afhankelijkheid toevoegen",
 		"ANSWERS": "Antwoorden",
 		"ANSWER_IMAGE": "vraag Antwoord afbeelding",

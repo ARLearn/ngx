@@ -37,6 +37,9 @@ import {iCanWrite} from 'src/app/game-management/store/current-game.selector';
                 <app-screen-editor-type-multiple-choice-test
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'">
                 </app-screen-editor-type-multiple-choice-test>
+                <app-screen-editor-type-combinationlock
+                        *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.CombinationLock'">
+                </app-screen-editor-type-combinationlock>
                 <app-screen-editor-type-video-object
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.VideoObject'">
                 </app-screen-editor-type-video-object>
