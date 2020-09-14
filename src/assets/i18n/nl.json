@@ -197,8 +197,10 @@
 		"START_TYPING_TO_SEARCH": "Start met typen om te zoeken",
 		"TEXTQUESTION": "Antwoord met tekst",
 		"VIDEOOBJECT": "Video Object",
+		"AUDIOOBJECT": "Audio Scherm",
 		"VIDEOQUESTION": "Antwoord met video",
-		"VIDEO_OBJECT": "Video scherm"
+		"VIDEO_OBJECT": "Video scherm",
+		"COMBINATIONLOCK": "Ontgrendel - cijfers"
 	},
 	"PORTAL_MANAGEMENT": {
 		"GAMES": {

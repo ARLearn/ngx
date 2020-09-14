@@ -44,6 +44,8 @@ import { McImagePreviewHeaderComponent } from './component/preview-pane-header/m
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import { QRCodeModule } from 'angular2-qrcode';
+import { ScreenEditorTypeAudioObjectComponent } from './component/screen-editor-type-select/screen-editor-type-audio-object.component';
+import { MobilePreviewAudioComponent } from './component/preview-pane-mobile-view/mobile-preview-audio.component';
 
 @NgModule({
     declarations: [
@@ -77,7 +79,9 @@ import { QRCodeModule } from 'angular2-qrcode';
         MobilePreviewMultipleChoiceImageComponent,
         PreviewNavbarComponent,
         MobilePreviewScanTageComponent,
-        McImagePreviewHeaderComponent
+        McImagePreviewHeaderComponent,
+        ScreenEditorTypeAudioObjectComponent,
+        MobilePreviewAudioComponent
     ],
     exports: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneMobileViewComponent],
     imports: [

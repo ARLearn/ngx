@@ -40,6 +40,9 @@ import {iCanWrite} from 'src/app/game-management/store/current-game.selector';
                 <app-screen-editor-type-video-object
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.VideoObject'">
                 </app-screen-editor-type-video-object>
+                <app-screen-editor-type-audio-object
+                        *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.AudioObject'">
+                </app-screen-editor-type-audio-object>
                 <app-screen-editor-type-scan-tag
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.ScanTag'">
                 </app-screen-editor-type-scan-tag>

@@ -32,6 +32,10 @@ import {State} from "../../../core/reducers";
                             [hideControls]="hideControls"
                             *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.VideoQuestion'">
                     </app-mobile-preview-narrator>
+                    <app-mobile-preview-audio
+                            [hideControls]="hideControls"
+                            *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.AudioObject'">
+                    </app-mobile-preview-audio>
                     <app-mobile-preview-scan-tag
                             [hideControls]="hideControls"
                             *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.ScanTag'">

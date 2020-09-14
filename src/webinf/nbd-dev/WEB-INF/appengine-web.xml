@@ -9,12 +9,6 @@
         <service>mail</service>
     </inbound-services>
     <sessions-enabled>true</sessions-enabled>
-    <automatic-scaling>
-        <target-cpu-utilization>0.65</target-cpu-utilization>
-        <min-instances>2</min-instances>
-        <max-instances>20</max-instances>
-        <max-concurrent-requests>50</max-concurrent-requests>
-    </automatic-scaling>
     <staging>
         <enable-jar-classes>false</enable-jar-classes>
     </staging>
