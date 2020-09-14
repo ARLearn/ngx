@@ -114,14 +114,17 @@ export class MobilePreviewCombinationlockComponent implements OnInit, OnDestroy 
     ngOnInit(): void {
         this.subscription = this.message$.subscribe((m: any) => {
             console.log("answers", m.answers);
+            if (m.answers) {
+                m.answers.forEach(a => {
+                    console.log("answers", a);
+                    if (a['isCorrect']) {
+                        this.combination = a['answer']
+                            .trim().substr(0, 5).split('');
+                    }
 
-            m.answers.forEach(a => {
-                console.log("answers", a);
-                if (a['isCorrect']) {
-                    this.combination = a['answer'].trim().substr(0,5).split('');
-                }
+                });
+            }
 
-            });
         });
     }
 
