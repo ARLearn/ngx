@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subscription} from "rxjs";
 import {GameMessage} from "../../../game-messages/store/game-messages.state";
 import {getEditMessageSelector, selectedColor} from "../../store/game-message.selector";
 import {Store} from "@ngrx/store";
@@ -19,10 +19,13 @@ import {State} from "../../../core/reducers";
                     {{(message$|async)?.text}}
                 </div>
                 <div class="make-dark">
+                    <!--                    <div-->
+                    <!--                            *ngFor="let letter of combination"-->
+                    <!--                            >letter {{letter}}</div>-->
                     <div class="combination-outer">
-                        
-                        <app-combination-entry letter="1"></app-combination-entry>
-                        <app-combination-entry letter="2"></app-combination-entry>
+                        <app-combination-entry
+                                *ngFor="let letter of combination"
+                                [letter]="letter"></app-combination-entry>
                     </div>
                 </div>
 
@@ -75,7 +78,7 @@ import {State} from "../../../core/reducers";
             text-align: center;
             color: white;
         }
-        
+
         .combination-outer {
             position: relative;
             top: 230px;
@@ -94,17 +97,38 @@ import {State} from "../../../core/reducers";
         }
     `]
 })
-export class MobilePreviewCombinationlockComponent implements OnInit {
+export class MobilePreviewCombinationlockComponent implements OnInit, OnDestroy {
+
 
     @Input() hideControls = false;
 
+    combination = ['1', '2', '3'];
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     selectedColor$: Observable<string> = this.store.select(selectedColor);
+
+    subscription: Subscription;
 
     constructor(public store: Store<State>) {
     }
 
     ngOnInit(): void {
+        this.subscription = this.message$.subscribe((m: any) => {
+            console.log("answers", m.answers);
+
+            m.answers.forEach(a => {
+                console.log("answers", a);
+                if (a['isCorrect']) {
+                    this.combination = a['answer'].trim().substr(0,5).split('');
+                }
+
+            });
+        });
     }
 
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
 }

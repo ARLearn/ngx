@@ -22,6 +22,9 @@ import {State} from "../../../core/reducers";
             <app-mc-image-preview-header
                     *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.SingleChoiceTest'">
             </app-mc-image-preview-header>
+            <app-mc-image-preview-header
+                    *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.CombinationLock'">
+            </app-mc-image-preview-header>
             <div
                     *ngSwitchDefault="'org.celstec.arlearn2.beans.generalItem.NarratorItem'"
                     class="myDiv primary-background-color">
