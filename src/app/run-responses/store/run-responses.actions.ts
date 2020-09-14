@@ -6,6 +6,7 @@ export enum RunResponseActionTypes {
     ADD_ONE = '[RunResponse] Add One',
     UPDATE_ONE = '[RunResponse] Update One',
     DELETE_ONE = '[RunResponse] Delete One',
+    CLEAR = '[RunResponse] Clear',
     GET_ALL = '[RunResponse] Get All',
     ADD_ALL = '[RunResponse] Add All',
     SELECT_MESSAGE = '[RunResponse] Select Message'
@@ -42,6 +43,14 @@ export class DeleteOne implements Action {
     }
 }
 
+export class Clear implements Action {
+    readonly type = RunResponseActionTypes.CLEAR;
+
+    constructor() {
+    }
+}
+
+
 export class GetAll implements Action {
     readonly type = RunResponseActionTypes.GET_ALL;
 
@@ -71,5 +80,6 @@ export type RunResponseActions
     | AddAll
     | UpdateOne
     | DeleteOne
+    | Clear
     | GetAll
     | SelectMessage;

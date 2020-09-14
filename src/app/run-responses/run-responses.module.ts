@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AudioGalleryComponent } from './components/audio-gallery.component';
 import { GameManagementModule } from "../game-management/game-management.module";
 import { TextQuestionsGalleryComponent } from "./components/text-questions-gallery.component";
+import { VideoGalleryComponent } from "./components/video-gallery.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TextQuestionsGalleryComponent } from "./components/text-questions-galle
       ArlearnResponsesTableComponent,
       PhotoGalleryComponent,
       AudioGalleryComponent,
+      VideoGalleryComponent,
       TextQuestionsGalleryComponent,
   ],
 
