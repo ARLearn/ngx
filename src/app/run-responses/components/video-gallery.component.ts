@@ -24,7 +24,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
     <ng-template #videoPlayer>
         <div class="player">
             <div class="player__video">
-                <video controls>
+                <video controls autoplay #video (loadedmetadata)="video.muted = true">
                     <source [src]="selectedVideo.url" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -32,8 +32,8 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
             <div class="player__content">
                 <div class="player__actions">
                     <div class="player__arrows">
-                        <button mat-icon-button (click)="prevVideo()"><i class="fas fa-arrow-left"></i></button>
-                        <button mat-icon-button (click)="nextVideo()"><i class="fas fa-arrow-right"></i></button>
+                        <button mat-icon-button (click)="prevVideo(video)"><i class="fas fa-arrow-left"></i></button>
+                        <button mat-icon-button (click)="nextVideo(video)"><i class="fas fa-arrow-right"></i></button>
                     </div>
                     <div class="player__close">
                         <button mat-icon-button (click)="close()"><i class="fas fa-times"></i></button>
@@ -62,6 +62,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
         
         .player__video video {
             width: 360px;
+            min-height: 470px;
         }
         
         .player__content {
@@ -242,7 +243,7 @@ export class VideoGalleryComponent implements OnInit, OnChanges {
         });
     }
 
-    public prevVideo() {
+    public prevVideo(videoRef) {
         if (this.selectedVideoIdx === 0) {
             this.selectedVideoIdx = this.videos.length - 1;
         } else {
@@ -250,9 +251,10 @@ export class VideoGalleryComponent implements OnInit, OnChanges {
         }
 
         this.selectedVideo = this.videos[this.selectedVideoIdx];
+        this.playVideo(videoRef);
     }
 
-    public nextVideo() {
+    public nextVideo(videoRef: HTMLVideoElement) {
         if (this.selectedVideoIdx === this.videos.length - 1) {
             this.selectedVideoIdx = 0;
         } else {
@@ -260,6 +262,13 @@ export class VideoGalleryComponent implements OnInit, OnChanges {
         }
 
         this.selectedVideo = this.videos[this.selectedVideoIdx];
+        this.playVideo(videoRef);
+    }
+
+    playVideo(videoRef: HTMLVideoElement) {
+        videoRef.src = this.selectedVideo.url;
+        videoRef.load();
+        videoRef.play();
     }
 
     public close() {
