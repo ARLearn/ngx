@@ -2,12 +2,12 @@
 	"ACTIONS": {
 		"BACK": "TERUG",
 		"DELETE_PLAYER": "Verwijderen",
-		"DELETE_RUN": "",
+		"DELETE_RUN": "Verwijder groep",
+		"DELETE_USER": "Verwijder gebruiker",
 		"ESC": "SLUIT",
 		"RE_INVITE": "verstuur opnieuw",
 		"SAVE": "Opslaan",
-		"SELECT": "Selecteer",
-		"DELETE_USER" : "Verwijder gebruiker"
+		"SELECT": "Selecteer"
 	},
 	"ADMIN": {
 		"FEATURED": {
@@ -29,7 +29,7 @@
 	},
 	"CONFIG": {
 		"CANCEL": "Annuleren",
-		"CREATE": "",
+		"CREATE": "Maak",
 		"LANG": {
 			"DE": "Duits",
 			"EN": "Engels",
@@ -56,7 +56,7 @@
 		"INVITE": "Verstuur uitnodiging",
 		"OWNER": "Eigenaar",
 		"PENDING": "In behandeling",
-		"START_TYPING_TO_SEARCH": "Start typing to search connections ...",
+		"START_TYPING_TO_SEARCH": "Start met typen om contacten te zoeken ...",
 		"VIEWER": "Alleen kijken"
 	},
 	"GAME": {
@@ -82,8 +82,9 @@
 		"DESCRIPTION": "Leg uit voor wie deze game bedoeld is...",
 		"DESCRIPTION_FIELD": "Beschrijving",
 		"EDITGAME": "SPEL AANPASSEN",
-		"FEATURED": "",
+		"FEATURED": "Uitgelichte spellen",
 		"GAMELIB": "Spel bibliotheek",
+		"ICON_ABR": "Icoon afkorting",
 		"IMPORTGAME": "IMPORT SPEL",
 		"LICENSE": {
 			"CC-BY": "Naamsvermelding CC BY",
@@ -103,7 +104,7 @@
 		"MESSAGES": "Berichten",
 		"MYGAMES": "Mijn Games",
 		"NAME_FIELD": "Naam van de game",
-		"NEW_GAME_SCRATCH": "Start from scratch",
+		"NEW_GAME_SCRATCH": "Vanaf nul beginnen",
 		"NEW_GAME_SUBTITLE": "Kies hieronder een basis game template",
 		"NEW_GAME_TITLE": "Maak een nieuwe game",
 		"PUBLIC_ACCESS": "Publieke toegang",
@@ -141,7 +142,7 @@
 		"REMEMBER_ME": "Onthouden",
 		"SOCIAL": "Social Login",
 		"SUBMIT": "LOGIN",
-		"TITLE": ""
+		"TITLE": "Login met je account"
 	},
 	"MEDIA": {
 		"DELETE": "verwijderen",
@@ -161,9 +162,11 @@
 		"ANSWER_IMAGE": "vraag Antwoord afbeelding",
 		"ANSWER_OPTION": "Antwoordoptie",
 		"APPEARS_AFTER": "Dit scherm verschijnt na",
+		"AUDIOOBJECT": "Audio Scherm",
 		"AUDIOQUESTION": "Antwoord met geluid",
 		"AUDIO_OBJECT": "",
 		"BUTTON_TEXT": "Knop tekst",
+		"COMBINATIONLOCK": "Ontgrendel - cijfers",
 		"CONTENT": "Inhoud",
 		"CORRECT_ANSWER": "Goed antwoord",
 		"CREATE": "Maak scherm",
@@ -198,10 +201,8 @@
 		"START_TYPING_TO_SEARCH": "Start met typen om te zoeken",
 		"TEXTQUESTION": "Antwoord met tekst",
 		"VIDEOOBJECT": "Video Object",
-		"AUDIOOBJECT": "Audio Scherm",
 		"VIDEOQUESTION": "Antwoord met video",
-		"VIDEO_OBJECT": "Video scherm",
-		"COMBINATIONLOCK": "Ontgrendel - cijfers"
+		"VIDEO_OBJECT": "Video scherm"
 	},
 	"PORTAL_MANAGEMENT": {
 		"GAMES": {
@@ -217,10 +218,10 @@
 	"ROW_HEADERS": {
 		"DATE": "Datum",
 		"ID": "Identifier",
-		"LABEL": "",
-		"LABEL_TT": "",
+		"LABEL": "Label",
+		"LABEL_TT": "Een label maakt het aanpassen gemakkelijker en kan worden gebruikt om inhoud te filteren tijdens het schrijven. Labels worden niet weergegeven op de speler.",
 		"NAME": "Naam",
-		"NAME_TT": "",
+		"NAME_TT": "Dit is de titel van het bericht zoals het zal verschijnen in de berichtenlijst op de speler.",
 		"PLAYER_NAME": "Naam speler",
 		"SEARCH": "Zoek",
 		"TIME": "Tijd",
@@ -243,9 +244,9 @@
 		"NAME": "Naam",
 		"PASSWORD": "Wachtwoord"
 	},
-	"in range": "in range",
-	"next": "next",
-	"read": "read",
+	"in range": "binnen bereik",
+	"next": "volgend",
+	"read": "geopend",
 	"wireflow": {
 		"action-modal": {
 			"namePlaceholder": "QR label",

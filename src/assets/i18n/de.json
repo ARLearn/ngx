@@ -2,7 +2,8 @@
 	"ACTIONS": {
 		"BACK": "Zurück",
 		"DELETE_PLAYER": "Löschen",
-		"DELETE_RUN": "",
+		"DELETE_RUN": "Gruppe löschen",
+		"DELETE_USER": "Benutzer löschen",
 		"ESC": "Schließen",
 		"RE_INVITE": "Erneut senden",
 		"SAVE": "Speichern",
@@ -28,7 +29,7 @@
 	},
 	"CONFIG": {
 		"CANCEL": "Stornieren",
-		"CREATE": "",
+		"CREATE": "Machen",
 		"LANG": {
 			"DE": "Deutsch",
 			"EN": "Englisch",
@@ -55,7 +56,7 @@
 		"INVITE": "Einladen",
 		"OWNER": "Besitzer",
 		"PENDING": "Ausstehende Kontakte",
-		"START_TYPING_TO_SEARCH": "",
+		"START_TYPING_TO_SEARCH": "Beginnen Sie mit der Eingabe, um nach Verbindungen zu suchen ...",
 		"VIEWER": "schau zu"
 	},
 	"GAME": {
@@ -77,12 +78,13 @@
 		"DEFINE_LOCATION": "Spielstandort festlegen",
 		"DELETEGAME": "SPIEL LÖSCHEN",
 		"DEPGRAPH": "Abhängigkeitsdiagramm",
-		"DESCRIBE_GAME": "",
+		"DESCRIBE_GAME": "Beschreibe dein Spiel",
 		"DESCRIPTION": "Erklären Sie, für wen dieses Spiel ist ...",
 		"DESCRIPTION_FIELD": "Beschreibung",
 		"EDITGAME": "SPIEL ANPASSEN",
-		"FEATURED": "",
+		"FEATURED": "Vorgestellte Spiele",
 		"GAMELIB": "Spielbibliothek",
+		"ICON_ABR": "Symbol Abkürzung",
 		"IMPORTGAME": "IMPORT SPIEL",
 		"LICENSE": {
 			"CC-BY": "",
@@ -91,9 +93,9 @@
 			"CC-BY-NC-SA": "",
 			"CC-BY-ND": "",
 			"CC-BY-SA": "",
-			"CHOOSE": "",
-			"LICENSE": "",
-			"PICK": ""
+			"CHOOSE": "Wählen Sie eine Creative Commons-Lizenz",
+			"LICENSE": "Lizenz",
+			"PICK": "Wählen Sie eine Creative Commons-Lizenz"
 		},
 		"LIST": "Meine Spiele",
 		"LOCATION": "Ort",
@@ -102,9 +104,9 @@
 		"MESSAGES": "Mitteilungen",
 		"MYGAMES": "Meine Spiele",
 		"NAME_FIELD": "Name des Spiels",
-		"NEW_GAME_SCRATCH": "",
+		"NEW_GAME_SCRATCH": "Von vorne beginnen",
 		"NEW_GAME_SUBTITLE": "Wähle unten eine grundlegende Spielvorlage",
-		"NEW_GAME_TITLE": "",
+		"NEW_GAME_TITLE": "Erstelle ein neues Spiel",
 		"PUBLIC_ACCESS": "Öffentlicher Zugang",
 		"QUESTION": "Frage",
 		"SWITCH_THEME": "Ändern",
@@ -154,14 +156,17 @@
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Antwortoption hinzufügen",
+		"ADD_COMBINATION_OPTION": "",
 		"ADD_DEPENDENCY": "Abhängigkeit hinzufügen",
 		"ANSWERS": "Antworten",
 		"ANSWER_IMAGE": "Bild antworten",
 		"ANSWER_OPTION": "Antwortoption",
 		"APPEARS_AFTER": "Dieser Schirm erscheint nach",
+		"AUDIOOBJECT": "",
 		"AUDIOQUESTION": "Antworte mit Ton",
 		"AUDIO_OBJECT": "",
 		"BUTTON_TEXT": "Schaltflächentext",
+		"COMBINATIONLOCK": "",
 		"CONTENT": "Inhalt",
 		"CORRECT_ANSWER": "Korrekte Antwort",
 		"CREATE": "Schirm erstellen",
@@ -213,10 +218,10 @@
 	"ROW_HEADERS": {
 		"DATE": "Datum",
 		"ID": "Identifikator",
-		"LABEL": "",
+		"LABEL": "Etikette",
 		"LABEL_TT": "",
 		"NAME": "Name",
-		"NAME_TT": "",
+		"NAME_TT": "Dies ist der Titel der Nachricht, wie er in der Nachrichtenliste des Players angezeigt wird.",
 		"PLAYER_NAME": "Spielername",
 		"SEARCH": "Suche",
 		"TIME": "Zeit",
@@ -236,11 +241,12 @@
 		"EMAIL": "E-Mail",
 		"EXPIRE_DATE": "Haltbarkeitsdatum",
 		"GENERIC": "Allgemein",
-		"NAME": "Name"
+		"NAME": "Name",
+		"PASSWORD": "Passwort"
 	},
-	"in range": "",
-	"next": "",
-	"read": "",
+	"in range": "In Reichweite",
+	"next": "Nächster",
+	"read": "Geöffnet",
 	"wireflow": {
 		"action-modal": {
 			"namePlaceholder": "QR-Label",
@@ -254,7 +260,7 @@
 		"proximity-modal": {
 			"latitude": "Breite",
 			"latitudePlaceholder": "Breitengrad eingeben",
-			"longitude": "",
+			"longitude": "Längengrad",
 			"longitudePlaceholder": "Längengrad eingeben",
 			"radius": "Radius",
 			"radiusPlaceholder": "Radius eingeben",
