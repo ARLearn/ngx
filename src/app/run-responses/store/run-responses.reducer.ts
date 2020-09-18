@@ -1,10 +1,11 @@
 import {RunResponseActions, RunResponseActionTypes} from './run-responses.actions';
-import { EntityState } from '@ngrx/entity';
-import { createEntityAdapter } from '@ngrx/entity';
+import {createEntityAdapter, EntityState} from '@ngrx/entity';
 import {RunResponse} from './run-responses.state';
 
 export interface RunResponseState extends EntityState<RunResponse> {
     serverTime: number;
+    nextCursor: string;
+    visitedMessages: string[];
 }
 
 export function selectIdentifier(a: RunResponse): string {
@@ -15,7 +16,7 @@ export const arlearnActionsAdapter = createEntityAdapter<RunResponse>(
     {selectId: selectIdentifier}
 );
 
-const initialState: RunResponseState = arlearnActionsAdapter.getInitialState({ serverTime: 1 });
+const initialState: RunResponseState = arlearnActionsAdapter.getInitialState({ serverTime: 1, nextCursor: undefined, visitedMessages: [] });
 
 export function runResponsesReducer(
     state: RunResponseState = initialState,
@@ -39,7 +40,13 @@ export function runResponsesReducer(
             if (!action.responsesFromServer || !action.responsesFromServer.responses) {
                 return state;
             }
-            return arlearnActionsAdapter.upsertMany(action.responsesFromServer.responses, {...state, serverTime: action.responsesFromServer.serverTime});
+            return arlearnActionsAdapter.upsertMany(action.responsesFromServer.responses, {
+                ...state,
+                serverTime: action.responsesFromServer.serverTime,
+                nextCursor: action.responsesFromServer.resumptionToken,
+            });
+        case RunResponseActionTypes.ADD_VISITED_MESSAGES:
+            return { ...state, visitedMessages: [ ...state.visitedMessages, action.id ] }
         default:
             return state;
     }

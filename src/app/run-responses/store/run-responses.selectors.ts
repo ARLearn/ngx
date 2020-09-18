@@ -13,3 +13,11 @@ export const {
 export const getServerTime = createSelector(getArlearnActionsState, (state) => {
     return state.serverTime;
 });
+
+export const getNextCursor = createSelector(getArlearnActionsState, (state) => {
+    return state.nextCursor;
+});
+
+export const getVisitedMessages = createSelector(getArlearnActionsState, (state) => {
+    return state.visitedMessages;
+});
