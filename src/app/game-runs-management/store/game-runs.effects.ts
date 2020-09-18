@@ -13,7 +13,7 @@ import {
     DeleteUserFromRunCompletedAction,
     DeleteUserFromRunRequestAction,
     GameRunsActionTypes, GetCurrentRunFromRouterRequestAction,
-    GetGameRunsCompletedAction,
+    GetGameRunsCompletedAction, GetGameRunsCursorListRequestionAction,
     GetGameRunsRequestAction,
     LoadRunUsersCompletedAction,
     LoadRunUsersRequestAction, RunSaveResponseAction, SetCurrentRunCompleteAction
@@ -26,6 +26,7 @@ import {getCurrentRunId, getEditRunSelector} from './game-runs.selector';
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
 import {GameRun} from "./game-runs.state";
 import {Router} from "@angular/router";
+import * as actions from "../../games-management/store/game.actions";
 
 
 @Injectable()
@@ -60,14 +61,49 @@ export class GameRunsEffects {
         ),
         switchMap(
             ([action, gameId]: [GetGameRunsRequestAction, string]) =>
-                this.gameRuns.listMyRuns(gameId || action.payload.gameId).pipe(
-                    map(res =>
-                        new GetGameRunsCompletedAction(
-                            {gameId: gameId, items: res}
-                        )
+                this.gameRuns.listMyRuns(gameId || action.payload.gameId, null).pipe(
+                    mergeMap(res =>
+                        [
+                            new GetGameRunsCompletedAction(
+                                {gameId: gameId, items: res.runs}
+                            ),
+                            new GetGameRunsCursorListRequestionAction({
+                                gameId,
+                                cursor: res.resumptionToken})
+                        ]
                     ),
                     catchError((error) => of(new SetErrorAction(error.error)))
                 )
+        )
+    );
+
+    @Effect()
+    getRunsCursor: Observable<Action> = this.actions$.pipe(
+        ofType(GameRunsActionTypes.GAME_RUNS_CURSOR_REQUEST),
+        map((action: actions.GetGameCursorListRequestAction) => action),
+        switchMap((action: any) =>
+            this.gameRuns.listMyRuns(action.payload.gameId, action.payload.cursor).pipe(
+                mergeMap(res => {
+                        if (res.resumptionToken != null) {
+                            return [
+                                new GetGameRunsCompletedAction(
+                                    {gameId: action.payload.gameId, items: res.runs}
+                                ),
+                                new GetGameRunsCursorListRequestionAction({
+                                    gameId: action.payload.gameId,
+                                    cursor: res.resumptionToken}
+                                    )
+                            ];
+                        }
+                        return [
+                            new GetGameRunsCompletedAction(
+                                {gameId: action.payload.gameId, items: res.runs}
+                            )
+                        ];
+                    }
+                ),
+                catchError((error) => of(new SetErrorAction(error.error)))
+            )
         )
     );
 

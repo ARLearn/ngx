@@ -9,6 +9,7 @@ export const GameRunsActionTypes = {
 
     GAME_RUNS_REQUESTED: '[GameRuns] Get runs requested',
     GAME_RUNS_COMPLETED: '[GameRuns] Get runs Completed',
+    GAME_RUNS_CURSOR_REQUEST: '[GameRuns] Get runs Cursor Request',
 
     CREATE_RUN_REQUESTED: '[GameRuns] Create run requested',
     CREATE_RUN_COMPLETED: '[GameRuns] Create run Completed',
@@ -82,6 +83,13 @@ export class GetGameRunsCompletedAction implements Action {
     type = GameRunsActionTypes.GAME_RUNS_COMPLETED;
 
     constructor(public payload: any) {
+    }
+}
+
+export class GetGameRunsCursorListRequestionAction implements Action {
+    type = GameRunsActionTypes.GAME_RUNS_CURSOR_REQUEST;
+
+    constructor(public payload: { gameId: string; cursor: string } = null) {
     }
 }
 

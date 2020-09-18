@@ -3,7 +3,7 @@ import {GameRun, gameRunsInitialState, GameRunsState} from './game-runs.state';
 import {CurrentGameActionTypes} from '../../game-management/store/current-game.actions';
 import {PendingPlayer} from '../../player-management/store/player.state';
 import {AuthActionTypes} from "../../auth/store/auth.actions";
-
+import * as _ from 'lodash';
 
 export function reducers(
     state = gameRunsInitialState, action: actions.GameRunsAction): GameRunsState {
@@ -24,7 +24,17 @@ export function reducers(
             if (!action.payload.items) {
                 return state;
             }
-            return Object.assign({}, state, {runs: action.payload.items.map(mapper)});
+            if (state.runs != null && state.runs.length !== 0) {
+
+                return Object.assign({}, state, {
+
+                    runs: _.uniqBy([...state.runs, ...action.payload.items], function (e) {
+                        return e.runId;
+                    })
+                });
+            }
+            return Object.assign({}, state, {runs: action.payload.items});
+            // return Object.assign({}, state, {runs: action.payload.items.map(mapper)});
         }
 
         case actions.GameRunsActionTypes.SELECT_RUN: {

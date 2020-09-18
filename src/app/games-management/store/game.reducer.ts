@@ -24,9 +24,7 @@ export function reducers(
                 return state;
             }
             if (state.list.length != null) {
-                // console.log("in merge")
-                // console.log('lodash version:', _.VERSION);
-// console.log("game list completed ", action.payload);
+
                 return Object.assign({}, state, {
                     loading: false,
                     list: _.uniqBy([...state.list, ...action.payload], function (e) {

@@ -17,6 +17,14 @@ const addOptionalData = (run: GameRun) => {
     return run;
 };
 
+const runTrans = (res: any) => {
+    if (!res.runs) {
+        res.runs = [];
+    }
+    res.runs = res.runs.map(addOptionalData);
+    return res;
+};
+
 @Injectable()
 export class RunService {
 
@@ -40,19 +48,20 @@ export class RunService {
             );
     }
 
-    listMyRuns(gameId: string): Observable<GameRun[]> {
+    listMyRuns(gameId: string, cursor: string): Observable<{ runs: any[]; resumptionToken: string }> {
+        let path = '/runs/' + gameId + '/myList';
+        if (cursor) {
+            path += '?resumptionToken=' + cursor;
+        }
         return this.http
-            .get<any>(environment.api_url + '/runs/' + gameId + '/myList')
-            .pipe(
-                map(res => res.runs ? res.runs.map(addOptionalData) : [])
-            );
+            .get<any>(environment.api_url + path)
+            .pipe(map(runTrans));
     }
 
     createRun(run: any): Observable<GameRun> {
         return this.http
             .post(environment.api_url + '/run/create', run)
             .pipe(map(addOptionalData));
-        ;
     }
 
     addUser(runId: number, userId: string) {

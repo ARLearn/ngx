@@ -30,28 +30,6 @@ export class GameMessagesEffects {
     ) {
     }
 
-    // @Effect()
-    // $isasnit = this.actions$.pipe(
-    //   ofType(ROOT_EFFECTS_INIT),
-    //   tap(x => {
-    //     console.log('IN INIT');
-    //   }),
-    //   filter(x => false)
-    // );
-
-    // importantinit$ = createEffect(() =>
-    //   this.actions$.pipe(
-    //     ofType("@ngrx/router-store/navigated"),
-    //     tap(x => {
-    //       console.log('IN INIT');
-    //     }),
-    //     // tap(x => {
-    //     //   console.log('IN INIT');
-    //     // })
-    //     map(x => new GetGameMessagesCompletedAction({}))
-    //   )
-    // );
-
     @Effect()
     init$: Observable<Action> = this.actions$.pipe(
         ofType(GameMessagesActionTypes.GAME_MESSAGES_REQUESTED, GameMessagesActionTypes.GAME_MESSAGES_COMPLETED),
