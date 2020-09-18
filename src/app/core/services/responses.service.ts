@@ -10,7 +10,28 @@ export class ResponsesService {
     constructor(private http: HttpClient) {
     }
 
-    getResponses(runId: string, from: number, cursor: string): Observable<any> {
+    getAllResponsesForItem(runId: string, itemId: string, cursor: string) {
+        if (cursor == null) {
+            cursor = '*';
+        }
+        return this.http
+            .get<any>(environment.api_url + `/run/response/runId/${runId}/item/${itemId}/${cursor}/all`)
+            .pipe(
+                map(res => {
+                    console.log("res is", res);
+                    if (res.responses) {
+                        res.responses = res.responses.map(responseTransform);
+
+                    } else {
+                        res.responses = [];
+                    }
+                    return res;
+                    // return res.responses ?  res.responses.map(responseTransform) : [];
+                })
+            );
+    }
+
+    getResponsesUntil(runId: string, from: number, cursor: string): Observable<any> {
         console.log("after response is get");
 
         if (cursor == null) {

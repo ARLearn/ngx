@@ -4,7 +4,7 @@ import { Game } from "../../game-management/store/current-game.state";
 import { getGame } from "../../game-management/store/current-game.selector";
 import { Store } from "@ngrx/store";
 import { State } from "../../core/reducers";
-import {Clear, Query, SelectMessage} from "../store/run-responses.actions";
+import {Clear, Load, Query, SelectMessage} from "../store/run-responses.actions";
 import { GetCurrentRunFromRouterRequestAction, GetGameRunsRequestAction } from "../../game-runs-management/store/game-runs.actions";
 import { GetCurrentGameFromRouterRequestAction } from "../../game-management/store/current-game.actions";
 import { PlayerLoadRequestAction } from "../../player-management/store/player.actions";
@@ -66,6 +66,7 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
     styles: [`
         .run-container {
             margin-top: 20px;
+            padding-bottom: 100px;
             display: flex;
             justify-content: flex-start;
             align-content: center;
@@ -179,6 +180,7 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     onSelect(url) {
         this.router.navigate([url]).then(() => {
             this.store.dispatch(new SelectMessage());
+            this.store.dispatch(new Load());
         })
     }
 

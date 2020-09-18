@@ -3,17 +3,26 @@ import {RunResponse} from './run-responses.state';
 
 export enum RunResponseActionTypes {
     QUERY = '[RunResponse] Query',
+    LOAD = '[RunResponse] Load',
     ADD_ONE = '[RunResponse] Add One',
     UPDATE_ONE = '[RunResponse] Update One',
     DELETE_ONE = '[RunResponse] Delete One',
     CLEAR = '[RunResponse] Clear',
     GET_ALL = '[RunResponse] Get All',
     ADD_ALL = '[RunResponse] Add All',
-    SELECT_MESSAGE = '[RunResponse] Select Message'
+    SELECT_MESSAGE = '[RunResponse] Select Message',
+    ADD_VISITED_MESSAGES = '[RunResponse] Add Visited Message'
 }
 
 export class Query implements Action {
     readonly type = RunResponseActionTypes.QUERY;
+
+    constructor() {
+    }
+}
+
+export class Load implements Action {
+    readonly type = RunResponseActionTypes.LOAD;
 
     constructor() {
     }
@@ -63,7 +72,8 @@ export class AddAll implements Action {
 
     constructor(public responsesFromServer: {
         responses: RunResponse[],
-        serverTime: number
+        serverTime: number,
+        resumptionToken: string,
     }) {
     }
 }
@@ -75,6 +85,13 @@ export class SelectMessage implements Action {
     }
 }
 
+export class AddVisitedMessage implements Action {
+    readonly type = RunResponseActionTypes.ADD_VISITED_MESSAGES;
+
+    constructor(public id: string) {
+    }
+}
+
 export type RunResponseActions
     = AddOne
     | AddAll
@@ -82,4 +99,5 @@ export type RunResponseActions
     | DeleteOne
     | Clear
     | GetAll
-    | SelectMessage;
+    | SelectMessage
+    | AddVisitedMessage;
