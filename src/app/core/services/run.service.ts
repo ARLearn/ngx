@@ -40,6 +40,14 @@ export class RunService {
             );
     }
 
+    listMyRuns(gameId: string): Observable<GameRun[]> {
+        return this.http
+            .get<any>(environment.api_url + '/runs/' + gameId + '/myList')
+            .pipe(
+                map(res => res.runs ? res.runs.map(addOptionalData) : [])
+            );
+    }
+
     createRun(run: any): Observable<GameRun> {
         return this.http
             .post(environment.api_url + '/run/create', run)

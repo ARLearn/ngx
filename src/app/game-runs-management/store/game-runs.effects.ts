@@ -60,7 +60,7 @@ export class GameRunsEffects {
         ),
         switchMap(
             ([action, gameId]: [GetGameRunsRequestAction, string]) =>
-                this.gameRuns.listRuns(gameId || action.payload.gameId).pipe(
+                this.gameRuns.listMyRuns(gameId || action.payload.gameId).pipe(
                     map(res =>
                         new GetGameRunsCompletedAction(
                             {gameId: gameId, items: res}

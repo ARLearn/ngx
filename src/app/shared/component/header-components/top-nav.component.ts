@@ -20,7 +20,6 @@ import {getAuthIsAdmin} from "../../../auth/store/auth.selector";
            [routerLink]="'/portal/root/connections'"
         > {{'CONTACT.CONTACTS' |translate}}</a>
         <a
-           *ngIf="isAdmin$ |async"
            class="nav-item uppercase"
            routerLinkActive="active"
            #rla2="routerLinkActive"

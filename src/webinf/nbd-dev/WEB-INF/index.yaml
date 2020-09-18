@@ -82,6 +82,13 @@ indexes:
       - name: localId
       - name: lastModificationDateRun
         direction: asc
+  - kind: RunAccessJDO
+    properties:
+      - name: accountType
+      - name: gameId
+      - name: localId
+      - name: lastModificationDateRun
+        direction: desc
   - kind: UserJDO
     properties:
       - name: deleted
