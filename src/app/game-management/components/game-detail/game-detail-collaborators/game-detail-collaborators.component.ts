@@ -30,6 +30,7 @@ import {AddGameCollaboratorComponent} from "../../../../game-messages/modal/add-
             </div>
             <app-game-detail-collaborator-entry *ngFor="let game_author of (gameAuthors$|async)"
                                                 [author]="game_author"
+                                                [isAbleToDelete]="(gameAuthors$|async).length > 1"
             ></app-game-detail-collaborator-entry>
 
         </div>
