@@ -75,7 +75,7 @@ import {GameDetailLocationComponent} from "./components/game-detail/game-detail-
 
   ],
   entryComponents: [AddAuthorDialogComponent],
-  exports: [GameSidenavComponent, GameDetailPanelComponent, GameDetailSettingsComponent, GameDetailNavbarComponent],
+  exports: [GameSidenavComponent, GameDetailPanelComponent, GameDetailSettingsComponent, GameDetailNavbarComponent, GameDetailCollaboratorsComponent],
   declarations: [GameSidenavComponent, EditorTitleDescriptionComponent,
     GameDetailPanelComponent,
     EditorLocationComponent,

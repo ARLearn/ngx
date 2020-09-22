@@ -31,7 +31,7 @@ import {Observable} from "rxjs";
                 </mat-form-field>
                 <div class="pos-remove"
                      *ngIf="iAmOwner|async"
-                     (click)="delete()">
+                     (click)="isAbleToDelete && delete()">
                     <div class="delete-icon">
                         <mat-icon>delete</mat-icon>
                     </div>
@@ -114,6 +114,7 @@ export class GameDetailCollaboratorEntryComponent implements OnInit {
     public iAmOwner: Observable<boolean> = this.store.pipe(select(iAmOwner));
 
     @Input() author: Player;
+    @Input() isAbleToDelete: boolean = true;
 
 
     constructor(public store: Store<State>) {

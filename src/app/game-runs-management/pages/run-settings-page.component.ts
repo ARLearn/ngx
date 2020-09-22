@@ -26,8 +26,13 @@ import {getEditRunSelector} from "../store/game-runs.selector";
             <app-run-tab-select></app-run-tab-select>
 
             <div class="pos-settings-container">
+                
+                <div>
+                    <app-settings-fields></app-settings-fields>
+                    <app-game-detail-collaborators></app-game-detail-collaborators>
+                </div>
 
-                <app-settings-fields></app-settings-fields>
+                
 
                 <div class="pos-right-pane" *ngIf="(run$|async)?.runConfig.selfRegistration">
                     <div class="pos-vert-line">
@@ -48,7 +53,11 @@ import {getEditRunSelector} from "../store/game-runs.selector";
             </div>
         </div>
     `,
-    styles: [`
+    styles: [`        
+        app-game-detail-collaborators {
+            display: block;
+            margin-left: 84px;
+        }
         .pos-settings-container {
             position: relative;
             /*background-color: blue;*/
