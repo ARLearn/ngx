@@ -4,14 +4,16 @@ import {State} from 'src/app/core/reducers';
 import {
     GetCategoriesRequestAction,
     GetPortalGameRequestAction,
+    SavePortalGameAction,
     SetFeaturedRequest,
     SetPortalGameCategoryRequest
 } from '../store/portal-games.actions';
-import {getPortalEditGame, getPortalGame} from '../store/portal-games.selector';
+import {getPortalEditGame} from '../store/portal-games.selector';
 import * as fromCategories from '../store/category.selectors';
 import {StartUploadAction} from "../../media-library/store/media-lib.actions";
 import {MatSelectChange} from "@angular/material/select";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {tap} from "rxjs/operators";
 
 @Component({
     selector: 'app-manage-game',
@@ -32,7 +34,12 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
                         <div class="form-group">
                             <label class="form-label">Beschrijving</label>
-                            <p class="form-description">{{ game.description }}</p>
+<!--                            <p class="form-description">{{ game.description }}</p>-->
+                            <mat-form-field>
+                                <textarea matInput [(ngModel)]="game.description" mat-autosize></textarea>
+                            </mat-form-field>
+                            
+                            <button color="primary" mat-raised-button (click)="saveDescription(game.description)">Save</button>
                         </div>
 
                         <div class="form-group">
@@ -74,7 +81,8 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
                             <div class="form-group">
                                 <label class="form-label">{{'PORTAL_MANAGEMENT.GAMES.FEATURED_IN_LIBRARY' |translate}}</label>
                                 <div>
-                                    <mat-slide-toggle 
+                                    <mat-slide-toggle
+                                            [checked]="(game$ |async)?.featured"
                                             (change)="setFeatured($event)"
                                             color="primary">{{'PORTAL_MANAGEMENT.GAMES.FEATURED' |translate}}</mat-slide-toggle>
                                 </div>
@@ -193,10 +201,15 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
             margin-right: 1rem;
             margin-bottom: 1rem;
         }
+
+        ::ng-deep .game-details .image-class {
+            width: 515px;
+            height: 245px;
+        }
     `]
 })
 export class ManageGameComponent implements OnInit {
-    public game$ = this.store.select(getPortalEditGame);
+    public game$ = this.store.select(getPortalEditGame).pipe(tap(console.log));
     public categories = this.store.select(fromCategories.selectAll);
 
     constructor(private store: Store<State>) {
@@ -221,6 +234,12 @@ export class ManageGameComponent implements OnInit {
             }));
         }).unsubscribe();
 
+    }
+
+    saveDescription(description: string) {
+    //    TODO: API to save description
+
+        this.store.dispatch(new SavePortalGameAction());
     }
 
     setFeatured(event: MatSlideToggleChange) {

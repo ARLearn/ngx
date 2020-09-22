@@ -15,6 +15,7 @@ export const PortalGamesActionTypes = {
 
     GET_PORTAL_GAME: '[PortalGame] Get portal game',
     SET_PORTAL_GAME: '[PortalGame] Set portal game',
+    SAVE_PORTAL_GAME: '[PortalGame] Save portal game',
 
     SET_PORTAL_GAME_CATEGORY_REQUEST: '[PortalGame] Set portal game category request',
     SET_PORTAL_GAME_CATEGORY_RESPONSE: '[PortalGame] Set portal game category response',
@@ -73,6 +74,12 @@ export class SetPortalGameAction implements Action {
     }
 }
 
+export class SavePortalGameAction implements Action {
+    type = PortalGamesActionTypes.SAVE_PORTAL_GAME;
+
+    constructor(public payload = null) {}
+}
+
 export class SetPortalGameCategoryRequest implements Action {
     type = PortalGamesActionTypes.SET_PORTAL_GAME_CATEGORY_REQUEST;
 
@@ -109,4 +116,5 @@ export type PortalGamesAction =
     | GetPortalGameRequestAction
     | SetPortalGameAction
     | SetFeaturedResponse
-    | SetPortalGameCategoryResponse;
+    | SetPortalGameCategoryResponse
+    | SavePortalGameAction;
