@@ -5,13 +5,15 @@ export interface GameRunsState {
   runs: GameRun[];
   editRun: GameRun;
   players: PendingPlayer[];
+  collaborators: any[];
 }
 
 export const gameRunsInitialState: GameRunsState = {
   selectedRun: 0,
   editRun: null,
   runs: [],
-  players: []
+  players: [],
+  collaborators: [],
 };
 
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {iAmOwner} from "../../../store/current-game.selector";
 
 import {Player} from "../../../../player-management/store/player.state";
@@ -116,6 +116,9 @@ export class GameDetailCollaboratorEntryComponent implements OnInit {
     @Input() author: Player;
     @Input() isAbleToDelete: boolean = true;
 
+    @Output() onDelete = new EventEmitter();
+    @Output() roleChange = new EventEmitter();
+
 
     constructor(public store: Store<State>) {
     }
@@ -125,13 +128,14 @@ export class GameDetailCollaboratorEntryComponent implements OnInit {
     }
 
     delete() {
-        this.store.dispatch(new RemoveGameAuthorRequestAction(this.author));
+        this.onDelete.emit(this.author);
     }
 
     selectionChange(event: any) {
-        this.store.dispatch(new AddGameAuthorRequestAction({
-            fullId: this.author.fullId,
+        this.roleChange.emit({
+            fullId: this.author.fullId || (this.author as any).account,
             role: event.value
-        }));
+        });
+
     }
 }

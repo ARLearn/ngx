@@ -1,11 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {Game} from "../store/current-game.state";
-import {getGame, iAmOwner} from "../store/current-game.selector";
+import {gameAccessWithAccount, getGame, iAmOwner} from "../store/current-game.selector";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {SaveGameRequestAction} from "../store/current-game.actions";
+import {
+    AddGameAuthorRequestAction,
+    RemoveGameAuthorRequestAction,
+    SaveGameRequestAction
+} from "../store/current-game.actions";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {PlayerLoadRequestAction} from "../../player-management/store/player.actions";
 
 @Component({
     selector: 'app-game-settings-fields',
@@ -42,7 +47,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
                 <!--                        [secColor]="(game$|async)?.config?.secondaryColor"-->
                 <!--                ></app-game-detail-prim-sec-color>-->
 
-                <app-game-detail-collaborators></app-game-detail-collaborators>
+                <app-game-detail-collaborators [gameAuthors]="gameAuthors$ | async" (onRoleChange)="onRoleChange($event)" (onDelete)="onAuthorDelete($event)"></app-game-detail-collaborators>
                 <app-game-detail-access [accessValue]="(game$|async)?.sharing"></app-game-detail-access>
                 <app-game-detail-creative-commons
                         *ngIf="(game$|async)?.sharing == 3"></app-game-detail-creative-commons>
@@ -108,6 +113,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
     `]
 })
 export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
+    public gameAuthors$: Observable<any[]> = this.store.pipe(select(gameAccessWithAccount));
 
     public game$: Observable<Game> = this.store.select(getGame);
     public iAmOwner: Observable<boolean> = this.store.pipe(select(iAmOwner));
@@ -122,6 +128,8 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
         this.game$.subscribe((game) => {
             this.localgame = game;
         });
+
+        this.store.dispatch(new PlayerLoadRequestAction());
     }
 
     gameTitleChange(event: any) {
@@ -150,5 +158,13 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
 
     gamePrivateChange($event: MatSlideToggleChange) {
         this.localgame.privateMode = $event.checked;
+    }
+
+    onAuthorDelete(author) {
+        this.store.dispatch(new RemoveGameAuthorRequestAction(author));
+    }
+
+    onRoleChange(data) {
+        this.store.dispatch(new AddGameAuthorRequestAction(data));
     }
 }

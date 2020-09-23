@@ -1,13 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
-import {GetCurrentRunFromRouterRequestAction} from "../store/game-runs.actions";
+import {
+    GameRunCollaboratorsRequestAction,
+    GetCurrentRunFromRouterRequestAction,
+    GrantCollaboratorAccessAction, RevokeCollaboratorAccessAction
+} from "../store/game-runs.actions";
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
 import {GameRun} from "../store/game-runs.state";
-import {getEditRunSelector} from "../store/game-runs.selector";
+import {getCollaborators, getEditRunSelector} from "../store/game-runs.selector";
+import {tap} from "rxjs/operators";
 
 @Component({
     selector: 'app-run-settings-page',
@@ -29,7 +34,7 @@ import {getEditRunSelector} from "../store/game-runs.selector";
                 
                 <div>
                     <app-settings-fields></app-settings-fields>
-                    <app-game-detail-collaborators></app-game-detail-collaborators>
+                    <app-game-detail-collaborators [gameAuthors]="players$ | async" (onRoleChange)="onRoleChange($event)" (onDelete)="onAuthorDelete($event)"></app-game-detail-collaborators>
                 </div>
 
                 
@@ -115,16 +120,37 @@ export class RunSettingsPageComponent implements OnInit {
     public game$: Observable<Game> = this.store.select(getGame);
     run$: Observable<GameRun> = this.store.select(getEditRunSelector);
 
+    players$ = this.store.select(getCollaborators).pipe(tap(console.log));
+
     constructor(private store: Store<State>) {
     }
 
     ngOnInit(): void {
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
         this.store.dispatch(new GetCurrentRunFromRouterRequestAction());
+        this.store.dispatch(new GameRunCollaboratorsRequestAction());
     }
 
     getUrl(runId: number) {
         return 'https://qrfree.kaywa.com/?l=1&d=run:' + runId;
+    }
+
+    onRoleChange(event) {
+        console.log('ROLE CHANGER', event);
+
+        this.store.dispatch(new GrantCollaboratorAccessAction({
+            rights: event.role,
+            author: event.fullId
+        }));
+        //
+    }
+
+    onAuthorDelete(event) {
+        console.log('DELETE', event);
+
+        this.store.dispatch(new RevokeCollaboratorAccessAction({
+            author: event.account
+        }));
     }
 
 }
