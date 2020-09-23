@@ -11,10 +11,10 @@ import {
     DeleteRunCompletedAction,
     DeleteRunRequestAction,
     DeleteUserFromRunCompletedAction,
-    DeleteUserFromRunRequestAction,
+    DeleteUserFromRunRequestAction, GameRunCollaboratorsCompletedAction, GameRunCollaboratorsRequestAction,
     GameRunsActionTypes, GetCurrentRunFromRouterRequestAction,
     GetGameRunsCompletedAction, GetGameRunsCursorListRequestionAction,
-    GetGameRunsRequestAction,
+    GetGameRunsRequestAction, GrantCollaboratorAccessAction,
     LoadRunUsersCompletedAction,
     LoadRunUsersRequestAction, RunSaveResponseAction, SetCurrentRunCompleteAction
 } from './game-runs.actions';
@@ -27,6 +27,7 @@ import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store
 import {GameRun} from "./game-runs.state";
 import {Router} from "@angular/router";
 import * as actions from "../../games-management/store/game.actions";
+import * as fromRoot from "../../core/selectors/router.selector";
 
 
 @Injectable()
@@ -206,6 +207,58 @@ export class GameRunsEffects {
                     ),
                     catchError((error) => of(new SetErrorAction(error.error)))
                 )
+        )
+    );
+
+    @Effect()
+    getCollaboratorsForRun: Observable<Action> = this.actions$.pipe(
+        ofType(GameRunsActionTypes.GAME_RUN_COLLABORATORS_REQUESTED),
+        withLatestFrom(
+            this.store$.select(fromRoot.selectRouteParam('runId'))
+        ),
+        switchMap(
+            ([action, runId]: [GameRunCollaboratorsRequestAction, string]) =>
+            {
+                return this.gameRuns.getCollaboratorsForRun(runId).pipe(
+                    map(res =>
+                        new GameRunCollaboratorsCompletedAction(res)
+                    ),
+                    catchError((error) => of(new SetErrorAction(error.error)))
+                )
+            }
+        )
+    );
+
+    @Effect({ dispatch: false })
+    grantCollaboratorAccess: Observable<Action> = this.actions$.pipe(
+        ofType(GameRunsActionTypes.GRANT_COLLABORATOR_ACCESS),
+        withLatestFrom(
+            this.store$.select(fromRoot.selectRouteParam('runId'))
+        ),
+        switchMap(
+            ([action, runId]: [GrantCollaboratorAccessAction, string]) =>
+            {
+                return this.gameRuns.grantCollaboratorAccess(runId, action.payload.author, action.payload.rights).pipe(
+                    catchError((error) => of(new SetErrorAction(error.error)))
+                )
+            }
+        )
+    );
+
+    @Effect()
+    revokeCollaboratorAccess: Observable<Action> = this.actions$.pipe(
+        ofType(GameRunsActionTypes.REVOKE_COLLABORATOR_ACCESS),
+        withLatestFrom(
+            this.store$.select(fromRoot.selectRouteParam('runId'))
+        ),
+        switchMap(
+            ([action, runId]: [GrantCollaboratorAccessAction, string]) =>
+            {
+                return this.gameRuns.revokeCollaboratorAccess(runId, action.payload.author).pipe(
+                    map(res => new GameRunCollaboratorsRequestAction()),
+                    catchError((error) => of(new SetErrorAction(error.error)))
+                )
+            }
         )
     );
 }

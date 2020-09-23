@@ -26,6 +26,12 @@ export const GameRunsActionTypes = {
     LOAD_RUN_USERS_REQUESTED: '[GameRuns] Load run users Requested',
     LOAD_RUN_USERS_COMPLETED: '[GameRuns] Load run users Completed',
 
+    GAME_RUN_COLLABORATORS_REQUESTED: '[GameRuns] Get collaborators Requested',
+    GAME_RUN_COLLABORATORS_COMPLETED: '[GameRuns] Get collaborators Completed',
+
+    GRANT_COLLABORATOR_ACCESS: '[GameRuns] Grant collaborator access',
+    REVOKE_COLLABORATOR_ACCESS: '[GameRuns] Revoke collaborator access',
+
 
     RUN_UPDATE: '[GameRuns] update run',
     RUN_SAVE: '[GameRuns] update save message',
@@ -177,6 +183,34 @@ export class LoadRunUsersCompletedAction implements Action {
     }
 }
 
+export class GameRunCollaboratorsRequestAction implements Action {
+    type = GameRunsActionTypes.GAME_RUN_COLLABORATORS_REQUESTED;
+
+    constructor(public payload: any = null) {
+    }
+}
+
+export class GameRunCollaboratorsCompletedAction implements Action {
+    type = GameRunsActionTypes.GAME_RUN_COLLABORATORS_COMPLETED;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class GrantCollaboratorAccessAction implements Action {
+    type = GameRunsActionTypes.GRANT_COLLABORATOR_ACCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class RevokeCollaboratorAccessAction implements Action {
+    type = GameRunsActionTypes.REVOKE_COLLABORATOR_ACCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type GameRunsAction
     = GetCurrentRunFromRouterRequestAction
     | SetCurrentRunCompleteAction
@@ -190,5 +224,9 @@ export type GameRunsAction
     | DeleteUserFromRunCompletedAction
     | LoadRunUsersRequestAction
     | LoadRunUsersCompletedAction
-    | SelectRunAction;
+    | SelectRunAction
+    | GameRunCollaboratorsRequestAction
+    | GameRunCollaboratorsCompletedAction
+    | GrantCollaboratorAccessAction
+    | RevokeCollaboratorAccessAction;
 // | GetGameRunsErrorAction;
