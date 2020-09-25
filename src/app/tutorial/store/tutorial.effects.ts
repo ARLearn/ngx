@@ -39,8 +39,8 @@ export class TutorialEffects {
     getGame: Observable<Action> = this.actions$
         .pipe(
             ofType(TutorialActionTypes.GET_GAME),
-            mergeMap((action: GetGameRequestAction) => this.messagesService.listMessages(action.payload)),
-            map((games) => new GetGameResponseAction(games))
+            mergeMap((action: GetGameRequestAction) => this.messagesService.listMessagesWithCursor(action.payload, '*')),
+            map((games) => new GetGameResponseAction(games.generalItems))
         );
 
 

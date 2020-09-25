@@ -16,7 +16,7 @@ export const getVideoGames = createSelector(getTutorialFeature, (state) => state
 export const getMessages = createSelector(getTutorialFeature, (state) => state.messages);
 
 
-export const sortedMessages = createSelector(getMessages, (messages) => messages.sort((a, b) => {
+export const sortedMessages = createSelector(getMessages, (messages) => messages == null ? [] : messages.sort((a, b) => {
         // if (a.sortKey < b.sortKey) {
         //     return -1;
         // }

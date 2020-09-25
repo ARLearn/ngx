@@ -132,6 +132,16 @@
                   "glob": "**/*",
                   "input": "src/assets",
                   "output": "/assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/youplay/_well-known/",
+                  "output": "/_well-known/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/youplay/dynjsp/",
+                  "output": "/dynjsp/"
                 }
               ]
             },
@@ -203,6 +213,16 @@
                   "glob": "**/*",
                   "input": "src/assets",
                   "output": "/assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/nbd/_well-known/",
+                  "output": "/_well-known/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/nbd/dynjsp/",
+                  "output": "/dynjsp/"
                 }
               ]
             },
@@ -243,18 +263,18 @@
                 },
                 {
                   "glob": "**/*",
-                  "input": "src/webinf/nbd-dev/.well-known/",
-                  "output": "/.well-known/"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "src/webinf/nbd-dev/.well-known/",
-                  "output": "/"
+                  "input": "src/webinf/nbd-dev/_well-known/",
+                  "output": "/_well-known/"
                 },
                 {
                   "glob": "**/*",
                   "input": "src/assets",
                   "output": "/assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/nbd-dev/dynjsp/",
+                  "output": "/dynjsp/"
                 }
               ]
             },
@@ -296,6 +316,16 @@
                   "glob": "**/*",
                   "input": "src/assets-moonlite",
                   "output": "/assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/dido/_well-known/",
+                  "output": "/_well-known/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/webinf/dido/dynjsp/",
+                  "output": "/dynjsp/"
                 }
               ]
             }

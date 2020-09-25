@@ -9,7 +9,7 @@ import {sortedMessages} from "../store/tutorial.selector";
 @Component({
     selector: 'app-video-cards',
     template: `
-        <h4 class="topic-heading primary-color">{{ category }} {{showAllVideos}}</h4>
+        <h4 class="topic-heading primary-color">{{ category }}</h4>
         <div class="card-wrapper">
             <app-video-card *ngFor="let video of (videos$ | async)" class="question-card"
                             [video]="video"></app-video-card>
@@ -42,7 +42,7 @@ import {sortedMessages} from "../store/tutorial.selector";
     ]
 })
 export class VideoCardsComponent implements OnInit, OnChanges {
-    @Input() category = 'Test';
+    @Input() category = 'Alle video\'s';
     @Input() videos = [1, 2];
     @Input() showAllVideos = true;
 

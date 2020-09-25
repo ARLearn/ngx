@@ -8,6 +8,7 @@ import {GetCurrentRunFromRouterRequestAction} from "../store/game-runs.actions";
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
 import {GameRun} from "../store/game-runs.state";
 import {getEditRunSelector} from "../store/game-runs.selector";
+import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'app-run-settings-page',
@@ -115,7 +116,8 @@ export class RunSettingsPageComponent implements OnInit {
     }
 
     getUrl(runId: number) {
-        return 'https://qrfree.kaywa.com/?l=1&d=run:' + runId;
+        const url = environment.deep_link + 'run/' + runId;
+        return 'https://qrfree.kaywa.com/?l=1&d=' + url;
     }
 
 }
