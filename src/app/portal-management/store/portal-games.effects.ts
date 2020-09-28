@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {act, Actions, Effect, ofType} from '@ngrx/effects';
 
 import {State} from 'src/app/core/reducers';
-import {Observable} from 'rxjs';
+import {forkJoin, merge, Observable, of} from 'rxjs';
 import {
     PortalGamesActionTypes,
     SetPortalGamesAction,
@@ -22,6 +22,7 @@ import * as fromRoot from "../../core/selectors/router.selector";
 import {GameService} from "../../core/services/game.service";
 import {PortalGame} from "./portal-games.state";
 import {getPortalEditGame} from "./portal-games.selector";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class PortalGamesEffects {
@@ -45,7 +46,16 @@ export class PortalGamesEffects {
         .pipe(
             ofType(PortalGamesActionTypes.GET_PORTAL_GAME),
             withLatestFrom(this.store.select(fromRoot.selectRouteParam('gameId'))),
-            mergeMap(([action, gameId]: [GetPortalGameRequestAction, string]) => this.gameService.get(action.payload || Number.parseInt(gameId, 10))),
+            mergeMap(([action, gameId]: [GetPortalGameRequestAction, string]) => this.gameService.get(action.payload || Number.parseInt(gameId, 10))
+                .pipe(
+                    withLatestFrom(this.portalGamesService.isFeatured(this.translateService.currentLang, gameId as any)),
+                    map(([game, featured]) => {
+                        (game as any).featured = featured;
+
+                        return game;
+                    })
+                )
+            ),
             map((game) => new SetPortalGameAction(game as PortalGame))
         );
 
@@ -69,7 +79,7 @@ export class PortalGamesEffects {
     setFeatured: Observable<Action> = this.actions$
         .pipe(
             ofType(PortalGamesActionTypes.SET_FEATURED_REQUEST),
-            mergeMap((action: SetFeaturedRequest) => this.portalGamesService.setFeatured('nl', action.payload.gameId, 1, action.payload.value)),
+            mergeMap((action: SetFeaturedRequest) => this.portalGamesService.setFeatured(this.translateService.currentLang, action.payload.gameId, 1, action.payload.value)),
             map((res) => new SetFeaturedResponse(res))
         );
 
@@ -98,7 +108,8 @@ export class PortalGamesEffects {
         private actions$: Actions,
         private store: Store<State>,
         private portalGamesService: PortalGamesService,
-        private gameService: GameService
+        private gameService: GameService,
+        private translateService: TranslateService,
     ) {
     }
 }

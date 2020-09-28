@@ -14,6 +14,7 @@ import {StartUploadAction} from "../../media-library/store/media-lib.actions";
 import {MatSelectChange} from "@angular/material/select";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {tap} from "rxjs/operators";
+import {PortalGamesService} from "../../core/services/portal-games.service";
 
 @Component({
     selector: 'app-manage-game',
@@ -203,13 +204,13 @@ import {tap} from "rxjs/operators";
         }
 
         ::ng-deep .game-details .image-class {
-            width: 515px;
-            height: 245px;
+            width: 510px !important;
+            height: 230px !important;
         }
     `]
 })
 export class ManageGameComponent implements OnInit {
-    public game$ = this.store.select(getPortalEditGame).pipe(tap(console.log));
+    public game$ = this.store.select(getPortalEditGame);
     public categories = this.store.select(fromCategories.selectAll);
 
     constructor(private store: Store<State>) {
