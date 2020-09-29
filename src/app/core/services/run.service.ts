@@ -74,6 +74,22 @@ export class RunService {
             .get<any>(environment.api_url + '/run/' + runId + '/users').pipe(map(res => res.users));
     }
 
+    getCollaboratorsForRun(runId: string) {
+        return this.http
+            .get<any>(environment.api_url + '/run/access/' + runId + '/list').pipe(map(res => res.runAccess));
+    }
+
+    grantCollaboratorAccess(runId: string, fullId: string, rights: string) {
+        return this.http
+            .get<any>(environment.api_url + '/run/access/' + runId + '/' + fullId + '/' + rights);
+    }
+
+    revokeCollaboratorAccess(runId: string, fullId: string) {
+        return this.http
+            .delete<any>(environment.api_url + '/run/access/revoke/' + runId + '/' + fullId);
+    }
+
+
     deleteUser(runId: number, fullId: string) {
         return this.http
             .delete<any>(environment.api_url + '/run/' + runId + '/user/' + fullId);

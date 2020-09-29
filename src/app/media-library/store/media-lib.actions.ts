@@ -7,6 +7,7 @@ export const MediaLibraryActionTypes = {
 
     SET_FILES_TO_UPLOAD: '[MediaLibrary] Set Files to upload',
     START_UPLOAD: '[MediaLibrary] (re)start upload',
+    COMPLETED_UPLOAD: '[MediaLibrary] completed upload',
     UPDATE_UPLOAD: '[MediaLibrary] update upload',
 
     SELECT_FILE: '[MediaLibrary] select file',
@@ -44,6 +45,13 @@ export class SetFilesToUploadAction implements Action {
 
 export class StartUploadAction implements Action {
     type = MediaLibraryActionTypes.START_UPLOAD;
+
+    constructor(public payload: any = null) {
+    }
+}
+
+export class UploadCompletedAction implements Action {
+    type = MediaLibraryActionTypes.COMPLETED_UPLOAD;
 
     constructor(public payload: any = null) {
     }

@@ -3,8 +3,8 @@ import {Store} from '@ngrx/store';
 import Debounce from 'debounce-decorator';
 
 import {State} from '../../core/reducers';
-import {GetCategoriesRequestAction, GetPortalGamesRequestAction, SearchPortalGamesRequestAction} from '../store/portal-games.actions';
-import {getPortalGames, getQueryGames} from '../store/portal-games.selector';
+import {GetPortalGamesRequestAction, SearchPortalGamesRequestAction} from '../store/portal-games.actions';
+import {getQueryGames} from '../store/portal-games.selector';
 
 @Component({
     selector: 'app-manage-game-library',
@@ -220,8 +220,6 @@ export class ManageGameLibraryComponent implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(new GetPortalGamesRequestAction());
-
-
     }
 
     @Debounce(300)

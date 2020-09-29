@@ -21,6 +21,7 @@ import {PortalGamesService} from 'src/app/core/services/portal-games.service';
 import * as fromRoot from "../../core/selectors/router.selector";
 import {GameService} from "../../core/services/game.service";
 import {PortalGame} from "./portal-games.state";
+import {getPortalEditGame} from "./portal-games.selector";
 
 @Injectable()
 export class PortalGamesEffects {
@@ -78,6 +79,18 @@ export class PortalGamesEffects {
             ofType(PortalGamesActionTypes.GET_PORTAL_GAMES),
             mergeMap(() => this.portalGamesService.list()),
             map((games) => new SetPortalGamesAction(games))
+        );
+
+    @Effect({ dispatch: false })
+    savePortalGame: Observable<Action> = this.actions$
+        .pipe(
+            ofType(PortalGamesActionTypes.SAVE_PORTAL_GAME),
+            withLatestFrom(
+              this.store.select(getPortalEditGame),
+            ),
+            mergeMap(([action, game]) => {
+                return this.gameService.createGame(game);
+            }),
         );
 
 

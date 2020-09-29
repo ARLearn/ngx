@@ -68,6 +68,10 @@ export function reducers(
             return gameRunsInitialState;
         }
 
+        case actions.GameRunsActionTypes.GAME_RUN_COLLABORATORS_COMPLETED: {
+            return Object.assign({}, state, { collaborators: action.payload });
+        }
+
         default: {
             return state;
         }

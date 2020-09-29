@@ -8,7 +8,7 @@ import {take} from "rxjs/operators";
 @Component({
     selector: 'app-video-card',
     template: `
-        <mat-card [routerLink]="'/portal/tutorial/video/'+video.gameId+'/'+video.id">
+        <mat-card class="video-card" [routerLink]="'/portal/tutorial/video/'+video.gameId+'/'+video.id">
             <img class="question-card-image" mat-card-image [src]="url |async"
                  alt="Photo of a Shiba Inu">
             <mat-card-content>
@@ -21,9 +21,10 @@ import {take} from "rxjs/operators";
             </mat-card-content>
         </mat-card>
     `,
-    styles: [`
-
-
+    styles: [`        
+        .video-card {
+            height: 100%;
+        }
         .question-card-image {
             height: 180px;
             object-fit: cover;

@@ -4,16 +4,10 @@ import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import * as actions from './media-lib.actions';
-import * as actions_current from '../../game-management/store/current-game.actions';
-
 import {State} from 'src/app/core/reducers';
 
-import {catchError, debounceTime, delay, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {SetErrorAction} from '../../shared/store/shared.actions';
-import {AuthActionTypes} from '../../auth/store/auth.actions';
+import {debounceTime, delay, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {
-    GameMessagesActionTypes,
     GetGameMessagesCompletedAction,
     GetGameMessagesRequestAction
 } from "../../game-messages/store/game-messages.actions";
@@ -22,7 +16,7 @@ import {
     CreateFolderCompletedAction,
     GetFolderListCompletedAction,
     GetFolderListRequestAction,
-    MediaLibraryActionTypes
+    MediaLibraryActionTypes, UploadCompletedAction
 } from "./media-lib.actions";
 import {MediaLibraryService} from "../../core/services/medialibrary.service";
 import {
@@ -97,7 +91,7 @@ export class MediaLibraryEffects {
     //     tap(console.log)
     // );
 
-    @Effect({dispatch: false})
+    @Effect()
     startUpload: Observable<Action> = this.actions$.pipe(
         ofType(MediaLibraryActionTypes.START_UPLOAD, MediaLibraryActionTypes.UPDATE_UPLOAD),
 
@@ -121,7 +115,8 @@ export class MediaLibraryEffects {
             }
 
         }),
-
-        tap(console.log)
+        map(() => {
+            return new UploadCompletedAction();
+        })
     );
 }

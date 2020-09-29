@@ -1,14 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
-import {GetCurrentRunFromRouterRequestAction} from "../store/game-runs.actions";
+import {
+    GameRunCollaboratorsRequestAction,
+    GetCurrentRunFromRouterRequestAction,
+    GrantCollaboratorAccessAction, RevokeCollaboratorAccessAction
+} from "../store/game-runs.actions";
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
 import {GameRun} from "../store/game-runs.state";
-import {getEditRunSelector} from "../store/game-runs.selector";
 import {environment} from "../../../environments/environment";
+import {getCollaborators, getEditRunSelector} from "../store/game-runs.selector";
+import {tap} from "rxjs/operators";
 
 @Component({
     selector: 'app-run-settings-page',
@@ -28,7 +33,12 @@ import {environment} from "../../../environments/environment";
 
             <div class="pos-settings-container">
 
-                <app-settings-fields></app-settings-fields>
+                <div>
+                    <app-settings-fields></app-settings-fields>
+                    <app-game-detail-collaborators [gameAuthors]="players$ | async" (onRoleChange)="onRoleChange($event)"
+                                                   (onDelete)="onAuthorDelete($event)"></app-game-detail-collaborators>
+                </div>
+
 
                 <div class="pos-right-pane" *ngIf="(run$|async)?.runConfig.selfRegistration">
                     <div class="pos-vert-line">
@@ -50,6 +60,11 @@ import {environment} from "../../../environments/environment";
         </div>
     `,
     styles: [`
+        app-game-detail-collaborators {
+            display: block;
+            margin-left: 84px;
+        }
+
         .pos-settings-container {
             position: relative;
             /*background-color: blue;*/
@@ -107,17 +122,38 @@ export class RunSettingsPageComponent implements OnInit {
     public game$: Observable<Game> = this.store.select(getGame);
     run$: Observable<GameRun> = this.store.select(getEditRunSelector);
 
+    players$ = this.store.select(getCollaborators).pipe(tap(console.log));
+
     constructor(private store: Store<State>) {
     }
 
     ngOnInit(): void {
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
         this.store.dispatch(new GetCurrentRunFromRouterRequestAction());
+        this.store.dispatch(new GameRunCollaboratorsRequestAction());
     }
 
     getUrl(runId: number) {
         const url = environment.deep_link + 'run/' + runId;
         return 'https://qrfree.kaywa.com/?l=1&d=' + url;
+    }
+
+    onRoleChange(event) {
+        console.log('ROLE CHANGER', event);
+
+        this.store.dispatch(new GrantCollaboratorAccessAction({
+            rights: event.role,
+            author: event.fullId
+        }));
+        //
+    }
+
+    onAuthorDelete(event) {
+        console.log('DELETE', event);
+
+        this.store.dispatch(new RevokeCollaboratorAccessAction({
+            author: event.account
+        }));
     }
 
 }

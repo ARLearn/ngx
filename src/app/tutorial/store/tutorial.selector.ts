@@ -43,6 +43,14 @@ export const currentVideoGame = createSelector(fromRootSelector.selectRouteParam
     }
 );
 
+export const selectedVideoGame = createSelector(
+    getVideoGames,
+    fromRootSelector.selectRouteParam('gameId'),
+    (games, gameId) => {
+        return games.find(x => x.gameId.toString() === gameId)
+    }
+)
+
 export const currentVideoMessage = createSelector(
     getMessages,
     fromRootSelector.selectRouteParam('gameId'),

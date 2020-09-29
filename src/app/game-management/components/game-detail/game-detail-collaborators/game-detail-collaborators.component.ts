@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AddGameAuthorRequestAction, LoadGameAuthorRequestAction} from "../../../store/current-game.actions";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../../core/reducers";
@@ -28,8 +28,11 @@ import {AddGameCollaboratorComponent} from "../../../../game-messages/modal/add-
             <div class="collaborators-small font-regular-11-15-roboto">
                 {{'CONTACT.COLLABORATORS' | translate}}
             </div>
-            <app-game-detail-collaborator-entry *ngFor="let game_author of (gameAuthors$|async)"
+            <app-game-detail-collaborator-entry *ngFor="let game_author of gameAuthors"
                                                 [author]="game_author"
+                                                [isAbleToDelete]="gameAuthors.length > 1"
+                                                (roleChange)="onRoleChange.emit($event)"
+                                                (onDelete)="onDelete.emit($event)"
             ></app-game-detail-collaborator-entry>
 
         </div>
@@ -68,9 +71,12 @@ import {AddGameCollaboratorComponent} from "../../../../game-messages/modal/add-
     `]
 })
 export class GameDetailCollaboratorsComponent implements OnInit {
-    public gameAuthors$: Observable<any[]> = this.store.pipe(select(gameAccessWithAccount));
     public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
     public iAmOwner: Observable<boolean> = this.store.pipe(select(iAmOwner));
+
+    @Input() gameAuthors: any[];
+    @Output() onRoleChange = new EventEmitter();
+    @Output() onDelete = new EventEmitter();
 
     constructor(
         private store: Store<State>,
@@ -79,7 +85,6 @@ export class GameDetailCollaboratorsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store.dispatch(new PlayerLoadRequestAction());
     }
 
     addCollaborator() {
