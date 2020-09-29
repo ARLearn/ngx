@@ -41,17 +41,17 @@ import {State} from "../../core/reducers";
             .featured-outer {
                 display: flex;
                 flex-wrap: wrap;
-                margin-top: 8px;
+                margin: -8px;
+                padding-top: 20px;
             }
 
             .featured-image {
-                width: 232px;
+                width: 236px;
                 height: 134px;
                 background-color: #1b77c5;
                 border-radius: 3px;
                 opacity: 1;
-                margin-top: 16px;
-                margin-right: 16px;
+                margin: 8px;
                 cursor: pointer;
             }
 

@@ -47,6 +47,7 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let element" class="private center">
                         <mat-icon class="table-icon" *ngIf="element.privateMode">lock</mat-icon>
+                        <mat-icon class="table-icon" *ngIf="!element.privateMode">lock_open</mat-icon>
                     </td>
                 </ng-container>
 
@@ -119,6 +120,10 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
         .category,
         .country {
             color: #0000008A;
+        }
+        
+        td.rate {
+            text-align: right;
         }
 
         .cdk-column-title {
