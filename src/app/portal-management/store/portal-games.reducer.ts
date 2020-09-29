@@ -60,6 +60,20 @@ export function reducers(
             });
         }
 
+        case actions.PortalGamesActionTypes.SET_FEATURED_RESPONSE: {
+            const id = action.payload[1];
+            const entity = state.portalGames.entities[id];
+
+            console.log('FROM_SET_FEATURED', action.payload, state.portalGames.entities[id], { ...entity, featured: !!action.payload[0] });
+
+
+
+            return Object.assign({}, state, {
+                portalGames: gamesAdapter.updateOne({ id: entity.gameId, changes: { featured: !!action.payload[0] } as any }, state.portalGames),
+                portalGame: { ...state.portalGame, featured: !!action.payload[0] }
+            });
+        }
+
         // case actions.PortalGamesActionTypes.SET_PORTAL_GAME: {
         //     return {
         //         ...portalGamesInitialState,

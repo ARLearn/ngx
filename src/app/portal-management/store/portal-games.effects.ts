@@ -46,16 +46,16 @@ export class PortalGamesEffects {
         .pipe(
             ofType(PortalGamesActionTypes.GET_PORTAL_GAME),
             withLatestFrom(this.store.select(fromRoot.selectRouteParam('gameId'))),
-            mergeMap(([action, gameId]: [GetPortalGameRequestAction, string]) => this.gameService.get(action.payload || Number.parseInt(gameId, 10))
-                .pipe(
-                    withLatestFrom(this.portalGamesService.isFeatured(this.translateService.currentLang, gameId as any)),
-                    map(([game, featured]) => {
-                        (game as any).featured = featured;
-
-                        return game;
-                    })
-                )
-            ),
+            switchMap(([action, gameId]: [GetPortalGameRequestAction, string]) => {
+                return forkJoin([
+                    this.gameService.get(action.payload || Number.parseInt(gameId, 10)),
+                    this.portalGamesService.isFeatured(this.translateService.currentLang, gameId as any)
+                ])
+            }),
+            map(([game, featured]) => {
+                (game as any).featured = featured;
+                return game;
+            }),
             map((game) => new SetPortalGameAction(game as PortalGame))
         );
 
@@ -80,6 +80,7 @@ export class PortalGamesEffects {
         .pipe(
             ofType(PortalGamesActionTypes.SET_FEATURED_REQUEST),
             mergeMap((action: SetFeaturedRequest) => this.portalGamesService.setFeatured(this.translateService.currentLang, action.payload.gameId, 1, action.payload.value)),
+            withLatestFrom(this.store.select(fromRoot.selectRouteParam('gameId'))),
             map((res) => new SetFeaturedResponse(res))
         );
 
