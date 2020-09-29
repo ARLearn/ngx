@@ -8,10 +8,13 @@ import {SelectionModel} from "@angular/cdk/collections";
 
 import {State} from "../../core/reducers";
 import {Player} from "../../player-management/store/player.state";
-import {Query, CreateAccountRequest, DeleteAccountRequest} from "../store/portal-users.actions";
+import {Query, CreateAccountRequest, DeleteAccountRequest, SuspendAccountRequest} from "../store/portal-users.actions";
 import {selectAll, selectUsersQueryLoading} from '../store/portal-users.selectors';
 import {AddUserDialogComponent} from "../components/add-user-dialog.component";
 import {map} from 'rxjs/operators';
+import {ConfirmDialogComponent} from "../components/confirm-dialog.component";
+import {SetExpireDateDialogComponent} from "../components/set-expire-date-dialog.component";
+import {UpdateAccountExpirationRequestAction} from "../../player-management/store/player.actions";
 
 @Component({
     selector: 'app-manage-users',
@@ -35,12 +38,13 @@ import {map} from 'rxjs/operators';
                             {{ selection.selected.length }} {{ 'SELECTED' | translate }} >
                          </span>
                         <button class="actions-btn" mat-flat-button color="primary"
-                                [matMenuTriggerFor]="menu">{{ 'BTN.ACTIONS' | translate }}
+                                [matMenuTriggerFor]="menu" [disabled]="selection.selected.length === 0">{{ 'BTN.ACTIONS' | translate }}
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item>Item 1</button>
-                            <button mat-menu-item>Item 2</button>
+                            <button mat-menu-item (click)="deleteSelectedUsers()">{{ 'USERS.ACTIONS.DELETE' | translate }}</button>
+                            <button mat-menu-item (click)="suspendSelectedUsers()">{{ 'USERS.ACTIONS.SUSPEND' | translate }}</button>
+                            <button mat-menu-item (click)="setExpireDateToSelectedUsers()">{{ 'USERS.ACTIONS.SET_EXIPRATION_DATE' | translate }}</button>
                         </mat-menu>
                     </div>
                     <div class="search-wrapper">
@@ -345,6 +349,46 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
             this.store.dispatch(new CreateAccountRequest(result));
         }));
     }
+
+    deleteSelectedUsers() {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+        });
+
+        dialogRef.componentInstance.message = 'Are you sure you want to delete these users?';
+
+        this.subscription.add(dialogRef.componentInstance.submit.subscribe(() => {
+            this.selection.selected.forEach(x => this.store.dispatch(new DeleteAccountRequest(x.fullId)))
+            dialogRef.close();
+
+            this.selection.clear();
+        }));
+    }
+
+    suspendSelectedUsers() {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+        });
+
+        dialogRef.componentInstance.message = 'Are you sure you want to suspend these users?';
+
+        this.subscription.add(dialogRef.componentInstance.submit.subscribe(() => {
+            this.selection.selected.forEach(x => this.store.dispatch(new SuspendAccountRequest(x.fullId)))
+            dialogRef.close();
+        }));
+    }
+
+    setExpireDateToSelectedUsers() {
+        const dialogRef = this.dialog.open(SetExpireDateDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+        });
+
+        this.subscription.add(dialogRef.componentInstance.submit.subscribe((value) => {
+            this.selection.selected.forEach(x => this.store.dispatch(new UpdateAccountExpirationRequestAction({ fullId: x.fullId, expiration: value.date.getTime() })))
+            dialogRef.close();
+        }));
+    }
+
 
     deleteUser(userId: string) {
         this.store.dispatch(new DeleteAccountRequest(userId));

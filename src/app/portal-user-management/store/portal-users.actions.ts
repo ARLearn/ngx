@@ -11,6 +11,9 @@ export enum PortalUserActionTypes {
     DELETE_ACCOUNT_REQ = '[PortalUser] Delete Account request',
     DELETE_ACCOUNT_RES = '[PortalUser] Delete Account response',
 
+    SUSPEND_ACCOUNT_REQ = '[PortalUser] Suspend Account request',
+    SUSPEND_ACCOUNT_RES = '[PortalUser] Suspend Account response',
+
     CREATE_ACCOUNT_SUCCESS = '[PortalUser] Create Account Success',
     CREATE_ACCOUNT_ERROR = '[PortalUser] Create Account Error',
 
@@ -31,6 +34,18 @@ export class DeleteAccountRequest implements Action {
 
 export class DeleteAccountResponse implements Action {
     readonly type = PortalUserActionTypes.DELETE_ACCOUNT_RES;
+
+    constructor(public account: Player) {}
+}
+
+export class SuspendAccountRequest implements Action {
+    readonly type = PortalUserActionTypes.SUSPEND_ACCOUNT_REQ;
+
+    constructor(public fullId: string = null) {}
+}
+
+export class SuspendAccountResponse implements Action {
+    readonly type = PortalUserActionTypes.SUSPEND_ACCOUNT_RES;
 
     constructor(public account: Player) {}
 }
