@@ -158,7 +158,7 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.themes$.subscribe(themes => {
             if (!this.selectedTheme) {
-                this.selectedTheme = themes.find(t => t.themeId == '1');
+                this.selectedTheme = { ...themes.find(t => t.themeId == '1') };
 
                 if (this.selectedTheme) {
                     this.selectedTheme.backgroundPath = this.getDownloadUrl(this.selectedTheme.backgroundPath);
@@ -171,7 +171,7 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
             withLatestFrom(this.themes$),
             filter(([_, themes]) => themes && themes.length)
         ).subscribe(([theme, themes]) => {
-            this.selectedTheme = themes.find(t => t.themeId == theme);
+            this.selectedTheme = { ...themes.find(t => t.themeId == theme) };
 
             if (this.selectedTheme) {
                 this.selectedTheme.backgroundPath = this.getDownloadUrl(this.selectedTheme.backgroundPath);

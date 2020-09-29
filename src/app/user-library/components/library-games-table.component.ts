@@ -43,10 +43,11 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
                     <td mat-cell *matCellDef="let element" class="country"> {{element.language}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="private">
+                <ng-container matColumnDef="privateMode">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let element" class="private center">
-                        <mat-icon class="table-icon" *ngIf="element.private">lock</mat-icon>
+                        <mat-icon class="table-icon" *ngIf="element.privateMode">lock</mat-icon>
+                        <mat-icon class="table-icon" *ngIf="!element.privateMode">lock_open</mat-icon>
                     </td>
                 </ng-container>
 
@@ -54,8 +55,7 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let element" class="rate">
                             <span> <mat-icon class="table-icon" color="primary">star</mat-icon>
-                                {{ element.rate }} </span>
-                        <span class="reviews"> ({{ element.reviews }}) </span>
+                                {{ element.sharing }} </span>
                     </td>
                 </ng-container>
 
@@ -121,6 +121,10 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
         .country {
             color: #0000008A;
         }
+        
+        td.rate {
+            text-align: right;
+        }
 
         .cdk-column-title {
             max-width: 160px;
@@ -149,7 +153,7 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
 })
 export class LibraryGamesTableComponent implements OnInit {
     public data$ = this.store.select(getLibraryQueryGames);
-    public displayedColumns: string[] = ['icon', 'title', 'date', ]; //'category', 'language', 'private', 'rate'
+    public displayedColumns: string[] = ['icon', 'title', 'date', 'privateMode', 'rate']; //'category', 'language', 'private', 'rate'
 
     constructor(private store: Store<State>) {
     }

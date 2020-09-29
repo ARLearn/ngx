@@ -40,6 +40,12 @@ export class PortalGamesService {
             .pipe(map(result => result.games ? result.games : []));
     }
 
+    isFeatured(lang: string, gameId: number): Observable<boolean> {
+        return this.http
+            .get<any>(environment.api_url + '/games/featured/gameId' + '/' + gameId)
+            .pipe(map(result => result.games ? result.games.some(x => x.language === lang) : false));
+    }
+
     setFeatured(lang: string, gameId: number, rank: number, on: boolean) {
         if (on) {
             return this.http
