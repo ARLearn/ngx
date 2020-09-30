@@ -40,8 +40,9 @@ import {State} from "../../core/reducers";
 
             .featured-outer {
                 display: flex;
-                margin-top: 22px;
-                cursor: pointer;
+                flex-wrap: wrap;
+                margin: -8px;
+                padding-top: 20px;
             }
 
             .featured-image {
@@ -50,7 +51,8 @@ import {State} from "../../core/reducers";
                 background-color: #1b77c5;
                 border-radius: 3px;
                 opacity: 1;
-                margin-right: 16px;
+                margin: 8px;
+                cursor: pointer;
             }
 
             .positioned-image {
