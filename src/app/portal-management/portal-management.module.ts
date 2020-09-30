@@ -10,16 +10,18 @@ import { SharedModule } from "../shared/shared.module";
 import { PortalGamesEffects } from './store/portal-games.effects';
 import { reducers } from './store/portal-games.reducer';
 import { FeaturedImageDragDropComponent } from './components/featured-image-drag-drop.component';
+import {UserLibraryModule} from "../user-library/user-library.module";
 
 
 @NgModule({
   declarations: [ManageGameLibraryComponent, ManageGameComponent, FeaturedImageDragDropComponent],
-  imports: [
-    SharedModule.forChild(),
-    CommonModule,
-    StoreModule.forFeature('portalGames', reducers),
-    EffectsModule.forFeature([PortalGamesEffects]),
-  ],
+    imports: [
+        SharedModule.forChild(),
+        CommonModule,
+        StoreModule.forFeature('portalGames', reducers),
+        EffectsModule.forFeature([PortalGamesEffects]),
+        UserLibraryModule,
+    ],
   exports: [ManageGameLibraryComponent, ManageGameComponent],
 })
 export class PortalManagementModule { }

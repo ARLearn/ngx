@@ -23,7 +23,7 @@ import {PortalGamesService} from "../../core/services/portal-games.service";
         </app-top-level-navbar>
         <div class="game maxwidth d-flex" *ngIf="game$ | async as game">
             <div class="game-icon">
-                <img [src]="'/assets/images/games/' + game.icon + '.png'" alt="game"/>
+                <app-game-icon [game]="game"></app-game-icon>
             </div>
             <div class="game-details">
                 <div class="d-flex">
