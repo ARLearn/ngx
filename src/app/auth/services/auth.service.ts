@@ -104,6 +104,7 @@ export class AuthService {
                         isAdmin: !!idTokenResult.claims.admin,
                         isAdvanced: !!idTokenResult.claims.advanced,
                         isDistributor: !!idTokenResult.claims.distributor,
+                        expirationDate: Number.parseInt(idTokenResult.claims.expirationDate, 10),
                     };
                 })
             );

@@ -4,6 +4,7 @@ export interface AuthState {
   isAdmin: boolean;
   isAdvanced: boolean;
   isDistributor: boolean;
+  expirationDate: number;
   error: any;
 }
 
@@ -13,6 +14,7 @@ export const authInitialState: AuthState = {
   isAdmin: false,
   isAdvanced: false,
   isDistributor: false,
+  expirationDate: -1,
   error: null
 };
 
@@ -30,4 +32,5 @@ export interface UserClaim {
   isAdmin: boolean;
   isAdvanced: boolean;
   isDistributor: boolean;
+  expirationDate: number;
 }

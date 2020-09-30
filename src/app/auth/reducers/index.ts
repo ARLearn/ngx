@@ -15,6 +15,7 @@ export function reducers(
         isAdmin: action.payload.isAdmin,
         isAdvanced: action.payload.isAdvanced,
         isDistributor: action.payload.isDistributor,
+        expirationDate: action.payload.expirationDate,
         error: null
       });
     }
@@ -31,7 +32,8 @@ export function reducers(
         isAdmin: false,
         isAdvanced: false,
         isDistributor: false,
-        isLoggedIn: false
+        isLoggedIn: false,
+        expirationDate: -1,
       });
     }
 

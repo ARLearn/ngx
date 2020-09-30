@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {Observable} from "rxjs";
-import {getCurrentUser} from "../../store/auth.selector";
+import {getCurrentUser, getExpirationDate} from "../../store/auth.selector";
 import {LogoutRequestedAction} from "../../store/auth.actions";
 import {LoadUserRequestAction} from "../../../user-management/store/portal-user.actions";
 
@@ -22,6 +22,7 @@ import {LoadUserRequestAction} from "../../../user-management/store/portal-user.
                         </div>
                         <div class="display-panel-user-name font-medium-16-24-roboto color-black-de">{{(user$|async).displayName}}</div>
                         <div class="display-panel-user-email font-regular-14-24-roboto color-black-de">{{(user$|async).email}}</div>
+                        <div class="display-panel-expires font-regular-14-24-roboto color-black-de">Expires: {{expirationDate|async| date:'mediumDate'}}</div>
                     </div>
                     <div class="display-panel-line-separator"></div>
 
@@ -108,7 +109,19 @@ import {LoadUserRequestAction} from "../../../user-management/store/portal-user.
             width: 179px;
             height: 19px;
             text-align: left;
-            
+            opacity: 0.5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .display-panel-expires {
+            position: absolute;
+            top: 58px;
+            left: 92px;
+            width: 179px;
+            height: 19px;
+            text-align: left;
             opacity: 0.5;
             white-space: nowrap;
             overflow: hidden;
@@ -135,6 +148,7 @@ export class UserDropDownDisplayComponent implements OnInit {
         'background': "transparent url('https://lh3.googleusercontent.com/a-/AAuE7mAef8ckla4oidgVEstZRNJOYHjnQQ7vKnOQ_jJeGk0=w74') 0% 0% no-repeat padding-box"
     };
     user$: Observable<any> = this.store.select(getCurrentUser);
+    expirationDate: Observable<number> = this.store.select(getExpirationDate);
 
 
     constructor(private store: Store<State>

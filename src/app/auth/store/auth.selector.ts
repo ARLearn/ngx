@@ -18,6 +18,7 @@ export const getIsUserLoggedIn = (state: AuthState) => state.isLoggedIn;
 export const getIsAdmin = (state: AuthState) => state.isAdmin;
 export const getIsAdvanced = (state: AuthState) => state.isAdvanced;
 export const getIsDistributor = (state: AuthState) => state.isDistributor;
+export const _getExpirationDate = (state: AuthState) => state.expirationDate;
 export const getError = (state: AuthState) => state.error;
 export const currentUser = (state: AuthState) => state.user;
 export const getBearerToken = (state: AuthState) => {
@@ -35,7 +36,7 @@ export const getAuthIsAdmin = createSelector(getAuthState, getIsAdmin);
 export const getAuthIsAvanced = createSelector(getAuthState, getIsAdvanced);
 export const getAuthError = createSelector(getAuthState, getError);
 export const getCurrentUser = createSelector(getAuthState, currentUser);
-
+export const getExpirationDate = createSelector(getAuthState, _getExpirationDate);
 
 
 export const getAuthErrorPipe = pipe(
