@@ -15,7 +15,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {NewGameComponent} from '../../modal/new-game/new-game.component';
 import {SetFilterAction} from "../../../game-messages/store/game-messages.actions";
 import {getFiltersSelector} from "../../../game-messages/store/game-messages.selector";
-import {take} from "rxjs/operators";
+import {take, tap} from "rxjs/operators";
+import { selectEntities } from 'src/app/game-themes/store/game-theme.selectors';
+import {Query} from "../../../game-themes/store/game-theme.actions";
 
 @Component({
     selector: 'app-games-list',
@@ -45,7 +47,7 @@ import {take} from "rxjs/operators";
                                      *ngFor="let game of (gameList$|async)"
                                      [title]="game.title"
                                      [subtitle]="game.lastModificationDate | date:'mediumDate'"
-                                     [imagePath]="game.splashScreen"
+                                     [imagePath]="game.splashScreen || themes[game.theme]?.backgroundPath"
                                      [actionText]="['GAME.DELETEGAME', 'GAME.CLONEGAME']"
                                      [clickText]="'GAME.EDITGAME'"
                                      [navTo]="'/portal/game/' +game.gameId+ '/detail/screens'"
@@ -114,10 +116,12 @@ import {take} from "rxjs/operators";
     `]
 })
 export class GamesListComponent implements OnInit, OnDestroy {
-    gameList$: Observable<Game[]> = this.store.select(getFilteredGamesSelector);
+    gameList$: Observable<Game[]> = this.store.select(getFilteredGamesSelector).pipe(tap(console.log));
     public currentFilter$: Observable<string[]> = this.store.select(getGamesFiltersSelector).pipe(
         take(1),
     );
+
+    public themes = {};
 
     private filterSubscription: Subscription;
     public filter: string;
@@ -127,11 +131,15 @@ export class GamesListComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private store: Store<State>
     ) {
-
     }
 
     ngOnInit() {
+        this.store.dispatch(new Query());
+
         this.filterSubscription = this.currentFilter$.subscribe((f) => this.filter = f[0]);
+
+        this.store.select(selectEntities)
+            .subscribe(themes => this.themes = themes);
     }
 
     newGame() {
