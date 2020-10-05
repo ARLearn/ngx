@@ -40,7 +40,7 @@ import {getQueryGames} from '../store/portal-games.selector';
                     <ng-container matColumnDef="icon">
                         <th mat-header-cell *matHeaderCellDef class="icon"></th>
                         <td mat-cell *matCellDef="let element" class="icon">
-                            <img class="icon" [src]="'/assets/images/games/' + element.icon + '.png'"/>
+                            <app-game-icon [game]="element"></app-game-icon>
                         </td>
                     </ng-container>
 

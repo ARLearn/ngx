@@ -13,6 +13,8 @@ import {getFilteredMessagesSelector, getFiltersSelector} from "../../store/game-
 import {take, tap} from "rxjs/operators";
 import {SetGamesFilterAction} from "../../../games-management/store/game.actions";
 import {environment} from "../../../../environments/environment";
+import {selectEntities} from "../../../game-themes/store/game-theme.selectors";
+import {Query} from "../../../game-themes/store/game-theme.actions";
 
 @Component({
     selector: 'app-game-detail-screens',
@@ -43,7 +45,7 @@ import {environment} from "../../../../environments/environment";
                                          [title]="message.name"
                                          [isVideo]="message.type === 'org.celstec.arlearn2.beans.generalItem.VideoObject'"
                                          [subtitle]="message.lastModificationDate | date:'mediumDate'"
-                                         [imagePath]="message?.fileReferences?.background"
+                                         [imagePath]="message?.fileReferences?.background || themes[(game$ | async)?.theme]?.backgroundPath"
                                          [videoPath]="message?.fileReferences ?message?.fileReferences['video']:null"
                                          [actionText]="['MESSAGE.DELETEMESSAGE']"
                                          [clickText]="'MESSAGE.EDIT_MESSAGE' "
@@ -93,6 +95,9 @@ export class    GameDetailScreensComponent implements OnInit, OnDestroy {
     public currentFilter$: Observable<string[]> = this.store.select(getFiltersSelector).pipe(
         take(1),
     );
+
+    public themes = {};
+
     public dispatchAction = new SetFilterAction();
     private filterSubscription: Subscription;
     public filter: string;
@@ -105,9 +110,12 @@ export class    GameDetailScreensComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.store.dispatch(new Query());
         this.store.dispatch(new GetGameMessagesRequestAction());
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
         this.filterSubscription = this.currentFilter$.subscribe((f) => this.filter = f[0]);
+        this.store.select(selectEntities)
+            .subscribe(themes => this.themes = themes);
     }
 
     newMessage() {

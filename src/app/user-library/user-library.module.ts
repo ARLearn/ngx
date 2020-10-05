@@ -13,7 +13,10 @@ import { GameLibararyUserViewgameComponent } from './pages/game-libarary-user-vi
 
 
 @NgModule({
-  declarations: [GameLibraryUserComponent, FeaturedBannerComponent, LibraryGamesTableComponent, GameIconComponent, GameLibararyUserViewgameComponent],
+    declarations: [GameLibraryUserComponent, FeaturedBannerComponent, LibraryGamesTableComponent, GameIconComponent, GameLibararyUserViewgameComponent],
+    exports: [
+        GameIconComponent
+    ],
     imports: [
         CommonModule,
         SharedModule.forChild(),

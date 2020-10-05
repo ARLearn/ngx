@@ -215,7 +215,11 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
             padding-bottom: 0.8rem;
         }
 
-        tr.bin-element-row td:first-child {
+        th.mat-header-cell:first-of-type {
+            padding-left: 0 !important;
+        }
+
+        tr.bin-element-row td:first-child{
             padding-left: 0;
             padding-right: 1rem;
         }
@@ -230,10 +234,6 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
 
         tr.example-element-row:active {
             background: #efefef;
-        }
-
-        .users .cdk-header-row {
-            display: none;
         }
 
         @media only screen and (max-width: 900px) {
