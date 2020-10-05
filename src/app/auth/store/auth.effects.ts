@@ -10,9 +10,6 @@ import {catchError, delay, map, switchMap, take, tap} from 'rxjs/operators';
 import * as actions from './auth.actions';
 import {UserClaim} from '../state/auth.state';
 import {AccountService} from "../../core/services/account.service";
-import {LogoutRequestedAction} from "./auth.actions";
-import {Store} from "@ngrx/store";
-import {State} from "../../core/reducers";
 
 @Injectable()
 export class AuthEffects {
@@ -20,8 +17,7 @@ export class AuthEffects {
         private authService: AuthService,
         private accountService: AccountService,
         private actions$: Actions,
-        private router: Router,
-        private store: Store<State>
+        private router: Router
     ) {
     }
 
@@ -33,18 +29,6 @@ export class AuthEffects {
         // tap(x => console.log('relogin!!!')),
         switchMap(payload => this.authService.currentUser().pipe(
             switchMap(userCredential => this.authService.checkClaim(userCredential)),
-            tap(claim => {
-               const now =  Date.now();
-               if (now > claim.expirationDate) {
-                   console.log("logout... you are not authenticated");
-
-                   this.store.dispatch(new actions.AuthErrorAction({error: "account expired"}));
-                   this.store.dispatch(new LogoutRequestedAction());
-                   this.router.navigate(['/']);
-               } else {
-                   console.log("all ok...");
-               }
-            }),
             map((fromClaim: UserClaim) => new actions.LoginCompletedAction(fromClaim)),
             // tap((res) => {
             //   this.router.navigate(['/about']);

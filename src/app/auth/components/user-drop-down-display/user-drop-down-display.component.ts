@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
-import {Observable} from "rxjs";
-import {getCurrentUser, getExpirationDate} from "../../store/auth.selector";
+import {Observable, of} from "rxjs";
+import {getCurrentUser} from "../../store/auth.selector";
 import {LogoutRequestedAction} from "../../store/auth.actions";
 import {LoadUserRequestAction} from "../../../user-management/store/portal-user.actions";
 
@@ -148,7 +148,7 @@ export class UserDropDownDisplayComponent implements OnInit {
         'background': "transparent url('https://lh3.googleusercontent.com/a-/AAuE7mAef8ckla4oidgVEstZRNJOYHjnQQ7vKnOQ_jJeGk0=w74') 0% 0% no-repeat padding-box"
     };
     user$: Observable<any> = this.store.select(getCurrentUser);
-    expirationDate: Observable<number> = this.store.select(getExpirationDate);
+    expirationDate: Observable<number> = of(0);//this.store.select(getExpirationDate);
 
 
     constructor(private store: Store<State>

@@ -67,7 +67,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         if (token === '') {
             return next.handle(request).toPromise();
         }
-        // console.log("token is ", token)
+        if (token == null) {
+            console.log("TOKEN IS NOW NULLL !!!!");
+        }
+        console.log("token is ", token);
         const authReq = request.clone({
             setHeaders: {Authorization: 'Bearer ' + token},
         });
