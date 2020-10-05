@@ -105,15 +105,19 @@ import {getLibraryQueryGames} from "../store/user-library.selectors";
         }
 
         .description {
-            /*max-width: 320px;*/
             font-size: 12px;
-            margin: 0;
             color: #1919198A;
-            text-overflow: ellipsis;
             max-height: 3.6em;
             line-height: 1.8em;
             word-wrap: break-word;
+
+            display: -webkit-box;
+            max-width: 70%;
+            margin: 0;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .date,
