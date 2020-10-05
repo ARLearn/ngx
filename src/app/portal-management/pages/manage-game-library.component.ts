@@ -17,22 +17,22 @@ import {getQueryGames} from '../store/portal-games.selector';
             <div class="mb-3 d-flex align-items-center justify-content-between">
                 <div class="search-input">
                     <mat-form-field appearance="standard" class="search-input">
-                        <mat-label>Starting type to search games...</mat-label>
-                        <input matInput placeholder="Starting type to search games..."
+                        <mat-label>{{'MESSAGE.START_TYPING_TO_SEARCH'|translate}}</mat-label>
+                        <input matInput [placeholder]="'MESSAGE.START_TYPING_TO_SEARCH'|translate"
                                (input)="onQueryChange($event.target.value)"
                         >
                         <mat-icon class="search-icon" matPrefix>search</mat-icon>
                     </mat-form-field>
                 </div>
-                <div>
-                    <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Rating
-                        <mat-icon>arrow_drop_down</mat-icon>
-                    </button>
-                    <mat-menu #orgMenu="matMenu">
-                        <button mat-menu-item>Item 1</button>
-                        <button mat-menu-item>Item 2</button>
-                    </mat-menu>
-                </div>
+<!--                <div>-->
+<!--                    <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Rating-->
+<!--                        <mat-icon>arrow_drop_down</mat-icon>-->
+<!--                    </button>-->
+<!--                    <mat-menu #orgMenu="matMenu">-->
+<!--                        <button mat-menu-item>Item 1</button>-->
+<!--                        <button mat-menu-item>Item 2</button>-->
+<!--                    </mat-menu>-->
+<!--                </div>-->
             </div>
 
             <ng-container *ngIf="data$ | async as dataSource">
@@ -210,7 +210,7 @@ export class ManageGameLibraryComponent implements OnInit {
         },
         {
             routerLink: '/portal/root/usrmgt',
-            label: 'PORTAL_MANAGEMENT.USERS'
+            label: 'PORTAL_MANAGEMENT.USERS.MENU'
         },
     ];
 

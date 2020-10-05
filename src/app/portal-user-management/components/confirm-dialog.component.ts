@@ -22,12 +22,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
         </div>
         <form class="maxwidth">
             <div class="pos-title primary-color font-medium-32-43-roboto">
-                {{ 'CONFIRM.ACTION' | translate }}
+                {{ 'BTN.CONFIRM_ACTION' | translate }}
             </div>
             
             <div class="pos-inner-block">
                 <div class="message">
-                    {{ message }}
+                    {{ message | translate}}
                 </div>
 
                 <div class="actions">

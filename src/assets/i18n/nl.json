@@ -27,8 +27,12 @@
 		"OVERVIEW": "Overzicht",
 		"PRIMARY_COLOR": "Primaire steunkleur"
 	},
-	"CONFIG": {
+	"BTN": {
 		"CANCEL": "Annuleren",
+		"SUBMIT": "Instellen",
+		"CONFIRM_ACTION": "Bevestiging?"
+	},
+	"CONFIG": {
 		"CREATE": "Maak",
 		"LANG": {
 			"DE": "Duits",
@@ -213,7 +217,16 @@
 			"USER_ACCESS": "Toegang gebruikers"
 		},
 		"LABEL": "Portaal beheer",
-		"USERS": "Gebruikers"
+		"USERS": {
+			"MENU" : "Gebruikers",
+			"ACTION" : "ACTIE",
+			"ACTIONS_DELETE": "Verwijder gebruiker(s)",
+			"ACTIONS_SUSPEND": "Account(s) Uitschakelen",
+			"ACTIONS_SET_EXIPRATION_DATE": "Vervaldatum instellen",
+			"EXPIRES_DATE_LABEL" : "Stel datum in waarop deze account vervalt.",
+			"CONFIRM_USER_DELETION" : "Ben je zeker dat je deze gebruikers wilt verwijderen?",
+			"CONFIRM_USER_SUSPENSION" : "Ben je zeker dat je toegang voor deze gebruikers wilt opschorten?"
+		}
 	},
 	"ROW_HEADERS": {
 		"DATE": "Datum",
@@ -225,7 +238,8 @@
 		"PLAYER_NAME": "Naam speler",
 		"SEARCH": "Zoek",
 		"TIME": "Tijd",
-		"TITLE": "Titel"
+		"TITLE": "Titel",
+		"EMAIL": "E-mail"
 	},
 	"RUNS": {
 		"GROUP_NAME": "Naam van de groep",

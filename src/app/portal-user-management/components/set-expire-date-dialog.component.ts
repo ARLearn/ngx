@@ -22,7 +22,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
         </div>
         <form class="maxwidth" [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
             <div class="pos-title primary-color font-medium-32-43-roboto">
-                {{ 'USERS.EXPIRES_DATE' | translate }}
+                {{ 'PORTAL_MANAGEMENT.USERS.EXPIRES_DATE_LABEL' | translate }}
             </div>
             
             <div class="pos-inner-block">

@@ -38,13 +38,13 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
                             {{ selection.selected.length }} {{ 'SELECTED' | translate }} >
                          </span>
                         <button class="actions-btn" mat-flat-button color="primary"
-                                [matMenuTriggerFor]="menu" [disabled]="selection.selected.length === 0">{{ 'BTN.ACTIONS' | translate }}
+                                [matMenuTriggerFor]="menu" [disabled]="selection.selected.length === 0">{{ 'PORTAL_MANAGEMENT.USERS.ACTION' | translate }}
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="deleteSelectedUsers()">{{ 'USERS.ACTIONS.DELETE' | translate }}</button>
-                            <button mat-menu-item (click)="suspendSelectedUsers()">{{ 'USERS.ACTIONS.SUSPEND' | translate }}</button>
-                            <button mat-menu-item (click)="setExpireDateToSelectedUsers()">{{ 'USERS.ACTIONS.SET_EXIPRATION_DATE' | translate }}</button>
+                            <button mat-menu-item (click)="deleteSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_DELETE' | translate }}</button>
+                            <button mat-menu-item (click)="suspendSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_SUSPEND' | translate }}</button>
+                            <button mat-menu-item (click)="setExpireDateToSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_SET_EXIPRATION_DATE' | translate }}</button>
                         </mat-menu>
                     </div>
                     <div class="search-wrapper">
@@ -59,16 +59,16 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
                     </div>
                 </div>
 
-                <div>
-                    <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Organsitie
-                        <mat-icon>arrow_drop_down</mat-icon>
-                    </button>
-                    <mat-menu #orgMenu="matMenu">
-                        <button mat-menu-item>Item 1</button>
-                        <button mat-menu-item>Item 2</button>
-                        <button mat-menu-item>Item 3</button>
-                    </mat-menu>
-                </div>
+<!--                <div>-->
+<!--                    <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Organsitie-->
+<!--                        <mat-icon>arrow_drop_down</mat-icon>-->
+<!--                    </button>-->
+<!--                    <mat-menu #orgMenu="matMenu">-->
+<!--                        <button mat-menu-item>Item 1</button>-->
+<!--                        <button mat-menu-item>Item 2</button>-->
+<!--                        <button mat-menu-item>Item 3</button>-->
+<!--                    </mat-menu>-->
+<!--                </div>-->
             </div>
 
 
@@ -285,7 +285,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
         },
         {
             routerLink: '/portal/root/usrmgt',
-            label: 'PORTAL_MANAGEMENT.USERS'
+            label: 'PORTAL_MANAGEMENT.USERS.MENU'
         },
     ];
 
@@ -355,7 +355,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
             panelClass: ['modal-fullscreen', "modal-dialog"],
         });
 
-        dialogRef.componentInstance.message = 'Are you sure you want to delete these users?';
+        dialogRef.componentInstance.message = 'PORTAL_MANAGEMENT.USERS.CONFIRM_USER_DELETION';
 
         this.subscription.add(dialogRef.componentInstance.submit.subscribe(() => {
             this.selection.selected.forEach(x => this.store.dispatch(new DeleteAccountRequest(x.fullId)))
@@ -370,7 +370,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
             panelClass: ['modal-fullscreen', "modal-dialog"],
         });
 
-        dialogRef.componentInstance.message = 'Are you sure you want to suspend these users?';
+        dialogRef.componentInstance.message = 'PORTAL_MANAGEMENT.USERS.CONFIRM_USER_SUSPENSION';
 
         this.subscription.add(dialogRef.componentInstance.submit.subscribe(() => {
             this.selection.selected.forEach(x => this.store.dispatch(new SuspendAccountRequest(x.fullId)))

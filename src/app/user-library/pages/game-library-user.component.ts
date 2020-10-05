@@ -28,8 +28,8 @@ import {Query} from "../../game-themes/store/game-theme.actions";
             <div class="mb-3 d-flex align-items-center justify-content-between">
                 <div class="search-input">
                     <mat-form-field appearance="standard" class="search-input">
-                        <mat-label>Starting type to search games...</mat-label>
-                        <input matInput placeholder="Starting type to search games..."
+                        <mat-label>{{'MESSAGE.START_TYPING_TO_SEARCH'|translate}}</mat-label>
+                        <input matInput [placeholder]="'MESSAGE.START_TYPING_TO_SEARCH'|translate"
                                (input)="onQueryChange($event.target.value)"
                         >
                         <mat-icon class="search-icon" matPrefix>search</mat-icon>
