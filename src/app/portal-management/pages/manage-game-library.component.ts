@@ -70,10 +70,11 @@ import {getQueryGames} from '../store/portal-games.selector';
                         <td mat-cell *matCellDef="let element" class="country"> {{element.language}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="private">
+                    <ng-container matColumnDef="privateMode">
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let element" class="private center">
-                            <mat-icon class="table-icon" *ngIf="element.private">lock</mat-icon>
+                            <mat-icon class="table-icon" *ngIf="element.privateMode">lock</mat-icon>
+                            <mat-icon class="table-icon" *ngIf="!element.privateMode">lock_open</mat-icon>
                         </td>
                     </ng-container>
 
@@ -81,11 +82,10 @@ import {getQueryGames} from '../store/portal-games.selector';
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let element" class="rate">
                             <span> <mat-icon class="table-icon" color="primary">star</mat-icon>
-                                {{ element.rate }} </span>
-                            <span class="reviews"> ({{ element.reviews }}) </span>
+                                {{ element.sharing }} </span>
                         </td>
                     </ng-container>
-
+                    
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="game-row"
                         [routerLink]="'/portal/root/portal/' + row.gameId"></tr>
@@ -138,6 +138,13 @@ import {getQueryGames} from '../store/portal-games.selector';
             font-size: 12px;
             margin: 0;
             color: #1919198A;
+
+            display: -webkit-box;
+            margin: 0;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .date,
@@ -201,7 +208,7 @@ import {getQueryGames} from '../store/portal-games.selector';
 })
 export class ManageGameLibraryComponent implements OnInit {
     public data$ = this.store.select(getQueryGames);
-    public displayedColumns: string[] = ['icon', 'title', 'date', 'category', 'language', 'private', 'rate'];
+    public displayedColumns: string[] = ['icon', 'title', 'date', 'category', 'privateMode', 'rate'];
 
     subMenuItems = [
         {
