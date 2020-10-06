@@ -22,6 +22,9 @@ export const PortalGamesActionTypes = {
 
     SET_FEATURED_REQUEST: '[PortalGame] Set featured request',
     SET_FEATURED_RESPONSE: '[PortalGame] Set featured response',
+
+    DELETE_FEATURED_GAME_IMAGE_REQUEST: '[PortalGame] Delete featured game image request',
+    DELETE_FEATURED_GAME_IMAGE_RESPONSE: '[PortalGame] Delete featured game image response',
 };
 
 export class GetPortalGamesRequestAction implements Action {
@@ -109,6 +112,20 @@ export class SetFeaturedResponse implements Action {
     }
 }
 
+export class DeleteFeaturedGameImageRequest implements Action {
+    type = PortalGamesActionTypes.DELETE_FEATURED_GAME_IMAGE_REQUEST;
+
+    constructor(public payload: { gameId: number }) {
+    }
+}
+
+export class DeleteFeaturedGameImageResponse implements Action {
+    type = PortalGamesActionTypes.DELETE_FEATURED_GAME_IMAGE_RESPONSE;
+
+    constructor(public payload = null) {
+    }
+}
+
 
 export type PortalGamesAction =
     GetPortalGamesRequestAction
@@ -117,4 +134,6 @@ export type PortalGamesAction =
     | SetPortalGameAction
     | SetFeaturedResponse
     | SetPortalGameCategoryResponse
-    | SavePortalGameAction;
+    | SavePortalGameAction
+    | DeleteFeaturedGameImageRequest
+    | DeleteFeaturedGameImageResponse;

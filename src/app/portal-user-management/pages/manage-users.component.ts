@@ -112,9 +112,9 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
                     <td mat-cell *matCellDef="let row" (click)="click(row)">{{ row.email }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="lastModificationDate">
-                    <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.DATE' | translate }}</th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)">14 Januari 2020</td>
+                <ng-container matColumnDef="expirationDate">
+                    <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.EXPIRATION_DATE' | translate }}</th>
+                    <td mat-cell *matCellDef="let row" (click)="click(row)">{{ row.expirationDate | date }}</td>
                 </ng-container>
 
 
@@ -267,7 +267,7 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
 })
 export class ManageUsersComponent implements OnInit, OnDestroy {
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    displayedColumns = ['select', 'name', 'location', 'email', 'lastModificationDate', 'controls'];
+    displayedColumns = ['select', 'name', 'location', 'email', 'expirationDate', 'controls'];
     dataSource: MatTableDataSource<Player>;
     selection = new SelectionModel<Player>(true, []);
 
