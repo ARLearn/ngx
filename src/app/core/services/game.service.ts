@@ -66,7 +66,7 @@ export class GameService {
 
     addAuthors(gameId: number, fullId: string, role: string) {
         return this.http
-            .get<any>(environment.api_url + '/game/access/' + gameId + '/' + fullId + '/' + role);
+            .post<any>(environment.api_url + '/game/access/' + gameId + '/' + fullId + '/' + role, {});
     }
 
     revokeAuthors(gameId: number, fullId: string) {

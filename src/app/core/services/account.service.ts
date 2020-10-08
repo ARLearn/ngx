@@ -41,7 +41,7 @@ export class AccountService {
 
     updateExpiration(fullId: string, expiration: number, action: any): Observable<any[]> {
         return this.http
-            .get<any>(environment.api_url + `/account/${fullId}/expiration/${expiration}`);
+            .post<any>(environment.api_url + `/account/${fullId}/expiration/${expiration}`, null);
     }
 
     updateAccount(account: Player): Observable<Player> {

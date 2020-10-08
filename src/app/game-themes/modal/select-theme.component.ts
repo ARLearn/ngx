@@ -28,7 +28,7 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
           <div *ngFor="let category of categories">
             <button class="menu-item" [class.selected]="selectedCategory == category" (click)="selectedCategory != category && selectCategory(category)">{{ category }}</button>
           </div>
-          
+          <button class="menu-item" >My themes</button>
           <div class="add-btn">
             <button mat-button color="primary"><mat-icon>add</mat-icon> Eigen thema</button>
           </div>
