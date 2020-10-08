@@ -14,7 +14,7 @@ import {
     SetPortalGameCategoryRequest,
     SetPortalGameCategoryResponse,
     SetFeaturedRequest,
-    SetFeaturedResponse
+    SetFeaturedResponse, DeleteFeaturedGameImageRequest, DeleteFeaturedGameImageResponse
 } from './portal-games.actions';
 import {mergeMap, map, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 import {PortalGamesService} from 'src/app/core/services/portal-games.service';
@@ -90,6 +90,14 @@ export class PortalGamesEffects {
             ofType(PortalGamesActionTypes.GET_PORTAL_GAMES),
             mergeMap(() => this.portalGamesService.list()),
             map((games) => new SetPortalGamesAction(games))
+        );
+
+    @Effect()
+    deleteFeaturedGameImage: Observable<Action> = this.actions$
+        .pipe(
+            ofType(PortalGamesActionTypes.DELETE_FEATURED_GAME_IMAGE_REQUEST),
+            mergeMap((action: DeleteFeaturedGameImageRequest) => this.portalGamesService.deleteImage(action.payload.gameId)),
+            map(() => new DeleteFeaturedGameImageResponse())
         );
 
     @Effect({ dispatch: false })

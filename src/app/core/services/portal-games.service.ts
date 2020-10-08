@@ -57,6 +57,11 @@ export class PortalGamesService {
 
     }
 
+    deleteImage(gameId: number) {
+        return this.http
+            .delete<any>(environment.api_url + '/games/featured/image/gameId/' + gameId);
+    }
+
     list(): Observable<Game[]> {
         return this.http
             .get<any>(environment.api_url + '/games/library/recent')
