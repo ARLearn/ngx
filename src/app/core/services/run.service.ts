@@ -81,7 +81,7 @@ export class RunService {
 
     grantCollaboratorAccess(runId: string, fullId: string, rights: string) {
         return this.http
-            .get<any>(environment.api_url + '/run/access/' + runId + '/' + fullId + '/' + rights);
+            .post<any>(environment.api_url + '/run/access/' + runId + '/' + fullId + '/' + rights, {});
     }
 
     revokeCollaboratorAccess(runId: string, fullId: string) {
