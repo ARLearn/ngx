@@ -1,11 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {Game} from "../../game-management/store/current-game.state";
-import {currentFaqGame, currentVideoGame, getFaqGames, getVideoGames} from "../store/tutorial.selector";
+import {
+    currentFaqGame,
+    currentVideoGame,
+    getFaqGames,
+    getVideoGames,
+    orderedFAQVideos
+} from "../store/tutorial.selector";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
+import {GetGameRequestAction, GetTutorialGamesRequestAction, SelectVideoCategory} from "../store/tutorial.actions";
 import {environment} from "../../../environments/environment";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-videos-tutorial',
@@ -19,21 +26,15 @@ import {environment} from "../../../environments/environment";
                     <div class="sidebar">
                         <button
                                 [ngClass]="{'selected': 'all' === (selectedGame|async)}"
-                                [routerLink]="'/portal/tutorial/video'"
+                                (click)="selectGame('all')"
                                 class="btn-category ">Alle video’s
                         </button>
                         <button
                                 [ngClass]="{'selected': topic.gameId === (selectedGame|async)}"
-                                [routerLink]="'/portal/tutorial/video/'+topic.gameId"
+                                (click)="selectGame(topic.gameId)"
                                 class="btn-category" *ngFor="let topic of ((videoGames$|async))">
                             {{topic.title}}
                         </button>
-
-
-                        <!--            <button class="btn-category">Introductie</button>-->
-                        <!--            <button class="btn-category">Functies</button>-->
-                        <!--            <button class="btn-category">Tips & tricks</button>-->
-                        <!--            <button class="btn-category">Meer...</button>-->
                     </div>
 
                     <div class="main-content">
@@ -41,7 +42,7 @@ import {environment} from "../../../environments/environment";
 
                         <app-video-cards
                                 [gameId]="(selectedGame|async)"
-                                [showAllVideos]="'all' === (selectedGame|async)"></app-video-cards>
+                        ></app-video-cards>
                     </div>
                 </div>
             </div>
@@ -87,6 +88,7 @@ import {environment} from "../../../environments/environment";
 
             .main-content {
                 flex: 1;
+                padding-bottom: 30px;
             }
 
             .main-content .title {
@@ -97,7 +99,7 @@ import {environment} from "../../../environments/environment";
 })
 export class VideosTutorialComponent implements OnInit {
     gameTopicIds = environment.tutorial.videoTopics;
-    videoGames$: Observable<Game[]> = this.store.select(getVideoGames);
+    videoGames$: Observable<Game[]> = this.store.select(orderedFAQVideos);
     selectedGame: Observable<any> = this.store.select(currentVideoGame);
     subMenuItems = [
         {
@@ -110,14 +112,33 @@ export class VideosTutorialComponent implements OnInit {
         },
     ];
 
-    constructor(public store: Store<State>) {
-    }
+    constructor(
+        public store: Store<State>,
+        private route: ActivatedRoute,
+        private router: Router,
+    ) {}
 
     ngOnInit(): void {
+        this.route.params.subscribe((params) => {
+            this.store.dispatch(new SelectVideoCategory(params.gameId || 'all'));
+        });
+
+        this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetGameRequestAction(gameId)));
+
+
         this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetTutorialGamesRequestAction({
             gameId: gameId,
             faq: false
         })));
+    }
+
+    selectGame(game) {
+        if (game === 'all') {
+            return this.router.navigate(['/portal/tutorial/video']);
+
+        }
+
+        return this.router.navigate(['/portal/tutorial/video', game]);
     }
 
 }

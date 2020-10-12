@@ -70,7 +70,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         if (token == null) {
             console.log("TOKEN IS NOW NULLL !!!!");
         }
-        console.log("token is ", token);
+        // console.log("token is ", token);
         const authReq = request.clone({
             setHeaders: {Authorization: 'Bearer ' + token},
         });

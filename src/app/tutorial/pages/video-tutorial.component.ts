@@ -3,10 +3,11 @@ import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {GetGameRequestAction, GetTutorialGamesRequestAction} from "../store/tutorial.actions";
 import {Observable} from "rxjs";
-import {currentVideoMessage} from "../store/tutorial.selector";
+import {currentVideoMessage, nextVideo, prevVideo, sortedMessages} from "../store/tutorial.selector";
 import {GameMessage} from "../../game-messages/store/game-messages.state";
 import * as fromRootSelector from "../../core/selectors/router.selector";
 import {AngularFireStorage} from "angularfire2/storage";
+import {map} from "rxjs/operators";
 
 
 @Component({
@@ -44,11 +45,16 @@ import {AngularFireStorage} from "angularfire2/storage";
                         </article>
                     </div>
 
-                    <div class="meta">
-                        <span class="meta-item">{{ 'HELP.BACK_TO' | translate }}: <a class="primary-color"
-                                                                                     routerLink="/portal/tutorial/video">Introductie</a></span>
-                        <span class="meta-item">{{ 'HELP.NEXT' | translate }}: <a class="primary-color"
-                                                                                  routerLink="/portal/tutorial/video">Een account aanmaken</a></span>
+                    <div class="meta" *ngIf="(videosCount$ | async) > 1">
+                        <ng-container *ngIf="(prevMessage$ | async) as prev">
+                            <span *ngIf="(selectedMessage | async)?.id !== prev.id" class="meta-item">{{ 'HELP.BACK_TO' | translate }}: <a class="primary-color"
+                                                                                         [routerLink]="'/portal/tutorial/video/' + prev.gameId + '/' + prev.id">{{ prev.name }}</a></span>
+                        </ng-container>
+                        <ng-container *ngIf="(nextMessage$ | async) as next">
+                            <span *ngIf="(selectedMessage | async)?.id !== next.id" class="meta-item">{{ 'HELP.NEXT' | translate }}: <a class="primary-color"
+                                                                                      [routerLink]="'/portal/tutorial/video/' + next.gameId + '/' + next.id">{{ next.name }}</a></span>
+                        </ng-container>
+                        
                     </div>
 
                     <div class="main-content">
@@ -109,8 +115,8 @@ import {AngularFireStorage} from "angularfire2/storage";
             padding: 0 15px;
         }
 
-        .meta-item:first-child {
-            border-right: 1px solid #000000;
+        .meta-item:nth-child(2) {
+            border-left: 1px solid #000000;
         }
 
         .video {
@@ -135,6 +141,9 @@ export class VideoTutorialComponent implements OnInit, OnChanges {
     videoUrl: Observable<string>;
 
     selectedMessage: Observable<GameMessage> = this.store.select(currentVideoMessage);
+    videosCount$: Observable<number> = this.store.select(sortedMessages).pipe(map(x => x.length));
+    prevMessage$: Observable<GameMessage> = this.store.select(prevVideo);
+    nextMessage$: Observable<GameMessage> = this.store.select(nextVideo);
     gameId: Observable<string> = this.store.select(fromRootSelector.selectRouteParam('gameId'));
     subMenuItems = [
         {
@@ -163,8 +172,6 @@ export class VideoTutorialComponent implements OnInit, OnChanges {
 
             }
         );
-        this.gameId.subscribe(id =>
-            this.store.dispatch(new GetGameRequestAction(Number.parseInt(id, 10))));
     }
 
 }

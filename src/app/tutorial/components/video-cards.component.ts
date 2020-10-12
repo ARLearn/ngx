@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from "@ngrx/store";
 import { State } from "../../core/reducers";
-import { GetGameRequestAction } from "../store/tutorial.actions";
 import { Observable } from "rxjs";
 import { GameMessage } from "../../game-messages/store/types";
 import { selectedVideoGame, sortedMessages } from "../store/tutorial.selector";
@@ -9,8 +8,6 @@ import { selectedVideoGame, sortedMessages } from "../store/tutorial.selector";
 @Component({
     selector: 'app-video-cards',
     template: `
-        <h4 class="topic-heading primary-color">{{ category }}</h4>
-
         <h4 class="topic-heading primary-color">{{ (selectedGame$ | async)?.title || 'Alle video’s'}}</h4>
         <div class="card-wrapper">
             <app-video-card *ngFor="let video of (videos$ | async)" class="question-card"
@@ -43,12 +40,8 @@ import { selectedVideoGame, sortedMessages } from "../store/tutorial.selector";
         `
     ]
 })
-export class VideoCardsComponent implements OnInit, OnChanges {
+export class VideoCardsComponent implements OnInit {
     @Input() category = 'Alle video\'s';
-    @Input() videos = [1, 2];
-
-    @Input() showAllVideos = true;
-
     @Input() gameId: number;
 
     videos$: Observable<GameMessage[]> = this.store.select(sortedMessages);
@@ -59,13 +52,6 @@ export class VideoCardsComponent implements OnInit, OnChanges {
 
 
     ngOnInit(): void {
-
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (this.gameId != null) {
-            this.store.dispatch(new GetGameRequestAction(this.gameId));
-        }
 
     }
 

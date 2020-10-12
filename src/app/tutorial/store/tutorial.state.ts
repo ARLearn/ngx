@@ -5,10 +5,14 @@ export interface TutorialState {
     faqGames: Game[];
     videoGames: Game[];
     messages: GameMessage[];
+
+    selectedVideoCategory?: string;
 }
 
 export const initialTutorialState: TutorialState = {
     faqGames: [],
     videoGames: [],
-    messages: []
+    messages: [],
+
+    selectedVideoCategory: 'all',
 };
