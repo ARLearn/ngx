@@ -14,18 +14,28 @@ export const getTutorialFeature = createFeatureSelector<State, TutorialState>('t
 export const getFaqGames = createSelector(getTutorialFeature, (state) => state.faqGames);
 export const getVideoGames = createSelector(getTutorialFeature, (state) => state.videoGames);
 export const getMessages = createSelector(getTutorialFeature, (state) => state.messages);
+export const currentVideoGame = createSelector(getTutorialFeature, (state) => state.selectedVideoCategory);
 
-
-export const sortedMessages = createSelector(getMessages, (messages) => messages == null ? [] : messages.sort((a, b) => {
-        // if (a.sortKey < b.sortKey) {
-        //     return -1;
-        // }
-        // if (a.sortKey > b.sortKey) {
-        //     return 1;
-        // }
-        return 0;
+export const sortedMessages = createSelector(getMessages, currentVideoGame, (messages, gameId) => messages == null ? [] : messages
+    .filter(x => gameId == 'all' || x.gameId.toString() === gameId)
+    .sort((a, b) => {
+        return Number(b.lastModificationDate) - Number(a.lastModificationDate);
     }
 ));
+
+export const prevVideo = createSelector(sortedMessages, fromRootSelector.selectRouteParam('gameId'), fromRootSelector.selectRouteParam('videoId'),
+    (messages, gameId, videoId) => {
+        const idx = messages.findIndex(x => x.gameId.toString() === gameId && x.id.toString() === videoId);
+
+        return messages[idx - 1];
+    });
+
+export const nextVideo = createSelector(sortedMessages, fromRootSelector.selectRouteParam('gameId'), fromRootSelector.selectRouteParam('videoId'),
+    (messages, gameId, videoId) => {
+    const idx = messages.findIndex(x => x.gameId.toString() === gameId && x.id.toString() === videoId);
+
+    return messages[idx + 1];
+});
 
 export const currentFaqGame = createSelector(fromRootSelector.selectRouteParam('gameId'), (id) => {
         if (!id) {
@@ -35,17 +45,11 @@ export const currentFaqGame = createSelector(fromRootSelector.selectRouteParam('
     }
 );
 
-export const currentVideoGame = createSelector(fromRootSelector.selectRouteParam('gameId'), (id) => {
-        if (!id) {
-            return 'all';
-        }
-        return id;
-    }
-);
+
 
 export const selectedVideoGame = createSelector(
     getVideoGames,
-    fromRootSelector.selectRouteParam('gameId'),
+    currentVideoGame,
     (games, gameId) => {
         return games.find(x => x.gameId.toString() === gameId)
     }
@@ -62,3 +66,7 @@ export const currentVideoMessage = createSelector(
             && (message.id === Number.parseInt(videoId, 10))))[0];
     }
 );
+
+export const orderedFAQVideos = createSelector(getVideoGames, videos => {
+    return environment.tutorial.videoTopics.map(x => videos.find(f => f.gameId == x)).filter(x => !!x);
+})

@@ -37,7 +37,7 @@ import {PortalGamesService} from "../../core/services/portal-games.service";
                             <label class="form-label">Beschrijving</label>
 <!--                            <p class="form-description">{{ game.description }}</p>-->
                             <mat-form-field>
-                                <textarea matInput [(ngModel)]="game.description" mat-autosize></textarea>
+                                <textarea matInput [(ngModel)]="game.description" class="description"></textarea>
                             </mat-form-field>
                             
                             <button color="primary" mat-raised-button (click)="saveDescription(game.description)">Save</button>
@@ -201,6 +201,10 @@ import {PortalGamesService} from "../../core/services/portal-games.service";
         .photos > * {
             margin-right: 1rem;
             margin-bottom: 1rem;
+        }
+        
+        .description {
+            min-height: 120px;
         }
 
         ::ng-deep .game-details .image-class {

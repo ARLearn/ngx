@@ -9,6 +9,8 @@ export const TutorialActionTypes = {
 
     GET_GAME: '[Tutorial] Get game',
     GET_GAME_SUCCESS: '[Tutorial] Get game success',
+
+    SELECT_VIDEO_CATEGORY: '[Tutorial] Select video category',
 };
 
 export class GetTutorialGamesRequestAction implements Action {
@@ -39,8 +41,16 @@ export class GetGameResponseAction implements Action {
     }
 }
 
+export class SelectVideoCategory implements Action {
+    type = TutorialActionTypes.SELECT_VIDEO_CATEGORY;
+
+    constructor(public payload: string) {
+    }
+}
+
 export type TutorialAction =
     GetTutorialGamesRequestAction
     | GetTutorialGameSuccessAction
     | GetGameRequestAction
-    | GetGameResponseAction;
+    | GetGameResponseAction
+    | SelectVideoCategory;
