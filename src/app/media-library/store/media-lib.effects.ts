@@ -91,8 +91,8 @@ export class MediaLibraryEffects {
     //     tap(console.log)
     // );
 
-    @Effect()
-    startUpload: Observable<Action> = this.actions$.pipe(
+    @Effect({ dispatch: false })
+    startUpload = this.actions$.pipe(
         ofType(MediaLibraryActionTypes.START_UPLOAD, MediaLibraryActionTypes.UPDATE_UPLOAD),
 
         withLatestFrom(
@@ -115,8 +115,11 @@ export class MediaLibraryEffects {
             }
 
         }),
-        map(() => {
-            return new UploadCompletedAction();
-        })
+        withLatestFrom(
+            this.store$.select(nextFileForUploading)
+        ),
+        tap((x) => {
+            this.store$.dispatch(new UploadCompletedAction(x[1]));
+        }),
     );
 }

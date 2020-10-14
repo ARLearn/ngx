@@ -55,6 +55,7 @@ import { AccountSectionComponent } from './component/account/account-section.com
 import { SubtabsNavbarComponent } from "./component/subtabs-navbar/subtabs-navbar.component";
 import { FileDropZoneComponent } from '../media-library/components/file-drop-zone/file-drop-zone.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {FileUploaderComponent} from "../media-library/components/file-uploader/file-uploader.component";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -143,6 +144,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TopNavComponent,
         AccountSectionComponent,
         FileDropZoneComponent,
+        FileUploaderComponent,
         TopLevelNavbarComponent,
 
     ],
@@ -162,6 +164,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TopNavComponent,
         AccountSectionComponent,
         FileDropZoneComponent,
+        FileUploaderComponent,
         ]
 })
 export class SharedModule {

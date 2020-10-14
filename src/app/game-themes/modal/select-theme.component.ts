@@ -30,7 +30,7 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
           </div>
           
           <div class="add-btn">
-            <button mat-button color="primary"><mat-icon>add</mat-icon> Eigen thema</button>
+            <button mat-button color="primary" (click)="createTheme()"><mat-icon>add</mat-icon> Eigen thema</button>
           </div>
         </div>
         
@@ -198,9 +198,14 @@ export class SelectThemeComponent implements OnInit {
 
 
   private submit$: Subject<GameTheme> = new Subject<GameTheme>();
+  private onCreateTheme$: Subject<GameTheme> = new Subject<GameTheme>();
 
   get submit() {
     return this.submit$.asObservable();
+  }
+
+  get onCreateTheme() {
+    return this.onCreateTheme$.asObservable();
   }
 
   constructor(public dialogRef: MatDialogRef<SelectThemeComponent>,
@@ -225,6 +230,10 @@ export class SelectThemeComponent implements OnInit {
 
   select(theme) {
     this.selectedTheme = theme;
+  }
+
+  createTheme() {
+    this.onCreateTheme$.next(null);
   }
 
   selectCategory(category) {

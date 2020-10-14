@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {GameTheme} from "../../game-themes/store/game-theme.state";
@@ -13,22 +13,31 @@ export class GameThemeService {
     }
 
     getThemes(): Observable<any> {
+        const global$ = this.http.get<any>(environment.api_url + `/game/theme/list/global`);
+        const custom$ = this.http.get<any>(environment.api_url + `/game/theme/list/custom`);
 
-        return this.http
-            .get<any>(environment.api_url + `/game/theme/list/global`)
+        return forkJoin([global$, custom$])
             .pipe(
-                map(res => {
-                    if (res.responses) {
-                        res.responses = res.responses.map(gameThemeTransform);
+                map((res) => {
+                    const result = {responses: [], items: []};
 
-                    } else {
-                        res.responses = [];
-                    }
-                    return res;
+                    res.forEach(x => {
+                        if (x.responses) {
+                            x.responses = x.responses.map(gameThemeTransform);
+                        } else {
+                            x.responses = [];
+                        }
+
+                        if (!x.items) { x.items = [] }
+
+                        result.responses.push(...x.responses);
+                        result.items.push(...x.items);
+                    });
+
+                    return result;
                 })
             );
     }
-
 
     createTheme(theme: GameTheme): Observable<any> {
         return this.http

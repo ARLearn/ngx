@@ -152,7 +152,8 @@
 		"MEDIA_BIBLIOTHEEK": "Media library",
 		"NEW_FOLDER": "New map",
 		"OR_CLICK_FILES": "or click to upload your files",
-		"SELECTED": "Selected"
+		"SELECTED": "Selected",
+		"FILE_DROPZONE_DESCRIPTION": "drag your files here"
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Add answer option",
