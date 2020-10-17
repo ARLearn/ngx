@@ -43,13 +43,13 @@ export class TutorialEffects {
                 this.store.select(currentVideoGame)
             ),
             filter(([action, games, current]: [GetGameRequestAction, GameMessage[], string]) => {
-                if (current == 'all') {
+                if (current == 'all' && !action.payload.faq) {
                     return games.length === 0;
                 }
 
-                return games.every(x => x.gameId !== action.payload);
+                return games.every(x => x.gameId.toString() !== action.payload.gameId.toString());
             }),
-            mergeMap(([action]: [GetGameRequestAction, GameMessage[], string]) => this.messagesService.listMessagesWithCursor(action.payload, '*')),
+            mergeMap(([action]: [GetGameRequestAction, GameMessage[], string]) => this.messagesService.listMessagesWithCursor(action.payload.gameId.toString(), '*')),
             map((games) => new GetGameResponseAction(games.generalItems))
         );
 

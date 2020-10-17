@@ -10,6 +10,8 @@ export const TutorialActionTypes = {
     GET_GAME: '[Tutorial] Get game',
     GET_GAME_SUCCESS: '[Tutorial] Get game success',
 
+    CLEAR_MESSAGES: '[Tutorial] Clear Messages',
+
     SELECT_VIDEO_CATEGORY: '[Tutorial] Select video category',
 };
 
@@ -41,6 +43,13 @@ export class GetGameResponseAction implements Action {
     }
 }
 
+export class ClearMessages implements Action {
+    type = TutorialActionTypes.CLEAR_MESSAGES;
+
+    constructor(public payload = null) {
+    }
+}
+
 export class SelectVideoCategory implements Action {
     type = TutorialActionTypes.SELECT_VIDEO_CATEGORY;
 
@@ -53,4 +62,5 @@ export type TutorialAction =
     | GetTutorialGameSuccessAction
     | GetGameRequestAction
     | GetGameResponseAction
-    | SelectVideoCategory;
+    | SelectVideoCategory
+    | ClearMessages;

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from 'src/app/core/reducers';
 import {currentFaqGame, getFaqGames} from "../store/tutorial.selector";
@@ -6,7 +6,7 @@ import {environment} from "../../../environments/environment";
 import {Game} from "../../game-management/store/current-game.state";
 import {Observable} from "rxjs";
 import * as fromRoot from "../../core/selectors/router.selector";
-import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
+import {ClearMessages, GetTutorialGamesRequestAction} from "../store/tutorial.actions";
 
 @Component({
     selector: 'app-faq-tutorial',
@@ -19,18 +19,12 @@ import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
                 <div class="questions-wrapper">
                     <div class="sidebar">
                         <button
-                        [ngClass]="{'selected': topic.gameId === (selectedGame|async)}"
-                        [routerLink]="'/portal/tutorial/faq/'+topic.gameId"
-                        class="btn-category" *ngFor="let topic of ((faqGames|async))">
+                            [ngClass]="{'selected': topic.gameId === (selectedGame|async)}"
+                            [routerLink]="'/portal/tutorial/faq/'+topic.gameId"
+                            class="btn-category" *ngFor="let topic of ((faqGames|async))"
+                        >
                         {{topic.title}}
                         </button>
-                        <!--                        <button class="btn-category selected">Getting started</button>-->
-<!--                        <button class="btn-category">Creating games</button>-->
-<!--                        <button class="btn-category">Exploring games</button>-->
-<!--                        <button class="btn-category">Templates</button>-->
-<!--                        <button class="btn-category">Tips & tricks</button>-->
-<!--                        <button class="btn-category">Account</button>-->
-<!--                        <button class="btn-category">Meer...</button>-->
                     </div>
 
                     <div class="main-content">
@@ -86,7 +80,7 @@ import {GetTutorialGamesRequestAction} from "../store/tutorial.actions";
         `
     ]
 })
-export class FaqTutorialComponent implements OnInit {
+export class FaqTutorialComponent implements OnInit, OnDestroy {
 
     gameTopicIds = environment.tutorial.faqTopics;
     defaultGame = environment.tutorial.defaultFaq;
@@ -105,8 +99,7 @@ export class FaqTutorialComponent implements OnInit {
         },
     ];
 
-    constructor(public store: Store<State>) {
-    }
+    constructor(public store: Store<State>) {}
 
     ngOnInit(): void {
         this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetTutorialGamesRequestAction({
@@ -115,4 +108,7 @@ export class FaqTutorialComponent implements OnInit {
         })));
     }
 
+    ngOnDestroy() {
+        this.store.dispatch(new ClearMessages());
+    }
 }
