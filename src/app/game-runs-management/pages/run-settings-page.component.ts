@@ -62,6 +62,7 @@ import {tap} from "rxjs/operators";
     styles: [`
         app-game-detail-collaborators {
             display: block;
+            width: 100%;
             margin-left: 84px;
         }
 
