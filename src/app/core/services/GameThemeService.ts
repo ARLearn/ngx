@@ -4,6 +4,7 @@ import {forkJoin, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {GameTheme} from "../../game-themes/store/game-theme.state";
+import {CATEGORY_CUSTOM_THEMES} from "../../game-themes/store/game-theme.selectors";
 
 
 @Injectable()
@@ -18,10 +19,14 @@ export class GameThemeService {
 
         return forkJoin([global$, custom$])
             .pipe(
-                map((res) => {
+                map(([global, custom]) => {
+                    if (custom.items) {
+                        custom.items.forEach(x => x.category = CATEGORY_CUSTOM_THEMES);
+                    }
+
                     const result = {responses: [], items: []};
 
-                    res.forEach(x => {
+                    [global, custom].forEach(x => {
                         if (x.responses) {
                             x.responses = x.responses.map(gameThemeTransform);
                         } else {
