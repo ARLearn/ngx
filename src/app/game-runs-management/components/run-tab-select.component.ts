@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 import {Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {map} from 'rxjs/operators';
-import {getCurrentRunId} from "../store/game-runs.selector";
+import {getCurrentRunId, getMyRunAccess, canViewRun, ownsRun} from "../store/game-runs.selector";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {Game} from "../../game-management/store/current-game.state";
@@ -10,6 +10,7 @@ import {getGame} from "../../game-management/store/current-game.selector";
 import {getAuthIsAdmin} from "../../auth/store/auth.selector";
 import {getMultipleMessagesSelector, getSelectedScreen} from 'src/app/game-messages/store/game-messages.selector';
 import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-messages.actions';
+import {GameRunCollaboratorsRequestAction} from "../store/game-runs.actions";
 
 @Component({
     selector: 'app-run-tab-select',
@@ -22,15 +23,16 @@ import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-mes
                 <mat-icon>keyboard_arrow_left</mat-icon>
             </button>
 
-
+            
             <div class="run-tabs" *ngIf="game$ |async as game">
                 <nav mat-tab-nav-bar class="nav-override style-upper" *ngIf="runId$ |async as runId">
                     <a mat-tab-link
+                       *ngIf = "canViewRun$ |async"
                        routerLinkActive #runtab1="routerLinkActive"
                        [disabled]="getDisabled(game, runId)"
                        [active]="runtab1.isActive"
                        [ngClass]="{'active-black':runtab1.isActive}"
-                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/players'">{{'RUNS.PLAYERS'|translate}}</a>
+                       [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/players'">{{'RUNS.PLAYERS'|translate}} </a>
 
                     <a mat-tab-link
                        routerLinkActive #runtab2="routerLinkActive"
@@ -42,6 +44,7 @@ import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-mes
                     
                     <a mat-tab-link
                        routerLinkActive #runtab3="routerLinkActive"
+                       *ngIf = "ownsRun$ |async"
                        [disabled]="getDisabled(game, runId)"
                        [ngClass]="{'active-black':runtab3.isActive}"
                        [active]="runtab3.isActive"
@@ -85,6 +88,9 @@ export class RunTabSelectComponent implements OnInit, OnDestroy {
     isAdmin$ = this.store.select(getAuthIsAdmin);
     game$: Observable<Game> = this.store.select(getGame);
     runId$: Observable<any> = this.store.select(getCurrentRunId);
+    canViewRun$: Observable<any> = this.store.select(canViewRun);
+    ownsRun$: Observable<any> = this.store.select(ownsRun);
+
     messageId$ = this.store.select(getMultipleMessagesSelector)
         .pipe(map(messages => messages[0] && messages[0].id));
 
@@ -97,6 +103,7 @@ export class RunTabSelectComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.store.dispatch(new GetGameMessagesRequestAction());
+        this.store.dispatch(new GameRunCollaboratorsRequestAction());
     }
 
     getDisabled(gameId, runId) {

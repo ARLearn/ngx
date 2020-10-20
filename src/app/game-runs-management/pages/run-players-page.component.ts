@@ -3,7 +3,7 @@ import {
     AddUserToRunRequestAction,
     DeleteUserFromRunRequestAction,
     GetCurrentRunFromRouterRequestAction,
-    GetGameRunsRequestAction
+    GetGameRunsRequestAction, GrantCollaboratorAccessAction
 } from "../store/game-runs.actions";
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
 import {Store} from "@ngrx/store";
@@ -13,7 +13,7 @@ import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
 import {AddPlayerDialogComponent} from "../components/add-player-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {currentRunPlayers} from "../store/game-runs.selector";
+import {currentRunPlayers, ownsRun} from "../store/game-runs.selector";
 import {PendingPlayer} from "../../player-management/store/player.state";
 import {PlayerLoadRequestAction} from "../../player-management/store/player.actions";
 
@@ -32,16 +32,32 @@ import {PlayerLoadRequestAction} from "../../player-management/store/player.acti
         </app-game-detail-navbar>
 
         <div class="full-width-container maxwidth">
-                <app-run-tab-select></app-run-tab-select>
-                <div class="run-container">
-                    <div class="connectionTile" *ngFor="let player of (currentPlayers$|async)">
+            <app-run-tab-select></app-run-tab-select>
+            <div 
+                    class="run-container">
+                <div
+                        class="connectionTile" *ngFor="let player of (currentPlayers$|async)">
+                    <div *ngIf="(ownsRun$|async); then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>
                         <app-connection-tile class="gameTile"
+                                             [hasAction]="true"
+                                             [actions]="['MAKE_OWNER','MAKE_EDITOR','MAKE_VIEWER']"
                                              [player]="player"
                                              (remove)="remove(player)"
+                                             (actionsClick)="actionsClick($event, player)"
                         ></app-connection-tile>
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <app-connection-tile class="gameTile"
+                                             [hasAction]="false"
+                                             [player]="player"
+                                             [canRemove]="false"
+                        ></app-connection-tile>
+                    </ng-template>
+                    
 
-                    </div>
                 </div>
+            </div>
         </div>
     `,
     styles: [`
@@ -78,6 +94,7 @@ import {PlayerLoadRequestAction} from "../../player-management/store/player.acti
 export class RunPlayersPageComponent implements OnInit {
     public game$: Observable<Game> = this.store.select(getGame);
     currentPlayers$: Observable<any> = this.store.select(currentRunPlayers);
+    ownsRun$: Observable<any> = this.store.select(ownsRun);
 
     constructor(
         private store: Store<State>,
@@ -113,5 +130,25 @@ export class RunPlayersPageComponent implements OnInit {
         this.store.dispatch(new DeleteUserFromRunRequestAction(player));
 
 
+    }
+
+    actionsClick($event: any, player) {
+        console.log("player clicked action ", $event);
+        if ($event === 'MAKE_OWNER') {
+            this.store.dispatch(new GrantCollaboratorAccessAction({
+                rights: 1,
+                author: player.fullId
+            }));
+        } else if ($event === 'MAKE_EDITOR') {
+            this.store.dispatch(new GrantCollaboratorAccessAction({
+                rights: 2,
+                author: player.fullId
+            }));
+        } else {
+            this.store.dispatch(new GrantCollaboratorAccessAction({
+                rights: 3,
+                author: player.fullId
+            }));
+        }
     }
 }

@@ -132,7 +132,10 @@ import {GameMessageEditCompletedAction, ResetGameMessageEditAction} from "../../
       color: rgba(0, 0, 0, 0.4);
     }
     
-    .theme-icon__img {
+    .theme-icon__img img {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
     }
     
     .theme-icon__label {

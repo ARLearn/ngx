@@ -66,7 +66,7 @@ export class GameRunsEffects {
                     mergeMap(res =>
                         [
                             new GetGameRunsCompletedAction(
-                                {gameId: gameId, items: res.runs}
+                                {gameId: gameId, items: res.runs, participate : false}
                             ),
                             new GetGameRunsCursorListRequestionAction({
                                 gameId,
@@ -77,6 +77,28 @@ export class GameRunsEffects {
                 )
         )
     );
+
+    @Effect()
+    initPlay$: Observable<Action> = this.actions$.pipe(
+        ofType(GameRunsActionTypes.GAME_RUNS_REQUESTED),
+        withLatestFrom(
+            this.store$.select(selector.selectRouteParam('gameId'))
+        ),
+        switchMap(
+            ([action, gameId]: [GetGameRunsRequestAction, string]) =>
+                this.gameRuns.listMyPlayRuns(gameId || action.payload.gameId).pipe(
+                    mergeMap(res =>
+                        [
+                            new GetGameRunsCompletedAction(
+                                {gameId: gameId, items: res.runs, participate : true}
+                            )
+                        ]
+                    ),
+                    catchError((error) => of(new SetErrorAction(error.error)))
+                )
+        )
+    );
+
 
     @Effect()
     getRunsCursor: Observable<Action> = this.actions$.pipe(

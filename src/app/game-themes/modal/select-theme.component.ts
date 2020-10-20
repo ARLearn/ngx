@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {selectAll} from "../store/game-theme.selectors";
+import {selectAll, selectThemeCategories} from "../store/game-theme.selectors";
 import {BehaviorSubject, combineLatest, Observable, of, Subject} from "rxjs";
 import {AngularFireStorage} from "angularfire2/storage";
 import {GameTheme} from "../store/game-theme.state";
@@ -21,19 +21,16 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
     </div>
     <div class="maxwidth">
       <div class="pos-title primary-color font-medium-32-43-roboto">Choose your theme</div>
-
-    </div>      
       <div class="theme-panel">
         <div class="sidebar">
-          <div *ngFor="let category of categories">
-            <button class="menu-item" [class.selected]="selectedCategory == category" (click)="selectedCategory != category && selectCategory(category)">{{ category }}</button>
+          <div *ngFor="let category of (categories$ | async)">
+            <button class="menu-item" [class.selected]="selectedCategory == category" (click)="selectCategory(category)">{{ category }}</button>
           </div>
-          <button class="menu-item" >My themes</button>
           <div class="add-btn">
-            <button mat-button color="primary"><mat-icon>add</mat-icon> Eigen thema</button>
+            <button mat-button color="primary" (click)="createTheme()"><mat-icon>add</mat-icon> Eigen thema</button>
           </div>
         </div>
-        
+
         <div class="theme-items" *ngIf="themes$ | async as themes">
           <div class="theme-item" *ngFor="let theme of themes" [class.theme-item--selected]="selectedTheme?.themeId == theme.themeId" (click)="select(theme)">
             <span class="selected-icon" *ngIf="selectedTheme?.themeId == theme.themeId"><mat-icon>done</mat-icon></span>
@@ -46,6 +43,8 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
           </div>
         </div>
       </div>
+    </div>      
+      
       
       <mat-toolbar *ngIf="selectedTheme" class="theme-toolbar">
         <div class="maxwidth theme-toolbar-wrapper">
@@ -176,7 +175,6 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
   `]
 })
 export class SelectThemeComponent implements OnInit {
-
   public selectCategory$ = new BehaviorSubject(null);
 
   public themes$ = this.store.select(selectAll)
@@ -184,7 +182,7 @@ export class SelectThemeComponent implements OnInit {
       mergeMap((themes) => this.selectCategory$.pipe(map(cat => [cat, themes]))),
       map(([category, themes]) => {
 
-        return themes.filter(theme => category == null || (theme.category == category)).map(theme => ({
+        return themes.filter(theme => category == null || theme.category == category).map(theme => ({
           ...theme,
           backgroundPath: this.getDownloadUrl(theme.backgroundPath),
           iconPath: this.getDownloadUrl(theme.iconPath),
@@ -194,13 +192,17 @@ export class SelectThemeComponent implements OnInit {
 
   public selectedTheme: any;
   public selectedCategory: any;
-  public categories;
-
+  public categories$ = this.store.select(selectThemeCategories);
 
   private submit$: Subject<GameTheme> = new Subject<GameTheme>();
+  private onCreateTheme$: Subject<GameTheme> = new Subject<GameTheme>();
 
   get submit() {
     return this.submit$.asObservable();
+  }
+
+  get onCreateTheme() {
+    return this.onCreateTheme$.asObservable();
   }
 
   constructor(public dialogRef: MatDialogRef<SelectThemeComponent>,
@@ -210,13 +212,6 @@ export class SelectThemeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.themes$.subscribe((themes) => {
-      const categories = themes.map(x => x.category).filter(x => !!x);
-
-      this.categories = categories.filter((item, i) => {
-        return categories.indexOf(item) === i;
-      });
-    });
   }
 
   onNoClick() {
@@ -227,9 +222,18 @@ export class SelectThemeComponent implements OnInit {
     this.selectedTheme = theme;
   }
 
+  createTheme() {
+    this.onCreateTheme$.next(null);
+  }
+
   selectCategory(category) {
-    this.selectedCategory = category;
-    this.selectCategory$.next(category);
+    if (this.selectedCategory != category) {
+      this.selectedCategory = category;
+      this.selectCategory$.next(category);
+    } else {
+      this.selectedCategory = null;
+      this.selectCategory$.next(null);
+    }
   }
 
   onSubmit() {

@@ -4,7 +4,7 @@ import {State} from "../../core/reducers";
 import {GetGameRequestAction} from "../store/tutorial.actions";
 import {GameMessage} from "../../game-messages/store/types";
 import {Observable} from "rxjs";
-import {sortedMessages} from "../store/tutorial.selector";
+import {sortedMessages, sortedFaqMessages} from "../store/tutorial.selector";
 
 @Component({
     selector: 'app-faq-list-questions',
@@ -44,7 +44,7 @@ import {sortedMessages} from "../store/tutorial.selector";
 export class FaqListQuestionsComponent implements OnInit, OnChanges {
 
     @Input() gameId: number;
-    questions: Observable<GameMessage[]> = this.store.select(sortedMessages);
+    questions: Observable<GameMessage[]> = this.store.select(sortedFaqMessages);
 
     constructor(private store: Store<State>) {
     }
@@ -56,7 +56,7 @@ export class FaqListQuestionsComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.gameId != null) {
-            this.store.dispatch(new GetGameRequestAction(this.gameId));
+            this.store.dispatch(new GetGameRequestAction({ gameId: this.gameId, faq: true }));
         }
 
     }

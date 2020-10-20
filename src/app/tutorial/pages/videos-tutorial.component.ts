@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {Game} from "../../game-management/store/current-game.state";
 import {
@@ -10,7 +10,12 @@ import {
 } from "../store/tutorial.selector";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {GetGameRequestAction, GetTutorialGamesRequestAction, SelectVideoCategory} from "../store/tutorial.actions";
+import {
+    ClearMessages,
+    GetGameRequestAction,
+    GetTutorialGamesRequestAction,
+    SelectVideoCategory
+} from "../store/tutorial.actions";
 import {environment} from "../../../environments/environment";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -97,7 +102,7 @@ import {ActivatedRoute, Router} from "@angular/router";
             }
         `]
 })
-export class VideosTutorialComponent implements OnInit {
+export class VideosTutorialComponent implements OnInit, OnDestroy {
     gameTopicIds = environment.tutorial.videoTopics;
     videoGames$: Observable<Game[]> = this.store.select(orderedFAQVideos);
     selectedGame: Observable<any> = this.store.select(currentVideoGame);
@@ -123,7 +128,7 @@ export class VideosTutorialComponent implements OnInit {
             this.store.dispatch(new SelectVideoCategory(params.gameId || 'all'));
         });
 
-        this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetGameRequestAction(gameId)));
+        this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetGameRequestAction({ gameId, faq: false})));
 
 
         this.gameTopicIds.forEach((gameId) => this.store.dispatch(new GetTutorialGamesRequestAction({
@@ -139,6 +144,10 @@ export class VideosTutorialComponent implements OnInit {
         }
 
         return this.router.navigate(['/portal/tutorial/video', game]);
+    }
+
+    ngOnDestroy() {
+        this.store.dispatch(new ClearMessages());
     }
 
 }

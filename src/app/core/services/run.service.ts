@@ -58,6 +58,13 @@ export class RunService {
             .pipe(map(runTrans));
     }
 
+    listMyPlayRuns(gameId: string): Observable<{ runs: any[] }> {
+        const path = '/runs/participate/' + gameId;
+        return this.http
+            .get<any>(environment.api_url + path)
+            .pipe(map(runTrans));
+    }
+
     createRun(run: any): Observable<GameRun> {
         return this.http
             .post(environment.api_url + '/run/create', run)

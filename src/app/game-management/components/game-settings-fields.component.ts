@@ -47,7 +47,10 @@ import {PlayerLoadRequestAction} from "../../player-management/store/player.acti
                 <!--                        [secColor]="(game$|async)?.config?.secondaryColor"-->
                 <!--                ></app-game-detail-prim-sec-color>-->
 
-                <app-game-detail-collaborators [gameAuthors]="gameAuthors$ | async" (onRoleChange)="onRoleChange($event)" (onDelete)="onAuthorDelete($event)"></app-game-detail-collaborators>
+                <app-game-detail-collaborators [gameAuthors]="gameAuthors$ | async"
+                                               (onNewAuthor)="onNewAuthor($event)"
+                                               (onRoleChange)="onRoleChange($event)"
+                                               (onDelete)="onAuthorDelete($event)"></app-game-detail-collaborators>
                 <app-game-detail-access [accessValue]="(game$|async)?.sharing"></app-game-detail-access>
                 <app-game-detail-creative-commons
                         *ngIf="(game$|async)?.sharing == 3"></app-game-detail-creative-commons>
@@ -165,6 +168,10 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
     }
 
     onRoleChange(data) {
+        this.store.dispatch(new AddGameAuthorRequestAction(data));
+    }
+
+    onNewAuthor(data) {
         this.store.dispatch(new AddGameAuthorRequestAction(data));
     }
 }

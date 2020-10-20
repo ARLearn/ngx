@@ -41,6 +41,13 @@ export function reducers(
             };
         }
 
+        case actions.TutorialActionTypes.CLEAR_MESSAGES: {
+            return {
+                ...state,
+                messages: [],
+            }
+        }
+
         default: {
             return state;
         }

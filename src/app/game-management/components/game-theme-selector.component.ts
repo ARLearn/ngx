@@ -7,11 +7,17 @@ import { AngularFireStorage } from "angularfire2/storage";
 
 import { State } from "../../core/reducers";
 import { SelectThemeComponent } from "../../game-themes/modal/select-theme.component";
-import { Query } from "../../game-themes/store/game-theme.actions";
+import {CreateRequest, Query} from "../../game-themes/store/game-theme.actions";
 import { SetSelectedThemeAction } from '../store/current-game.actions';
 import { getSelectedTheme } from "../store/current-game.selector";
 import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
 import {ThemeSettingsComponent} from "../../game-themes/modal/theme-settings.component";
+import {CreateThemeNameModalComponent} from "../../game-themes/modal/create-theme/create-theme-name-modal.component";
+import {CreateThemeSettingsComponent} from "../../game-themes/modal/create-theme/create-theme-settings.component";
+import {GameThemeService} from "../../core/services/GameThemeService";
+import {AuthService} from "../../auth/services/auth.service";
+import {getCurrentUser} from "../../auth/store/auth.selector";
+import {GameTheme} from "../../game-themes/store/game-theme.state";
 
 @Component({
     selector: 'app-game-theme-selector',
@@ -145,15 +151,21 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
     public themes$ = this.store.select(selectAll) as Observable<any>;
     public selectedTheme: any;
 
+    private user$: Observable<any> = this.store.select(getCurrentUser);
+
     private subscription: Subscription = new Subscription();
+    private currentUserId;
 
     constructor(
         private store: Store<State>,
         public dialog: MatDialog,
-        private afStorage: AngularFireStorage
+        private afStorage: AngularFireStorage,
+        private gameThemeService: GameThemeService,
     ) {}
 
     ngOnInit(): void {
+        this.subscription.add(this.user$.subscribe((user) => this.currentUserId = user.uid))
+
         this.store.dispatch(new Query());
 
         this.subscription.add(this.themes$.subscribe(themes => {
@@ -205,6 +217,50 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
                     this.dialog.closeAll();
                 }));
             }));
+
+        this.subscription.add(
+            dialogRef.componentInstance.onCreateTheme.subscribe(() => {
+                this.openCreateThemeModal();
+            })
+        );
+    }
+
+    openCreateThemeModal() {
+        this.user$.subscribe(console.log)
+
+        const dialogRef = this.dialog.open(CreateThemeNameModalComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+            data: {}
+        });
+
+        this.subscription.add(
+            dialogRef.componentInstance.submit.subscribe(payload => {
+
+                this.gameThemeService.createTheme({ name: payload.name } as any)
+                    .toPromise()
+                    .then((response) => {
+                        this.openCreateThemeSettingsModal(response);
+                        dialogRef.close();
+                    })
+            })
+        )
+    }
+
+    openCreateThemeSettingsModal(theme) {
+
+        const dialogRef = this.dialog.open(CreateThemeSettingsComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+            data: {}
+        });
+
+        dialogRef.componentInstance.theme = { ...dialogRef.componentInstance.theme, ...theme, fullAccount: this.currentUserId };
+
+        this.subscription.add(
+            dialogRef.componentInstance.submit.subscribe((payload) => {
+                this.store.dispatch(new CreateRequest(payload));
+                dialogRef.close();
+            })
+        );
     }
 
     primColorChange(event) {}

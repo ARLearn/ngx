@@ -45,7 +45,14 @@ export const currentFaqGame = createSelector(fromRootSelector.selectRouteParam('
     }
 );
 
-
+export const sortedFaqMessages = createSelector(getMessages, currentFaqGame, (messages, gameId) => {
+    return messages == null ? [] : messages
+        .filter(x => x.gameId.toString() === gameId.toString())
+        .sort((a, b) => {
+                return Number(b.lastModificationDate) - Number(a.lastModificationDate);
+            }
+        );
+});
 
 export const selectedVideoGame = createSelector(
     getVideoGames,

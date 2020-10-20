@@ -12,8 +12,9 @@ import {
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
 import {GameRun} from "../store/game-runs.state";
 import {environment} from "../../../environments/environment";
-import {getCollaborators, getEditRunSelector} from "../store/game-runs.selector";
+import {getCollaborators, getEditRunSelector, getCollaboratorsWithAccount} from "../store/game-runs.selector";
 import {tap} from "rxjs/operators";
+import {PlayerLoadRequestAction} from "../../player-management/store/player.actions";
 
 @Component({
     selector: 'app-run-settings-page',
@@ -35,8 +36,12 @@ import {tap} from "rxjs/operators";
 
                 <div>
                     <app-settings-fields></app-settings-fields>
-                    <app-game-detail-collaborators [gameAuthors]="players$ | async" (onRoleChange)="onRoleChange($event)"
-                                                   (onDelete)="onAuthorDelete($event)"></app-game-detail-collaborators>
+                    <app-game-detail-collaborators
+                            [gameAuthors]="players$ | async"
+                            (onNewAuthor)="onNewAuthor($event)"
+                            (onRoleChange)="onRoleChange($event)"
+                            (onDelete)="onAuthorDelete($event)">
+                    </app-game-detail-collaborators>
                 </div>
 
 
@@ -50,8 +55,6 @@ import {tap} from "rxjs/operators";
                         </div>
                         <div class="pos-code">
                             <qr-code [value]="getQrCode((run$|async)?.runId)" [size]="100"></qr-code>
-<!--                            <img class="pos-img"-->
-<!--                                 [src]="getUrl((run$|async)?.runId)"/>-->
                         </div>
 
                     </div>
@@ -63,6 +66,7 @@ import {tap} from "rxjs/operators";
     styles: [`
         app-game-detail-collaborators {
             display: block;
+            width: 100%;
             margin-left: 84px;
         }
 
@@ -123,7 +127,7 @@ export class RunSettingsPageComponent implements OnInit {
     public game$: Observable<Game> = this.store.select(getGame);
     run$: Observable<GameRun> = this.store.select(getEditRunSelector);
 
-    players$ = this.store.select(getCollaborators).pipe(tap(console.log));
+    players$ = this.store.select(getCollaboratorsWithAccount).pipe(tap(console.log));
 
     constructor(private store: Store<State>) {
     }
@@ -131,7 +135,8 @@ export class RunSettingsPageComponent implements OnInit {
     ngOnInit(): void {
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
         this.store.dispatch(new GetCurrentRunFromRouterRequestAction());
-        this.store.dispatch(new GameRunCollaboratorsRequestAction());
+
+        this.store.dispatch(new PlayerLoadRequestAction());
     }
 
     getUrl(runId: number) {
@@ -158,6 +163,14 @@ export class RunSettingsPageComponent implements OnInit {
 
         this.store.dispatch(new RevokeCollaboratorAccessAction({
             author: event.account
+        }));
+    }
+
+    onNewAuthor(event) {
+        console.log("on new author", event);
+        this.store.dispatch(new GrantCollaboratorAccessAction({
+            rights: event.role,
+            author: event.fullId
         }));
     }
 

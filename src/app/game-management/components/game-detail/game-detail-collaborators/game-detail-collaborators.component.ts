@@ -25,7 +25,7 @@ import {AddGameCollaboratorComponent} from "../../../../game-messages/modal/add-
                     <button mat-button (click)="addCollaborator()">{{'GAME.ADD_COLLABORATOR'|translate}}</button>
                 </div>
             </div>
-            <div class="collaborators-small font-regular-11-15-roboto">
+            <div class="collaborators-small font-regular-11-15-roboto"> 
                 {{'CONTACT.COLLABORATORS' | translate}}
             </div>
             <app-game-detail-collaborator-entry *ngFor="let game_author of gameAuthors"
@@ -77,6 +77,7 @@ export class GameDetailCollaboratorsComponent implements OnInit {
     @Input() gameAuthors: any[];
     @Output() onRoleChange = new EventEmitter();
     @Output() onDelete = new EventEmitter();
+    @Output() onNewAuthor = new EventEmitter();
 
     constructor(
         private store: Store<State>,
@@ -95,11 +96,14 @@ export class GameDetailCollaboratorsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            console.log("on new author1", result);
             if (result && result.fullId) {
-                this.store.dispatch(new AddGameAuthorRequestAction({
+                console.log("on new author 32", result);
+                this.onNewAuthor.emit({
                     fullId: result.fullId.fullId,
                     role: result.role
-                }));
+                });
+
                 // this.store.dispatch(new AddUserToRunRequestAction(result.fullId));
             }
 

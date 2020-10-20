@@ -8,6 +8,19 @@ import {Player} from "../../../player-management/store/player.state";
                   class="style-icon"
                   (click)="removeInvitation.emit()"
                   [svgIcon]="'close'"></mat-icon>
+        <mat-icon *ngIf="hasAction"
+                  class="style-icon"
+                  [matMenuTriggerFor]="menu"
+                  >more_vert</mat-icon>
+        <mat-menu #menu="matMenu">
+            <button 
+                    *ngFor="let action of actions"
+                    mat-menu-item (click)="actionsClick.emit(action)" >
+                <mat-icon>delete_forever</mat-icon>
+                <span>{{ 'ACTIONS.'+action | translate }}</span>
+            </button>
+
+        </mat-menu>
         <div *ngIf="!player.picture"
              class="avatar-circle"></div>
         <div *ngIf="player.picture"
@@ -28,7 +41,9 @@ import {Player} from "../../../player-management/store/player.state";
             {{pending ? player.email : player.name}}
         </div>
 
-        <div class="remove-button ">
+        <div class="remove-button "
+        *ngIf="canRemove"
+        >
             <button mat-button color="primary"
                     class="mat-small"
                     (click)="buttonclick()"
@@ -116,9 +131,13 @@ export class ConnectionTileComponent implements OnInit, OnChanges {
 
     @Input() player: Player;
     @Input() pending = false;
+    @Input() hasAction = true;
+    @Input() canRemove = true;
+    @Input() actions = [];
     @Output() remove = new EventEmitter();
     @Output() removeInvitation = new EventEmitter();
     @Output() reinvite = new EventEmitter();
+    @Output() actionsClick = new EventEmitter();
 
     picture: string;
     initial: string;
