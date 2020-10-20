@@ -31,6 +31,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {RunSettingsPageComponent} from './pages/run-settings-page.component';
 import {SettingsFieldsComponent} from './components/settings-fields.component';
 import {GameManagementModule} from "../game-management/game-management.module";
+import {QRCodeModule} from "angular2-qrcode";
 
 @NgModule({
     imports: [
@@ -50,7 +51,7 @@ import {GameManagementModule} from "../game-management/game-management.module";
         MatMenuModule,
         GameMessagesModule,
         MatAutocompleteModule,
-        ReactiveFormsModule, GameManagementModule
+        ReactiveFormsModule, GameManagementModule, QRCodeModule
 
     ],
     entryComponents: [

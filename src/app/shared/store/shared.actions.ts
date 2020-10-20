@@ -11,6 +11,7 @@ export class SetErrorAction implements Action {
   type = SharedActionTypes.SET_ERROR;
 
   constructor(public payload: any) {
+    console.log("setting error");
   }
 }
 
@@ -18,6 +19,7 @@ export class SharedErrorAction implements Action {
   type = SharedActionTypes.SHARED_ERROR;
 
   constructor(public payload: any) {
+
   }
 }
 

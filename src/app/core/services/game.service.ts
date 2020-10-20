@@ -22,6 +22,17 @@ export class GameService {
 
     }
 
+    listParticipate(cursor: string): Observable<{ gameIds: string[]; resumptionToken: string }> {
+        let path = '/games/participateWithCursor/-';
+        if (cursor != null) {
+            path = `/games/participateWithCursor/${cursor}`;
+        }
+        console.log('path is ', path);
+        return this.http
+            .get<any>(environment.api_url + path);
+
+    }
+
     get(gameId: number): Observable<Game> {
         return this.http
             .get<any>(environment.api_url + '/game/' + gameId)

@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 
 import { Game } from '../store/current-game.state';
 import { State } from "../../core/reducers";
-import { getGame, getLoading } from "../store/current-game.selector";
+import {getGame, getLoading, inAuthorList} from "../store/current-game.selector";
 import { ANIMATION_MODULE_TYPE } from "@angular/platform-browser/animations";
 import { environment } from "../../../environments/environment";
 import { getAuthIsAvanced } from "../../auth/store/auth.selector";
@@ -28,7 +28,16 @@ import { getAuthIsAvanced } from "../../auth/store/auth.selector";
                     <app-header-back-button [route]="'/portal/games/list'"></app-header-back-button>
                 </div>
                 <div class="context-tabs" *ngIf="game$|async as game">
-                    <nav mat-tab-nav-bar [backgroundColor]="'primary'">
+                    <nav mat-tab-nav-bar [backgroundColor]="'primary'" *ngIf="!(inAuthorList$|async)">
+                        <a mat-tab-link
+                           #rl_runs="routerLinkActive"
+                           [disabled]="!game"
+                           [active]="rl_runs.isActive"
+                           [ngClass]="{'active-color': rl_runs.isActive}"
+                           [routerLink]="'/portal/game/'+game.gameId+'/detail/runs'"
+                           routerLinkActive="tab-selected"> {{'RUNS.PLAY'|translate}} </a>
+                    </nav>
+                    <nav mat-tab-nav-bar [backgroundColor]="'primary'" *ngIf="inAuthorList$|async">
                         <a mat-tab-link
 
                            [disabled]="!game"
@@ -172,6 +181,7 @@ export class GameDetailNavbarComponent implements OnInit {
     isAdvanced = this.store.select(getAuthIsAvanced);
     public game$: Observable<Game> = this.store.select(getGame);
     public isLoading$: Observable<boolean> = this.store.select(getLoading);
+    public inAuthorList$: Observable<boolean> = this.store.select(inAuthorList);
 
     @Input() game;
 

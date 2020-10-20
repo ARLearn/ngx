@@ -77,3 +77,16 @@ export const iAmOwner = createSelector(
         return (user.accessRights === 1);
     });
 
+export const inAuthorList = createSelector(getCurrentGameFeature, (state) => {
+    const me = state.me;
+    const authors = state.authors;
+    console.log(authors);
+    if (!authors) {
+        return false;
+    }
+    let retValue = false;
+    authors.forEach(author => {
+        retValue = retValue || (author.account === me);
+    });
+    return retValue;
+});

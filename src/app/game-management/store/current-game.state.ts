@@ -37,6 +37,7 @@ export interface Game {
     config?: GameConfig;
     splashScreen?: string;
     privateMode?: boolean;
+    playOnly?: boolean;
 
 }
 

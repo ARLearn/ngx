@@ -93,6 +93,7 @@ export function reducers(
             if (!action.payload.gameAccess) {
                 return state;
             }
+            console.log("authors", action.payload);
             return Object.assign({}, state, {
                 me: action.payload.myFullId,
                 authors: action.payload.gameAccess.map(authorMapper)

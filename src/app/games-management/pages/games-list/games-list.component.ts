@@ -16,7 +16,7 @@ import {NewGameComponent} from '../../modal/new-game/new-game.component';
 import {SetFilterAction} from "../../../game-messages/store/game-messages.actions";
 import {getFiltersSelector} from "../../../game-messages/store/game-messages.selector";
 import {take, tap} from "rxjs/operators";
-import { selectEntities } from 'src/app/game-themes/store/game-theme.selectors';
+import {selectEntities} from 'src/app/game-themes/store/game-theme.selectors';
 import {Query} from "../../../game-themes/store/game-theme.actions";
 
 @Component({
@@ -42,17 +42,30 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
                 >
                 </app-search-button>
                 <div class="gamesContainer">
+                    <div class="gameTile" *ngFor="let game of (gameList$|async)">
+                        <app-screen-tile *ngIf="!game.playOnly"
 
-                    <app-screen-tile class="gameTile"
-                                     *ngFor="let game of (gameList$|async)"
-                                     [title]="game.title"
-                                     [subtitle]="game.lastModificationDate | date:'mediumDate'"
-                                     [imagePath]="game.splashScreen || themes[game.theme]?.backgroundPath"
-                                     [actionText]="['GAME.DELETEGAME', 'GAME.CLONEGAME']"
-                                     [clickText]="'GAME.EDITGAME'"
-                                     [navTo]="'/portal/game/' +game.gameId+ '/detail/screens'"
-                                     (actionClicked)="deleteGame(game, $event)"
-                    ></app-screen-tile>
+                                [title]="game.title"
+                                [subtitle]="game.lastModificationDate | date:'mediumDate'"
+                                [imagePath]="game.splashScreen || themes[game.theme]?.backgroundPath"
+                                [actionText]="['GAME.DELETEGAME', 'GAME.CLONEGAME']"
+                                [clickText]="'GAME.EDITGAME'"
+                                [navTo]="'/portal/game/' +game.gameId+ '/detail/screens'"
+                                (actionClicked)="deleteGame(game, $event)"
+                        ></app-screen-tile>
+
+                        <app-screen-tile *ngIf="game.playOnly"
+
+                                         [title]="game.title"
+                                         [subtitle]="game.lastModificationDate | date:'mediumDate'"
+                                         [imagePath]="game.splashScreen || themes[game.theme]?.backgroundPath"
+                                         [actionText]="[ 'GAME.CLONEGAME']"
+                                         [clickText]="'GAME.PLAYGAME'"
+                                         [navTo]="'/portal/game/' +game.gameId+ '/detail/runs'"
+                                         (actionClicked)="deleteGame(game, $event)"
+                        ></app-screen-tile>
+                    </div>
+
 
                 </div>
 

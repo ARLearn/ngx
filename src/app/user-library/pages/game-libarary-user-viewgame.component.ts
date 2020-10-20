@@ -6,6 +6,10 @@ import {getSelectedGame} from "../store/user-library.selectors";
 import {GetGameAction} from "../store/user-library.actions";
 import {Router} from "@angular/router";
 import {CloneGameRequestAction} from "../../games-management/store/game.actions";
+import {environment} from "../../../environments/environment";
+import {NewRunDialogComponent} from "../../game-runs-management/components/new-run-dialog/new-run-dialog.component";
+import {CreateRunRequestAction} from "../../game-runs-management/store/game-runs.actions";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
     selector: 'app-game-libarary-user-viewgame',
@@ -35,14 +39,28 @@ import {CloneGameRequestAction} from "../../games-management/store/game.actions"
 
                 </div>
 
-                <div class="remix-outer" >
-                    <div class="remix-btn-wrapper">
-                        <button mat-flat-button color="primary"
-                                [disabled]="clicked"
-                                class="remix-btn" (click)="remix(game.gameId)">remix
-                            <mat-icon class="remix-icon" svgIcon="remix"></mat-icon>
-                        </button>
+                <div class="remix-outer">
+                    <div class="button-outer">
+                        <div class="pos-qr-code-container">
+                            <qr-code [value]="getQrCode(game.gameId)" [size]="100"></qr-code>
+                        </div>
+
+                        <div class="remix-btn-wrapper">
+                            <button mat-flat-button color="primary"
+                                    [disabled]="clicked"
+                                    (click)="addRun(game.gameId)"
+                                    class="remix-btn">nieuwe groep
+
+                            </button>
+
+                            <button mat-flat-button color="primary"
+                                    [disabled]="clicked"
+                                    class="remix-btn" (click)="remix(game.gameId)">remix
+                                <mat-icon class="remix-icon" svgIcon="remix"></mat-icon>
+                            </button>
+                        </div>
                     </div>
+
 
                     <div class="image-container">
                         <div class="image-class">
@@ -65,6 +83,19 @@ import {CloneGameRequestAction} from "../../games-management/store/game.actions"
     `,
 
     styles: [`
+
+        .pos-qr-code-container {
+            /*position: absolute;*/
+            /*top: 0px;*/
+            /*right: 0px;*/
+            width: 120px;
+            height: 120px;
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 1px 10px #0000001A;
+            border-radius: 2px;
+            padding: 10px;
+        }
+
         .remix-icon {
             height: 15px;
             width: 18px;
@@ -88,6 +119,13 @@ import {CloneGameRequestAction} from "../../games-management/store/game.actions"
             width: 418px;
         }
 
+        .button-outer {
+            width: 405px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
         .remix-btn {
             text-transform: uppercase;
             width: 168px;
@@ -98,7 +136,12 @@ import {CloneGameRequestAction} from "../../games-management/store/game.actions"
             margin-bottom: 2rem;
             border-top: 2px solid #f1f1f1;
             width: 168px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
+
 
         .image-container {
             width: 405px;
@@ -174,8 +217,13 @@ export class GameLibararyUserViewgameComponent implements OnInit {
 
     game$: Observable<any> = this.store.select(getSelectedGame);
 
+    getQrCode(gameId: number) {
+        return environment.deep_link + 'game/' + gameId;
+    }
+
     constructor(
         private router: Router,
+        public dialog: MatDialog,
         private store: Store<State>) {
     }
 
@@ -187,5 +235,21 @@ export class GameLibararyUserViewgameComponent implements OnInit {
         this.clicked = true;
         this.store.dispatch(new CloneGameRequestAction({gameId: gameId}));
         this.router.navigate(['/portal/root/games']);
+    }
+
+    addRun(gameId) {
+        const dialogRef = this.dialog.open(NewRunDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+            data: {title: ''}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed', result);
+            if (result) {
+                this.store.dispatch(new CreateRunRequestAction(result));
+            }
+            this.router.navigate(['/portal/game/' + gameId + '/detail/runs']);
+
+        });
     }
 }

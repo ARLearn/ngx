@@ -82,6 +82,7 @@
 		"DESCRIPTION": "Explain who this game is for ...",
 		"DESCRIPTION_FIELD": "Description",
 		"EDITGAME": "CUSTOMIZE GAME",
+		"PLAYGAME": "PLAY GAME",
 		"FEATURED": "Featured games",
 		"GAMELIB": "Game library",
 		"ICON_ABR": "Icon abbreviation",
@@ -225,7 +226,8 @@
 		"PLAYER_NAME": "Player name",
 		"SEARCH": "Search",
 		"TIME": "Time",
-		"TITLE": "Title"
+		"TITLE": "Title",
+		"EXPIRATION_DATE" : "Expiration date"
 	},
 	"RUNS": {
 		"GROUP_NAME": "Name of the group",

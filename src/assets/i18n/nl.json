@@ -86,6 +86,7 @@
 		"DESCRIPTION": "Leg uit voor wie deze game bedoeld is...",
 		"DESCRIPTION_FIELD": "Beschrijving",
 		"EDITGAME": "SPEL AANPASSEN",
+		"PLAYGAME": "SPEL SPELEN",
 		"FEATURED": "Uitgelichte spellen",
 		"GAMELIB": "Spel bibliotheek",
 		"ICON_ABR": "Icoon afkorting",
@@ -239,7 +240,8 @@
 		"SEARCH": "Zoek",
 		"TIME": "Tijd",
 		"TITLE": "Titel",
-		"EMAIL": "E-mail"
+		"EMAIL": "E-mail",
+		"EXPIRATION_DATE" : "Vervalt op"
 	},
 	"RUNS": {
 		"GROUP_NAME": "Naam van de groep",

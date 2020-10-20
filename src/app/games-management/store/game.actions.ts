@@ -8,6 +8,9 @@ export const GameActionTypes = {
     GET_GAME_CURSOR_LIST_REQUESTED: '[Games] Get Cursor Requested',
     GET_GAME_LIST_COMPLETED: '[Games] Get Completed',
 
+    GET_GAMES_PARTICIPATE: '[Games] Get Games Participate',
+    GET_GAME_PARTICIPATE: '[Games] Get Game Participate',
+
     CREATE_GAME_REQUESTED: '[Games] Create Game Requested',
     CREATE_GAME_COMPLETED: '[Games] Create Game Completed',
 
@@ -44,6 +47,19 @@ export class GetGameListCompletedAction implements Action {
     type = GameActionTypes.GET_GAME_LIST_COMPLETED;
 
     constructor(public payload: any) {
+    }
+}
+export class GetGamesParticipateAction implements Action {
+    type = GameActionTypes.GET_GAMES_PARTICIPATE;
+
+    constructor(public payload: { cursor: string } = null) {
+    }
+}
+
+export class GetGameParticipateAction implements Action {
+    type = GameActionTypes.GET_GAME_PARTICIPATE;
+
+    constructor(public payload: string) {
     }
 }
 

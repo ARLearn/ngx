@@ -49,8 +49,9 @@ import {tap} from "rxjs/operators";
                             Scan QR Code
                         </div>
                         <div class="pos-code">
-                            <img class="pos-img"
-                                 [src]="getUrl((run$|async)?.runId)"/>
+                            <qr-code [value]="getQrCode((run$|async)?.runId)" [size]="100"></qr-code>
+<!--                            <img class="pos-img"-->
+<!--                                 [src]="getUrl((run$|async)?.runId)"/>-->
                         </div>
 
                     </div>
@@ -136,6 +137,10 @@ export class RunSettingsPageComponent implements OnInit {
     getUrl(runId: number) {
         const url = environment.deep_link + 'run/' + runId;
         return 'https://qrfree.kaywa.com/?l=1&d=' + url;
+    }
+
+    getQrCode(runId: number) {
+        return environment.deep_link + 'run/' + runId;
     }
 
     onRoleChange(event) {

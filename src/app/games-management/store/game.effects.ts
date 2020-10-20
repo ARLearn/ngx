@@ -5,18 +5,25 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import * as actions from './game.actions';
-import {CloneGameRequestAction, DeleteGameRequestAction, ImportGameMessagesRequestAction, ImportGameRequestAction} from './game.actions';
+import {
+    CloneGameRequestAction,
+    DeleteGameRequestAction,
+    GetGameParticipateAction,
+    ImportGameMessagesRequestAction,
+    ImportGameRequestAction
+} from './game.actions';
 import * as actions_current from '../../game-management/store/current-game.actions';
 
 import {State} from 'src/app/core/reducers';
 
 import {GameService} from 'src/app/core/services/game.service';
-import {catchError, debounce, debounceTime, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, debounce, debounceTime, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {SetErrorAction} from '../../shared/store/shared.actions';
 import {getGame} from '../../game-management/store/current-game.selector';
 import {Game} from '../../game-management/store/current-game.state';
 import {GameMessagesService} from '../../core/services/game-messages.service';
 import {AuthActionTypes} from '../../auth/store/auth.actions';
+import {getGameList} from "./game.selector";
 
 
 @Injectable()
@@ -69,7 +76,8 @@ export class GameEffects {
                             ];
                         }
                         return [
-                            new actions.GetGameListCompletedAction(res.games)
+                            new actions.GetGameListCompletedAction(res.games),
+                            new actions.GetGamesParticipateAction()
                             // new actions.GetGameCursorListRequestAction({cursor: res.resumptionToken})
                         ];
                     }
@@ -79,6 +87,48 @@ export class GameEffects {
         )
     );
 
+    @Effect()
+    getGamesParticipateCursor: Observable<Action> = this.actions$.pipe(
+        ofType(actions.GameActionTypes.GET_GAMES_PARTICIPATE),
+        map((action: actions.GetGamesParticipateAction) => action),
+        switchMap((payload: any) =>
+            this.gameService.listParticipate(payload.payload?.cursor).pipe(
+                mergeMap(res => {
+                        if (!res.gameIds) {
+                            return [];
+                        }
+                        const participateActions: any[] = res.gameIds.map(gameId => new actions.GetGameParticipateAction(gameId));
+                        if (res.resumptionToken != null) {
+                            participateActions.push(new actions.GetGamesParticipateAction({cursor: res.resumptionToken}));
+                            return participateActions;
+                        }
+                        return participateActions;
+                    }
+                ),
+                catchError((error) => of(new SetErrorAction(error.error)))
+            )
+        )
+    );
+
+    @Effect()
+    getParticipateGame: Observable<Action> = this.actions$.pipe(
+        ofType(actions.GameActionTypes.GET_GAME_PARTICIPATE),
+        withLatestFrom(
+            this.store$.select(getGameList)
+        ),
+        // tap(([action, gameList]: [GetGameParticipateAction, Game[]]) => console.log(action.payload, gameList.filter(game => (game.gameId + '') === (action.payload + '')))),
+        filter(([action, gameList]: [GetGameParticipateAction, Game[]]) => gameList.filter(game => (game.gameId + '') === (action.payload + '')).length === 0),
+        // tap()
+        mergeMap(
+            ([action, gameList]: [GetGameParticipateAction, Game[]]) => this.gameService.get(Number.parseInt(action.payload, 10)).pipe(
+                map(res => {
+                    return new actions.GetGameListCompletedAction([Object.assign(res, {playOnly: true})]);
+                    // return new actions.CreateGameCompletedAction(res);
+                }),
+                catchError((error) => of(new SetErrorAction(error.error)))
+            )
+        )
+    );
 
     @Effect()
     createGame: Observable<Action> = this.actions$.pipe(

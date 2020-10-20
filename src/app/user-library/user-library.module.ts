@@ -10,6 +10,7 @@ import { FeaturedBannerComponent } from './components/featured-banner.component'
 import { LibraryGamesTableComponent } from './components/library-games-table.component';
 import { GameIconComponent } from './components/game-icon.component';
 import { GameLibararyUserViewgameComponent } from './pages/game-libarary-user-viewgame.component';
+import {QRCodeModule} from "angular2-qrcode";
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { GameLibararyUserViewgameComponent } from './pages/game-libarary-user-vi
         SharedModule.forChild(),
         StoreModule.forFeature('gameLibrary', reducers),
         EffectsModule.forFeature([UserLibraryEffects]),
+        QRCodeModule,
 
     ]
 })
