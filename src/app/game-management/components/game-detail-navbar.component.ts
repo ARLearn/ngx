@@ -79,7 +79,7 @@ import { getAuthIsAvanced } from "../../auth/store/auth.selector";
                 <ng-content></ng-content>
             </div>
         </div>
-        <mat-progress-bar *ngIf="isLoading$|async" mode="indeterminate"></mat-progress-bar>
+        <mat-progress-bar class="progress" *ngIf="isLoading$|async" mode="indeterminate"></mat-progress-bar>
     `,
     styles: [`
 
@@ -159,6 +159,10 @@ import { getAuthIsAvanced } from "../../auth/store/auth.selector";
             padding: 0 20px 0px 0px;
             justify-content: normal;
 
+        }
+        
+        .progress.mat-progress-bar {
+            position: absolute;
         }
 
     `],
