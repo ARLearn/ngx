@@ -1,13 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
-import { Store } from "@ngrx/store";
+import {ActionsSubject, Store} from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
-import {filter, withLatestFrom} from 'rxjs/operators';
+import {delay, filter, withLatestFrom} from 'rxjs/operators';
 import { AngularFireStorage } from "angularfire2/storage";
 
 import { State } from "../../core/reducers";
 import { SelectThemeComponent } from "../../game-themes/modal/select-theme.component";
-import {CreateRequest, Query} from "../../game-themes/store/game-theme.actions";
+import {
+    CreateRequest,
+    GameThemeActionTypes,
+    Query,
+    UpdateOne,
+    UpdateRequest
+} from "../../game-themes/store/game-theme.actions";
 import { SetSelectedThemeAction } from '../store/current-game.actions';
 import { getSelectedTheme } from "../store/current-game.selector";
 import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
@@ -18,6 +24,7 @@ import {GameThemeService} from "../../core/services/GameThemeService";
 import {AuthService} from "../../auth/services/auth.service";
 import {getCurrentUser} from "../../auth/store/auth.selector";
 import {GameTheme} from "../../game-themes/store/game-theme.state";
+import {ofType} from "@ngrx/effects";
 
 @Component({
     selector: 'app-game-theme-selector',
@@ -161,7 +168,8 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private afStorage: AngularFireStorage,
         private gameThemeService: GameThemeService,
-    ) {}
+    ) {
+    }
 
     ngOnInit(): void {
         this.subscription.add(this.user$.subscribe((user) => this.currentUserId = user.uid))
@@ -202,20 +210,9 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
 
         this.subscription.add(dialogRef.componentInstance.submit
             .subscribe((theme) => {
-                const dialogThemeRef = this.dialog.open(ThemeSettingsComponent, {
-                    panelClass: ['modal-fullscreen', "modal-dialog"],
-                    data: {}
-                });
+                this.store.dispatch(new SetSelectedThemeAction(theme));
 
-                dialogThemeRef.componentInstance.selectedTheme = theme;
-
-
-                this.subscription.add(dialogThemeRef.componentInstance.submit.subscribe(({theme: thm, iconAbbreviation}) => {
-                    this.store.dispatch(new SetSelectedThemeAction(thm));
-                    // TODO: make game updating (set iconAbbreviation)
-                    console.log('iconAbbreviation: ', iconAbbreviation);
-                    this.dialog.closeAll();
-                }));
+                dialogRef.close();
             }));
 
         this.subscription.add(
@@ -223,11 +220,15 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
                 this.openCreateThemeModal();
             })
         );
+
+        this.subscription.add(
+            dialogRef.componentInstance.onUpdateTheme.subscribe((theme) => {
+                this.openUpdateThemeSettingsModal(theme);
+            })
+        );
     }
 
     openCreateThemeModal() {
-        this.user$.subscribe(console.log)
-
         const dialogRef = this.dialog.open(CreateThemeNameModalComponent, {
             panelClass: ['modal-fullscreen', "modal-dialog"],
             data: {}
@@ -258,6 +259,23 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
         this.subscription.add(
             dialogRef.componentInstance.submit.subscribe((payload) => {
                 this.store.dispatch(new CreateRequest(payload));
+                dialogRef.close();
+            })
+        );
+    }
+
+    openUpdateThemeSettingsModal(theme) {
+
+        const dialogRef = this.dialog.open(CreateThemeSettingsComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+            data: {}
+        });
+
+        dialogRef.componentInstance.theme = { ...dialogRef.componentInstance.theme, ...theme, fullAccount: this.currentUserId };
+
+        this.subscription.add(
+            dialogRef.componentInstance.submit.subscribe((payload) => {
+                this.store.dispatch(new UpdateRequest(payload));
                 dialogRef.close();
             })
         );

@@ -1,12 +1,14 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {selectAll, selectThemeCategories} from "../store/game-theme.selectors";
-import {BehaviorSubject, combineLatest, Observable, of, Subject} from "rxjs";
+import {BehaviorSubject, combineLatest, Observable, of, Subject, Subscription} from "rxjs";
 import {AngularFireStorage} from "angularfire2/storage";
 import {GameTheme} from "../store/game-theme.state";
-import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, mergeMap, withLatestFrom} from 'rxjs/operators';
+import {Actions, ofType} from "@ngrx/effects";
+import {GameThemeActionTypes, UpdateOne} from "../store/game-theme.actions";
 
 @Component({
   selector: 'app-select-theme',
@@ -56,8 +58,9 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
             <h4>{{ selectedTheme.name }}</h4>
           </div>
           <div>
+            <button mat-button color="primary" *ngIf="!isThemeComplete(selectedTheme)" (click)="editTheme()">Edit</button>
             <button mat-button color="primary" (click)="selectedTheme = null">Deselecteren</button>
-            <button mat-flat-button color="primary" (click)="onSubmit()">Ga verder</button>
+            <button mat-flat-button color="primary" [disabled]="!isThemeComplete(selectedTheme)" (click)="onSubmit()">Ga verder</button>
           </div>
         </div>
       </mat-toolbar>
@@ -75,7 +78,7 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
     .theme-panel {
       display: flex;
       align-items: flex-start;
-      margin-top: 3rem;
+      margin: 3rem 0 8rem;
     }
     .theme-items {
       display: flex;
@@ -87,8 +90,7 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
       width: 200px;
     }
     .theme-img {
-      height: 100%;
-      max-height: 260px;
+      height: 260px;
     }
     .theme-img img {
       object-fit: cover;
@@ -172,10 +174,11 @@ import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
     .theme-toolbar img {
       height: 100%;
       width: 100%;
+      min-height: 70px;
     }
   `]
 })
-export class SelectThemeComponent implements OnInit {
+export class SelectThemeComponent implements OnInit, OnDestroy {
   public selectCategory$ = new BehaviorSubject(null);
 
   public themes$ = this.store.select(selectAll)
@@ -197,6 +200,9 @@ export class SelectThemeComponent implements OnInit {
 
   private submit$: Subject<GameTheme> = new Subject<GameTheme>();
   private onCreateTheme$: Subject<GameTheme> = new Subject<GameTheme>();
+  private onUpdateTheme$: Subject<GameTheme> = new Subject<GameTheme>();
+
+  private subscription = new Subscription();
 
   get submit() {
     return this.submit$.asObservable();
@@ -206,13 +212,37 @@ export class SelectThemeComponent implements OnInit {
     return this.onCreateTheme$.asObservable();
   }
 
+  get onUpdateTheme() {
+    return this.onUpdateTheme$.asObservable();
+  }
+
   constructor(public dialogRef: MatDialogRef<SelectThemeComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public store: Store<State>,
+              private actionsSubj: Actions,
               private afStorage: AngularFireStorage) {
+
+    const sub = this.actionsSubj.pipe(
+        ofType(GameThemeActionTypes.UPDATE_ONE)
+    ).subscribe((action: UpdateOne) => {
+      this.selectedTheme = action.changes;
+      this.selectedTheme.backgroundPath = this.getDownloadUrl(this.selectedTheme.backgroundPath);
+      this.selectedTheme.iconPath = this.getDownloadUrl(this.selectedTheme.iconPath);
+    });
+
+    this.subscription.add(sub);
   }
 
   ngOnInit(): void {
+    const categorySub = this.categories$.pipe(filter(c => c.length > 0)).subscribe(([category]) => {
+      this.selectCategory(category);
+    });
+
+    this.subscription.add(categorySub);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onNoClick() {
@@ -227,6 +257,10 @@ export class SelectThemeComponent implements OnInit {
     this.onCreateTheme$.next(null);
   }
 
+  editTheme() {
+    this.onUpdateTheme$.next(this.selectedTheme);
+  }
+
   selectCategory(category) {
     if (this.selectedCategory != category) {
       this.selectedCategory = category;
@@ -235,6 +269,10 @@ export class SelectThemeComponent implements OnInit {
       this.selectedCategory = null;
       this.selectCategory$.next(null);
     }
+  }
+
+  isThemeComplete(theme: GameTheme) {
+    return theme.iconPath && theme.backgroundPath && theme.correctPath && theme.wrongPath;
   }
 
   onSubmit() {

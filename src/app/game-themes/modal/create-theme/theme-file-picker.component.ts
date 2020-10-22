@@ -17,7 +17,12 @@ import {PortalGamesActionTypes} from "../../../portal-management/store/portal-ga
     template: `
         <div>
             <div class="image-class" [class.image-small]="small" *ngIf="imageExists">
-                <button color="warn" mat-raised-button class="btn-delete" (click)="deleteImage()"><mat-icon>delete</mat-icon></button>
+                <mat-icon
+                        *ngIf="small"
+                        class="style-icon btn-delete"
+                        (click)="deleteImage()"
+                        [svgIcon]="'close'"></mat-icon>
+                <button *ngIf="!small" mat-raised-button class="btn-delete" (click)="deleteImage()"><mat-icon>delete</mat-icon></button>
                 <app-filestore-background-image
                         (loadFailure)="deleteImage()"
                         [paths]="[path]"
@@ -38,8 +43,8 @@ import {PortalGamesActionTypes} from "../../../portal-management/store/portal-ga
         `
             .image-class {
                 position: relative;
-                height: 373px;
-                width: 230px;
+                height: 418px;
+                width: 236px;
             }
             
             .image-class.image-small {
@@ -48,15 +53,25 @@ import {PortalGamesActionTypes} from "../../../portal-management/store/portal-ga
             }
             
             .image-small .btn-delete {
-                top: 0px;
-                right: -70px;
+                top: -1px;
+                right: 4px;
+                min-width: unset;
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
             }
             
             .btn-delete {
                 position: absolute;
                 top: 10px;
                 right: 10px;
+                min-width: 50px;
                 z-index: 1;
+            }
+            
+            ::ng-deep .btn-delete svg .a {
+                fill: #ffffff;
+                opacity: 1;
             }
         `
     ]

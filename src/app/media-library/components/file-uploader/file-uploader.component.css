@@ -1,10 +1,11 @@
 .drop {
     background-color: transparent !important;
-    padding: 70px 40px;
+    padding: 70px 0;
     border-radius: 10px;
     border: 2px dashed #d5d8d9;
-    height: unset !important;
     text-align: center;
+    width: 236px;
+    height: 418px !important;
 }
 
 .drop--small {
