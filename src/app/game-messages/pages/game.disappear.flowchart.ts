@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {GameDetailScreensComponent} from './game-detail-screens/game-detail-screens.component';
 import {Observable, Subscription} from "rxjs";
+import { map } from 'rxjs/operators';
 import {getFilteredMessagesSelector, getMessagesLoading} from "../store/game-messages.selector";
 import {GameMessage} from "../store/game-messages.state";
 import {
@@ -14,7 +15,7 @@ import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
 import {SetPreviewMessageAction} from "../store/game-messages.actions";
-import { map } from 'rxjs/operators';
+import {SetLoadingAction} from "../../game-management/store/current-game.actions";
 
 @Component({
     selector: 'app-game-disappear-flowchart',
@@ -120,6 +121,11 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
                 if (event.nodeType === 'ScanTag') {
                     this.store.dispatch(new GameMessageUpdateAction(event.payload.outputs));
                 }
+
+                break;
+            }
+            case 'FIRST_CHUNK_LOADING': {
+                this.store.dispatch(new SetLoadingAction(event.payload));
 
                 break;
             }

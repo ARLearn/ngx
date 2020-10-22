@@ -15,6 +15,7 @@ import {State} from "../../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
 import {SetPreviewMessageAction} from "../../store/game-messages.actions";
 import { map, tap } from 'rxjs/operators';
+import {SetLoadingAction} from "../../../game-management/store/current-game.actions";
 
 @Component({
     selector: 'app-game-detail-flowchart',
@@ -122,6 +123,11 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
                 if (event.nodeType === 'ScanTag' || event.nodeType === 'TextQuestion') {
                     this.store.dispatch(new GameMessageUpdateAction(event.payload.outputs));
                 }
+
+                break;
+            }
+            case 'FIRST_CHUNK_LOADING': {
+                this.store.dispatch(new SetLoadingAction(event.payload));
 
                 break;
             }

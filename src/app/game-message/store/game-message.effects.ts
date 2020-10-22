@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {State} from 'src/app/core/reducers';
-import {map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {debounce, debounceTime, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {
     GameMessageActionTypes,
     GameMessageDirectSaveAction,
@@ -20,6 +20,8 @@ import {
 } from '../../game-messages/store/game-messages.actions';
 import {getEditMessageSelector} from "./game-message.selector";
 import {Router} from "@angular/router";
+import {SetLoadingAction} from "../../game-management/store/current-game.actions";
+import {beforeUnloadHandler} from "../../utils/beforeunload.handler";
 
 @Injectable()
 export class GameMessageEffects {
@@ -74,15 +76,26 @@ export class GameMessageEffects {
     @Effect()
     directSaveMessage: Observable<Action> = this.actions$.pipe(
         ofType(GameMessageActionTypes.GAME_MESSAGE_DIRECT_SAVE),
+        tap(() => {
+            window.onbeforeunload = beforeUnloadHandler;
+            this.store.dispatch(new SetLoadingAction(true));
+        }),
+        debounceTime(500),
         mergeMap(
             (action: GameMessageDirectSaveAction) =>
-                this.gameMessages.postMessage(action.payload).pipe(
+            {
+                return this.gameMessages.postMessage(action.payload).pipe(
                     map(res =>
                         new SaveMessageResponseAction(
                             res
                         )
-                    )
+                    ),
+                    tap(() => {
+                        window.onbeforeunload = null;
+                    }),
+                    tap(() => this.store.dispatch(new SetLoadingAction(false))),
                 )
+            }
         )
     );
 }

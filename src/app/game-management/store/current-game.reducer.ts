@@ -105,6 +105,13 @@ export function reducers(
             return currentGameInitialState;
         }
 
+        case actions.CurrentGameActionTypes.SET_LOADING: {
+            return {
+                ...state,
+                loading: action.payload,
+            }
+        }
+
         default: {
             return state;
         }

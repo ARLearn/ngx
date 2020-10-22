@@ -24,7 +24,9 @@ export const CurrentGameActionTypes = {
 
   DOWNLOAD_GAME_REQUESTED: '[CurrentGame] Download Game Requested',
   SET_THEME: '[CurrentGame] Set Theme',
-  CURRENT_GAME_ERROR: '[CurrentGame]  Error'
+  CURRENT_GAME_ERROR: '[CurrentGame]  Error',
+
+  SET_LOADING: '[CurrentGame]  Set Loading',
 };
 
 export class GetCurrentGameFromRouterRequestAction implements Action {
@@ -135,10 +137,17 @@ export class CurrentGameErrorAction implements Action {
   }
 }
 
+export class SetLoadingAction implements Action {
+  type = CurrentGameActionTypes.SET_LOADING;
+
+  constructor(public payload: boolean) {
+  }
+}
+
 export type CurrentGameAction
   = SetCurrentGameRequestAction
   | SetCurrentGameCompletedAction
   | SaveGameRequestAction
   | SaveGameCompletedAction
   | CurrentGameErrorAction
-  ;
+  | SetLoadingAction;
