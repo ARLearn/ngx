@@ -13,9 +13,10 @@ import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
 import {AddPlayerDialogComponent} from "../components/add-player-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {currentRunPlayers, ownsRun} from "../store/game-runs.selector";
 import {PendingPlayer} from "../../player-management/store/player.state";
 import {PlayerLoadRequestAction} from "../../player-management/store/player.actions";
+import {ownsRun} from "../store/game-runs-access.selector";
+import {currentRunPlayers} from "../store/game-runs-players.selector";
 
 @Component({
     selector: 'app-run-players-page',

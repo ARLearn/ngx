@@ -1,37 +1,43 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {State} from '../../../core/reducers';
-import {getRuns} from '../../store/game-runs.selector';
-import {GameRun} from '../../store/game-runs.state';
+import {currentGameRuns} from '../../store/game-runs.selector';
+import {RunAccessRight, GameRun, RunAccess} from '../../store/game-runs.state';
 import {DeleteRunRequestAction, SelectRunAction} from '../../store/game-runs.actions';
-import {PendingPlayer} from '../../../player-management/store/player.state';
 import {Router} from "@angular/router";
+import * as fromRunAccess from "src/app/game-runs-management/store/game-runs-access.selector";
+import {Dictionary} from "@ngrx/entity";
+import {getPortalUser} from "../../../player-management/store/player.selector";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'app-runs-table',
     template: `
-        <div>
-            <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
+        <div *ngIf="runAccess$|async as ra">
+            <table mat-table [dataSource]="dataSource" matSort aria-label="Elements" *ngIf="me |async as myFullId">
 
                 <ng-container matColumnDef="title">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ROW_HEADERS.TITLE' | translate }}</th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)">{{row.title}}</td>
+                    <td mat-cell *matCellDef="let row" (click)="click(row, ra[myFullId+'_'+row.runId]?.accessRights)">{{row.title}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="lastModificationDate">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'ROW_HEADERS.DATE' | translate }}</th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)">{{row.lastModificationDate |  date:'medium'}}</td>
+                    <td mat-cell *matCellDef="let row"
+                        (click)="click(row, ra[myFullId+'_'+row.runId]?.accessRights)">{{row.lastModificationDate |  date:'medium'}}</td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="controls" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let row" class="cell-right">
-                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <button
+                                *ngIf="((runAccess$|async)[myFullId+'_'+row.runId])?.accessRights == 1"
+                                mat-icon-button [matMenuTriggerFor]="menu">
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
@@ -94,13 +100,17 @@ import {Router} from "@angular/router";
 
     `]
 })
-export class RunsTableComponent implements OnInit {
+export class RunsTableComponent implements OnInit, OnDestroy {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     displayedColumns = ['title', 'lastModificationDate', 'controls'];
-    public messages$: Observable<any> = this.store.select(getRuns);
-    dataSource: MatTableDataSource<any>;
+    public messages$: Observable<any> = this.store.select(currentGameRuns);
+    public runAccess$: Observable<Dictionary<RunAccess>> = this.store.select(fromRunAccess.selectEntities);
+    public me: Observable<any> = this.store.select(getPortalUser).pipe(map(pu => pu.fullId));
+    dataSource: MatTableDataSource<GameRun>;
+
+    public subscription: Subscription;
 
     constructor(
         private store: Store<State>,
@@ -109,9 +119,8 @@ export class RunsTableComponent implements OnInit {
 
     }
 
-
     ngOnInit() {
-        this.messages$.subscribe((messages) => {
+        this.subscription = this.messages$.subscribe((messages) => {
             this.dataSource = new MatTableDataSource(messages);
             const sortState: Sort = {active: 'lastModificationDate', direction: 'desc'};
             if (this.sort) {
@@ -127,14 +136,31 @@ export class RunsTableComponent implements OnInit {
 
     }
 
-    click(gameRun: GameRun) {
-        this.router.navigate([`portal/game/${gameRun.gameId}/detail/runs/${gameRun.runId}/players`]);
+    click(gameRun: GameRun, accessRights: number) {
+        console.log("in click", accessRights);
+        if (accessRights === RunAccessRight.EDITOR) {
+            console.log("in click ed", accessRights);
+            this.router.navigate([`portal/game/${gameRun.gameId}/detail/runs/${gameRun.runId}/players`]);
+        } else if (accessRights === RunAccessRight.OWNER) {
+            console.log("in click ow", accessRights);
+            this.router.navigate([`portal/game/${gameRun.gameId}/detail/runs/${gameRun.runId}/settings`]);
+        } else {
+            console.log("in click no", accessRights);
+            this.router.navigate([`portal/game/${gameRun.gameId}/detail/runs/${gameRun.runId}/results`]);
+        }
+
     }
 
 
     deleteRun(toDeleteRun: GameRun) {
         this.store.dispatch(new DeleteRunRequestAction(toDeleteRun));
 
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
 }

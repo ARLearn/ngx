@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 import {Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {map} from 'rxjs/operators';
-import {getCurrentRunId, getMyRunAccess, canViewRun, ownsRun} from "../store/game-runs.selector";
+import {getCurrentRunId} from "../store/game-runs.selector";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {Game} from "../../game-management/store/current-game.state";
@@ -11,6 +11,7 @@ import {getAuthIsAdmin} from "../../auth/store/auth.selector";
 import {getMultipleMessagesSelector, getSelectedScreen} from 'src/app/game-messages/store/game-messages.selector';
 import {GetGameMessagesRequestAction} from 'src/app/game-messages/store/game-messages.actions';
 import {GameRunCollaboratorsRequestAction} from "../store/game-runs.actions";
+import {canViewRun, ownsRun} from "../store/game-runs-access.selector";
 
 @Component({
     selector: 'app-run-tab-select',
@@ -23,11 +24,11 @@ import {GameRunCollaboratorsRequestAction} from "../store/game-runs.actions";
                 <mat-icon>keyboard_arrow_left</mat-icon>
             </button>
 
-            
+
             <div class="run-tabs" *ngIf="game$ |async as game">
                 <nav mat-tab-nav-bar class="nav-override style-upper" *ngIf="runId$ |async as runId">
                     <a mat-tab-link
-                       *ngIf = "canViewRun$ |async"
+                       *ngIf="canViewRun$ |async"
                        routerLinkActive #runtab1="routerLinkActive"
                        [disabled]="getDisabled(game, runId)"
                        [active]="runtab1.isActive"
@@ -41,10 +42,10 @@ import {GameRunCollaboratorsRequestAction} from "../store/game-runs.actions";
                        [active]="runtab2.isActive || isActiveResults()"
                        [ngClass]="{'active-black':runtab2.isActive}"
                        [routerLink]="'/portal/game/'+game.gameId+'/detail/runs/'+runId+'/results/' + (messageId$ | async)">RESULTATEN</a>
-                    
+
                     <a mat-tab-link
                        routerLinkActive #runtab3="routerLinkActive"
-                       *ngIf = "ownsRun$ |async"
+                       *ngIf="ownsRun$ |async"
                        [disabled]="getDisabled(game, runId)"
                        [ngClass]="{'active-black':runtab3.isActive}"
                        [active]="runtab3.isActive"

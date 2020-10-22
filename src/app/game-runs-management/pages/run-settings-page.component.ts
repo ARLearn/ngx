@@ -12,7 +12,7 @@ import {
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
 import {GameRun} from "../store/game-runs.state";
 import {environment} from "../../../environments/environment";
-import {getCollaborators, getEditRunSelector, getCollaboratorsWithAccount} from "../store/game-runs.selector";
+import {getEditRunSelector, getCollaboratorsWithAccount} from "../store/game-runs.selector";
 import {tap} from "rxjs/operators";
 import {PlayerLoadRequestAction} from "../../player-management/store/player.actions";
 
@@ -162,7 +162,8 @@ export class RunSettingsPageComponent implements OnInit {
         console.log('DELETE', event);
 
         this.store.dispatch(new RevokeCollaboratorAccessAction({
-            author: event.account
+            author: event.account,
+            runId: event.runId
         }));
     }
 

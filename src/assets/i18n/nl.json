@@ -7,7 +7,10 @@
 		"ESC": "SLUIT",
 		"RE_INVITE": "verstuur opnieuw",
 		"SAVE": "Opslaan",
-		"SELECT": "Selecteer"
+		"SELECT": "Selecteer",
+		"MAKE_OWNER": "Maak eigenaar",
+		"MAKE_EDITOR": "Maak editor",
+		"MAKE_VIEWER": "Maak viewer"
 	},
 	"ADMIN": {
 		"FEATURED": {

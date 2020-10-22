@@ -11,12 +11,20 @@ import {
     DeleteRunCompletedAction,
     DeleteRunRequestAction,
     DeleteUserFromRunCompletedAction,
-    DeleteUserFromRunRequestAction, GameRunCollaboratorsCompletedAction, GameRunCollaboratorsRequestAction,
-    GameRunsActionTypes, GetCurrentRunFromRouterRequestAction,
-    GetGameRunsCompletedAction, GetGameRunsCursorListRequestionAction,
-    GetGameRunsRequestAction, GrantCollaboratorAccessAction,
+    DeleteUserFromRunRequestAction,
+    GameMyRunsCollaboratorsCompletedAction,
+    GameRunCollaboratorsCompletedAction,
+    GameRunCollaboratorsRequestAction,
+    GameRunsActionTypes,
+    GetCurrentRunFromRouterRequestAction,
+    GetGameRunsCompletedAction,
+    GetGameRunsCursorListRequestionAction,
+    GetGameRunsRequestAction,
+    GrantCollaboratorAccessAction,
     LoadRunUsersCompletedAction,
-    LoadRunUsersRequestAction, RunSaveResponseAction, SetCurrentRunCompleteAction
+    LoadRunUsersRequestAction,
+    RunSaveResponseAction,
+    SetCurrentRunCompleteAction
 } from './game-runs.actions';
 import {State} from 'src/app/core/reducers';
 import {RunService} from '../../core/services/run.service';
@@ -24,7 +32,7 @@ import {catchError, map, switchMap, withLatestFrom, mergeMap, tap} from 'rxjs/op
 import {SetErrorAction} from '../../shared/store/shared.actions';
 import {getCurrentRunId, getEditRunSelector} from './game-runs.selector';
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
-import {GameRun} from "./game-runs.state";
+import {GameRun, RunAccess} from "./game-runs.state";
 import {Router} from "@angular/router";
 import * as actions from "../../games-management/store/game.actions";
 import * as fromRoot from "../../core/selectors/router.selector";
@@ -54,6 +62,7 @@ export class GameRunsEffects {
         )
     );
 
+
     @Effect()
     init$: Observable<Action> = this.actions$.pipe(
         ofType(GameRunsActionTypes.GAME_RUNS_REQUESTED, GameRunsActionTypes.DELETE_RUN_COMPLETED),
@@ -66,11 +75,12 @@ export class GameRunsEffects {
                     mergeMap(res =>
                         [
                             new GetGameRunsCompletedAction(
-                                {gameId: gameId, items: res.runs, participate : false}
+                                {gameId: gameId, items: res.runs, participate: false}
                             ),
                             new GetGameRunsCursorListRequestionAction({
                                 gameId,
-                                cursor: res.resumptionToken})
+                                cursor: res.resumptionToken
+                            })
                         ]
                     ),
                     catchError((error) => of(new SetErrorAction(error.error)))
@@ -90,8 +100,30 @@ export class GameRunsEffects {
                     mergeMap(res =>
                         [
                             new GetGameRunsCompletedAction(
-                                {gameId: gameId, items: res.runs, participate : true}
+                                {gameId: gameId, items: res.runs, participate: true}
                             )
+                        ]
+                    ),
+                    catchError((error) => of(new SetErrorAction(error.error)))
+                )
+        )
+    );
+
+    @Effect()
+    initColaborators$: Observable<Action> = this.actions$.pipe(
+        ofType(GameRunsActionTypes.GAME_MY_COLLABORATORS_REQUESTED),
+        withLatestFrom(
+            this.store$.select(selector.selectRouteParam('gameId'))
+        ),
+        switchMap(
+            ([action, gameId]: [GetGameRunsRequestAction, string]) =>
+                this.gameRuns.listRunAccess(gameId || action.payload.gameId).pipe(
+                    mergeMap((res) =>
+                        [
+                            new GameMyRunsCollaboratorsCompletedAction(
+                                res
+                            )
+
                         ]
                     ),
                     catchError((error) => of(new SetErrorAction(error.error)))
@@ -113,9 +145,10 @@ export class GameRunsEffects {
                                     {gameId: action.payload.gameId, items: res.runs}
                                 ),
                                 new GetGameRunsCursorListRequestionAction({
-                                    gameId: action.payload.gameId,
-                                    cursor: res.resumptionToken}
-                                    )
+                                        gameId: action.payload.gameId,
+                                        cursor: res.resumptionToken
+                                    }
+                                )
                             ];
                         }
                         return [
@@ -239,30 +272,28 @@ export class GameRunsEffects {
             this.store$.select(fromRoot.selectRouteParam('runId'))
         ),
         switchMap(
-            ([action, runId]: [GameRunCollaboratorsRequestAction, string]) =>
-            {
+            ([action, runId]: [GameRunCollaboratorsRequestAction, string]) => {
                 return this.gameRuns.getCollaboratorsForRun(runId).pipe(
                     map(res =>
                         new GameRunCollaboratorsCompletedAction(res)
                     ),
                     catchError((error) => of(new SetErrorAction(error.error)))
-                )
+                );
             }
         )
     );
 
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     grantCollaboratorAccess: Observable<Action> = this.actions$.pipe(
         ofType(GameRunsActionTypes.GRANT_COLLABORATOR_ACCESS),
         withLatestFrom(
             this.store$.select(fromRoot.selectRouteParam('runId'))
         ),
         switchMap(
-            ([action, runId]: [GrantCollaboratorAccessAction, string]) =>
-            {
+            ([action, runId]: [GrantCollaboratorAccessAction, string]) => {
                 return this.gameRuns.grantCollaboratorAccess(runId, action.payload.author, action.payload.rights).pipe(
                     catchError((error) => of(new SetErrorAction(error.error)))
-                )
+                );
             }
         )
     );
@@ -274,12 +305,11 @@ export class GameRunsEffects {
             this.store$.select(fromRoot.selectRouteParam('runId'))
         ),
         switchMap(
-            ([action, runId]: [GrantCollaboratorAccessAction, string]) =>
-            {
+            ([action, runId]: [GrantCollaboratorAccessAction, string]) => {
                 return this.gameRuns.revokeCollaboratorAccess(runId, action.payload.author).pipe(
                     map(res => new GameRunCollaboratorsRequestAction()),
                     catchError((error) => of(new SetErrorAction(error.error)))
-                )
+                );
             }
         )
     );

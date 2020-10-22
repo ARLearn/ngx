@@ -184,7 +184,7 @@ import {environment} from "../../../environments/environment";
     .pos-icon-in-button {
       position: absolute;
       left: 25px;
-      top: 8px;
+      top: 3px;
       opacity: 1;
       width: 18px;
       height: 18px;

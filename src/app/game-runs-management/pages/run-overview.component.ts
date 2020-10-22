@@ -2,7 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {State} from '../../core/reducers';
 import {MatDialog} from '@angular/material/dialog';
-import {AddUserToRunRequestAction, CreateRunRequestAction, GetGameRunsRequestAction} from '../store/game-runs.actions';
+import {
+    AddUserToRunRequestAction,
+    CreateRunRequestAction,
+    GameMyRunsCollaboratorsRequestAction,
+    GetGameRunsRequestAction
+} from '../store/game-runs.actions';
 import {NewRunDialogComponent} from '../components/new-run-dialog/new-run-dialog.component';
 import {Observable} from 'rxjs';
 import {getCurrentRunId} from '../store/game-runs.selector';
@@ -10,6 +15,7 @@ import {AddPlayerDialogComponent} from '../components/add-player-dialog.componen
 import {Game} from "../../game-management/store/current-game.state";
 import {getGame} from "../../game-management/store/current-game.selector";
 import {GetCurrentGameFromRouterRequestAction} from "../../game-management/store/current-game.actions";
+import {testing} from "rxjs-compat/umd";
 
 
 @Component({
@@ -133,6 +139,9 @@ export class RunOverviewComponent implements OnInit {
 
     ngOnInit() {
         this.store.dispatch(new GetGameRunsRequestAction());
+        console.log('Class: RunOverviewComponent, Function: ngOnInit, Line 141 testing(): '
+        , testing);
+        this.store.dispatch(new GameMyRunsCollaboratorsRequestAction());
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
     }
 

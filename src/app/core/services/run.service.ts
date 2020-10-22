@@ -3,11 +3,22 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {GameRun} from "../../game-runs-management/store/game-runs.state";
+import {GameRun, RunAccess} from "../../game-runs-management/store/game-runs.state";
+import {PendingPlayer} from "../../player-management/store/player.state";
 
+
+const addOptionalRunAccessData = (ra: RunAccess) => {
+    ra.timestamp = Number.parseInt(ra.timestamp + "", 10);
+    ra.runId = Number.parseInt(ra.runId + "", 10);
+    ra.gameId = Number.parseInt(ra.gameId + "", 10);
+    return ra;
+};
 
 const addOptionalData = (run: GameRun) => {
     run.runId = Number.parseInt(run.runId + "", 10);
+    run.gameId = Number.parseInt(run.gameId + "", 10);
+    run.lastModificationDate = Number.parseInt(run.lastModificationDate + "", 10);
+    run.serverCreationTime = Number.parseInt(run.serverCreationTime + "", 10);
     if (!run.runConfig) {
         run.runConfig = {};
     }
@@ -15,6 +26,16 @@ const addOptionalData = (run: GameRun) => {
         run.runConfig.selfRegistration = false;
     }
     return run;
+};
+
+const addUsersData = (player: PendingPlayer) => {
+    if (player.runId) {
+        player.runId = parseInt('' + player.runId, 10);
+    }
+    if (player.gameId) {
+        player.gameId = parseInt('' + player.gameId, 10);
+    }
+    return player;
 };
 
 const runTrans = (res: any) => {
@@ -39,12 +60,33 @@ export class RunService {
             .pipe(map(addOptionalData));
     }
 
+    listRunAccess(gameId: string): Observable<RunAccess[]> {
+        return this.http
+            .get<any>(environment.api_url + '/run/access/game/' + gameId + '/list')
+            .pipe(
+                map(res => res.runAccess ? res.runAccess.map(addOptionalRunAccessData) : [])
+            );
+    }
+
+    getCollaboratorsForRun(runId: string): Observable<RunAccess[]> {
+        return this.http
+            .get<any>(environment.api_url + '/run/access/' + runId + '/list').pipe(
+                map(res => res.runAccess ? res.runAccess.map(addOptionalRunAccessData) : [])
+            );
+    }
 
     listRuns(gameId: string): Observable<GameRun[]> {
         return this.http
             .get<any>(environment.api_url + '/runs/' + gameId + '/list')
             .pipe(
                 map(res => res.items ? res.items.map(addOptionalData) : [])
+            );
+    }
+
+    getUsersForRun(runId: number) {
+        return this.http
+            .get<any>(environment.api_url + '/run/' + runId + '/users').pipe(
+                map(res => res.users ? res.users.map(addUsersData) : [])
             );
     }
 
@@ -76,15 +118,6 @@ export class RunService {
             .get<any>(environment.api_url + '/run/' + runId + '/addUser/' + userId).pipe(map(res => res.items));
     }
 
-    getUsersForRun(runId: number) {
-        return this.http
-            .get<any>(environment.api_url + '/run/' + runId + '/users').pipe(map(res => res.users));
-    }
-
-    getCollaboratorsForRun(runId: string) {
-        return this.http
-            .get<any>(environment.api_url + '/run/access/' + runId + '/list').pipe(map(res => res.runAccess));
-    }
 
     grantCollaboratorAccess(runId: string, fullId: string, rights: string) {
         return this.http

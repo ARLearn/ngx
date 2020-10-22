@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {GameRun} from './game-runs.state';
+import {GameRun, RunAccess} from './game-runs.state';
 import {PendingPlayer} from '../../player-management/store/player.state';
 
 export const GameRunsActionTypes = {
@@ -25,6 +25,9 @@ export const GameRunsActionTypes = {
 
     LOAD_RUN_USERS_REQUESTED: '[GameRuns] Load run users Requested',
     LOAD_RUN_USERS_COMPLETED: '[GameRuns] Load run users Completed',
+
+    GAME_MY_COLLABORATORS_REQUESTED: '[GameRuns] Get my collaborators Requested',
+    GAME_MY_COLLABORATORS_COMPLETED: '[GameRuns] Get my collaborators Completed',
 
     GAME_RUN_COLLABORATORS_REQUESTED: '[GameRuns] Get collaborators Requested',
     GAME_RUN_COLLABORATORS_COMPLETED: '[GameRuns] Get collaborators Completed',
@@ -183,6 +186,21 @@ export class LoadRunUsersCompletedAction implements Action {
     }
 }
 
+export class GameMyRunsCollaboratorsRequestAction implements Action {
+    type = GameRunsActionTypes.GAME_MY_COLLABORATORS_REQUESTED;
+
+    constructor(public gameId: number = null) {
+    }
+}
+
+export class GameMyRunsCollaboratorsCompletedAction implements Action {
+    type = GameRunsActionTypes.GAME_MY_COLLABORATORS_COMPLETED;
+
+    constructor(public payload: RunAccess[]) {
+    }
+}
+
+
 export class GameRunCollaboratorsRequestAction implements Action {
     type = GameRunsActionTypes.GAME_RUN_COLLABORATORS_REQUESTED;
 
@@ -193,7 +211,7 @@ export class GameRunCollaboratorsRequestAction implements Action {
 export class GameRunCollaboratorsCompletedAction implements Action {
     type = GameRunsActionTypes.GAME_RUN_COLLABORATORS_COMPLETED;
 
-    constructor(public payload: any) {
+    constructor(public payload: RunAccess[]) {
     }
 }
 
@@ -207,7 +225,7 @@ export class GrantCollaboratorAccessAction implements Action {
 export class RevokeCollaboratorAccessAction implements Action {
     type = GameRunsActionTypes.REVOKE_COLLABORATOR_ACCESS;
 
-    constructor(public payload: any) {
+    constructor(public payload: { author: string, runId: number }) {
     }
 }
 

@@ -1,9 +1,54 @@
 import * as actions from './game-runs.actions';
-import {GameRun, gameRunsInitialState, GameRunsState} from './game-runs.state';
+import {GameRun, GameRunsState, RunAccess} from './game-runs.state';
 import {CurrentGameActionTypes} from '../../game-management/store/current-game.actions';
 import {PendingPlayer} from '../../player-management/store/player.state';
 import {AuthActionTypes} from "../../auth/store/auth.actions";
 import * as _ from 'lodash';
+import {createEntityAdapter, EntityState} from "@ngrx/entity";
+
+
+export interface RunAccessState extends EntityState<RunAccess> {
+}
+
+export function selectRunAccessIdentifier(a: RunAccess): string {
+    return a.account + '_' + a.runId;
+}
+
+export const runAccessAdapter = createEntityAdapter<RunAccess>({
+    selectId: selectRunAccessIdentifier
+});
+
+export interface RunState extends EntityState<GameRun> {
+}
+
+export function selectRunIdentifier(a: GameRun): number {
+    return a.runId;
+}
+
+export const runAdapter = createEntityAdapter<GameRun>({
+    selectId: selectRunIdentifier
+});
+
+export interface PlayerState extends EntityState<PendingPlayer> {
+}
+
+export function selectPlayerIdentifier(a: PendingPlayer): string {
+    return a.fullId;
+}
+
+export const playerAdapter = createEntityAdapter<PendingPlayer>({
+    selectId: selectPlayerIdentifier
+});
+
+export const gameRunsInitialState: GameRunsState = {
+    selectedRun: 0,
+    editRun: null,
+    // players: [],
+
+    playersNew: playerAdapter.getInitialState(),
+    runsNew: runAdapter.getInitialState(),
+    runAccess: runAccessAdapter.getInitialState()
+};
 
 export function reducers(
     state = gameRunsInitialState, action: actions.GameRunsAction): GameRunsState {
@@ -16,47 +61,33 @@ export function reducers(
             });
         }
 
-        case actions.GameRunsActionTypes.GAME_RUNS_REQUESTED: {
-            return Object.assign({}, state, {runs: [], players: []});
-        }
-
         case actions.GameRunsActionTypes.GAME_RUNS_COMPLETED: {
             if (!action.payload.items) {
                 return state;
             }
-            if (state.runs != null && state.runs.length !== 0) {
-
-                return Object.assign({}, state, {
-
-                    runs: _.uniqBy([...state.runs, ...action.payload.items], function (e) {
-                        return e.runId;
-                    })
-                });
-            }
-            return Object.assign({}, state, {runs: action.payload.items});
-            // return Object.assign({}, state, {runs: action.payload.items.map(mapper)});
+            return Object.assign({}, state, {
+                runsNew: runAdapter.upsertMany(action.payload.items, state.runsNew),
+            });
         }
 
         case actions.GameRunsActionTypes.SELECT_RUN: {
             return Object.assign({}, state, {selectedRun: action.payload.runId});
         }
 
-        case actions.GameRunsActionTypes.LOAD_RUN_USERS_REQUESTED: {
-            return Object.assign({}, state, {players: []});
-        }
+        // case actions.GameRunsActionTypes.LOAD_RUN_USERS_REQUESTED: {
+        //     return Object.assign({}, state, {players: []});
+        // }
 
         case actions.GameRunsActionTypes.LOAD_RUN_USERS_COMPLETED: {
-            if (!action.payload) {
-                return state;
-            }
-            return Object.assign({}, state, {players: action.payload.map(playermapper)});
+            return Object.assign({}, state, {
+                playersNew: playerAdapter.upsertMany(action.payload, state.playersNew),
+            });
         }
 
         case CurrentGameActionTypes.SET_CURRENT_GAME_REQUESTED: {
             return Object.assign({}, state, {
                 selectedRun: 0,
-                runs: [],
-                players: []
+                // players: []
             });
         }
         case actions.GameRunsActionTypes.RUN_UPDATE: {
@@ -68,8 +99,22 @@ export function reducers(
             return gameRunsInitialState;
         }
 
+        case actions.GameRunsActionTypes.REVOKE_COLLABORATOR_ACCESS: {
+            return Object.assign({}, state, {
+                runAccess: runAccessAdapter.removeOne(action.payload.author + '_' + action.payload.runId, state.runAccess),
+            });
+        }
+
         case actions.GameRunsActionTypes.GAME_RUN_COLLABORATORS_COMPLETED: {
-            return Object.assign({}, state, { collaborators: action.payload });
+            return Object.assign({}, state, {
+                runAccess: runAccessAdapter.upsertMany(action.payload, state.runAccess),
+            });
+        }
+
+        case actions.GameRunsActionTypes.GAME_MY_COLLABORATORS_COMPLETED: {
+            return Object.assign({}, state, {
+                runAccess: runAccessAdapter.upsertMany(action.payload, state.runAccess),
+            });
         }
 
         default: {
@@ -77,17 +122,6 @@ export function reducers(
         }
     }
 }
-
-
-const mapper = (run: GameRun) => {
-    if (run.runId) {
-        run.runId = parseInt('' + run.runId, 10);
-    }
-    if (run.gameId) {
-        run.gameId = parseInt('' + run.gameId, 10);
-    }
-    return run;
-};
 
 const playermapper = (player: PendingPlayer) => {
     if (player.runId) {

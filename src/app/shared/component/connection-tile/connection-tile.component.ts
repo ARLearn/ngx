@@ -131,7 +131,7 @@ export class ConnectionTileComponent implements OnInit, OnChanges {
 
     @Input() player: Player;
     @Input() pending = false;
-    @Input() hasAction = true;
+    @Input() hasAction = false;
     @Input() canRemove = true;
     @Input() actions = [];
     @Output() remove = new EventEmitter();
