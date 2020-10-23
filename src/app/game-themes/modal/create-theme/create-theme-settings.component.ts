@@ -30,7 +30,7 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
               <label>{{'COMMON.ICON_IMAGE'|translate}}</label>
             </div>
             <app-theme-file-picker 
-                [path]="'/customthemes/' + theme.fullAccount + '/' + theme.themeId + '/icon.png'"
+                [path]="iconPath"
                 [small]="true"
                 (onUpload)="downloadedImages['icon'] = true"
                 (onFailure)="downloadedImages['icon'] = false"
@@ -48,7 +48,7 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
 
         <div class="uploader">
           <app-theme-file-picker 
-              [path]="'/customthemes/' + theme.fullAccount + '/' + theme.themeId + '/background.png'"
+              [path]="backgroundPath"
               title="Kies achtergrond"
               (onUpload)="downloadedImages['background'] = true"
               (onFailure)="downloadedImages['background'] = false"
@@ -57,7 +57,7 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
 
         <div class="uploader">
           <app-theme-file-picker
-              [path]="'/customthemes/' + theme.fullAccount + '/' + theme.themeId + '/correct.png'"
+              [path]="correctPath"
               title="Juist anwoord"
               (onUpload)="downloadedImages['correct'] = true"
               (onFailure)="downloadedImages['correct'] = false"
@@ -66,7 +66,7 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
 
         <div class="uploader">
           <app-theme-file-picker 
-              [path]="'/customthemes/' + theme.fullAccount + '/' + theme.themeId + '/wrong.png'"
+              [path]="wrongPath"
               title="Onjuist anwoord"
               (onUpload)="downloadedImages['wrong'] = true"
               (onFailure)="downloadedImages['wrong'] = false"
@@ -181,6 +181,23 @@ export class CreateThemeSettingsComponent implements OnInit, OnDestroy {
     return this.submit$.asObservable();
   }
 
+
+  get iconPath() {
+    return '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/icon.png';
+  }
+
+  get backgroundPath() {
+    return '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/background.png';
+  }
+
+  get correctPath() {
+    return '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/correct.png';
+  }
+
+  get wrongPath() {
+    return '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/wrong.png';
+  }
+
   constructor(public dialogRef: MatDialogRef<CreateThemeSettingsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public store: Store<State>,
@@ -199,12 +216,13 @@ export class CreateThemeSettingsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const iconPath = '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/icon.png';
-    const backgroundPath = '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/background.png';
-    const correctPath = '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/correct.png';
-    const wrongPath = '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/wrong.png';
-
-    this.submit$.next({ ...this.theme, iconPath, backgroundPath, correctPath, wrongPath });
+    this.submit$.next({
+      ...this.theme,
+      iconPath: this.iconPath,
+      backgroundPath: this.backgroundPath,
+      correctPath: this.correctPath,
+      wrongPath: this.wrongPath,
+    });
   }
 
   handleUploadFile() {

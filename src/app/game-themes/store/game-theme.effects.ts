@@ -2,7 +2,15 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {act, Actions, Effect, ofType} from '@ngrx/effects';
 import {interval, Observable} from 'rxjs';
-import {AddAll, Query, GameThemeActionTypes, CreateRequest, AddOne, UpdateOne} from './game-theme.actions';
+import {
+    AddAll,
+    Query,
+    GameThemeActionTypes,
+    CreateRequest,
+    AddOne,
+    UpdateOne,
+    CreateRequestSuccess
+} from './game-theme.actions';
 import {
     map,
     mergeMap,
@@ -37,6 +45,7 @@ export class GameThemeEffects {
             return this.gameThemeService.createTheme(action.payload);
         }),
         map(response => {
+            this.store.dispatch(new CreateRequestSuccess(response));
             return new AddOne(response);
         })
     );

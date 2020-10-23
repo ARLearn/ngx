@@ -2,11 +2,11 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
-import {selectAll, selectThemeCategories} from "../store/game-theme.selectors";
+import {CATEGORY_CUSTOM_THEMES, selectAll, selectThemeCategories} from "../store/game-theme.selectors";
 import {BehaviorSubject, combineLatest, Observable, of, Subject, Subscription} from "rxjs";
 import {AngularFireStorage} from "angularfire2/storage";
 import {GameTheme} from "../store/game-theme.state";
-import {filter, map, mergeMap, withLatestFrom} from 'rxjs/operators';
+import {distinct, filter, first, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {Actions, ofType} from "@ngrx/effects";
 import {GameThemeActionTypes, UpdateOne} from "../store/game-theme.actions";
 
@@ -26,7 +26,7 @@ import {GameThemeActionTypes, UpdateOne} from "../store/game-theme.actions";
       <div class="theme-panel">
         <div class="sidebar">
           <div *ngFor="let category of (categories$ | async)">
-            <button class="menu-item" [class.selected]="selectedCategory == category" (click)="selectCategory(category)">{{ category }}</button>
+            <button class="menu-item" [class.selected]="selectedCategory == category" (click)="selectedCategory !== category && selectCategory(category)">{{ category }}</button>
           </div>
 
           <div class="add-btn">
@@ -58,7 +58,7 @@ import {GameThemeActionTypes, UpdateOne} from "../store/game-theme.actions";
             <h4>{{ selectedTheme.name }}</h4>
           </div>
           <div>
-            <button mat-button color="primary" *ngIf="!isThemeComplete(selectedTheme)" (click)="editTheme()">Edit</button>
+            <button mat-button color="primary" *ngIf="isThemeCustom(selectedTheme)" (click)="editTheme()">Edit</button>
             <button mat-button color="primary" (click)="selectedTheme = null">Deselecteren</button>
             <button mat-flat-button color="primary" [disabled]="!isThemeComplete(selectedTheme)" (click)="onSubmit()">Ga verder</button>
           </div>
@@ -234,7 +234,10 @@ export class SelectThemeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const categorySub = this.categories$.pipe(filter(c => c.length > 0)).subscribe(([category]) => {
+    const categorySub = this.categories$.pipe(
+        filter(c => c.length > 0),
+        first(),
+    ).subscribe(([category]) => {
       this.selectCategory(category);
     });
 
@@ -269,6 +272,10 @@ export class SelectThemeComponent implements OnInit, OnDestroy {
       this.selectedCategory = null;
       this.selectCategory$.next(null);
     }
+  }
+
+  isThemeCustom(theme: GameTheme) {
+    return theme.category === CATEGORY_CUSTOM_THEMES;
   }
 
   isThemeComplete(theme: GameTheme) {

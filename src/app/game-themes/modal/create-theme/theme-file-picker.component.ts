@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 
 import {ActionsSubject, Store} from "@ngrx/store";
 import {ofType} from "@ngrx/effects";
@@ -22,9 +22,10 @@ import {PortalGamesActionTypes} from "../../../portal-management/store/portal-ga
                         class="style-icon btn-delete"
                         (click)="deleteImage()"
                         [svgIcon]="'close'"></mat-icon>
-                <button *ngIf="!small" mat-raised-button class="btn-delete" (click)="deleteImage()"><mat-icon>delete</mat-icon></button>
+                <mat-icon *ngIf="!small" class="deleteIcon btn-delete" (click)="deleteImage()" matPrefix>delete</mat-icon>
                 <app-filestore-background-image
                         (loadFailure)="deleteImage()"
+                        (loadSuccess)="onUpload.emit()"
                         [paths]="[path]"
                         (isVideo)="false"
                 >
@@ -61,11 +62,19 @@ import {PortalGamesActionTypes} from "../../../portal-management/store/portal-ga
                 cursor: pointer;
             }
             
+            .deleteIcon {
+                background: #f5f5f5;
+                padding: 7px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+            
             .btn-delete {
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                min-width: 50px;
+                width: 40px;
+                height: 40px;
                 z-index: 1;
             }
             
@@ -76,7 +85,7 @@ import {PortalGamesActionTypes} from "../../../portal-management/store/portal-ga
         `
     ]
 })
-export class ThemeFilePickerComponent implements OnInit, OnDestroy {
+export class ThemeFilePickerComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() title;
     @Input() small = false;
     @Input() path;
@@ -84,7 +93,7 @@ export class ThemeFilePickerComponent implements OnInit, OnDestroy {
     @Output() onUpload = new EventEmitter();
     @Output() onFailure = new EventEmitter();
 
-    imageExists: boolean= false;
+    imageExists: boolean= true;
 
     private subscription: Subscription;
 
@@ -103,7 +112,14 @@ export class ThemeFilePickerComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //this.onUpload.emit();
+    }
+
+    ngAfterViewInit() {
+        console.log('after view init');
+        // this.onUpload.emit();
+    }
 
     handleUploadFile() {
         this.store.dispatch(new StartUploadAction());

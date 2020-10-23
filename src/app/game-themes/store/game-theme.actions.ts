@@ -5,6 +5,7 @@ export enum GameThemeActionTypes {
     QUERY = '[GameTheme] Query',
     CREATE_REQUEST = '[GameTheme] Create Request',
     UPDATE_REQUEST = '[GameTheme] Update Request',
+    CREATE_REQUEST_SUCCESS = '[GameTheme] Create Request Success',
     ADD_ONE = '[GameTheme] Add One',
     UPDATE_ONE = '[GameTheme] Update One',
     DELETE_ONE = '[GameTheme] Delete One',
@@ -28,6 +29,13 @@ export class CreateRequest implements Action {
 
 export class UpdateRequest implements Action {
     readonly type = GameThemeActionTypes.UPDATE_REQUEST;
+
+    constructor(public payload: GameTheme) {
+    }
+}
+
+export class CreateRequestSuccess implements Action {
+    readonly type = GameThemeActionTypes.CREATE_REQUEST_SUCCESS;
 
     constructor(public payload: GameTheme) {
     }
