@@ -31,15 +31,6 @@ import {Subject} from "rxjs";
                             </mat-form-field>
                         </div>
                         <div>
-                            <mat-form-field class="field">
-                                <mat-label>Path</mat-label>
-                                <input type="text" matInput [(ngModel)]="image.path" name="path" required
-                                       pattern="[\\/\\w\\s]+"/>
-                                <mat-error>Path is invalid</mat-error>
-                            </mat-form-field>
-                        </div>
-
-                        <div>
                             <mat-form-field class="mat-form-messages add-space field">
                                 <mat-chip-list #chipList aria-label="Tags selection">
                                     <mat-chip color="accent" selected

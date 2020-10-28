@@ -1,10 +1,10 @@
-import {Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {State} from "../../../core/reducers";
-import {GetGameMessagesRequestAction} from "../../../game-messages/store/game-messages.actions";
-import {CreateFolderAction, SetUploadModusAction} from "../../store/media-lib.actions";
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Store } from "@ngrx/store";
+import { State } from "../../../core/reducers";
+import { CreateFolderAction, SetUploadModusAction } from "../../store/media-lib.actions";
 import { MatDialog } from "@angular/material/dialog";
-import {CreateFolderComponent} from "../../modal/create-folder/create-folder.component";
+import { CreateFolderComponent } from "../../modal/create-folder/create-folder.component";
+import { GalleryModalComponent } from "../../../portal-image-management/modals/gallery.modal";
 
 @Component({
     selector: 'app-media-lib-tab-bar',
@@ -27,6 +27,10 @@ import {CreateFolderComponent} from "../../modal/create-folder/create-folder.com
                     </nav>
                 </div>
                 <div class="upload-buttons">
+                    <button mat-button color="primary" (click)="showGlobalFiles()" class="new-folder-text">
+                        {{'MEDIA.GLOBAL_FILES' |translate}}
+                    </button>
+                    
                     <button mat-button color="primary" (click)="newFolder()" class="new-folder-text">
                         <mat-icon aria-hidden="false">create_new_folder</mat-icon>
                         {{'MEDIA.NEW_FOLDER' |translate}}
@@ -70,6 +74,13 @@ export class MediaLibTabBarComponent implements OnInit {
             if (result) {
                 this.store.dispatch(new CreateFolderAction(result));
             }
+        });
+    }
+
+    showGlobalFiles() {
+        const dialogRef = this.dialog.open(GalleryModalComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+            data: {}
         });
     }
 

@@ -69,7 +69,7 @@ export class MediaLibraryEffects {
         ),
         switchMap(
             ([action, gameId, files]: [GetGameMessagesRequestAction, string, string[]]) =>
-                this.medialib.deleteFiles(gameId || action.payload.gameId, files).pipe(
+                this.medialib.deleteGameFiles(gameId || action.payload.gameId, files).pipe(
                     map(res =>
                         new GetFolderListRequestAction(
                         )

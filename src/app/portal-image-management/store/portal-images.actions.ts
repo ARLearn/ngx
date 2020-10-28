@@ -1,14 +1,23 @@
-import {Action} from "@ngrx/store";
-import {MediaGalleryItem, PortalImage} from "./portal-images.state";
+import { Action } from "@ngrx/store";
+
+import { MediaGalleryItem, PortalImage } from "./portal-images.state";
 
 export enum PortalImagesActionTypes {
     QUERY = '[PortalImages] Query',
     QUERY_RESPONSE = '[PortalImages] Query Response',
 
+    SEARCH = '[PortalImages] Search',
+    SEARCH_RESPONSE = '[PortalImages] Search Response',
+
     CREATE = '[PortalImages] Create Request',
 
+    CREATE_FOLDER = '[PortalImages] Create folder',
     SELECT_FOLDER = '[PortalImages] Select folder',
     SELECT_FOLDER_RESPONSE = '[PortalImages] Select folder Response',
+    SELECT_FILE = '[PortalImages] Select file',
+
+    DELETE_SELECTED_FILES = '[PortalImages] Delete selected files',
+    DELETE_SELECTED_FILES_RESPONSE = '[PortalImages] Delete selected files response',
 
     GO_BACK_TO = '[PortalImages] Go back to',
     GO_BACK_TO_RESPONSE = '[PortalImages] Go back to Response',
@@ -28,11 +37,31 @@ export class QueryResponse implements Action {
     }
 }
 
+export class Search implements Action {
+    readonly type = PortalImagesActionTypes.SEARCH;
+
+    constructor(public payload: string) {
+    }
+}
+
+export class SearchResponse implements Action {
+    readonly type = PortalImagesActionTypes.SEARCH_RESPONSE;
+
+    constructor(public payload: PortalImage[]) {
+    }
+}
 
 export class CreateImage implements Action {
     readonly type = PortalImagesActionTypes.CREATE;
 
     constructor(public payload: PortalImage) {
+    }
+}
+
+export class CreateFolder implements Action {
+    readonly type = PortalImagesActionTypes.CREATE_FOLDER;
+
+    constructor(public payload: string) {
     }
 }
 
@@ -50,6 +79,13 @@ export class SelectFolderResponse implements Action {
     }
 }
 
+export class SelectFile implements Action {
+    readonly type = PortalImagesActionTypes.SELECT_FILE;
+
+    constructor(public payload: string) {
+    }
+}
+
 export class GoBackTo implements Action {
     readonly type = PortalImagesActionTypes.GO_BACK_TO;
 
@@ -64,10 +100,28 @@ export class GoBackToResponse implements Action {
     }
 }
 
+export class DeleteSelectedFiles implements Action {
+    readonly type = PortalImagesActionTypes.DELETE_SELECTED_FILES;
+
+    constructor(public payload = null) {
+    }
+}
+
+export class DeleteSelectedFilesResponse implements Action {
+    readonly type = PortalImagesActionTypes.DELETE_SELECTED_FILES_RESPONSE;
+
+    constructor(public payload = null) {
+    }
+}
+
+
 
 
 export type PortalImageActions =
     | Query
     | QueryResponse
+    | SearchResponse
     | SelectFolderResponse
-    | GoBackToResponse;
+    | SelectFile
+    | GoBackToResponse
+    | DeleteSelectedFilesResponse;

@@ -12,6 +12,8 @@ export interface PortalImageState {
     files: MediaGalleryItem[],
     history: MediaGalleryItem[],
     selectedFolder: MediaGalleryItem,
+    searchResults: PortalImage[],
+    selectedFiles: string[],
 }
 
 const initialState: PortalImageState = {
@@ -20,6 +22,8 @@ const initialState: PortalImageState = {
     files: [],
     history: [],
     selectedFolder: null,
+    searchResults: [],
+    selectedFiles: [],
 }
 
 export function reducers(
@@ -40,10 +44,21 @@ export function reducers(
             }
 
         case PortalImagesActionTypes.SELECT_FOLDER_RESPONSE:
+            if (state.history.length > 0 && state.history[state.history.length - 1].path === action.payload.path) {
+                return state;
+            }
+
             return {
                 ...state,
                 history: [ ...state.history, action.payload ]
             }
+
+        case PortalImagesActionTypes.SELECT_FILE:
+            if (state.selectedFiles.includes(action.payload)) {
+                return { ...state, selectedFiles: state.selectedFiles.filter(x => x !== action.payload) };
+            }
+
+            return { ...state, selectedFiles: [ ...state.selectedFiles, action.payload ] };
 
         case PortalImagesActionTypes.GO_BACK_TO_RESPONSE: {
             const selectedFolderIdx = state.history.indexOf(action.payload);
@@ -53,6 +68,20 @@ export function reducers(
                 history: state.history.filter((_, i) => selectedFolderIdx !== -1 && i <= selectedFolderIdx)
             }
         }
+
+        case PortalImagesActionTypes.SEARCH_RESPONSE:
+            return {
+                ...state,
+                searchResults: action.payload,
+            }
+
+        case PortalImagesActionTypes.DELETE_SELECTED_FILES_RESPONSE:
+            return {
+                ...state,
+                files: state.files.filter(x => !state.selectedFiles.includes(x.path)),
+                searchResults: state.searchResults.filter(x => !state.selectedFiles.includes('mediaLibrary/' + x.path + '/' + x.name + '.png')),
+                selectedFiles: [],
+            }
 
         default:
             return state;

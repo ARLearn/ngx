@@ -67,7 +67,7 @@ export class ManageImagesComponent implements OnInit, OnDestroy {
                 data: {}
             });
 
-            dialogRef.componentInstance.image.path = folder ? folder.path.replace('mediaLibrary/', '') : ''
+            dialogRef.componentInstance.image.path = folder ? folder.path.replace('mediaLibrary/', '') : '/'
 
             dialogRef.componentInstance.submit.subscribe((image: PortalImage) => {
                 this.store.dispatch(new CreateImage(image));
@@ -84,7 +84,6 @@ export class ManageImagesComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.store.dispatch(new Query(null, true));
     }
 
     ngOnDestroy() {

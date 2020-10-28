@@ -1,22 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import {map, mergeMap, withLatestFrom} from "rxjs/operators";
+import {delay, map, mergeMap, withLatestFrom} from "rxjs/operators";
 import { forkJoin, Observable, of } from "rxjs";
 
 import { State } from "../../core/reducers";
 import {
-    CreateImage,
+    CreateFolder,
+    CreateImage, DeleteSelectedFiles, DeleteSelectedFilesResponse,
     GoBackTo,
     GoBackToResponse,
     PortalImagesActionTypes,
     Query,
-    QueryResponse,
+    QueryResponse, Search, SearchResponse,
     SelectFolder, SelectFolderResponse
 } from "./portal-images.actions";
 import { PortalImagesService } from "../../core/services/portal-images.service";
 import { MediaLibraryService } from "../../core/services/medialibrary.service";
-import {getSelectedFolder} from "./portal-images.selectors";
+import {getSelectedFiles, getSelectedFolder} from "./portal-images.selectors";
+import {MediaGalleryItem} from "./portal-images.state";
 
 
 @Injectable()
@@ -44,6 +46,13 @@ export class PortalImagesEffects {
     );
 
     @Effect()
+    search$: Observable<Action> = this.actions$.pipe(
+        ofType<Search>(PortalImagesActionTypes.SEARCH),
+        mergeMap((action) => this.portalImagesService.search(action.payload)),
+        map(response => new SearchResponse(response as any))
+    );
+
+    @Effect()
     selectFolder$: Observable<Action> = this.actions$.pipe(
         ofType<SelectFolder>(PortalImagesActionTypes.SELECT_FOLDER),
         map((action) => new Query(action.payload, false)),
@@ -61,6 +70,27 @@ export class PortalImagesEffects {
         mergeMap((action: CreateImage) => this.portalImagesService.create(action.payload)),
         withLatestFrom(this.store.select(getSelectedFolder)),
         map(([, folder]) => new Query(folder, false))
+    );
+
+    @Effect()
+    deleteSelectedFiles$: Observable<Action> = this.actions$.pipe(
+        ofType<DeleteSelectedFiles>(PortalImagesActionTypes.DELETE_SELECTED_FILES),
+        withLatestFrom(this.store.select(getSelectedFiles)),
+        mergeMap(([action, files]) => this.mediaLibraryService.deleteFiles(files)),
+        map(() => new DeleteSelectedFilesResponse())
+    );
+
+    @Effect()
+    createFolder$: Observable<Action> = this.actions$.pipe(
+        ofType<CreateFolder>(PortalImagesActionTypes.CREATE_FOLDER),
+        withLatestFrom(this.store.select(getSelectedFolder)),
+        mergeMap(([action, folder]: [CreateFolder, MediaGalleryItem]) => {
+            const path = folder ? folder.path + '/' + action.payload : 'mediaLibrary/' + action.payload;
+
+            return forkJoin([this.mediaLibraryService.createFolder(path), of({ name: action.payload, path })])
+        }),
+        delay(300),
+        map(([, folder]: [any, MediaGalleryItem]) => new SelectFolder(folder))
     );
 
     constructor(

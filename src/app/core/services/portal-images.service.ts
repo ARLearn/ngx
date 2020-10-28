@@ -18,6 +18,15 @@ export class PortalImagesService {
             );
     }
 
+    search(query: string) {
+        return this.http.get(environment.api_url + `/media/search/${query}`)
+            .pipe(
+                map((result: { items: PortalImageFromServer[] }) =>
+                    (result.items || []).map(this.mapToPortalImage)
+                )
+            );
+    }
+
     create(payload: PortalImage) {
         return this.http.post(environment.api_url + `/media`, this.mapFromPortalImage(payload))
             .pipe(
@@ -30,6 +39,7 @@ export class PortalImagesService {
     private mapToPortalImage(img: PortalImageFromServer): PortalImage {
         return {
             ...img,
+
             tags: img.tags ? img.tags.split(';') : []
         };
     }

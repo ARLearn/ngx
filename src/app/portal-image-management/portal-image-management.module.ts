@@ -12,10 +12,19 @@ import { ImageFormModalComponent } from './modals/image-form.modal';
 import { GameThemesModule } from "../game-themes/game-themes.module";
 import { MediaGalleryComponent } from "./components/media-gallery.component";
 import { MediaGalleryItemComponent } from "./components/media-gallery-item.component";
+import { FolderFormModalComponent } from "./modals/folder-form.modal";
+import { GalleryModalComponent } from "./modals/gallery.modal";
 
 
 @NgModule({
-    declarations: [ManageImagesComponent, ImageFormModalComponent, MediaGalleryComponent, MediaGalleryItemComponent],
+    declarations: [
+        ManageImagesComponent,
+        ImageFormModalComponent,
+        MediaGalleryComponent,
+        MediaGalleryItemComponent,
+        FolderFormModalComponent,
+        GalleryModalComponent,
+    ],
     imports: [
         SharedModule.forChild(),
         CommonModule,
@@ -24,7 +33,13 @@ import { MediaGalleryItemComponent } from "./components/media-gallery-item.compo
         GameThemesModule,
     ],
     exports: [],
-    providers: [PortalImagesService],
-    entryComponents: [ImageFormModalComponent]
+    providers: [
+        PortalImagesService,
+    ],
+    entryComponents: [
+        ImageFormModalComponent,
+        FolderFormModalComponent,
+        GalleryModalComponent,
+    ]
 })
 export class PortalImageManagementModule { }

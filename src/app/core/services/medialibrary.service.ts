@@ -25,17 +25,18 @@ export class MediaLibraryService {
     getGameFiles(gameId: string, path): Observable<any> {
         // this.afStorage.ref('game').child(`${gameId}`).listAll().then(x => console.log(x));
         const storage: Storage = this.afStorage.storage;
-        return from(storage.ref('game').child(`${gameId}${path}`).listAll()).pipe(map(res => {
-            const returnObject = {folder: [], items: []};
-            res.prefixes.forEach(function (folderRef) {
-                returnObject.folder.push(folderRef.name);
-            });
-            res.items.forEach(function (itemRef) {
-                returnObject.items.push(itemRef.name);
-            });
+        return from(storage.ref('game').child(`${gameId}${path}`).listAll())
+            .pipe(map(res => {
+                const returnObject = {folder: [], items: []};
+                res.prefixes.forEach(function (folderRef) {
+                    returnObject.folder.push(folderRef.name);
+                });
+                res.items.forEach(function (itemRef) {
+                    returnObject.items.push(itemRef.name);
+                });
 
-            return returnObject;
-        }));
+                return returnObject;
+            }));
     }
 
     getFiles(path = null): Observable<any> {
@@ -55,15 +56,26 @@ export class MediaLibraryService {
             res.prefixes.forEach(function (folderRef) {
                 returnObject.folder.push({ name: folderRef.name, path: folderRef.fullPath });
             });
+
             res.items.forEach(function (itemRef) {
-                returnObject.items.push({ name: itemRef.name, path: itemRef.fullPath });
+                if (itemRef.name && itemRef.name !== 'removeme.txt') {
+                    returnObject.items.push({ name: itemRef.name, path: itemRef.fullPath });
+                }
             });
 
             return returnObject;
         }));
     }
 
-    deleteFiles(gameId: string, files: String[]): Observable<any[]> {
+    deleteFiles(files: string[]): Observable<any[]> {
+        const storage: Storage = this.afStorage.storage;
+        const batch = files.map((path) => {
+            return from(storage.ref(path).delete());
+        });
+        return forkJoin(batch);
+    }
+
+    deleteGameFiles(gameId: string, files: String[]): Observable<any[]> {
         files.forEach((file) => console.log("deleting ", file));
         const storage: Storage = this.afStorage.storage;
         const batch = files.map((path) => {
@@ -72,7 +84,13 @@ export class MediaLibraryService {
         return forkJoin(batch);
     }
 
-    createFolder(gameId: number, path, name) {
+    createFolder(path) {
+        const blob = new Blob([], { type: 'plain/text' });
+
+        return this.afStorage.upload(`/${path}/removeme.txt`.replace('//', '/'), blob);
+    }
+
+    createGameFolder(gameId: number, path, name) {
         // this.afStorage.ref('game').child(`${gameId}`).listAll().then(x => console.log(x));
         console.log("creating ", `/game/${gameId}${path}/${name}/removeme.txt`.replace('//', '/'));
         this.afStorage.upload(`/game/${gameId}${path}/${name}/removeme.txt`.replace('//', '/'), "removeme.txt");
