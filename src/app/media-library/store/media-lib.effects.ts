@@ -46,9 +46,10 @@ export class MediaLibraryEffects {
             this.store$.select(selector.selectRouteParam('gameId')),
             this.store$.select(getRelativePath)
         ),
+        filter(([, gameId]) => !!gameId),
         switchMap(
             ([action, gameId, path]: [GetGameMessagesRequestAction, string, string]) =>
-                this.medialib.getFiles(gameId || action.payload.gameId, path).pipe(
+                this.medialib.getGameFiles(gameId || action.payload.gameId, path).pipe(
                     map(res =>
                         new GetFolderListCompletedAction(
                             {folders: res.folder, items: res.items}

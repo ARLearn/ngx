@@ -22,7 +22,7 @@ export class MediaLibraryService {
         private afStorage: AngularFireStorage) {
     }
 
-    getFiles(gameId: string, path): Observable<any> {
+    getGameFiles(gameId: string, path): Observable<any> {
         // this.afStorage.ref('game').child(`${gameId}`).listAll().then(x => console.log(x));
         const storage: Storage = this.afStorage.storage;
         return from(storage.ref('game').child(`${gameId}${path}`).listAll()).pipe(map(res => {
@@ -32,6 +32,31 @@ export class MediaLibraryService {
             });
             res.items.forEach(function (itemRef) {
                 returnObject.items.push(itemRef.name);
+            });
+
+            return returnObject;
+        }));
+    }
+
+    getFiles(path = null): Observable<any> {
+        // this.afStorage.ref('game').child(`${gameId}`).listAll().then(x => console.log(x));
+        const storage: Storage = this.afStorage.storage;
+        let stream$: Observable<any>;
+
+        if (path) {
+            stream$ = from(storage.ref('mediaLibrary').child(path).listAll());
+        } else {
+            stream$ = from(storage.ref('mediaLibrary').listAll());
+        }
+
+        return stream$.pipe(map(res => {
+            const returnObject = {folder: [], items: []};
+
+            res.prefixes.forEach(function (folderRef) {
+                returnObject.folder.push({ name: folderRef.name, path: folderRef.fullPath });
+            });
+            res.items.forEach(function (itemRef) {
+                returnObject.items.push({ name: itemRef.name, path: itemRef.fullPath });
             });
 
             return returnObject;

@@ -1,16 +1,26 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChanges
+} from '@angular/core';
+import Debounce from 'debounce-decorator';
 import {ActionsSubject, Store} from "@ngrx/store";
 import {ofType} from "@ngrx/effects";
 import {Subscription} from "rxjs";
 import {delay, filter} from "rxjs/operators";
+
 import {State} from "../../../core/reducers";
 import {
     MediaLibraryActionTypes,
     StartUploadAction,
     UploadCompletedAction
 } from "../../../media-library/store/media-lib.actions";
-import {PortalGamesActionTypes} from "../../../portal-management/store/portal-games.actions";
 
 @Component({
     selector: 'app-theme-file-picker',
@@ -85,7 +95,7 @@ import {PortalGamesActionTypes} from "../../../portal-management/store/portal-ga
         `
     ]
 })
-export class ThemeFilePickerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ThemeFilePickerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
     @Input() title;
     @Input() small = false;
     @Input() path;
@@ -116,6 +126,13 @@ export class ThemeFilePickerComponent implements OnInit, AfterViewInit, OnDestro
         //this.onUpload.emit();
     }
 
+    @Debounce(1000)
+    ngOnChanges(changes: SimpleChanges) {
+        if (!this.imageExists && changes.path && changes.path.currentValue) {
+            this.imageExists = true;
+        }
+    }
+
     ngAfterViewInit() {
         console.log('after view init');
         // this.onUpload.emit();
@@ -123,7 +140,6 @@ export class ThemeFilePickerComponent implements OnInit, AfterViewInit, OnDestro
 
     handleUploadFile() {
         this.store.dispatch(new StartUploadAction());
-
     }
 
     deleteImage() {

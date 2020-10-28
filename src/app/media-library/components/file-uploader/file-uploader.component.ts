@@ -20,7 +20,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
             
             <p class="desc" *ngIf="!small">{{ 'MEDIA.FILE_DROPZONE_DESCRIPTION' | translate }}</p>
             <p class="desc" *ngIf="!small">{{ 'OR' | translate }}</p>
-            <button mat-raised-button color="primary" *ngIf="!small">{{ 'BTN.BROWSE' | translate }}</button>
+            <button type="button" mat-raised-button color="primary" *ngIf="!small">{{ 'BTN.BROWSE' | translate }}</button>
         </div>
     `,
     styleUrls: ['./file-uploader.component.css'],
