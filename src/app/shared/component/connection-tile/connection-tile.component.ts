@@ -16,7 +16,6 @@ import {Player} from "../../../player-management/store/player.state";
             <button 
                     *ngFor="let action of actions"
                     mat-menu-item (click)="actionsClick.emit(action)" >
-                <mat-icon>delete_forever</mat-icon>
                 <span>{{ 'ACTIONS.'+action | translate }}</span>
             </button>
 

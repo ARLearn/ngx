@@ -69,6 +69,12 @@ indexes:
   - kind: ResponseJDO
     properties:
       - name: runId
+      - name: userId
+      - name: timeStamp
+        direction: asc
+  - kind: ResponseJDO
+    properties:
+      - name: runId
       - name: lastModificationDate
         direction: asc
   - kind: ResponseJDO

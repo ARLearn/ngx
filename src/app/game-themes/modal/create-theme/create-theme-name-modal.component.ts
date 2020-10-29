@@ -26,7 +26,7 @@ import { AngularFireStorage } from "angularfire2/storage";
         </mat-form-field>
         
         <div>
-          <button type="submit" mat-raised-button color="primary">{{ 'BTN.SAVE' | translate }}</button>
+          <button type="submit" mat-raised-button color="primary">{{ 'ACTIONS.SAVE' | translate }}</button>
         </div>
       </form>
     </div>

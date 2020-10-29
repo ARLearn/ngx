@@ -22,7 +22,7 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
           [type]="'back'" (buttonClick)="onNoClick()"></app-modal-esc-button>
     </div>
     <div class="maxwidth">
-      <div class="pos-title primary-color font-medium-32-43-roboto">{{ 'THEME.COMPLETE_THEME' | translate }}</div>
+      <div class="pos-title primary-color font-medium-32-43-roboto">{{ 'THEME.MAKE_YOUR_THEME' | translate }}</div>
       <div class="theme-panel" *ngIf="theme.themeId">
         <div class="form">
           <div class="theme-icon">

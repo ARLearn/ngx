@@ -10,11 +10,13 @@
 		"SELECT": "Selecteer",
 		"MAKE_OWNER": "Maak eigenaar",
 		"MAKE_EDITOR": "Maak editor",
-		"MAKE_VIEWER": "Maak viewer"
+		"MAKE_VIEWER": "Maak viewer",
+		"SUBMIT" : "Verstuur",
+		"CANCEL" : "Annuleer"
 	},
 	"ADMIN": {
 		"FEATURED": {
-			"GAME_LIST": "Uitgelichte Games "
+			"GAME_LIST": "Uitgelichte Games"
 		}
 	},
 	"COMMON": {
@@ -120,6 +122,10 @@
 		"SWITCH_THEME": "Aanpassen",
 		"TITLE": "Titel",
 		"WHO_CAN_SEE": "Wie kan deze game zien?"
+	},
+	"THEME": {
+		"CREATE_THEME" : "Maak nieuwe thema",
+		"MAKE_YOUR_THEME" : "Maak jouw thema"
 	},
 	"HELP": {
 		"BACK": "Terug",

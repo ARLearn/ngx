@@ -31,8 +31,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
                 </div>
 
                 <div class="actions">
-                    <button color="secondary" mat-raised-button (click)="onNoClick()">{{ 'BTN.CANCEL' | translate }}</button>
-                    <button color="primary" mat-raised-button (click)="onSubmit()">{{ 'BTN.SUBMIT' | translate }}</button>
+                    <button color="secondary" mat-raised-button (click)="onNoClick()">{{ 'ACTIONS.CANCEL' | translate }}</button>
+                    <button color="primary" mat-raised-button (click)="onSubmit()">{{ 'ACTIONS.SUBMIT' | translate }}</button>
                 </div>    
             </div>
             

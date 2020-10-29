@@ -7,7 +7,12 @@
 		"ESC": "Esc",
 		"RE_INVITE": "re-invite",
 		"SAVE": "Save",
-		"SELECT": "Select"
+		"SELECT": "Select",
+		"MAKE_OWNER": "Make owner",
+		"MAKE_EDITOR": "Make editor",
+		"MAKE_VIEWER": "Make viewer",
+		"SUBMIT" : "Submit",
+		"CANCEL" : "Cancel"
 	},
 	"ADMIN": {
 		"FEATURED": {
