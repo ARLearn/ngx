@@ -52,7 +52,7 @@ import {Subject} from "rxjs";
                     </div>
 
                     <div class="photo" *ngIf="imagePath; else photoPlaceholder">
-                        <app-theme-file-picker [path]="imagePath"></app-theme-file-picker>
+                        <app-gallery-file-picker [path]="imagePath"></app-gallery-file-picker>
                     </div>
                     
                     <ng-template #photoPlaceholder>

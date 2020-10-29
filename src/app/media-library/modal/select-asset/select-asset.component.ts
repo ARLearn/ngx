@@ -5,7 +5,9 @@ import {State} from "../../../core/reducers";
 import {Observable} from "rxjs";
 import {Game} from "../../../game-management/store/current-game.state";
 import {getGame} from "../../../game-management/store/current-game.selector";
-import {getSelectedFiles, getSelectedFilesFullPath} from "../../store/media-lib.selector";
+import {getSelectedFiles as getSelectedLocalFiles, getSelectedFilesFullPath} from "../../store/media-lib.selector";
+import {getSelectedFiles as getSelectedGlobalFiles } from "../../../portal-image-management/store/portal-images.selectors";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'app-select-asset',
@@ -22,14 +24,33 @@ import {getSelectedFiles, getSelectedFilesFullPath} from "../../store/media-lib.
             <div class="pos-title primary-color font-medium-32-43-roboto">{{ 'MESSAGE.SELECT_ASSET' | translate }}</div>
 
         </div>
+        <div class="maxwidth buttons">
+            <button mat-raised-button color="primary" (click)="globalFilesOpened = false">Local</button>
+            <button mat-raised-button color="primary" (click)="globalFilesOpened = true">Global</button>
+        </div>
+
         <div class="maxwidth pos-media-select">
+            <app-media-gallery-container
+                    *ngIf="globalFilesOpened"
+                    [multiSelect]="false"
+                    [assessmentSelect]="true"
+            ></app-media-gallery-container>
+
             <app-media-lib-container
+                    *ngIf="!globalFilesOpened"
                     [multiSelect]="false"
                     [upload]="false"
                     (doubleClick)="saveMessage()"
                     [gameId]="(game$|async)?.gameId"></app-media-lib-container>
             <button class="gl-pos-button-right"
-                    [disabled]="(selectedFileNames$|async).length === 0"
+                    *ngIf="!globalFilesOpened"
+                    [disabled]="(selectedLocalFileNames$|async).length === 0"
+                    mat-raised-button (click)="saveMessage()" color="primary"> Selecteer
+            </button>
+
+            <button class="gl-pos-button-right"
+                    *ngIf="globalFilesOpened"
+                    [disabled]="(selectedGlobalFileNames$|async).length === 0"
                     mat-raised-button (click)="saveMessage()" color="primary"> Selecteer
             </button>
         </div>
@@ -54,11 +75,18 @@ import {getSelectedFiles, getSelectedFilesFullPath} from "../../store/media-lib.
             margin-top: 59px;
             margin-bottom: 50px;
         }
+        
+        .buttons > * {
+            margin-right: 10px;
+        }
     `]
 })
 export class SelectAssetComponent implements OnInit {
+    globalFilesOpened = false;
+
     public game$: Observable<Game> = this.store.select(getGame);
-    public selectedFileNames$: Observable<string[]> = this.store.select(getSelectedFiles);
+    public selectedLocalFileNames$: Observable<string[]> = this.store.select(getSelectedLocalFiles);
+    public selectedGlobalFileNames$: Observable<string[]> = this.store.select(getSelectedGlobalFiles);
 
     constructor(public dialogRef: MatDialogRef<SelectAssetComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any,
@@ -74,14 +102,20 @@ export class SelectAssetComponent implements OnInit {
 
     saveMessage() {
 
-        this.store.select(getSelectedFilesFullPath).first().subscribe(x => {
+        let stream$;
 
+        if (this.globalFilesOpened) {
+            stream$ = this.store.select(getSelectedGlobalFiles).first().pipe(map(([url]) => ['/' + url]));
+        } else {
+            stream$ = this.store.select(getSelectedFilesFullPath).first();
+        }
+
+        stream$.subscribe(x => {
             if (x.length === 0) {
                 this.dialogRef.close();
             } else {
                 this.dialogRef.close(x[0]);
             }
-
         });
 
     }

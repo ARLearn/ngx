@@ -82,7 +82,7 @@ export class SelectFolderResponse implements Action {
 export class SelectFile implements Action {
     readonly type = PortalImagesActionTypes.SELECT_FILE;
 
-    constructor(public payload: string) {
+    constructor(public payload: string, public multiSelect: boolean) {
     }
 }
 

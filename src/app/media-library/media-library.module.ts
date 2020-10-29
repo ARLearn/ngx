@@ -18,6 +18,8 @@ import {SelectAssetComponent} from './modal/select-asset/select-asset.component'
 import {CreateFolderComponent} from './modal/create-folder/create-folder.component';
 import {LibraryFooterComponent} from './components/library-footer/library-footer.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {MediaGalleryComponent} from "../portal-image-management/components/media-gallery.component";
+import {PortalImageManagementModule} from "../portal-image-management/portal-image-management.module";
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         SharedModule.forRoot(),
         StoreModule.forFeature('mediaLibrary', reducers),
         EffectsModule.forFeature([MediaLibraryEffects]),
-        FontAwesomeModule
+        FontAwesomeModule,
+        PortalImageManagementModule,
     ],
 
     entryComponents: [SelectAssetComponent, CreateFolderComponent, LibraryFooterComponent],

@@ -14,6 +14,7 @@ import { MediaGalleryComponent } from "./components/media-gallery.component";
 import { MediaGalleryItemComponent } from "./components/media-gallery-item.component";
 import { FolderFormModalComponent } from "./modals/folder-form.modal";
 import { GalleryModalComponent } from "./modals/gallery.modal";
+import {GalleryFilePickerComponent} from "./components/gallery-file-picker.component";
 
 
 @NgModule({
@@ -24,15 +25,17 @@ import { GalleryModalComponent } from "./modals/gallery.modal";
         MediaGalleryItemComponent,
         FolderFormModalComponent,
         GalleryModalComponent,
+        GalleryFilePickerComponent,
     ],
     imports: [
         SharedModule.forChild(),
         CommonModule,
         StoreModule.forFeature('portal-images', reducers),
         EffectsModule.forFeature([PortalImagesEffects]),
-        GameThemesModule,
     ],
-    exports: [],
+    exports: [
+        MediaGalleryComponent
+    ],
     providers: [
         PortalImagesService,
     ],

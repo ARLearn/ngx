@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActionsSubject, Store } from "@ngrx/store";
 import { ofType } from "@ngrx/effects";
@@ -28,14 +28,14 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
 @Component({
     selector: 'app-media-gallery-container',
     template: `
-        <div>
+        <div *ngIf="!assessmentSelect">
             <mat-form-field class="search-input">
                 <mat-icon class="search-icon" matPrefix>search</mat-icon>
                 <input matInput type="text" [(ngModel)]="searchQuery" (ngModelChange)="search()" placeholder="Search..." />
             </mat-form-field>
         </div>
             
-        <div class="parent">
+        <div class="parent" [class.select]="assessmentSelect">
             <div class="folders" *ngIf="searchMode">
                 <button mat-raised-button color="primary" (click)="setSearchMode(false)">Back</button>
             </div>
@@ -54,7 +54,7 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                     <div class="folder-label">{{ folder.name }}</div>
                 </div>
  
-                <div class="folder" (click)="createFolder()">
+                <div *ngIf="!assessmentSelect" class="folder" (click)="createFolder()">
                     <div class="folder-icon"><mat-icon>create_new_folder</mat-icon></div>
                     <div class="folder-label create-folder">New folder</div>
                 </div>
@@ -83,7 +83,7 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
             </div>
         </div>
         
-        <div class="toolbar-wrapper">
+        <div class="toolbar-wrapper" *ngIf="!assessmentSelect">
             <div class="toolbar maxwidth">
 
                 <div class="badge">
@@ -103,6 +103,10 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                 display: flex;
                 height: 100%;
                 margin-bottom: 68px;
+            }
+            
+            .parent.select {
+                margin-bottom: 0;
             }
 
             .folders {
@@ -205,6 +209,9 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
     ]
 })
 export class MediaGalleryComponent implements OnInit, OnDestroy {
+    @Input() assessmentSelect = false;
+    @Input() multiSelect = true;
+
     selectedFolder$ = this.store.select(getSelectedFolder);
     history$ = this.store.select(getHistory);
     files$ = this.store.select(getFiles);
@@ -256,7 +263,7 @@ export class MediaGalleryComponent implements OnInit, OnDestroy {
     }
 
     selectFile(path) {
-        this.store.dispatch(new SelectFile(path));
+        this.store.dispatch(new SelectFile(path, this.multiSelect));
     }
 
     goBack(folder) {

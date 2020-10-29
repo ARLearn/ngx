@@ -54,6 +54,10 @@ export function reducers(
             }
 
         case PortalImagesActionTypes.SELECT_FILE:
+            if (!action.multiSelect) {
+                return { ...state, selectedFiles: [action.payload] }
+            }
+
             if (state.selectedFiles.includes(action.payload)) {
                 return { ...state, selectedFiles: state.selectedFiles.filter(x => x !== action.payload) };
             }

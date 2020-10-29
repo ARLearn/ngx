@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {State} from "../../core/reducers";
 
 @Component({
     selector: 'app-media-gallery-item',

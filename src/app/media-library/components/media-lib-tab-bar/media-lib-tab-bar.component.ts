@@ -27,10 +27,6 @@ import { GalleryModalComponent } from "../../../portal-image-management/modals/g
                     </nav>
                 </div>
                 <div class="upload-buttons">
-                    <button mat-button color="primary" (click)="showGlobalFiles()" class="new-folder-text">
-                        {{'MEDIA.GLOBAL_FILES' |translate}}
-                    </button>
-                    
                     <button mat-button color="primary" (click)="newFolder()" class="new-folder-text">
                         <mat-icon aria-hidden="false">create_new_folder</mat-icon>
                         {{'MEDIA.NEW_FOLDER' |translate}}
@@ -74,13 +70,6 @@ export class MediaLibTabBarComponent implements OnInit {
             if (result) {
                 this.store.dispatch(new CreateFolderAction(result));
             }
-        });
-    }
-
-    showGlobalFiles() {
-        const dialogRef = this.dialog.open(GalleryModalComponent, {
-            panelClass: ['modal-fullscreen', "modal-dialog"],
-            data: {}
         });
     }
 
