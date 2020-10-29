@@ -83,23 +83,26 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
             </div>
         </div>
         
-        <div class="toolbar">
-            
-            <div class="badge">
-                <div class="badge-num primary-background-color">{{ (selectedFiles$ | async).length }}</div>
-                <div class="badge-label">Selected</div>
+        <div class="toolbar-wrapper">
+            <div class="toolbar maxwidth">
+
+                <div class="badge">
+                    <div class="badge-num primary-background-color">{{ (selectedFiles$ | async).length }}</div>
+                    <div class="badge-label">Selected</div>
+                </div>
+
+                <div>
+                    <button mat-raised-button color="primary" (click)="deleteFiles()" [disabled]="(selectedFiles$ | async).length === 0"><mat-icon>delete</mat-icon></button>
+                </div>
             </div>
-            
-            <div>
-                <button mat-raised-button color="primary" (click)="deleteFiles()" [disabled]="(selectedFiles$ | async).length === 0"><mat-icon>delete</mat-icon></button>
-            </div>
-        </div>
+        </div>        
     `,
     styles: [
         `
             .parent {
                 display: flex;
                 height: 100%;
+                margin-bottom: 68px;
             }
 
             .folders {
@@ -167,11 +170,18 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                 width: 270px;
             }
             
+            .toolbar-wrapper {
+                position: fixed;
+                right: 0;
+                left: 0;
+                bottom: 0;
+            }
+            
             .toolbar {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-top: 30px;
+                padding: 15px 0;
             }
             
             .badge {
