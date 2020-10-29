@@ -36,6 +36,11 @@ export class PortalImagesService {
             );
     }
 
+    delete(assetId: string) {
+        console.log(assetId, 'ASSET')
+        return this.http.delete(environment.api_url + `/media/${assetId}`);
+    }
+
     private mapToPortalImage(img: PortalImageFromServer): PortalImage {
         return {
             ...img,

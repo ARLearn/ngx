@@ -76,8 +76,8 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                         *ngFor="let item of (searchResults$ | async)"
                         [path]="'mediaLibrary/' + item.path + '/' + item.name + '.png'"
                         [name]="item.name"
-                        [selected]="(selectedFiles$ | async).includes('mediaLibrary/' + item.path + '/' + item.name + '.png')"
-                        (onClick)="selectFile('mediaLibrary/' + item.path + '/' + item.name + '.png')"
+                        [selected]="(selectedFiles$ | async).includes('mediaLibrary' + (item.path.startsWith('/') ? '' : '/') + item.path + (item.path.endsWith('/') ? '' : '/') + item.name + '.png')"
+                        (onClick)="selectFile('mediaLibrary' + (item.path.startsWith('/') ? '' : '/') + item.path + (item.path.endsWith('/') ? '' : '/') + item.name + '.png')"
                 >
                 </app-media-gallery-item>
             </div>

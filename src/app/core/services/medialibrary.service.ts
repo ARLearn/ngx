@@ -45,6 +45,7 @@ export class MediaLibraryService {
         let stream$: Observable<any>;
 
         if (path) {
+            storage.ref('mediaLibrary').child(path);
             stream$ = from(storage.ref('mediaLibrary').child(path).listAll());
         } else {
             stream$ = from(storage.ref('mediaLibrary').listAll());
@@ -57,14 +58,20 @@ export class MediaLibraryService {
                 returnObject.folder.push({ name: folderRef.name, path: folderRef.fullPath });
             });
 
-            res.items.forEach(function (itemRef) {
+            res.items.forEach(async function (itemRef) {
                 if (itemRef.name && itemRef.name !== 'removeme.txt') {
-                    returnObject.items.push({ name: itemRef.name, path: itemRef.fullPath });
+                    const meta = (await itemRef.getMetadata()).customMetadata;
+                    returnObject.items.push({ name: itemRef.name, path: itemRef.fullPath, assetId: meta ? meta.assetId : null });
                 }
             });
 
             return returnObject;
         }));
+    }
+
+    updateFileMetadata(file: { path: string, assetId: string }): Observable<any[]> {
+        const storage: Storage = this.afStorage.storage;
+        return from(storage.ref(file.path).updateMetadata({ customMetadata: { assetId: file.assetId } }));
     }
 
     deleteFiles(files: string[]): Observable<any[]> {

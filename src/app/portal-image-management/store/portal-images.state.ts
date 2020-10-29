@@ -2,6 +2,7 @@
 export interface MediaGalleryItem {
     name: string;
     path: string;
+    assetId?: string;
 }
 
 export interface PortalImage {

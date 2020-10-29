@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import {delay, map, mergeMap, withLatestFrom} from "rxjs/operators";
+import {catchError, delay, map, mergeMap, tap, withLatestFrom} from "rxjs/operators";
 import { forkJoin, Observable, of } from "rxjs";
 
 import { State } from "../../core/reducers";
@@ -17,7 +17,7 @@ import {
 } from "./portal-images.actions";
 import { PortalImagesService } from "../../core/services/portal-images.service";
 import { MediaLibraryService } from "../../core/services/medialibrary.service";
-import {getSelectedFiles, getSelectedFolder} from "./portal-images.selectors";
+import {getFiles, getSearchResults, getSelectedFiles, getSelectedFolder} from "./portal-images.selectors";
 import {MediaGalleryItem} from "./portal-images.state";
 
 
@@ -68,6 +68,7 @@ export class PortalImagesEffects {
     create$: Observable<Action> = this.actions$.pipe(
         ofType<CreateImage>(PortalImagesActionTypes.CREATE),
         mergeMap((action: CreateImage) => this.portalImagesService.create(action.payload)),
+        tap(response => this.mediaLibraryService.updateFileMetadata({ path: `mediaLibrary/${response.path}/${response.name}.png`, assetId: response.assetId })),
         withLatestFrom(this.store.select(getSelectedFolder)),
         map(([, folder]) => new Query(folder, false))
     );
@@ -75,8 +76,20 @@ export class PortalImagesEffects {
     @Effect()
     deleteSelectedFiles$: Observable<Action> = this.actions$.pipe(
         ofType<DeleteSelectedFiles>(PortalImagesActionTypes.DELETE_SELECTED_FILES),
-        withLatestFrom(this.store.select(getSelectedFiles)),
-        mergeMap(([action, files]) => this.mediaLibraryService.deleteFiles(files)),
+        withLatestFrom(this.store.select(getSelectedFiles), this.store.select(getFiles), this.store.select(getSearchResults)),
+        mergeMap(([action, selectedFiles, files, search]) => {
+            const stream$ = this.mediaLibraryService.deleteFiles(selectedFiles).pipe(catchError(() => of(true)));
+
+            const streamsSearchFile$ = search.filter(file => file.assetId && selectedFiles.includes(`mediaLibrary${file.path}/${file.name}.png`)).map(
+                file => this.portalImagesService.delete(file.assetId)
+            );
+
+            const streamsFile$ = files.filter(file => file.assetId && selectedFiles.includes(file.path)).map(
+                file => this.portalImagesService.delete(file.assetId)
+            );
+
+            return forkJoin([...streamsFile$, ...streamsSearchFile$, stream$]).pipe(catchError(() => of(true)));
+        }),
         map(() => new DeleteSelectedFilesResponse())
     );
 

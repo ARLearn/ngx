@@ -44,7 +44,7 @@ export function reducers(
             }
 
         case PortalImagesActionTypes.SELECT_FOLDER_RESPONSE:
-            if (state.history.length > 0 && state.history[state.history.length - 1].path === action.payload.path) {
+            if (state.history.length > 0 && state.history[state.history.length - 1] && state.history[state.history.length - 1].path === action.payload.path) {
                 return state;
             }
 
@@ -80,10 +80,12 @@ export function reducers(
             }
 
         case PortalImagesActionTypes.DELETE_SELECTED_FILES_RESPONSE:
+            console.log(state.selectedFiles, state.files);
+
             return {
                 ...state,
                 files: state.files.filter(x => !state.selectedFiles.includes(x.path)),
-                searchResults: state.searchResults.filter(x => !state.selectedFiles.includes('mediaLibrary/' + x.path + '/' + x.name + '.png')),
+                searchResults: state.searchResults.filter(x => !state.selectedFiles.includes('mediaLibrary' + (x.path.startsWith('/') ? '' : '/') + x.path + (x.path.endsWith('/') ? '' : '/') + x.name + '.png')),
                 selectedFiles: [],
             }
 
