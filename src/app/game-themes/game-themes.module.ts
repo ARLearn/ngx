@@ -37,12 +37,13 @@ import {ThemeFilePickerComponent} from "./modal/create-theme/theme-file-picker.c
       CreateThemeSettingsComponent,
       ThemeFilePickerComponent,
   ],
-  exports: [
-      SelectThemeComponent,
-      ThemeSettingsComponent,
-      CreateThemeNameModalComponent,
-      CreateThemeSettingsComponent,
-  ],
+    exports: [
+        SelectThemeComponent,
+        ThemeSettingsComponent,
+        CreateThemeNameModalComponent,
+        CreateThemeSettingsComponent,
+        ThemeFilePickerComponent,
+    ],
 
 })
 export class GameThemesModule { }

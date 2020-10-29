@@ -46,7 +46,11 @@ export class GameThemeService {
 
     createTheme(theme: GameTheme): Observable<any> {
         return this.http
-            .post<any>(environment.api_url + '/game/theme/create', theme);
+            .post<any>(environment.api_url + '/game/theme/create', theme)
+            .pipe(map(theme => {
+                theme.category = CATEGORY_CUSTOM_THEMES;
+                return theme;
+            }));
     }
 
 }

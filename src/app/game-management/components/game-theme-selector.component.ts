@@ -1,23 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
-import { Store } from "@ngrx/store";
+import {Store} from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
 import {filter, withLatestFrom} from 'rxjs/operators';
 import { AngularFireStorage } from "angularfire2/storage";
 
 import { State } from "../../core/reducers";
 import { SelectThemeComponent } from "../../game-themes/modal/select-theme.component";
-import {CreateRequest, Query} from "../../game-themes/store/game-theme.actions";
+import {
+    CreateRequest, CreateRequestSuccess,
+    GameThemeActionTypes,
+    Query,
+    UpdateRequest
+} from "../../game-themes/store/game-theme.actions";
 import { SetSelectedThemeAction } from '../store/current-game.actions';
 import { getSelectedTheme } from "../store/current-game.selector";
 import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
-import {ThemeSettingsComponent} from "../../game-themes/modal/theme-settings.component";
 import {CreateThemeNameModalComponent} from "../../game-themes/modal/create-theme/create-theme-name-modal.component";
 import {CreateThemeSettingsComponent} from "../../game-themes/modal/create-theme/create-theme-settings.component";
-import {GameThemeService} from "../../core/services/GameThemeService";
-import {AuthService} from "../../auth/services/auth.service";
 import {getCurrentUser} from "../../auth/store/auth.selector";
-import {GameTheme} from "../../game-themes/store/game-theme.state";
+import {Actions, ofType} from "@ngrx/effects";
 
 @Component({
     selector: 'app-game-theme-selector',
@@ -155,13 +157,23 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription = new Subscription();
     private currentUserId;
+    private dialogNameThemeRef: any;
 
     constructor(
         private store: Store<State>,
         public dialog: MatDialog,
         private afStorage: AngularFireStorage,
-        private gameThemeService: GameThemeService,
-    ) {}
+        private actionSubj: Actions,
+    ) {
+        const sub = this.actionSubj.pipe(
+            ofType(GameThemeActionTypes.CREATE_REQUEST_SUCCESS),
+        ).subscribe((action: CreateRequestSuccess) => {
+            this.openThemeSettingsModal(action.payload);
+            this.dialogNameThemeRef.close();
+        });
+
+        this.subscription.add(sub);
+    }
 
     ngOnInit(): void {
         this.subscription.add(this.user$.subscribe((user) => this.currentUserId = user.uid))
@@ -202,20 +214,9 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
 
         this.subscription.add(dialogRef.componentInstance.submit
             .subscribe((theme) => {
-                const dialogThemeRef = this.dialog.open(ThemeSettingsComponent, {
-                    panelClass: ['modal-fullscreen', "modal-dialog"],
-                    data: {}
-                });
+                this.store.dispatch(new SetSelectedThemeAction(theme));
 
-                dialogThemeRef.componentInstance.selectedTheme = theme;
-
-
-                this.subscription.add(dialogThemeRef.componentInstance.submit.subscribe(({theme: thm, iconAbbreviation}) => {
-                    this.store.dispatch(new SetSelectedThemeAction(thm));
-                    // TODO: make game updating (set iconAbbreviation)
-                    console.log('iconAbbreviation: ', iconAbbreviation);
-                    this.dialog.closeAll();
-                }));
+                dialogRef.close();
             }));
 
         this.subscription.add(
@@ -223,31 +224,28 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
                 this.openCreateThemeModal();
             })
         );
+
+        this.subscription.add(
+            dialogRef.componentInstance.onUpdateTheme.subscribe((theme) => {
+                this.openThemeSettingsModal(theme);
+            })
+        );
     }
 
     openCreateThemeModal() {
-        this.user$.subscribe(console.log)
-
-        const dialogRef = this.dialog.open(CreateThemeNameModalComponent, {
+        this.dialogNameThemeRef = this.dialog.open(CreateThemeNameModalComponent, {
             panelClass: ['modal-fullscreen', "modal-dialog"],
             data: {}
         });
 
         this.subscription.add(
-            dialogRef.componentInstance.submit.subscribe(payload => {
-
-                this.gameThemeService.createTheme({ name: payload.name } as any)
-                    .toPromise()
-                    .then((response) => {
-                        this.openCreateThemeSettingsModal(response);
-                        dialogRef.close();
-                    })
+            this.dialogNameThemeRef.componentInstance.submit.subscribe(payload => {
+                this.store.dispatch(new CreateRequest(payload));
             })
         )
     }
 
-    openCreateThemeSettingsModal(theme) {
-
+    openThemeSettingsModal(theme) {
         const dialogRef = this.dialog.open(CreateThemeSettingsComponent, {
             panelClass: ['modal-fullscreen', "modal-dialog"],
             data: {}
@@ -257,7 +255,7 @@ export class GameThemeSelectorComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
             dialogRef.componentInstance.submit.subscribe((payload) => {
-                this.store.dispatch(new CreateRequest(payload));
+                this.store.dispatch(new UpdateRequest(payload));
                 dialogRef.close();
             })
         );

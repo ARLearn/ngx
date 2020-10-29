@@ -31,6 +31,7 @@ import {GameDetailSettingsComponent} from "./game-management/pages/game-detail-s
 import {ManageUserComponent} from "./portal-user-management/pages/manage-user.component";
 import {GameLibraryUserComponent} from "./user-library/pages/game-library-user.component";
 import {GameLibararyUserViewgameComponent} from "./user-library/pages/game-libarary-user-viewgame.component";
+import {ManageImagesComponent} from "./portal-image-management/pages/manage-images.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
@@ -77,6 +78,7 @@ export const APP_ROUTES: Routes = [
                     {path: 'library/game/:gameId', component: GameLibararyUserViewgameComponent, pathMatch: 'full'},
                     {path: 'usrmgt', component: ManageUsersComponent, pathMatch: 'full'},
                     {path: 'usrmgt/:userId', component: ManageUserComponent, pathMatch: 'full'},
+                    {path: 'images', component: ManageImagesComponent, pathMatch: 'full'},
                     {path: 'portal', component: ManageGameLibraryComponent, pathMatch: 'full'},
                     {path: 'portal/:gameId', component: ManageGameComponent, pathMatch: 'full'},
                     {path: '**', redirectTo: 'overview'},

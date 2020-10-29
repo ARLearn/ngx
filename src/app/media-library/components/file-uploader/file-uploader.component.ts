@@ -11,16 +11,17 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
              appDragDrop (fileDropped)="uploadFile($event)"
              (click)="fileInput.click()">
             <input hidden type="file" #fileInput (change)="uploadFile($event.target.files)">
-            
+
             <div>
                 <mat-icon class="icon">insert_photo</mat-icon>
             </div>
-            
+
             <h5 class="title" *ngIf="!small">{{ title }}</h5>
-            
+
             <p class="desc" *ngIf="!small">{{ 'GAME.CHOOSE_SPLASH_SUB' | translate }}</p>
             <p class="desc" *ngIf="!small">{{ 'OR' | translate }}</p>
-            <button mat-raised-button color="primary" *ngIf="!small">{{ 'COMMON.BROWSE' | translate }}</button>
+
+            <button type="button" mat-raised-button color="primary" *ngIf="!small">{{ 'BTN.BROWSE' | translate }}</button>
         </div>
     `,
     styleUrls: ['./file-uploader.component.css'],

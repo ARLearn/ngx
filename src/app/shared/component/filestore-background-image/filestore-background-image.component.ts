@@ -72,6 +72,7 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
     @Output() delete = new EventEmitter<boolean>();
     @Output() edit = new EventEmitter<boolean>();
     @Output() isVideo = new EventEmitter<boolean>();
+    @Output() loadSuccess = new EventEmitter<boolean>();
     @Output() loadFailure = new EventEmitter<boolean>();
 
     url;
@@ -109,7 +110,7 @@ export class FilestoreBackgroundImageComponent implements OnInit, OnChanges {
                 .subscribe((avatarUrl) => {
 
                     this.url = avatarUrl;//.replace(" ", "%20");
-
+                    this.loadSuccess.emit();
 
                 }, (error) => {
                     this.loadFailure.emit();

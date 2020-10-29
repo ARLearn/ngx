@@ -65,6 +65,7 @@ import {TutorialModule} from "./tutorial/tutorial.module";
 import {GameThemesModule} from "./game-themes/game-themes.module";
 import {PortalUserManagementModule} from "./portal-user-management/portal-user-management.module";
 import {UserLibraryModule} from "./user-library/user-library.module";
+import {PortalImageManagementModule} from "./portal-image-management/portal-image-management.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -155,6 +156,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         PlayerManagementModule,
         PortalManagementModule,
         PortalUserManagementModule,
+        PortalImageManagementModule,
         FontAwesomeModule,
         RunActionsModule,
         RunResponsesModule,

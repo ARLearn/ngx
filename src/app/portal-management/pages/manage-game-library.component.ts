@@ -219,6 +219,10 @@ export class ManageGameLibraryComponent implements OnInit {
             routerLink: '/portal/root/usrmgt',
             label: 'PORTAL_MANAGEMENT.USERS.MENU'
         },
+        {
+            routerLink: '/portal/root/images',
+            label: 'PORTAL_MANAGEMENT.IMAGES.MENU'
+        },
     ];
 
 

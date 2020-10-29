@@ -287,6 +287,10 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
             routerLink: '/portal/root/usrmgt',
             label: 'PORTAL_MANAGEMENT.USERS.MENU'
         },
+        {
+            routerLink: '/portal/root/images',
+            label: 'PORTAL_MANAGEMENT.IMAGES.MENU'
+        },
     ];
 
 
