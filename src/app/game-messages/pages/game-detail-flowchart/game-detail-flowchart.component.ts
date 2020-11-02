@@ -110,11 +110,13 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     }
 
     deselectMessage($event) {
-
+        this.store.dispatch(new GameMessageEditCompletedAction(null));
+        this.store.dispatch(new SetPreviewMessageAction(null));
     }
 
     noneSelected() {
-
+        this.store.dispatch(new GameMessageEditCompletedAction(null));
+        this.store.dispatch(new SetPreviewMessageAction(null));
     }
 
     onEvent(event) {

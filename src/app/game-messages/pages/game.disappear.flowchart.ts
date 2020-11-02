@@ -102,17 +102,18 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
 
 
     selectMessage($event) {
-
         this.store.dispatch(new GameMessageEditCompletedAction($event));
         this.store.dispatch(new SetPreviewMessageAction($event.id));
     }
 
     deselectMessage($event) {
-
+        this.store.dispatch(new GameMessageEditCompletedAction(null));
+        this.store.dispatch(new SetPreviewMessageAction(null));
     }
 
     noneSelected() {
-
+        this.store.dispatch(new GameMessageEditCompletedAction(null));
+        this.store.dispatch(new SetPreviewMessageAction(null));
     }
 
     onEvent(event) {
