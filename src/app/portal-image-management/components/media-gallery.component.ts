@@ -8,7 +8,7 @@ import Debounce from 'debounce-decorator';
 
 import { State } from "../../core/reducers";
 import {
-    CreateFolder, DeleteSelectedFiles,
+    CreateFolder, DeleteFolder, DeleteSelectedFiles,
     GoBackTo,
     PortalImagesActionTypes,
     Query,
@@ -24,6 +24,9 @@ import {
     getSelectedFolder
 } from "../store/portal-images.selectors";
 import { FolderFormModalComponent } from "../modals/folder-form.modal";
+import {ConfirmDialogComponent} from "../../portal-user-management/components/confirm-dialog.component";
+import {SuspendAccountRequest} from "../../portal-user-management/store/portal-users.actions";
+import {MediaGalleryItem} from "../store/portal-images.state";
 
 @Component({
     selector: 'app-media-gallery-container',
@@ -50,6 +53,7 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                 </div>
                 
                 <div class="folder" *ngFor="let folder of (folders$ | async)" (click)="selectFolder(folder)">
+                    <button mat-icon-button class="delete-folder" (click)="deleteFolder($event, folder)"><mat-icon>close</mat-icon></button>
                     <div class="folder-icon"><mat-icon>folder</mat-icon></div>
                     <div class="folder-label">{{ folder.name }}</div>
                 </div>
@@ -92,7 +96,7 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                 </div>
 
                 <div>
-                    <button mat-raised-button color="primary" (click)="deleteFiles()" [disabled]="(selectedFiles$ | async).length === 0"><mat-icon>delete</mat-icon></button>
+                    <button class="delete-btn" mat-raised-button color="primary" (click)="deleteFiles()" [disabled]="(selectedFiles$ | async).length === 0"><mat-icon>delete</mat-icon> {{ 'ACTIONS.DELETE' | translate }}</button>
                 </div>
             </div>
         </div>        
@@ -108,6 +112,10 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
             .parent.select {
                 margin-bottom: 0;
             }
+            
+            .parent.select .line {
+                min-height: calc(100vh - 260px);
+            }
 
             .folders {
                 flex: 0 0 252px;
@@ -115,11 +123,23 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
             }
             
             .folder {
+                position: relative;
                 display: flex;
                 align-items: center;
                 margin-bottom: 10px;
                 padding: 10px;
                 cursor: pointer;
+            }
+
+            .folder:hover .delete-folder {
+                display: block;
+            }
+            
+            .folder .delete-folder {
+                position: absolute;
+                top: 1px;
+                left: -32px;
+                display: none;
             }
             
             .folder-icon {
@@ -147,9 +167,8 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
             }
 
             .line {
-
                 width: 2px;
-                min-height: 100%;
+                min-height: calc(100vh - 318px);
                 background: #DDDDDD 0% 0% no-repeat padding-box;
                 opacity: 1;
             }
@@ -179,6 +198,8 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                 right: 0;
                 left: 0;
                 bottom: 0;
+                background: #ffffff;
+                z-index: 10;
             }
             
             .toolbar {
@@ -204,6 +225,14 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
                 font-size: 16px;
                 text-transform: uppercase;
                 font-weight: 400;
+            }
+            
+            .delete-btn {
+                text-transform: uppercase;
+            }
+            
+            .delete-btn .mat-icon {
+                line-height: 23px;
             }
         `
     ]
@@ -282,7 +311,16 @@ export class MediaGalleryComponent implements OnInit, OnDestroy {
     }
 
     deleteFiles() {
-        this.store.dispatch(new DeleteSelectedFiles());
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+        });
+
+        dialogRef.componentInstance.message = 'PORTAL_MANAGEMENT.IMAGES.CONFIRM_DELETE_FILES';
+
+        this.subscriptions.add(dialogRef.componentInstance.submit.subscribe(() => {
+            this.store.dispatch(new DeleteSelectedFiles());
+            dialogRef.close();
+        }));
     }
 
     @Debounce(800)
@@ -294,4 +332,20 @@ export class MediaGalleryComponent implements OnInit, OnDestroy {
         this.store.dispatch(new Search(query));
     }
 
+    deleteFolder(event: MouseEvent, folder: MediaGalleryItem) {
+        event.stopPropagation();
+
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+        });
+
+        dialogRef.componentInstance.message = 'PORTAL_MANAGEMENT.IMAGES.CONFIRM_DELETE_FOLDER';
+
+        this.subscriptions.add(dialogRef.componentInstance.submit.subscribe(() => {
+            this.store.dispatch(new DeleteFolder(folder.path));
+            dialogRef.close();
+        }));
+
+
+    }
 }

@@ -22,37 +22,44 @@ import {map} from "rxjs/operators";
         </div>
         <div class="maxwidth">
             <div class="pos-title primary-color font-medium-32-43-roboto">{{ 'MESSAGE.SELECT_ASSET' | translate }}</div>
-
         </div>
-        <div class="maxwidth buttons">
-            <button mat-raised-button color="primary" (click)="globalFilesOpened = false">Local</button>
-            <button mat-raised-button color="primary" (click)="globalFilesOpened = true">Global</button>
+        
+        <div class="maxwidth">
+            <mat-tab-group (selectedIndexChange)="globalFilesOpened = $event === 1" class="wrap">
+                <mat-tab label="Local">
+                    <app-media-lib-container
+                            [multiSelect]="false"
+                            [upload]="false"
+                            (doubleClick)="saveMessage()"
+                            [gameId]="(game$|async)?.gameId"
+                    ></app-media-lib-container>
+                </mat-tab>
+                <mat-tab label="Global">
+                    <app-media-gallery-container
+                            [multiSelect]="false"
+                            [assessmentSelect]="true"
+                    ></app-media-gallery-container>
+                </mat-tab>
+            </mat-tab-group>
         </div>
-
         <div class="maxwidth pos-media-select">
-            <app-media-gallery-container
-                    *ngIf="globalFilesOpened"
-                    [multiSelect]="false"
-                    [assessmentSelect]="true"
-            ></app-media-gallery-container>
+            <div class="toolbar-wrapper">
+                <div class="toolbar maxwidth">
+                    <button class="gl-pos-button-right"
+                            *ngIf="!globalFilesOpened"
+                            [disabled]="(selectedLocalFileNames$|async).length === 0"
+                            mat-raised-button (click)="saveMessage()" color="primary"> Selecteer
+                    </button>
 
-            <app-media-lib-container
-                    *ngIf="!globalFilesOpened"
-                    [multiSelect]="false"
-                    [upload]="false"
-                    (doubleClick)="saveMessage()"
-                    [gameId]="(game$|async)?.gameId"></app-media-lib-container>
-            <button class="gl-pos-button-right"
-                    *ngIf="!globalFilesOpened"
-                    [disabled]="(selectedLocalFileNames$|async).length === 0"
-                    mat-raised-button (click)="saveMessage()" color="primary"> Selecteer
-            </button>
-
-            <button class="gl-pos-button-right"
-                    *ngIf="globalFilesOpened"
-                    [disabled]="(selectedGlobalFileNames$|async).length === 0"
-                    mat-raised-button (click)="saveMessage()" color="primary"> Selecteer
-            </button>
+                    <button class="gl-pos-button-right"
+                            *ngIf="globalFilesOpened"
+                            [disabled]="(selectedGlobalFileNames$|async).length === 0"
+                            mat-raised-button (click)="saveMessage()" color="primary"> Selecteer
+                    </button>
+                </div>
+            </div>
+            
+            
         </div>
 
 
@@ -78,6 +85,34 @@ import {map} from "rxjs/operators";
         
         .buttons > * {
             margin-right: 10px;
+        }
+        
+        .wrap {
+            margin-bottom: 68px;
+        }
+
+        .toolbar-wrapper {
+            position: fixed;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: #ffffff;
+            z-index: 10;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+        }
+        
+        ::ng-deep .gl-pos-modal-esc-button {
+            right: 0;
+        }
+
+        ::ng-deep .gl-pos-modal-back-button {
+            left: 0;
         }
     `]
 })

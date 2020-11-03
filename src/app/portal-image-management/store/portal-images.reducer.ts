@@ -44,7 +44,7 @@ export function reducers(
             }
 
         case PortalImagesActionTypes.SELECT_FOLDER_RESPONSE:
-            if (state.history.length > 0 && state.history[state.history.length - 1] && state.history[state.history.length - 1].path === action.payload.path) {
+            if (!action.payload || state.history.length > 0 && state.history[state.history.length - 1] && state.history[state.history.length - 1].path === action.payload.path) {
                 return state;
             }
 
@@ -64,6 +64,14 @@ export function reducers(
 
             return { ...state, selectedFiles: [ ...state.selectedFiles, action.payload ] };
 
+        case PortalImagesActionTypes.DELETE_FOLDER_RESPONSE:
+            const folderIdx = state.history.findIndex(f => f.path === action.payload);
+
+            return {
+                ...state,
+                history: state.history.filter((_, i) => folderIdx !== -1 && i < folderIdx)
+            };
+
         case PortalImagesActionTypes.GO_BACK_TO_RESPONSE: {
             const selectedFolderIdx = state.history.indexOf(action.payload);
 
@@ -80,8 +88,6 @@ export function reducers(
             }
 
         case PortalImagesActionTypes.DELETE_SELECTED_FILES_RESPONSE:
-            console.log(state.selectedFiles, state.files);
-
             return {
                 ...state,
                 files: state.files.filter(x => !state.selectedFiles.includes(x.path)),

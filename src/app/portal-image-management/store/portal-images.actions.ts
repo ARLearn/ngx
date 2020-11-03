@@ -16,6 +16,8 @@ export enum PortalImagesActionTypes {
     SELECT_FOLDER_RESPONSE = '[PortalImages] Select folder Response',
     SELECT_FILE = '[PortalImages] Select file',
 
+    DELETE_FOLDER = '[PortalImages] Delete folder',
+    DELETE_FOLDER_RESPONSE = '[PortalImages] Delete folder response',
     DELETE_SELECTED_FILES = '[PortalImages] Delete selected files',
     DELETE_SELECTED_FILES_RESPONSE = '[PortalImages] Delete selected files response',
 
@@ -60,6 +62,20 @@ export class CreateImage implements Action {
 
 export class CreateFolder implements Action {
     readonly type = PortalImagesActionTypes.CREATE_FOLDER;
+
+    constructor(public payload: string) {
+    }
+}
+
+export class DeleteFolder implements Action {
+    readonly type = PortalImagesActionTypes.DELETE_FOLDER;
+
+    constructor(public payload: string) {
+    }
+}
+
+export class DeleteFolderResponse implements Action {
+    readonly type = PortalImagesActionTypes.DELETE_FOLDER_RESPONSE;
 
     constructor(public payload: string) {
     }
@@ -124,4 +140,5 @@ export type PortalImageActions =
     | SelectFolderResponse
     | SelectFile
     | GoBackToResponse
-    | DeleteSelectedFilesResponse;
+    | DeleteSelectedFilesResponse
+    | DeleteFolderResponse;

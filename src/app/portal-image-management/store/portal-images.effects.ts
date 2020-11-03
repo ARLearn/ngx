@@ -7,7 +7,7 @@ import { forkJoin, Observable, of } from "rxjs";
 import { State } from "../../core/reducers";
 import {
     CreateFolder,
-    CreateImage, DeleteSelectedFiles, DeleteSelectedFilesResponse,
+    CreateImage, DeleteFolder, DeleteFolderResponse, DeleteSelectedFiles, DeleteSelectedFilesResponse,
     GoBackTo,
     GoBackToResponse,
     PortalImagesActionTypes,
@@ -80,7 +80,7 @@ export class PortalImagesEffects {
         mergeMap(([action, selectedFiles, files, search]) => {
             const stream$ = this.mediaLibraryService.deleteFiles(selectedFiles).pipe(catchError(() => of(true)));
 
-            const streamsSearchFile$ = search.filter(file => file.assetId && selectedFiles.includes(`mediaLibrary${file.path}/${file.name}.png`)).map(
+            const streamsSearchFile$ = search.filter(file => file.assetId && selectedFiles.includes(`mediaLibrary${file.path.startsWith('/') ? '' : '/'}${file.path}${file.path.endsWith('/') ? '' : '/'}${file.name}.png`)).map(
                 file => this.portalImagesService.delete(file.assetId)
             );
 
@@ -104,6 +104,18 @@ export class PortalImagesEffects {
         }),
         delay(300),
         map(([, folder]: [any, MediaGalleryItem]) => new SelectFolder(folder))
+    );
+
+    @Effect()
+    deleteFolder$: Observable<Action> = this.actions$.pipe(
+        ofType<DeleteFolder>(PortalImagesActionTypes.DELETE_FOLDER),
+        mergeMap((action: DeleteFolder) => forkJoin([this.mediaLibraryService.deleteFolder(action.payload), of(action)])),
+        withLatestFrom(this.store.select(getSelectedFolder)),
+        map(([[, action], folder]) => {
+            this.store.dispatch(new DeleteFolderResponse(action.payload));
+
+            return new Query(folder, false);
+        })
     );
 
     constructor(

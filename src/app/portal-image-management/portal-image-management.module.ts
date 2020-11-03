@@ -9,12 +9,10 @@ import { PortalImagesEffects } from "./store/portal-images.effects";
 import { ManageImagesComponent } from "./pages/manage-images.component";
 import { PortalImagesService } from "../core/services/portal-images.service";
 import { ImageFormModalComponent } from './modals/image-form.modal';
-import { GameThemesModule } from "../game-themes/game-themes.module";
 import { MediaGalleryComponent } from "./components/media-gallery.component";
 import { MediaGalleryItemComponent } from "./components/media-gallery-item.component";
 import { FolderFormModalComponent } from "./modals/folder-form.modal";
-import { GalleryModalComponent } from "./modals/gallery.modal";
-import {GalleryFilePickerComponent} from "./components/gallery-file-picker.component";
+import { GalleryFilePickerComponent } from "./components/gallery-file-picker.component";
 
 
 @NgModule({
@@ -24,7 +22,6 @@ import {GalleryFilePickerComponent} from "./components/gallery-file-picker.compo
         MediaGalleryComponent,
         MediaGalleryItemComponent,
         FolderFormModalComponent,
-        GalleryModalComponent,
         GalleryFilePickerComponent,
     ],
     imports: [
@@ -42,7 +39,6 @@ import {GalleryFilePickerComponent} from "./components/gallery-file-picker.compo
     entryComponents: [
         ImageFormModalComponent,
         FolderFormModalComponent,
-        GalleryModalComponent,
     ]
 })
 export class PortalImageManagementModule { }

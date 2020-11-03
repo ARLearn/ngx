@@ -82,6 +82,26 @@ export class MediaLibraryService {
         return forkJoin(batch);
     }
 
+    async deleteFolder(folder: string) {
+        const storage: Storage = this.afStorage.storage;
+
+        return this.deleteRecursively(storage.ref(folder));
+    }
+
+    private async deleteRecursively(listRef) {
+        const storage: Storage = this.afStorage.storage;
+        const data = await listRef.listAll();
+
+
+        for (const storageElement of data.prefixes) {
+            await this.deleteRecursively(storageElement);
+        }
+
+        for (const item of data.items) {
+            await storage.ref(item['location']['path']).delete();
+        }
+    }
+
     deleteGameFiles(gameId: string, files: String[]): Observable<any[]> {
         files.forEach((file) => console.log("deleting ", file));
         const storage: Storage = this.afStorage.storage;

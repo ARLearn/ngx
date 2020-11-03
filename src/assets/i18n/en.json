@@ -12,7 +12,8 @@
 		"MAKE_EDITOR": "Make editor",
 		"MAKE_VIEWER": "Make viewer",
 		"SUBMIT" : "Submit",
-		"CANCEL" : "Cancel"
+		"CANCEL" : "Cancel",
+		"DELETE": "Delete"
 	},
 	"ADMIN": {
 		"FEATURED": {
@@ -220,7 +221,11 @@
 			"USER_ACCESS": "User access"
 		},
 		"LABEL": "Portal Management",
-		"USERS": "Users"
+		"USERS": "Users",
+		"IMAGES": {
+			"CONFIRM_DELETE_FILES": "Are you sure you want to delete these files?",
+			"CONFIRM_DELETE_FOLDER": "Are you sure you want to delete this folder?"
+		}
 	},
 	"ROW_HEADERS": {
 		"DATE": "Date",

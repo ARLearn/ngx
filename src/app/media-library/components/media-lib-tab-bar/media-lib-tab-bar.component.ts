@@ -4,7 +4,6 @@ import { State } from "../../../core/reducers";
 import { CreateFolderAction, SetUploadModusAction } from "../../store/media-lib.actions";
 import { MatDialog } from "@angular/material/dialog";
 import { CreateFolderComponent } from "../../modal/create-folder/create-folder.component";
-import { GalleryModalComponent } from "../../../portal-image-management/modals/gallery.modal";
 
 @Component({
     selector: 'app-media-lib-tab-bar',
