@@ -1,12 +1,19 @@
 import {Component, Input, OnInit, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {AngularFireStorage} from "angularfire2/storage";
+import {MatDialog} from "@angular/material/dialog";
+import {ImageSliderModalComponent} from "../modals/image-slider-modal.component";
 
 @Component({
     selector: 'app-photo-gallery',
     template: `
     <div class="photo-gallery">
         <div *ngIf="!loading" class="masonry">
-            <div class="masonry-brick" [ngClass]="{'masonry-brick--thin': options[img] === 'thin', 'masonry-brick--wide': options[img] === 'wide', 'masonry-brick--first': true}" *ngFor="let img of images; let i = index">
+            <div
+                *ngFor="let img of images; let i = index"
+                (click)="showSlider(i)"
+                [ngClass]="{'masonry-brick--thin': options[img] === 'thin', 'masonry-brick--wide': options[img] === 'wide', 'masonry-brick--first': true}"
+                class="masonry-brick"
+            >
                 <img [src]="img"  alt="" />
 
                 <div *ngIf="users[img]" class="user-placeholder">
@@ -111,7 +118,10 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
     @Output() public onLoad: EventEmitter<any> = new EventEmitter<any>();
 
 
-    constructor(public afStorage: AngularFireStorage) {}
+    constructor(
+        public afStorage: AngularFireStorage,
+        public dialog: MatDialog,
+    ) {}
 
     async ngOnInit(): Promise<void> {
         await this.loadPhotos();
@@ -128,6 +138,15 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
         }
     }
 
+    public showSlider(idx) {
+        const dialogRef = this.dialog.open(ImageSliderModalComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+            data: {}
+        });
+
+        dialogRef.componentInstance.currentIdx = idx;
+        dialogRef.componentInstance.images = this.images;
+    }
 
     public async loadPhotos() {
         this.loading = true;
@@ -152,7 +171,7 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
                 this.options[img] = 'wide';
             }
         }
-        
+
         this.images = this.shuffleImages();
         this.loading = false;
         this.onLoad.emit(false);
@@ -180,8 +199,8 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
         const lenThin = thinEls.length;
         const lenWide = wideEls.length;
 
-        const MAX_IMGS_IN_ROW = 5;
-        const MAX_WIDE_IMGS_IN_ROW = 2;
+        const MAX_IMAGES_IN_ROW = 5;
+        const MAX_WIDE_IMAGES_IN_ROW = 2;
 
         let wideIndex = 0;
         let thinIndex = 0;
@@ -190,11 +209,11 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
 
         const result = [];
 
-        for (let row = 0; row < Math.ceil(len / MAX_IMGS_IN_ROW); row++) {
-            let chunk = [];
+        for (let row = 0; row < Math.ceil(len / MAX_IMAGES_IN_ROW); row++) {
+            const chunk = [];
 
-            for (let i = 0; i < MAX_IMGS_IN_ROW; i++) {
-                if (wideIndex < lenWide && wideCounter < MAX_WIDE_IMGS_IN_ROW) {
+            for (let i = 0; i < MAX_IMAGES_IN_ROW; i++) {
+                if (wideIndex < lenWide && wideCounter < MAX_WIDE_IMAGES_IN_ROW) {
                     chunk.push(wideEls[wideIndex++]);
                     wideCounter++;
                     continue;
@@ -209,7 +228,6 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
             } else {
                 result.push(...this.shuffle(chunk));
             }
-
 
             wideCounter = 0;
         }
