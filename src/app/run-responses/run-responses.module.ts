@@ -4,7 +4,9 @@ import { MatTableModule } from "@angular/material/table";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxAudioPlayerModule } from "ngx-audio-player";
+
 import { ResponsesOverviewComponent } from "./pages/responses-overview.component";
 import { GameRunsManagementModule } from "../game-runs-management/game-runs-management.module";
 import { GameMessagesModule } from "../game-messages/game-messages.module";
@@ -14,35 +16,36 @@ import { RunResponsesEffects } from "./store/run-responses.effects";
 import { SharedModule } from "../shared/shared.module";
 import { GameMessageModule } from "../game-message/game-message.module";
 import { PhotoGalleryComponent } from './components/photo-gallery.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AudioGalleryComponent } from './components/audio-gallery.component';
 import { GameManagementModule } from "../game-management/game-management.module";
 import { TextQuestionsGalleryComponent } from "./components/text-questions-gallery.component";
 import { VideoGalleryComponent } from "./components/video-gallery.component";
+import { ImageSliderModalComponent } from "./modals/image-slider-modal.component";
 
 @NgModule({
   declarations: [
-      ResponsesOverviewComponent,
-      ArlearnResponsesTableComponent,
-      PhotoGalleryComponent,
-      AudioGalleryComponent,
-      VideoGalleryComponent,
-      TextQuestionsGalleryComponent,
+    ResponsesOverviewComponent,
+    ArlearnResponsesTableComponent,
+    PhotoGalleryComponent,
+    AudioGalleryComponent,
+    VideoGalleryComponent,
+    TextQuestionsGalleryComponent,
+    ImageSliderModalComponent,
   ],
-
-    imports: [
-        CommonModule,
-        GameRunsManagementModule,
-        GameMessagesModule,
-        MatTableModule,
-        StoreModule.forFeature('run-responses', runResponsesReducer),
-        EffectsModule.forFeature([RunResponsesEffects]),
-        SharedModule,
-        MatToolbarModule,
-        MatProgressSpinnerModule,
-        GameMessageModule,
-        NgxAudioPlayerModule,
-        GameManagementModule,
-    ]
+  imports: [
+    CommonModule,
+    GameRunsManagementModule,
+    GameMessagesModule,
+    MatTableModule,
+    StoreModule.forFeature('run-responses', runResponsesReducer),
+    EffectsModule.forFeature([RunResponsesEffects]),
+    SharedModule,
+    MatToolbarModule,
+    MatProgressSpinnerModule,
+    GameMessageModule,
+    NgxAudioPlayerModule,
+    GameManagementModule,
+  ],
+  entryComponents: [ImageSliderModalComponent],
 })
 export class RunResponsesModule { }

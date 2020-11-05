@@ -1,4 +1,16 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges, EventEmitter, Output, ViewEncapsulation, ViewChild, AfterViewChecked} from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    OnChanges,
+    SimpleChanges,
+    EventEmitter,
+    Output,
+    ViewEncapsulation,
+    ViewChild,
+    AfterViewChecked,
+    HostListener
+} from '@angular/core';
 import {AngularFireStorage} from "angularfire2/storage";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
@@ -44,8 +56,8 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
                 </div>
                 <div class="player__user">
                     <div class="user">
-                        <div class="user__avatar">{{ users[selectedVideo.url]?.avatar || 'BA' }}</div>
-                        <div class="user__name">{{ users[selectedVideo.url]?.name || 'dasdsa ads' }}</div>
+                        <div class="user__avatar">{{ users[selectedVideo.url]?.avatar }}</div>
+                        <div class="user__name">{{ users[selectedVideo.url]?.name }}</div>
                     </div>
                 </div>
             </div>
@@ -190,6 +202,8 @@ export class VideoGalleryComponent implements OnInit, OnChanges {
     private dialogRef;
     private selectedVideoIdx: any;
 
+    @ViewChild('video') videoPlayer;
+
     constructor(
         public afStorage: AngularFireStorage,
         public dialog: MatDialog,
@@ -232,6 +246,16 @@ export class VideoGalleryComponent implements OnInit, OnChanges {
 
         this.loading = false;
         this.onLoad.emit(false);
+    }
+
+    @HostListener('window:keydown', ['$event'])
+    onKeyDown(event: KeyboardEvent) {
+        if (event.code === 'ArrowLeft') {
+            this.prevVideo(this.videoPlayer.nativeElement);
+        }
+        if (event.code === 'ArrowRight') {
+            this.nextVideo(this.videoPlayer.nativeElement);
+        }
     }
 
     public showVideo(videoIdx, player) {

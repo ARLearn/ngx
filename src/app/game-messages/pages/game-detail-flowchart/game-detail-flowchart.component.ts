@@ -13,9 +13,10 @@ import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
-import {SetPreviewMessageAction} from "../../store/game-messages.actions";
-import { map, tap } from 'rxjs/operators';
+import {ResetAction, SetPreviewMessageAction} from "../../store/game-messages.actions";
+import {map, tap, withLatestFrom} from 'rxjs/operators';
 import {SetLoadingAction} from "../../../game-management/store/current-game.actions";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-game-detail-flowchart',
@@ -33,6 +34,7 @@ import {SetLoadingAction} from "../../../game-management/store/current-game.acti
                     (noneSelected)="noneSelected()"
                     (onEvent)="onEvent($event)"
                     [lang]="lang"
+                    [noimage]="noimage$ | async"
             ></lib-wireflow>
         </div>
 
@@ -56,8 +58,13 @@ import {SetLoadingAction} from "../../../game-management/store/current-game.acti
 })
 export class GameDetailFlowchartComponent extends GameDetailScreensComponent implements OnInit, OnDestroy {
     editMessage$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
+    noimage$ = this.activatedRoute.data.pipe(map(data => data.noimage));
+
     public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector).pipe(
-        map(messages => {
+        withLatestFrom(this.noimage$),
+        map(([messages, noimage]) => {
+            if (noimage) { return messages; }
+
             for (const message of messages) {
                 const path = message && message.fileReferences && message.fileReferences.background;
                 if (path) {
@@ -68,6 +75,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
             return messages;
         })
     );
+
     loading$ = this.store.select(getMessagesLoading);
 
     lang = 'en';
@@ -76,7 +84,8 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     constructor(
         public dialog: MatDialog,
         public store: Store<State>,
-        public afStorage: AngularFireStorage
+        public afStorage: AngularFireStorage,
+        private activatedRoute: ActivatedRoute,
     ) {
         super(dialog, store);
     }
@@ -94,6 +103,8 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
         if (this.messagesSubscription) {
             this.messagesSubscription.unsubscribe();
         }
+
+        this.store.dispatch(new ResetAction());
     }
 
     messagesChange(messages: GameMessage[]) {
