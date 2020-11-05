@@ -61,6 +61,19 @@ export function reducers(
 
         }
 
+        case actions.GameMessageActionTypes.GAME_MESSAGE_CLEAR_FILE_REFERENCE: {
+            return {
+                ...state,
+                editMessage: {
+                    ...state.editMessage,
+                    fileReferences: {
+                        ...state.editMessage.fileReferences,
+                        [action.payload]: null
+                    }
+                }
+            };
+        }
+
         case actions.GameMessageActionTypes.GAME_MESSAGE_UPDATE_ANSWER: {
             const editMessage = <MultipleChoiceScreen>Object.assign({}, state.editMessage || {});
             if (!editMessage.answers) {

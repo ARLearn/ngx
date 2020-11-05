@@ -13,6 +13,7 @@ import {environment} from "../../../../environments/environment";
                     [navTo]="navTo"
             >
                 <app-filestore-background-image *ngIf="imagePath && !isVideo && (displayAsset ==='')"
+                                                (loadFailure)="imagePath = themePath"
                                                 [paths]="[imagePath]"
                                                 (isVideo)="$event?isVideo=true:isVideo=false"
                 >
@@ -107,6 +108,7 @@ export class ScreenTileComponent {
     @Input() title: string;
     @Input() subtitle;
     @Input() imagePath;
+    @Input() themePath = null;
     @Input() videoPath;
     @Input() clickText;
     @Input() navTo;

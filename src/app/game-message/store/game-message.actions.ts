@@ -18,6 +18,7 @@ export const GameMessageActionTypes = {
     GAME_MESSAGE_SAVE: '[GameMessage] Update save message',
     GAME_MESSAGE_DIRECT_SAVE: '[GameMessage] Save included message',
     GAME_MESSAGE_EDIT_COMPLETED: '[GameMessage] Edit message completed',
+    GAME_MESSAGE_CLEAR_FILE_REFERENCE: '[GameMessage] Clear File Reference',
 
 };
 
@@ -137,6 +138,13 @@ export class GameMessageEditCompletedAction implements Action {
     }
 }
 
+export class GameMessageClearFileReferenceAction implements Action {
+    type = GameMessageActionTypes.GAME_MESSAGE_CLEAR_FILE_REFERENCE;
+
+    constructor(public payload: string) {
+    }
+}
+
 export type GameMessageAction
     = GameMessageEditAction
     | GameMessageAddAnswerAction
@@ -145,4 +153,5 @@ export type GameMessageAction
     | GameMessageSaveAction
     | GameMessageEditCompletedAction
     | RemoveLocationAction
+    | GameMessageClearFileReferenceAction
     ;

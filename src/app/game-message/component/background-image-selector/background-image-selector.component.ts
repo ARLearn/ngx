@@ -2,12 +2,15 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {GameMessage} from "../../../game-messages/store/game-messages.state";
 import {getEditMessageSelector} from "../../store/game-message.selector";
-import {GameMessageUpdateFileReferenceAction} from "../../store/game-message.actions";
+import {
+    GameMessageClearFileReferenceAction,
+    GameMessageUpdateFileReferenceAction
+} from "../../store/game-message.actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {getGame} from "../../../game-management/store/current-game.selector";
 import {GameThemeService} from "../../../core/services/GameThemeService";
-import {filter, map} from "rxjs/operators";
+import {filter, map, tap} from "rxjs/operators";
 import {Game} from "../../../game-management/store/current-game.state";
 import {SelectAssetComponent} from "../../../media-library/modal/select-asset/select-asset.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -23,7 +26,7 @@ import {MatDialog} from "@angular/material/dialog";
                 (assetSelect)="attachSplash($event)"
         >
         </app-asset-selector>
-        
+
         <ng-template #bg>
             <app-filestore-background-image
                     [paths]="[((message$|async)?.fileReferences[key]) || selectedTheme?.backgroundPath]"
@@ -31,10 +34,11 @@ import {MatDialog} from "@angular/material/dialog";
                     [editButton]="!hideControls && ((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
                     (delete)="deleteAsset()"
                     (edit)="select()"
+                    (loadFailure)="onFail()"
             >
                 <ng-content></ng-content>
             </app-filestore-background-image>
-        </ng-template>            
+        </ng-template>
     `,
     styleUrls: ['./background-image-selector.component.css']
 })
@@ -43,7 +47,7 @@ export class BackgroundImageSelectorComponent implements OnInit, OnDestroy {
 
     @Input() key = 'background';
 
-    message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
+    message$: Observable<GameMessage> = this.store.select(getEditMessageSelector).pipe(tap(console.log));
     hasGameTheme$: Observable<boolean> = this.store.select(getGame)
         .pipe(map(game => game && !!game.theme));
 
@@ -102,4 +106,7 @@ export class BackgroundImageSelectorComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
+    onFail() {
+        this.store.dispatch(new GameMessageClearFileReferenceAction(this.key));
+    }
 }
