@@ -31,6 +31,8 @@ export const GameMessagesActionTypes = {
 
     SET_SELECTED_SCREEN: '[GameMessages] Set selected screen',
     SET_LOADING: '[GameMessages] Set loading',
+
+    RESET: '[GameMessages] Reset',
 };
 
 export class GetGameMessagesRequestAction implements Action {
@@ -165,6 +167,13 @@ export class SetLoadingAction implements Action {
     }
 }
 
+export class ResetAction implements Action {
+    type = GameMessagesActionTypes.RESET;
+
+    constructor(public payload = null) {
+    }
+}
+
 export type GameMessagesAction
     = GetGameMessagesRequestAction
     | GetGameMessagesCompletedAction
@@ -188,4 +197,6 @@ export type GameMessagesAction
     | NewMessageResponseAction
 
     | GetGameMessagesErrorAction
-    | SetLoadingAction;
+    | SetLoadingAction
+
+    | ResetAction;

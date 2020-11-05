@@ -88,8 +88,10 @@ export const APP_ROUTES: Routes = [
                 path: 'game/:gameId/detail',
                 children: [
                     {path: 'screens', component: GameDetailScreensComponent, pathMatch: 'full'},
-                    {path: 'flowchart/appear', component: GameDetailFlowchartComponent, pathMatch: 'full'},
-                    {path: 'flowchart/disappear', component: GameDisappearFlowchartComponent, pathMatch: 'full'},
+                    {path: 'flowchart/appear', component: GameDetailFlowchartComponent, pathMatch: 'full', data: { noimage: false }},
+                    {path: 'flowchart/disappear', component: GameDisappearFlowchartComponent, pathMatch: 'full', data: { noimage: false }},
+                    {path: 'flowchart/appear/noimage', component: GameDetailFlowchartComponent, pathMatch: 'full', data: { noimage: true }},
+                    {path: 'flowchart/disappear/noimage', component: GameDisappearFlowchartComponent, pathMatch: 'full', data: { noimage: true }},
                     {path: 'settings', component: GameDetailSettingsComponent, pathMatch: 'full'},
                     {path: 'runs', component: RunOverviewComponent, pathMatch: 'full'},
                     {path: 'media', component: MediaLibraryAllFilesComponent, pathMatch: 'full'},

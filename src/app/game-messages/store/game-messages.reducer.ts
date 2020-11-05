@@ -159,6 +159,10 @@ export function reducers(
         case actions.GameMessagesActionTypes.SET_SELECTED_SCREEN: {
             return Object.assign({}, state, {selectedScreen: action.payload});
         }
+
+        case actions.GameMessagesActionTypes.RESET: {
+            return gameMessagesInitialState;
+        }
         //
         // case actions.GameMessagesActionTypes.GAME_MESSAGES_ERROR: {
         //

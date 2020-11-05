@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {GameDetailScreensComponent} from './game-detail-screens/game-detail-screens.component';
 import {Observable, Subscription} from "rxjs";
-import { map } from 'rxjs/operators';
+import {map, withLatestFrom} from 'rxjs/operators';
 import {getFilteredMessagesSelector, getMessagesLoading} from "../store/game-messages.selector";
 import {GameMessage} from "../store/game-messages.state";
 import {
@@ -14,8 +14,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
-import {SetPreviewMessageAction} from "../store/game-messages.actions";
+import {ResetAction, SetPreviewMessageAction} from "../store/game-messages.actions";
 import {SetLoadingAction} from "../../game-management/store/current-game.actions";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-game-disappear-flowchart',
@@ -34,6 +35,7 @@ import {SetLoadingAction} from "../../game-management/store/current-game.actions
                 (onEvent)="onEvent($event)"
                 [lang]="lang"
                 [selector]="'disappearOn'"
+                [noimage]="noimage$ | async"
             ></lib-wireflow>
         </div>
 
@@ -57,8 +59,13 @@ import {SetLoadingAction} from "../../game-management/store/current-game.actions
 })
 export class GameDisappearFlowchartComponent extends GameDetailScreensComponent implements OnInit, OnDestroy {
     editMessage$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
+    noimage$ = this.activatedRoute.data.pipe(map(data => data.noimage));
+
     public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector).pipe(
-        map(messages => {
+        withLatestFrom(this.noimage$),
+        map(([messages, noimage]) => {
+            if (noimage) { return messages; }
+
             for (const message of messages) {
                 const path = message && message.fileReferences && message.fileReferences.background;
                 if (path) {
@@ -75,7 +82,8 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
     constructor(
         public dialog: MatDialog,
         public store: Store<State>,
-        public afStorage: AngularFireStorage
+        public afStorage: AngularFireStorage,
+        private activatedRoute: ActivatedRoute,
     ) {
         super(dialog, store);
     }
@@ -93,6 +101,8 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
         if (this.messagesSubscription) {
             this.messagesSubscription.unsubscribe();
         }
+
+        this.store.dispatch(new ResetAction());
     }
 
     messagesChange(messages: GameMessage[]) {
