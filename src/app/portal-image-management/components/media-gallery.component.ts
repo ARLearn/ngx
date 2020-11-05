@@ -31,7 +31,7 @@ import {MediaGalleryItem} from "../store/portal-images.state";
 @Component({
     selector: 'app-media-gallery-container',
     template: `
-        <div *ngIf="!assessmentSelect">
+        <div [class.select-search]="assessmentSelect">
             <mat-form-field class="search-input">
                 <mat-icon class="search-icon" matPrefix>search</mat-icon>
                 <input matInput type="text" [(ngModel)]="searchQuery" (ngModelChange)="search()" placeholder="Search..." />
@@ -62,8 +62,6 @@ import {MediaGalleryItem} from "../store/portal-images.state";
                     <div class="folder-icon"><mat-icon>create_new_folder</mat-icon></div>
                     <div class="folder-label create-folder">New folder</div>
                 </div>
-            </div>
-            <div class="line">
             </div>
             <div class="files" *ngIf="!searchMode">
                 <app-media-gallery-item
@@ -110,15 +108,19 @@ import {MediaGalleryItem} from "../store/portal-images.state";
             }
             
             .parent.select {
+                padding-top: 60px;
                 margin-bottom: 0;
             }
             
-            .parent.select .line {
-                min-height: calc(100vh - 260px);
-            }
+            .select-search {
+                position: absolute;
+                top: 6px;
+                text-align: right;
+                width: 100%;
+             }
 
             .folders {
-                flex: 0 0 252px;
+                flex: 0 0 225px;
                 margin-right: 20px;
             }
             
@@ -164,13 +166,6 @@ import {MediaGalleryItem} from "../store/portal-images.state";
             
             .create-folder {
                 opacity: 0.8;
-            }
-
-            .line {
-                width: 2px;
-                min-height: calc(100vh - 318px);
-                background: #DDDDDD 0% 0% no-repeat padding-box;
-                opacity: 1;
             }
             .files {
                 display: flex;

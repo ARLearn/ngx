@@ -10,8 +10,6 @@ import {SetAbsolutePathAction} from "../../store/media-lib.actions";
             <div class="folders">
                 <app-media-lib-folders></app-media-lib-folders>
             </div>
-            <div class="line">
-            </div>
             <div class="files">
                 <app-media-lib-files-overview
                         [upload]="upload"
