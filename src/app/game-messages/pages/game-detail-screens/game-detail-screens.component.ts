@@ -46,6 +46,7 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
                                          [isVideo]="message.type === 'org.celstec.arlearn2.beans.generalItem.VideoObject'"
                                          [subtitle]="message.lastModificationDate | date:'mediumDate'"
                                          [imagePath]="message?.fileReferences?.background || themes[(game$ | async)?.theme]?.backgroundPath"
+                                         [themePath]="themes[(game$ | async)?.theme]?.backgroundPath"
                                          [videoPath]="message?.fileReferences ?message?.fileReferences['video']:null"
                                          [actionText]="['MESSAGE.DELETEMESSAGE']"
                                          [clickText]="'MESSAGE.EDIT_MESSAGE' "

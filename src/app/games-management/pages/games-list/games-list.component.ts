@@ -48,6 +48,7 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
                                 [title]="game.title"
                                 [subtitle]="game.lastModificationDate | date:'mediumDate'"
                                 [imagePath]="game.splashScreen || themes[game.theme]?.backgroundPath"
+                                [themePath]="themes[game.theme]?.backgroundPath"
                                 [actionText]="['GAME.DELETEGAME', 'GAME.CLONEGAME']"
                                 [clickText]="'GAME.EDITGAME'"
                                 [navTo]="'/portal/game/' +game.gameId+ '/detail/screens'"
