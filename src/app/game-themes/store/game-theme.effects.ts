@@ -9,7 +9,7 @@ import {
     CreateRequest,
     AddOne,
     UpdateOne,
-    CreateRequestSuccess
+    CreateRequestSuccess, DeleteOne, UpdateDeleteOne
 } from './game-theme.actions';
 import {
     map,
@@ -57,6 +57,16 @@ export class GameThemeEffects {
         }),
         map(response => {
             return new UpdateOne(response.themeId, response);
+        })
+    );
+
+    @Effect() delete$: Observable<Action> = this.actions$.pipe(
+        ofType(GameThemeActionTypes.DELETE_ONE),
+        mergeMap((action: DeleteOne) => {
+            return this.gameThemeService.deleteTheme(action.id);
+        }),
+        map(response => {
+            return new UpdateDeleteOne(response.themeId);
         })
     );
 

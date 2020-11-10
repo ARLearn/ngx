@@ -33,7 +33,9 @@ export class GameThemeService {
                             x.responses = [];
                         }
 
-                        if (!x.items) { x.items = [] }
+                        if (!x.items) {
+                            x.items = [];
+                        }
 
                         result.responses.push(...x.responses);
                         result.items.push(...x.items);
@@ -51,6 +53,11 @@ export class GameThemeService {
                 theme.category = CATEGORY_CUSTOM_THEMES;
                 return theme;
             }));
+    }
+
+    deleteTheme(themeId: number): Observable<any> {
+        return this.http
+            .delete<any>(environment.api_url + '/game/theme/' + themeId);
     }
 
 }

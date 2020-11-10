@@ -9,6 +9,7 @@ export enum GameThemeActionTypes {
     ADD_ONE = '[GameTheme] Add One',
     UPDATE_ONE = '[GameTheme] Update One',
     DELETE_ONE = '[GameTheme] Delete One',
+    UPDATE_DELETE_ONE = '[GameTheme] Delete One',
     GET_ALL = '[GameTheme] Get All',
     ADD_ALL = '[GameTheme] Add All'
 }
@@ -61,7 +62,14 @@ export class UpdateOne implements Action {
 export class DeleteOne implements Action {
     readonly type = GameThemeActionTypes.DELETE_ONE;
 
-    constructor(public id: string) {
+    constructor(public id: number) {
+    }
+}
+
+export class UpdateDeleteOne implements Action {
+    readonly type = GameThemeActionTypes.UPDATE_DELETE_ONE;
+
+    constructor(public id: number) {
     }
 }
 
@@ -86,4 +94,5 @@ export type GameThemeActions
     | AddAll
     | UpdateOne
     | DeleteOne
+    | UpdateDeleteOne
     | GetAll;
