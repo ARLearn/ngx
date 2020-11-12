@@ -64,7 +64,6 @@ import {GameThemeActionTypes, UpdateOne} from "../store/game-theme.actions";
                 <div>
                     <button mat-button color="primary" *ngIf="isThemeCustom(selectedTheme)" (click)="editTheme()">Edit</button>
                     <button mat-button color="primary" *ngIf="isThemeCustom(selectedTheme)" (click)="deleteTheme()">Delete</button>
-                    <button mat-button color="primary" (click)="selectedTheme = null">Deselecteren</button>
                     <button mat-flat-button color="primary" [disabled]="!isThemeComplete(selectedTheme)" (click)="onSubmit()">Ga verder
                     </button>
                 </div>
@@ -290,7 +289,7 @@ export class SelectThemeComponent implements OnInit, OnDestroy {
     }
 
     deleteTheme() {
-        this.onDeleteTheme$.next((this.selectedTheme));
+        this.onDeleteTheme$.next(this.selectedTheme);
     }
 
     selectCategory(category) {

@@ -72,36 +72,6 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
         .theme-icon label {
             color: rgba(0, 0, 0, 0.4);
         }
-
-        ::ng-deep .theme-panel .theme-preview .preview-outer-pane {
-            top: 0;
-        }
-
-        .theme-toolbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-        }
-
-        .theme-toolbar-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .theme-toolbar .image {
-            height: 100%;
-            max-width: 40px;
-            margin-right: 20px;
-        }
-
-        .theme-toolbar .theme-info {
-            display: flex;
-            align-items: center;
-        }
     `]
 })
 export class DeleteThemeComponent implements OnInit, OnDestroy {
@@ -119,14 +89,9 @@ export class DeleteThemeComponent implements OnInit, OnDestroy {
         return this.submit$.asObservable();
     }
 
-    get backgroundPath() {
-        return '/customthemes/' + this.theme.fullAccount + '/' + this.theme.themeId + '/background.png';
-    }
-
     constructor(public dialogRef: MatDialogRef<DeleteThemeComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any,
-                public store: Store<State>,
-                private afStorage: AngularFireStorage) {
+                public store: Store<State>) {
     }
 
     ngOnInit(): void {
@@ -143,12 +108,5 @@ export class DeleteThemeComponent implements OnInit, OnDestroy {
         this.submit$.next({
             ...this.theme,
         });
-    }
-
-    getDownloadUrl(path: string) {
-        if (typeof path !== 'string') {
-            return path;
-        }
-        return this.afStorage.ref(path).getDownloadURL().toPromise();
     }
 }
