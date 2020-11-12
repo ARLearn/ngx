@@ -55,6 +55,8 @@ export interface Player {
   accessRights?: string;
   label?: string;
   isConnection?: boolean;
+  advanced?: boolean;
+  admin?: boolean;
   expirationDate?: number;
 
 }

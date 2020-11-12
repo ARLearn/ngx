@@ -74,5 +74,10 @@ export class AccountService {
         return this.http
             .delete<Player>(environment.api_url + '/account/' + fullId);
     }
+
+    setRole(fullId: string, role: string, isInRole: boolean): Observable<Player> {
+        return this.http
+            .post<Player>(environment.api_url + '/account/' + fullId + '/' + role + '/' + isInRole, {});
+    }
 }
 

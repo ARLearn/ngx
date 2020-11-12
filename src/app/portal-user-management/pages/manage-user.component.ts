@@ -8,7 +8,13 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {SetGamesFilterAction} from "../../games-management/store/game.actions";
-import {GetAccountRequest, Query, SelectPlayer, UpdateAccountRequest} from "../store/portal-users.actions";
+import {
+    GetAccountRequest,
+    Query,
+    SelectPlayer,
+    SetRoleRequest,
+    UpdateAccountRequest
+} from "../store/portal-users.actions";
 import {selectedUser} from '../store/portal-users.selectors';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import * as fromRootSelector from "../../core/selectors/router.selector";
@@ -74,11 +80,20 @@ import {MatChipInputEvent} from "@angular/material/chips";
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
+                
+                <div class="form-field">
+                    <mat-slide-toggle
+                            [(ngModel)]="user.advanced">
+                        {{'USER.ADVANCED' | translate}}
+                    </mat-slide-toggle>
+                </div>
 
-                <!--                <div class="toggle">-->
-                <!--                    <mat-label>Andere auteurs kunnen mij zien</mat-label>-->
-                <!--                    <mat-slide-toggle color="primary">Uit</mat-slide-toggle>-->
-                <!--                </div>-->
+                <div class="form-field">
+                    <mat-slide-toggle
+                            [(ngModel)]="user.admin">
+                        {{'USER.ADMIN' | translate}}
+                    </mat-slide-toggle>
+                </div>
 
                 <div class="save">
                     <button mat-flat-button color="primary" (click)="save()">{{ 'SAVE' | translate }}</button>

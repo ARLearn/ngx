@@ -24,6 +24,8 @@ export enum PortalUserActionTypes {
     ADD_ALL = '[PortalUser] Add All',
     SELECT_MESSAGE = '[PortalUser] Select Message',
     SELECT_PLAYER = '[PortalUser] Select Player',
+
+    SET_ROLE = '[PortalUser] Set Role',
 }
 
 export class DeleteAccountRequest implements Action {
@@ -136,6 +138,15 @@ export class SelectMessage implements Action {
     constructor() {}
 }
 
+export class SetRoleRequest implements Action {
+    readonly type = PortalUserActionTypes.SET_ROLE;
+
+    constructor(
+        public role: string,
+        public isInRole: boolean,
+        public fullId: string,
+    ) {}
+}
 
 export type RunResponseActions
     = Query

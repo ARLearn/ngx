@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {
     AddAll,
     Query,
@@ -14,14 +14,15 @@ import {
     CreateAccountError,
     CreateAccountSuccess,
     DeleteAccountRequest,
-    DeleteAccountResponse
+    DeleteAccountResponse, SetRoleRequest
 } from './portal-users.actions';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 
 
 import {State} from "../../core/reducers";
 import {AccountService} from "../../core/services/account.service";
 import {Player} from "../../player-management/store/player.state";
+import { selectedUser } from './portal-users.selectors';
 
 
 @Injectable()
@@ -63,11 +64,26 @@ export class PortalUsersEffects {
 
     @Effect() updateAccount$: Observable<Action> = this.actions$.pipe(
         ofType(PortalUserActionTypes.UPDATE_ACCOUNT_REQ),
-        switchMap((action: UpdateAccountRequest) => {
-            return this.accounts.updateAccount(action.account);
+        withLatestFrom(this.store.select(selectedUser)),
+        switchMap(([action, user]:[UpdateAccountRequest, Player]) => {
+            const streams$ = [];
+            streams$.push(of(user.fullId));
+
+            if (user.admin !== action.account.admin) {
+                streams$.push(this.accounts.setRole(user.fullId, 'admin', action.account.admin))
+            }
+
+            if (user.advanced !== action.account.advanced) {
+                streams$.push(this.accounts.setRole(user.fullId, 'advanced', action.account.advanced))
+            }
+            
+            streams$.push(this.accounts.updateAccount(action.account));
+
+            return forkJoin(streams$);
         }),
-        map(arr => {
-            return new SelectPlayer(arr);
+        mergeMap(([fullId]: any) => this.accounts.getWithId(fullId)),
+        map((player) => {
+            return new SelectPlayer(player);
         })
     );
 
@@ -78,6 +94,16 @@ export class PortalUsersEffects {
         }),
         map(arr => {
             return new DeleteAccountResponse(arr);
+        })
+    );
+
+    @Effect({ dispatch: false }) setRoleToAccount$: Observable<void> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.SET_ROLE),
+        switchMap((action: SetRoleRequest) => {
+            return this.accounts.setRole(action.fullId, action.role, action.isInRole);
+        }),
+        map(arr => {
+           console.log('SET ROLE', arr);
         })
     );
 
