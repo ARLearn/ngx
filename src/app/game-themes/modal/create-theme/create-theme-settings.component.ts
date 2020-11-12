@@ -42,6 +42,7 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
                 [label]="'COMMON.PRIMARY_COLOR'|translate"
                 [color]="theme.primaryColor"
                 [canEdit]="true"
+                (onChange)="theme.primaryColor = $event"
             ></app-color-input>
           </div>
         </div>
