@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {combineLatest, Observable} from "rxjs";
 import {GameMessage} from "../../../../game-messages/store/game-messages.state";
-import {getEditMessageSelector} from "../../../store/game-message.selector";
+import {getEditMessageSelector, selectedColor} from "../../../store/game-message.selector";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../../core/reducers";
 import {GameMessageUpdateAction, RemoveColorAction} from "../../../store/game-message.actions";
@@ -41,7 +41,7 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
                     [canEdit]="(iCanWrite|async)"
 
                     [label]="'COMMON.PRIMARY_COLOR' |translate"
-                    [color]="primColor"
+                    [color]="primColor$ | async"
                     [unselect]="true"
                     (onChange)="primColorChange($event)"
             ></app-color-input>
@@ -51,10 +51,6 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
                 class="gl-pos-between-fields"
                 [label]="(message$|async)?.label">
         </app-create-label>
-
-<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
-
-<!--        </app-dependency-read-temp>-->
     `,
     styles: [`
         .color-picker-class {
@@ -63,30 +59,13 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
         }
     `]
 })
-export class ScreenEditorTypeVideoObjectComponent implements OnInit {
-    primColor = "#D61081";
-    title: string;
+export class ScreenEditorTypeVideoObjectComponent {
+    primColor$ = this.store.select(selectedColor);
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     game$: Observable<Game> = this.store.select(getGame);
     public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
-    constructor(
-        private store: Store<State>,
-    ) {
-    }
-
-    ngOnInit() {
-        combineLatest([this.message$, this.game$])
-            .subscribe(([message, game]) => {
-                if (message && message.primaryColor) {
-                    this.primColor = message.primaryColor;
-                } else {
-                    if (game) {
-                        this.primColor = game.config.primaryColor;
-                    }
-                }
-            });
-    }
+    constructor(private store: Store<State>) { }
 
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({name: event}));

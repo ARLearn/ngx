@@ -127,7 +127,7 @@ export class RunSettingsPageComponent implements OnInit {
     public game$: Observable<Game> = this.store.select(getGame);
     run$: Observable<GameRun> = this.store.select(getEditRunSelector);
 
-    players$ = this.store.select(getCollaboratorsWithAccount).pipe(tap(console.log));
+    players$ = this.store.select(getCollaboratorsWithAccount);
 
     constructor(private store: Store<State>) {
     }

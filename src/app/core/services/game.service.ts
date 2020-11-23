@@ -112,14 +112,8 @@ const transOneGame = (game: Game) => {
         game.config = {};
 
     }
-    if (!game.config.primaryColor) {
-        game.config.primaryColor = '#D61081';
-    }
     if (game.lastModificationDate) {
         game.lastModificationDate = Number.parseInt(game.lastModificationDate + '', 10);
-    }
-    if (!game.config.secondaryColor) {
-        game.config.secondaryColor = '#3EA3DC';
     }
     return game;
 

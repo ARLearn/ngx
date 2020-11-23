@@ -14,6 +14,7 @@ import {getEditMessageSelector} from "../../store/game-message.selector";
 import {Router} from "@angular/router";
 import { tap } from 'rxjs/operators';
 import {getGame} from "../../../game-management/store/current-game.selector";
+import {Query as ThemesQuery} from "../../../game-themes/store/game-theme.actions";
 
 @Component({
     selector: 'app-screen-detail',
@@ -117,6 +118,7 @@ export class ScreenDetailComponent implements OnInit {
         this.store.dispatch(new SelectMessageFromRouterAction());
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
         this.store.dispatch(new GameMessageEditAction());
+        this.store.dispatch(new ThemesQuery());
     }
 
     resetEditMessage() {

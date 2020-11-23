@@ -1,6 +1,7 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ColorPickerModalComponent} from "../../../game-messages/modal/color-picker-modal/color-picker-modal.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-color-input',
@@ -42,7 +43,6 @@ import {MatDialog} from "@angular/material/dialog";
             left: 6px;
             width: 22px;
             height: 22px;
-            /*background: #D61081 0% 0% no-repeat padding-box;*/
             border-radius: 20px;
             opacity: 1;
         }
@@ -74,7 +74,7 @@ import {MatDialog} from "@angular/material/dialog";
         }
     `]
 })
-export class ColorInputComponent implements OnInit {
+export class ColorInputComponent implements OnInit, OnDestroy {
     @ViewChild('primButton') public primButtonRef: ElementRef;
 
     @Input() color;
@@ -83,12 +83,18 @@ export class ColorInputComponent implements OnInit {
     @Input() unselect = false;
     @Output() onChange = new EventEmitter<string>();
 
+    private subscription = new Subscription();
+
     constructor(
         public dialog: MatDialog,
     ) {
     }
 
     ngOnInit(): void {
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     openPicker() {
@@ -101,7 +107,14 @@ export class ColorInputComponent implements OnInit {
                     unselect: this.unselect
                 }
             });
-            dialogRef.afterClosed().subscribe(result => {
+
+            const sub = dialogRef.componentInstance.onColorSelect.subscribe((color) => {
+                this.color = color;
+            });
+
+            this.subscription.add(sub);
+
+            const submitSub = dialogRef.afterClosed().subscribe(result => {
                 if (result) {
                     console.log("default ", result.default);
                     if (result.default) {
@@ -114,6 +127,8 @@ export class ColorInputComponent implements OnInit {
 
                 }
             });
+
+            this.subscription.add(submitSub);
         }
 
     }

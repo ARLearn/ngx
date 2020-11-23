@@ -4,6 +4,8 @@ import * as fromRoot from 'src/app/core/reducers';
 import {GameMessageState} from './game-message.state';
 import {GameMessage} from "../../game-messages/store/game-messages.state";
 import {CurrentGameState, Game} from "../../game-management/store/current-game.state";
+import { selectAll as getAllThemes } from 'src/app/game-themes/store/game-theme.selectors';
+import {GameTheme} from "../../game-themes/store/game-theme.state";
 
 
 export interface State extends fromRoot.State {
@@ -33,13 +35,15 @@ export const aggregatePreviewSelector = createSelector(
 export const selectedColor = createSelector(
     getEditMessageSelector,
     getGame,
-    (message: GameMessage, game: Game) => {
+    getAllThemes,
+    (message: GameMessage, game: Game, themes: GameTheme[]) => {
         if (message && message.primaryColor) {
             return message.primaryColor;
         }
-        if (game && game.config && game.config.primaryColor) {
-            return game.config.primaryColor;
+        if (game) {
+            const theme = themes.find(f => f.themeId === game.theme);
+
+            return theme && theme.primaryColor;
         }
-        return "#D3107F"; //todo make dynamic for youplay
     }
 );

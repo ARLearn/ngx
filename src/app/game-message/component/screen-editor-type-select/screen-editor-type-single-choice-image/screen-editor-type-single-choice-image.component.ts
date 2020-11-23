@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {combineLatest, Observable} from "rxjs";
-import {GameMessage} from "../../../../game-messages/store/game-messages.state";
-import {getEditMessageSelector} from "../../../store/game-message.selector";
-import {select, Store} from "@ngrx/store";
-import {State} from "../../../../core/reducers";
-import {GameMessageAddAnswerAction, GameMessageUpdateAction, RemoveColorAction} from "../../../store/game-message.actions";
-import {Game} from "../../../../game-management/store/current-game.state";
-import {getGame, iCanWrite} from "../../../../game-management/store/current-game.selector";
+import { Component } from '@angular/core';
+import { Observable } from "rxjs";
+import { select, Store } from "@ngrx/store";
+
+import { GameMessage } from "../../../../game-messages/store/game-messages.state";
+import { getEditMessageSelector, selectedColor } from "../../../store/game-message.selector";
+import { State } from "../../../../core/reducers";
+import { GameMessageAddAnswerAction, GameMessageUpdateAction, RemoveColorAction } from "../../../store/game-message.actions";
+import { Game } from "../../../../game-management/store/current-game.state";
+import { getGame, iCanWrite } from "../../../../game-management/store/current-game.selector";
 
 @Component({
     selector: 'app-screen-editor-type-single-choice-image',
@@ -64,35 +65,14 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
             <app-color-input
                     [canEdit]="(iCanWrite|async)"
                     [label]="'Primaire steunkleur'"
-                    [color]="primColor"
+                    [color]="primColor$ | async"
                     [unselect]="true"
                     (onChange)="primColorChange($event)"
             ></app-color-input>
         </div>
 
         <app-create-label [label]="(message$|async)?.label">
-
         </app-create-label>
-
-        <!--      background<br>-->
-        <!--      <app-pick-file-input-->
-        <!--          [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/background.jpg'"-->
-        <!--      ></app-pick-file-input>-->
-        <!--      <br>correct<br>-->
-        <!--      <app-pick-file-input-->
-        <!--          [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/correct.jpg'"-->
-        <!--      ></app-pick-file-input>-->
-        <!--      <br>wrong<br>-->
-        <!--      <app-pick-file-input-->
-        <!--          [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/wrong.jpg'"-->
-        <!--      ></app-pick-file-input>-->
-        <!--      <app-dependency-read-temp>-->
-
-        <!--      </app-dependency-read-temp>-->
-
-<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
-
-<!--        </app-dependency-read-temp>-->
 
         <div class="pos-button-add-answer" *ngIf="iCanWrite|async">
             <button
@@ -122,31 +102,13 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
         }
     `]
 })
-export class ScreenEditorTypeSingleChoiceImageComponent implements OnInit {
-    primColor = "#D61081";
-
-    title: string;
+export class ScreenEditorTypeSingleChoiceImageComponent {
+    primColor$ = this.store.select(selectedColor);
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     game$: Observable<Game> = this.store.select(getGame);
-    public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
+    iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
-    constructor(
-        private store: Store<State>,
-    ) {
-    }
-
-    ngOnInit() {
-        combineLatest([this.message$, this.game$])
-            .subscribe(([message, game]) => {
-                if (message && message.primaryColor) {
-                    this.primColor = message.primaryColor;
-                } else {
-                    if (game) {
-                        this.primColor = game.config.primaryColor;
-                    }
-                }
-            });
-    }
+    constructor(private store: Store<State>) {}
 
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({name: event}));
@@ -174,6 +136,5 @@ export class ScreenEditorTypeSingleChoiceImageComponent implements OnInit {
         } else {
             this.store.dispatch(new GameMessageUpdateAction({primaryColor: color}));
         }
-
     }
 }

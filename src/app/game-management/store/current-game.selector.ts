@@ -5,6 +5,7 @@ import * as fromRoot from 'src/app/core/reducers';
 import {PlayerState} from '../../player-management/store/player.state';
 import {UserState} from '../../user-management/store/portal-user.state';
 import {getAllPlayersAndMySelf} from '../../player-management/store/player.selector';
+import { selectAll } from 'src/app/game-themes/store/game-theme.selectors';
 
 export interface State extends fromRoot.State {
     currentGame: CurrentGameState;
@@ -76,6 +77,12 @@ export const iAmOwner = createSelector(
         }
         return (user.accessRights === 1);
     });
+
+export const getGameColor = createSelector(getCurrentGameFeature, selectAll, (state, themes) => {
+    const theme = themes.find(x => x.themeId === state.game.theme);
+
+    return theme && theme.primaryColor;
+})
 
 export const inAuthorList = createSelector(getCurrentGameFeature, (state) => {
     const me = state.me;
