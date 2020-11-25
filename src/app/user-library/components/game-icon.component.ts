@@ -17,7 +17,7 @@ import {Dictionary} from "@ngrx/entity";
             <!--     {{(iconUrl|async)[game.theme]?.iconPath}}-->
             <div class="abbr">{{game.iconAbbreviation}}</div>
             <img class="icon"
-                 [src]="'https://storage.googleapis.com/serious-gaming-platform-dev.appspot.com'+(iconUrl|async)[game.theme]?.iconPath"/>
+                 [src]="'https://storage.googleapis.com/serious-gaming-platform-dev.appspot.com'+((iconUrl|async)[game.theme] || (iconUrl|async)['1'])?.iconPath"/>
         </div>
     `,
     styles: [`
@@ -49,7 +49,6 @@ export class GameIconComponent implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(new Query());
-
     }
 
 }
