@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {ColorEvent} from "ngx-color";
 
@@ -28,6 +28,8 @@ export class ColorPickerModalComponent implements OnInit {
     unselect: boolean;
     color: string;
 
+    onColorSelect = new EventEmitter<string>();
+
     constructor(
         public dialogRef: MatDialogRef<ColorPickerModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -48,24 +50,9 @@ export class ColorPickerModalComponent implements OnInit {
     }
 
     handleChange($event: ColorEvent) {
-        console.log($event.color);
         this.color = $event.color.hex;
 
-        // color = {
-        //   hex: '#333',
-        //   rgb: {
-        //     r: 51,
-        //     g: 51,
-        //     b: 51,
-        //     a: 1,
-        //   },
-        //   hsl: {
-        //     h: 0,
-        //     s: 0,
-        //     l: .20,
-        //     a: 1,
-        //   },
-        // }
+        this.onColorSelect.emit(this.color);
     }
 
     selectColor() {

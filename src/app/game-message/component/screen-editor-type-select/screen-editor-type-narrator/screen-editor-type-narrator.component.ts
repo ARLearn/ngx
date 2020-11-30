@@ -1,15 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {State} from '../../../../core/reducers';
-import {GameMessageUpdateAction, RemoveColorAction, RemoveLocationAction} from '../../../store/game-message.actions';
-import {AngularFireStorage, AngularFireUploadTask} from "angularfire2/storage";
-import {Observable} from "rxjs";
-import {GameMessage} from "../../../../game-messages/store/game-messages.state";
-import {getEditMessageSelector} from "../../../store/game-message.selector";
-import {GpsPosition} from "../component/pick-location-on-map/pick-location-on-map.component";
-import {Game} from "../../../../game-management/store/current-game.state";
-import {getGame, iCanWrite} from "../../../../game-management/store/current-game.selector";
-import {combineLatest} from 'rxjs';
+import { Component } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from "rxjs";
+
+import { State } from '../../../../core/reducers';
+import { GameMessageUpdateAction, RemoveColorAction } from '../../../store/game-message.actions';
+import { GameMessage } from "../../../../game-messages/store/game-messages.state";
+import { getEditMessageSelector, selectedColor } from "../../../store/game-message.selector";
+import { Game } from "../../../../game-management/store/current-game.state";
+import { getGame, iCanWrite } from "../../../../game-management/store/current-game.selector";
 
 @Component({
     selector: 'app-screen-editor-type-narrator',
@@ -55,7 +53,7 @@ import {combineLatest} from 'rxjs';
             <app-color-input
                     [canEdit]="(iCanWrite|async)"
                     [label]="'COMMON.PRIMARY_COLOR' |translate"
-                    [color]="primColor"
+                    [color]="primColor$ | async"
                     [unselect]="true"
                     (onChange)="primColorChange($event)"
             ></app-color-input>
@@ -66,17 +64,6 @@ import {combineLatest} from 'rxjs';
                 [label]="(message$|async)?.label">
 
         </app-create-label>
-        <!--<input  type="file" #fileInput (change)="uploadFile($event.target.files)">-->
-<!--        <app-pick-file-input-->
-<!--                [backgroundPath]="'/game/'+(message$|async)?.gameId+'/generalItems/'+(message$|async)?.id+'/background.jpg'"-->
-<!--        ></app-pick-file-input>-->
-
-<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
-
-<!--        </app-dependency-read-temp>-->
-
-
-
     `,
     styles: [`
         .color-picker-class {
@@ -85,52 +72,31 @@ import {combineLatest} from 'rxjs';
         }
     `]
 })
-export class ScreenEditorTypeNarratorComponent implements OnInit {
-    title: string;
-    primColor = "#D61081";
+export class ScreenEditorTypeNarratorComponent {
+    primColor$: Observable<string> = this.store.select(selectedColor);
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     game$: Observable<Game> = this.store.select(getGame);
-    public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
+    iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
-    constructor(
-        private store: Store<State>,
-    ) {
-    }
-
-    ngOnInit() {
-        combineLatest([this.message$, this.game$])
-            .subscribe(([message, game]) => {
-                if (message && message.primaryColor) {
-                    this.primColor = message.primaryColor;
-
-                } else {
-                    if (game) {
-                        this.primColor = game.config.primaryColor;
-
-                    }
-                }
-            });
-    }
+    constructor(private store: Store<State>) {}
 
     titleChange(event: any) {
-        this.store.dispatch(new GameMessageUpdateAction({name: event}));
+        this.store.dispatch(new GameMessageUpdateAction({ name: event }));
     }
 
     descriptionChange(event: any) {
-        this.store.dispatch(new GameMessageUpdateAction({description: event}));
+        this.store.dispatch(new GameMessageUpdateAction({ description: event }));
     }
 
     textChange(event: any) {
-        this.store.dispatch(new GameMessageUpdateAction({richText: event}));
+        this.store.dispatch(new GameMessageUpdateAction({ richText: event }));
     }
 
     primColorChange(color: string) {
         if (color === "default") {
             this.store.dispatch(new RemoveColorAction());
-
         } else {
-            this.store.dispatch(new GameMessageUpdateAction({primaryColor: color}));
+            this.store.dispatch(new GameMessageUpdateAction({ primaryColor: color }));
         }
-
     }
 }

@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {combineLatest, Observable} from "rxjs";
-import {GameMessage} from "../../../../game-messages/store/game-messages.state";
-import {getEditMessageSelector} from "../../../store/game-message.selector";
-import {select, Store} from "@ngrx/store";
-import {State} from "../../../../core/reducers";
-import {GameMessageAddAnswerAction, GameMessageUpdateAction, RemoveColorAction} from "../../../store/game-message.actions";
-import {MatSlideToggleChange} from "@angular/material/slide-toggle";
-import {Game} from "../../../../game-management/store/current-game.state";
-import {getGame, iCanWrite} from "../../../../game-management/store/current-game.selector";
+import { Component } from '@angular/core';
+import { MatSlideToggleChange } from "@angular/material/slide-toggle";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+
+import { GameMessage } from "../../../../game-messages/store/game-messages.state";
+import { getEditMessageSelector, selectedColor } from "../../../store/game-message.selector";
+import { State } from "../../../../core/reducers";
+import { GameMessageAddAnswerAction, GameMessageUpdateAction, RemoveColorAction } from "../../../store/game-message.actions";
+import { Game } from "../../../../game-management/store/current-game.state";
+import { getGame, iCanWrite } from "../../../../game-management/store/current-game.selector";
 
 @Component({
     selector: 'app-screen-editor-type-single-choice-test',
@@ -62,7 +63,7 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
             <app-color-input
                     [canEdit]="(iCanWrite|async)"
                     [label]="'Primaire steunkleur'"
-                    [color]="primColor"
+                    [color]="primColor$ | async"
                     [unselect]="true"
                     (onChange)="primColorChange($event)"
             ></app-color-input>
@@ -104,32 +105,13 @@ import {getGame, iCanWrite} from "../../../../game-management/store/current-game
         }
     `]
 })
-export class ScreenEditorTypeSingleChoiceTestComponent implements OnInit {
-    primColor = "#D61081";
-    title: string;
+export class ScreenEditorTypeSingleChoiceTestComponent {
+    primColor$ = this.store.select(selectedColor);
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     game$: Observable<Game> = this.store.select(getGame);
-    public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
+    iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
-    constructor(
-        private store: Store<State>,
-    ) {
-    }
-
-    ngOnInit() {
-        combineLatest([this.message$, this.game$])
-            .subscribe(([message, game]) => {
-                if (message && message.primaryColor) {
-                    this.primColor = message.primaryColor;
-
-                } else {
-                    if (game) {
-                        this.primColor = game.config.primaryColor;
-
-                    }
-                }
-            });
-    }
+    constructor(private store: Store<State>) {}
 
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({name: event}));
@@ -144,17 +126,14 @@ export class ScreenEditorTypeSingleChoiceTestComponent implements OnInit {
     }
 
     addAnswer() {
-        console.log("add answer");
         this.store.dispatch(new GameMessageAddAnswerAction({type: "org.celstec.arlearn2.beans.generalItem.MultipleChoiceAnswerItem"}));
     }
 
     primColorChange(color: string) {
         if (color === "default") {
             this.store.dispatch(new RemoveColorAction());
-
         } else {
             this.store.dispatch(new GameMessageUpdateAction({primaryColor: color}));
         }
-
     }
 }

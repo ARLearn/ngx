@@ -130,7 +130,7 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
     `]
 })
 export class GamesListComponent implements OnInit, OnDestroy {
-    gameList$: Observable<Game[]> = this.store.select(getFilteredGamesSelector).pipe(tap(console.log));
+    gameList$: Observable<Game[]> = this.store.select(getFilteredGamesSelector);
     public currentFilter$: Observable<string[]> = this.store.select(getGamesFiltersSelector).pipe(
         take(1),
     );

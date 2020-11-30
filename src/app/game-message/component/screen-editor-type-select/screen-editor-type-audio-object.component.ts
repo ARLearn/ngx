@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {GameMessage} from "../../../game-messages/store/game-messages.state";
-import {getEditMessageSelector} from "../../store/game-message.selector";
+import {getEditMessageSelector, selectedColor} from "../../store/game-message.selector";
 import {Game} from "../../../game-management/store/current-game.state";
 import {getGame, iCanWrite} from "../../../game-management/store/current-game.selector";
 import {select, Store} from "@ngrx/store";
@@ -43,7 +43,7 @@ import {MatDialog} from "@angular/material/dialog";
                     [canEdit]="(iCanWrite|async)"
 
                     [label]="'COMMON.PRIMARY_COLOR' |translate"
-                    [color]="primColor"
+                    [color]="primColor$ | async"
                     [unselect]="true"
                     (onChange)="primColorChange($event)"
             ></app-color-input>
@@ -64,23 +64,16 @@ import {MatDialog} from "@angular/material/dialog";
         }
     `]
 })
-export class ScreenEditorTypeAudioObjectComponent implements OnInit {
-    title: string;
-    primColor = "#D61081";
-
+export class ScreenEditorTypeAudioObjectComponent {
+    primColor$ = this.store.select(selectedColor);
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     game$: Observable<Game> = this.store.select(getGame);
-    public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
-
+    iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
     constructor(
         private store: Store<State>,
         public dialog: MatDialog
-    ) {
-    }
-
-    ngOnInit(): void {
-    }
+    ) {}
 
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({name: event}));
@@ -97,8 +90,8 @@ export class ScreenEditorTypeAudioObjectComponent implements OnInit {
         } else {
             this.store.dispatch(new GameMessageUpdateAction({primaryColor: color}));
         }
-
     }
+
     selectAudio() {
         const dialogRef = this.dialog.open(SelectAssetComponent, {
             panelClass: ['modal-fullscreen', "modal-dialog"],

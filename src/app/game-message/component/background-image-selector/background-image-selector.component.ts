@@ -47,7 +47,7 @@ export class BackgroundImageSelectorComponent implements OnInit, OnDestroy {
 
     @Input() key = 'background';
 
-    message$: Observable<GameMessage> = this.store.select(getEditMessageSelector).pipe(tap(console.log));
+    message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     hasGameTheme$: Observable<boolean> = this.store.select(getGame)
         .pipe(map(game => game && !!game.theme));
 

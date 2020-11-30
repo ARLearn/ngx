@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
-import {select, Store} from "@ngrx/store";
-import {State} from "../../../../core/reducers";
-import {GameConfigUpdateAction} from "../../../store/current-game.actions";
-import {Observable} from "rxjs";
-import { iAmOwner } from 'src/app/game-management/store/current-game.selector';
+import { Component } from '@angular/core';
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+
+import { State } from "../../../../core/reducers";
+import { GameConfigUpdateAction } from "../../../store/current-game.actions";
+import { iAmOwner, getGameColor } from 'src/app/game-management/store/current-game.selector';
 
 @Component({
     selector: 'app-game-detail-prim-sec-color',
@@ -11,15 +12,10 @@ import { iAmOwner } from 'src/app/game-management/store/current-game.selector';
         <div class="colors">
             <app-color-input
                     [label]="'COMMON.PRIMARY_COLOR'|translate"
-                    [color]="primColor"
+                    [color]="primColor$ | async"
                     [canEdit]="iAmOwner|async"
                     (onChange)="primColorChange($event)"
             ></app-color-input>
-<!--            <app-color-input class="move-to-right"-->
-<!--                             [label]="'Secundaire steunkleur'"-->
-<!--                             [color]="secColor"-->
-<!--                             (onChange)="secColorChange($event)"-->
-<!--            ></app-color-input>-->
         </div>
     `,
     styles: [`
@@ -28,7 +24,6 @@ import { iAmOwner } from 'src/app/game-management/store/current-game.selector';
             margin-top: 22px;
             width: 100%;
             height: 59px;
-            /*background-color: red;*/
         }
 
         .move-to-right {
@@ -40,8 +35,7 @@ import { iAmOwner } from 'src/app/game-management/store/current-game.selector';
 })
 export class GameDetailPrimSecColorComponent {
     public iAmOwner: Observable<boolean> = this.store.pipe(select(iAmOwner));
-    @Input() primColor = "#D61081";
-    @Input() secColor = "#3EA3DC";
+    primColor$ = this.store.select(getGameColor);
 
 
     constructor(
@@ -52,12 +46,6 @@ export class GameDetailPrimSecColorComponent {
     primColorChange(color: string) {
         this.store.dispatch(new GameConfigUpdateAction({
             "primaryColor": color
-        }));
-    }
-
-    secColorChange(color: string) {
-        this.store.dispatch(new GameConfigUpdateAction({
-            "secondaryColor": color
         }));
     }
 }

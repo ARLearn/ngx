@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {GameMessage} from "../../../../game-messages/store/game-messages.state";
-import {getEditMessageSelector} from "../../../store/game-message.selector";
-import {select, Store} from "@ngrx/store";
-import {State} from "../../../../core/reducers";
-import {GameMessageUpdateAction, RemoveColorAction} from "../../../store/game-message.actions";
+import { Component } from '@angular/core';
+import { Observable } from "rxjs";
+import { select, Store } from "@ngrx/store";
+
+import { GameMessage } from "../../../../game-messages/store/game-messages.state";
+import { getEditMessageSelector, selectedColor } from "../../../store/game-message.selector";
+import { State } from "../../../../core/reducers";
+import { GameMessageUpdateAction, RemoveColorAction } from "../../../store/game-message.actions";
 import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
 
 @Component({
@@ -31,7 +32,7 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
             <app-color-input
                     [canEdit]="(iCanWrite|async)"
                     [label]="'COMMON.PRIMARY_COLOR' |translate"
-                    [color]="primColor"
+                    [color]="primColor$ | async"
                     [unselect]="true"
                     (onChange)="primColorChange($event)"
             ></app-color-input>
@@ -42,10 +43,6 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
                 [label]="(message$|async)?.label">
 
         </app-create-label>
-
-<!--        <app-dependency-read-temp class="gl-pos-between-fields">-->
-
-<!--        </app-dependency-read-temp>-->
     `,
     styles: [`
         .color-picker-class {
@@ -54,19 +51,12 @@ import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
         }
     `]
 })
-export class ScreenEditorTypeScanTagComponent implements OnInit {
-    primColor = "#D61081";
-    title: string;
+export class ScreenEditorTypeScanTagComponent {
+    primColor$ = this.store.select(selectedColor);
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
-    public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
+    iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
-    constructor(
-        private store: Store<State>,
-    ) {
-    }
-
-    ngOnInit() {
-    }
+    constructor(private store: Store<State>) {}
 
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({name: event}));
