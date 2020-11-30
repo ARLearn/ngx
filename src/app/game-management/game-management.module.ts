@@ -47,6 +47,7 @@ import {GameDetailCollaboratorEntryComponent} from "./components/game-detail/gam
 import {GameDetailAccessComponent} from "./components/game-detail/game-detail-access/game-detail-access.component";
 import {GameDetailCreativeCommonsComponent} from "./components/game-detail/game-detail-creative-commons/game-detail-creative-commons.component";
 import {GameDetailLocationComponent} from "./components/game-detail/game-detail-location/game-detail-location.component";
+import { GameLandingPageComponent } from './component/pages/game-landing-page.component';
 
 @NgModule({
   imports: [
@@ -91,7 +92,8 @@ import {GameDetailLocationComponent} from "./components/game-detail/game-detail-
     GameDetailPrimSecColorComponent,
     GameDetailCollaboratorsComponent, GameDetailLocationComponent,
     GameDetailCollaboratorEntryComponent, GameDetailCreativeCommonsComponent,
-    GameDetailAccessComponent
+    GameDetailAccessComponent,
+    GameLandingPageComponent
   ]
 })
 export class GameManagementModule {

@@ -84,14 +84,14 @@ import {MatChipInputEvent} from "@angular/material/chips";
                 <div class="form-field">
                     <mat-slide-toggle
                             [(ngModel)]="user.advanced">
-                        {{'USER.ADVANCED' | translate}}
+                        {{'PORTAL_MANAGEMENT.USERS.ADVANCED' | translate}}
                     </mat-slide-toggle>
                 </div>
 
                 <div class="form-field">
                     <mat-slide-toggle
                             [(ngModel)]="user.admin">
-                        {{'USER.ADMIN' | translate}}
+                        {{'PORTAL_MANAGEMENT.USERS.ADMIN' | translate}}
                     </mat-slide-toggle>
                 </div>
 

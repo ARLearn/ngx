@@ -13,7 +13,6 @@ import {Component, Input, OnInit} from '@angular/core';
     `,
     styles: [`
         .message-container {
-
             width: 236px;
             height: 209px;
             background: #FFFFFF 0% 0% no-repeat padding-box;

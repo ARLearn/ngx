@@ -26,7 +26,7 @@ import {map} from "rxjs/operators";
         
         <div class="maxwidth">
             <mat-tab-group (selectedIndexChange)="globalFilesOpened = $event === 1" class="wrap">
-                <mat-tab label="Local">
+                <mat-tab [label]="'MEDIA.GAME_LIB' | translate">
                     <app-media-lib-container
                             [multiSelect]="false"
                             [upload]="false"
@@ -34,7 +34,7 @@ import {map} from "rxjs/operators";
                             [gameId]="(game$|async)?.gameId"
                     ></app-media-lib-container>
                 </mat-tab>
-                <mat-tab label="Global">
+                <mat-tab [label]="'MEDIA.BIBENDO_LIB' | translate">
                     <app-media-gallery-container
                             [multiSelect]="false"
                             [assessmentSelect]="true"

@@ -1,7 +1,7 @@
 {
 	"ACTIONS": {
 		"BACK": "TERUG",
-		"DELETE_PLAYER": "Verwijderen",
+		"DELETE": "Verwijderen",
 		"DELETE_RUN": "Verwijder groep",
 		"DELETE_USER": "Verwijder gebruiker",
 		"ESC": "SLUIT",
@@ -166,7 +166,9 @@
 		"MEDIA_BIBLIOTHEEK": "Media bibliotheek",
 		"NEW_FOLDER": "Nieuwe map",
 		"OR_CLICK_FILES": "of klik om je bestanden te uploaden",
-		"SELECTED": "Geselecteerd"
+		"SELECTED": "Geselecteerd",
+		"GAME_LIB" : "Mijn bestanden",
+		"BIBENDO_LIB" : "Bibendo media"
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Antwoordoptie toevoegen",
@@ -235,7 +237,13 @@
 			"ACTIONS_SET_EXIPRATION_DATE": "Vervaldatum instellen",
 			"EXPIRES_DATE_LABEL" : "Stel datum in waarop deze account vervalt.",
 			"CONFIRM_USER_DELETION" : "Ben je zeker dat je deze gebruikers wilt verwijderen?",
-			"CONFIRM_USER_SUSPENSION" : "Ben je zeker dat je toegang voor deze gebruikers wilt opschorten?"
+			"CONFIRM_USER_SUSPENSION" : "Ben je zeker dat je toegang voor deze gebruikers wilt opschorten?",
+			"ADVANCED" : "Geadvanceerde gebruiker (ziet disappear chart)",
+			"ADMIN" : "Administrator"
+		},
+		"IMAGES": {
+			"MENU" : "Afbeeldingen",
+			"CONFIRM_DELETE_FILES" : "Ben je zeker dat je deze afbeelding wilt verwijderen?"
 		}
 	},
 	"ROW_HEADERS": {

@@ -49,7 +49,7 @@ import {Player} from "../../../player-management/store/player.state";
             >
                 <div
                         *ngIf="!pending"
-                        class="font-medium-10-13-roboto button-text">{{'ACTIONS.DELETE_PLAYER' | translate}}</div>
+                        class="font-medium-10-13-roboto button-text">{{'ACTIONS.DELETE' | translate}}</div>
                 <div
                         *ngIf="pending"
                         class="font-medium-10-13-roboto button-text">{{'ACTIONS.RE_INVITE' | translate}}</div>

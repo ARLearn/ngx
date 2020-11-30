@@ -30,6 +30,14 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
              (ngModelChange)="textChange($event)">
     </mat-form-field>
 
+    <mat-form-field class="gl-pos-field-full-width gl-pos-between-fields">
+
+      <input matInput [placeholder]="'MESSAGE.BUTTON_TEXT'|translate"
+             [disabled]="!(iCanWrite|async)"
+             [ngModel]="(message$|async)?.description"
+             (ngModelChange)="descriptionChange($event)">
+    </mat-form-field>
+    
     <mat-slide-toggle class="gl-pos-between-fields"
                       [disabled]="!(iCanWrite|async)"
                       [ngModel]="(message$|async)?.showFeedback"
@@ -133,6 +141,10 @@ export class ScreenEditorTypeCombinationlockComponent implements OnInit {
 
   titleChange(event: any) {
     this.store.dispatch(new GameMessageUpdateAction({name: event}));
+  }
+
+  descriptionChange(event: any) {
+    this.store.dispatch(new GameMessageUpdateAction({description: event}));
   }
 
   textChange(event: any) {
