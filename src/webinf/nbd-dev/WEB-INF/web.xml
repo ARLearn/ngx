@@ -39,7 +39,7 @@
 
   <servlet>
     <servlet-name>Game Servlet</servlet-name>
-    <jsp-file>/dynjsp/game.jsp</jsp-file>
+    <servlet-class>org.celstec.arlearn2.servlet.GameServlet</servlet-class>
   </servlet>
 
   <servlet>

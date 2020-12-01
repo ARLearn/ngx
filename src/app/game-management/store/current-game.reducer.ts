@@ -21,8 +21,13 @@ export function reducers(
         }
 
         case actions.CurrentGameActionTypes.SET_CURRENT_GAME_COMPLETED: {
+            return Object.assign({}, state, {
+                loading: false,
+                game: action.payload
+            });
+        }
 
-            console.log("set current game");
+        case actions.CurrentGameActionTypes.SET_CURRENT_GAME_COMPLETED_NO_AUTHORS: {
             return Object.assign({}, state, {
                 loading: false,
                 game: action.payload

@@ -32,10 +32,12 @@ import {ManageUserComponent} from "./portal-user-management/pages/manage-user.co
 import {GameLibraryUserComponent} from "./user-library/pages/game-library-user.component";
 import {GameLibararyUserViewgameComponent} from "./user-library/pages/game-libarary-user-viewgame.component";
 import {ManageImagesComponent} from "./portal-image-management/pages/manage-images.component";
+import {GameLandingPageComponent} from "./game-management/component/pages/game-landing-page.component";
 
 export const APP_ROUTES: Routes = [
     {path: '', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full', data: {}},
     {path: 'friends/invitation/:id', component: AcceptInvitationComponent, pathMatch: 'full'},
+    {path: 'landing/game/:gameId', component: GameLandingPageComponent, pathMatch: 'full'},
     {path: 'google', component: LoginScreenComponent, pathMatch: 'full'},
     {path: 'login', component: environment.socialLogin ? LoginScreenComponent : LoginScreenNoSocialComponent, pathMatch: 'full'},
     {path: 'account', component: AccountInfoComponent, pathMatch: 'full'},

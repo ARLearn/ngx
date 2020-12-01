@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {forkJoin, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {GameTheme} from "../../game-themes/store/game-theme.state";
 import {CATEGORY_CUSTOM_THEMES} from "../../game-themes/store/game-theme.selectors";
 
@@ -13,12 +13,16 @@ export class GameThemeService {
     constructor(private http: HttpClient) {
     }
 
+    getGlobalThemes(): Observable<any> {
+        return  this.http.get<any>(environment.api_url + `/game/theme/list/global`);
+    }
     getThemes(): Observable<any> {
         const global$ = this.http.get<any>(environment.api_url + `/game/theme/list/global`);
         const custom$ = this.http.get<any>(environment.api_url + `/game/theme/list/custom`);
 
         return forkJoin([global$, custom$])
             .pipe(
+
                 map(([global, custom]) => {
                     if (custom.items) {
                         custom.items.forEach(x => x.category = CATEGORY_CUSTOM_THEMES);
@@ -42,7 +46,8 @@ export class GameThemeService {
                     });
 
                     return result;
-                })
+                }),
+                catchError(error => global$)
             );
     }
 

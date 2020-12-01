@@ -13,14 +13,16 @@ import {
 } from './game-theme.actions';
 import {
     map,
-    mergeMap,
-    throttleTime,
+    mergeMap, tap,
+    throttleTime, withLatestFrom,
 
 } from 'rxjs/operators';
 import {State} from "../../core/reducers";
 import {GameMessagesService} from 'src/app/core/services/game-messages.service';
 
 import {GameThemeService} from "../../core/services/GameThemeService";
+import {currentUser, getCurrentUser} from "../../auth/store/auth.selector";
+import * as fromRoot from "../../core/selectors/router.selector";
 
 
 @Injectable()
@@ -30,13 +32,12 @@ export class GameThemeEffects {
     @Effect() queryGlobal$: Observable<Action> = this.actions$.pipe(
         ofType(GameThemeActionTypes.QUERY),
         throttleTime(100000),
-        mergeMap((action: Query) => {
-            return this.gameThemeService.getThemes();
+        withLatestFrom(this.store.select(getCurrentUser)),
+        mergeMap(([action, user]: [Query, any]) => {
+            return (user == null) ?
+                this.gameThemeService.getGlobalThemes() : this.gameThemeService.getThemes();
         }),
-        map(arr => {
-            console.log("arr", arr);
-            return new AddAll(arr);
-        })
+        map(arr =>  new AddAll(arr))
     );
 
     @Effect() create$: Observable<Action> = this.actions$.pipe(

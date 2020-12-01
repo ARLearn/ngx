@@ -48,33 +48,34 @@ import {GameDetailAccessComponent} from "./components/game-detail/game-detail-ac
 import {GameDetailCreativeCommonsComponent} from "./components/game-detail/game-detail-creative-commons/game-detail-creative-commons.component";
 import {GameDetailLocationComponent} from "./components/game-detail/game-detail-location/game-detail-location.component";
 import { GameLandingPageComponent } from './component/pages/game-landing-page.component';
+import {UserLibraryModule} from "../user-library/user-library.module";
 
 @NgModule({
-  imports: [
-    SharedModule.forRoot(),
-    StoreModule.forFeature('currentGame', reducers),
-    EffectsModule.forFeature([CurrentGameEffects]),
-    MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    CdkAccordionModule,
-    RouterModule,
-    MatSidenavModule,
-    MatExpansionModule,
-    // MatProgressButtonsModule,
-    MatRadioModule,
-    MatSlideToggleModule,
-    MatDialogModule,
-    MatChipsModule,
-    MatSelectModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.apiKey
-    }), AuthModule
+    imports: [
+        SharedModule.forRoot(),
+        StoreModule.forFeature('currentGame', reducers),
+        EffectsModule.forFeature([CurrentGameEffects]),
+        MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        CdkAccordionModule,
+        RouterModule,
+        MatSidenavModule,
+        MatExpansionModule,
+        // MatProgressButtonsModule,
+        MatRadioModule,
+        MatSlideToggleModule,
+        MatDialogModule,
+        MatChipsModule,
+        MatSelectModule,
+        AgmCoreModule.forRoot({
+            apiKey: environment.apiKey
+        }), AuthModule, UserLibraryModule
 
-  ],
+    ],
   entryComponents: [AddAuthorDialogComponent],
   exports: [GameSidenavComponent, GameDetailPanelComponent, GameDetailSettingsComponent, GameDetailNavbarComponent, GameDetailCollaboratorsComponent],
   declarations: [GameSidenavComponent, EditorTitleDescriptionComponent,

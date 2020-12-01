@@ -8,7 +8,7 @@ import * as actions from './current-game.actions';
 import {
     AddGameAuthorRequestAction,
     DownloadGameRequestAction,
-    GetCurrentGameFromRouterRequestAction,
+    GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAction,
     LoadGameAuthorRequestAction, RemoveGameAuthorRequestAction, SetSelectedThemeAction
 } from './current-game.actions';
 
@@ -19,7 +19,7 @@ import {getGame} from './current-game.selector';
 import {Game} from './current-game.state';
 import FileSaver from 'file-saver';
 import {getMessagesSelector} from '../../game-messages/store/game-messages.selector';
-import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import * as fromRootSelector from "../../core/selectors/router.selector";
 
 
@@ -42,6 +42,20 @@ export class CurrentGameEffects {
         switchMap(([action, gameId]: [GetCurrentGameFromRouterRequestAction, string]) =>
             this.gameService.get(Number.parseInt(gameId, 10)).pipe(
                 map(res => (new actions.SetCurrentGameCompletedAction(res))),
+                catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
+            )
+        )
+    );
+
+    @Effect()
+    getPublicGameFromRouter: Observable<Action> = this.actions$.pipe(
+        ofType(actions.CurrentGameActionTypes.GET_PUBLIC_GAME_FROM_ROUTER_REQUESTED),
+        withLatestFrom(
+            this.store$.select(fromRootSelector.selectRouteParam('gameId'))
+        ),
+        switchMap(([action, gameId]: [GetPublicGameFromRouterRequestAction, string]) =>
+            this.gameService.getPublic(Number.parseInt(gameId, 10)).pipe(
+                map(res => (new actions.SetCurrentGameCompletedNoAuthorsAction(res))),
                 catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
             )
         )

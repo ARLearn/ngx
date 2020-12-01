@@ -39,6 +39,12 @@ export class GameService {
             .pipe(map(transOneGame));
     }
 
+    getPublic(gameId: number): Observable<Game> {
+        return this.http
+            .get<any>(environment.api_url + '/games/library/game/' + gameId)
+            .pipe(map(transOneGame));
+    }
+
     participate(): Observable<any> {
         return this.http
             .get<any>(environment.api_url + '/games/participate');
