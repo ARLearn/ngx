@@ -22,7 +22,7 @@ import {GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAct
                         [game]="game"
                 ></app-game-icon>
             </div>
-            <div class="game-details d-flex">
+            <div class="game-details">
 
                 <div class="form-info">
                     <div class="form-group">
@@ -99,6 +99,8 @@ import {GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAct
 
         .game-details,
         .form-drag-drop {
+            display: flex;
+            flex-wrap: wrap;
             flex: 1;
             justify-content: space-between;
         }

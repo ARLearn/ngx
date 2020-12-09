@@ -48,6 +48,7 @@ export interface GameMessageCommon {
     id?: number;
     gameId: number;
     name?: string;
+    heading?: string;
     description?: string;
     authoringX?: number;
     authoringY?: number;

@@ -20,6 +20,14 @@ import { getGame, iCanWrite } from "../../../../game-management/store/current-ga
                    (ngModelChange)="titleChange($event)">
         </mat-form-field>
 
+        <mat-form-field
+                class="gl-pos-field-full-width gl-pos-between-fields">
+            <input matInput [placeholder]="'GAME.HEADING'|translate"
+                   [disabled]="!(iCanWrite|async)"
+                   [ngModel]="(message$|async)?.heading"
+                   (ngModelChange)="headingChange($event)">
+        </mat-form-field>
+
         <mat-form-field class="gl-pos-field-full-width gl-pos-between-fields">
 
             <input matInput [placeholder]="'MESSAGE.BUTTON_TEXT'|translate"
@@ -82,6 +90,10 @@ export class ScreenEditorTypeNarratorComponent {
 
     titleChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({ name: event }));
+    }
+
+    headingChange(event: any) {
+        this.store.dispatch(new GameMessageUpdateAction({ heading: event }));
     }
 
     descriptionChange(event: any) {

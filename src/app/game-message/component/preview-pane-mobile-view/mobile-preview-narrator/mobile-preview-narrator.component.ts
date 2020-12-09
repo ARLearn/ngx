@@ -16,8 +16,10 @@ import {GameMessageUpdateAction} from "../../../store/game-message.actions";
             <div class="full-with-height-container">
                 <app-preview-navbar></app-preview-navbar>
                 <div class="text-box-preview">
+                    
                     <div class="text-preview font-regular-16-24-roboto">
-                        {{(message$|async)?.richText}} 
+                        <div class="font-bold-20px-24px-gentium-basic">{{(message$|async)?.heading}}</div>
+                        {{(message$|async)?.richText}}  
                     </div>
                     <button
                             class="gl-pos-button-right pos-button"
