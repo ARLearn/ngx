@@ -242,7 +242,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     get filteredPlayers() {
-        return this.players.filter(p => p.name.toLowerCase().includes(this.playerQuery.toLowerCase()));
+        return this.players.filter(p => p.name?.toLowerCase().includes(this.playerQuery.toLowerCase()));
     }
 
     constructor(private store: Store<State>) {
@@ -283,6 +283,9 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     }
 
     getShortAvatarName(name) {
+        if (!name) {
+            return '-';
+        }
         const names = name.split(' ');
 
         if (names.length === 1) {
@@ -295,6 +298,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     filterResponses(selectedScreen) {
         if (selectedScreen && this.responses && this.players) {
             this.data = this.getResponses(selectedScreen);
+            console.log("data is ", this.data);
         }
     }
 
@@ -352,7 +356,7 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     }
 
     mapUser(user) {
-        return user && {fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name};
+        return user && {fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name || user.email};
     }
 
     onGalleryLoading(loading) {
