@@ -8,14 +8,14 @@ import {
     GameMessageEditCompletedAction,
     GameMessageUpdateAction,
 } from "../../../game-message/store/game-message.actions";
-import {getEditMessageSelector} from "../../../game-message/store/game-message.selector";
+import {getEditMessageSelector, getGame} from "../../../game-message/store/game-message.selector";
 import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
 import {ResetAction, SetPreviewMessageAction} from "../../store/game-messages.actions";
 import {map, tap, withLatestFrom} from 'rxjs/operators';
-import {SetLoadingAction} from "../../../game-management/store/current-game.actions";
+import {GameUpdateAction, SetLoadingAction} from "../../../game-management/store/current-game.actions";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -29,10 +29,13 @@ import {ActivatedRoute} from "@angular/router";
                     *ngIf="messages.length > 0 && !((loading$ | async))"
                     (selectMessage)="selectMessage($event)"
                     [messages]="messages"
+                    [endsOn]="(game$ | async)?.endsOn || {}"
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"
                     (onEvent)="onEvent($event)"
+                    (endsOnChange)="onEndsOnChange($event)"
+                    (endsOnCoordinatesChange)="onEndsOnCoordinatesChange($event)"
                     [lang]="lang"
                     [noimage]="noimage$ | async"
             ></lib-wireflow>
@@ -77,6 +80,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     );
 
     loading$ = this.store.select(getMessagesLoading);
+    game$ = this.store.select(getGame);
 
     lang = 'en';
     private messagesSubscription: Subscription;
@@ -145,6 +149,17 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
                 break;
             }
         }
+    }
+
+    onEndsOnChange(dependency: any) {
+        console.log('FROM ENDS ON CHANGE', dependency);
+        this.store.dispatch(new GameUpdateAction({
+            "endsOn": dependency,
+        }));
+    }
+
+    onEndsOnCoordinatesChange(coords: any) {
+        // console.log('FROM ENDS COORDS', coords);
     }
 }
 

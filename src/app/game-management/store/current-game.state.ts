@@ -1,3 +1,4 @@
+import {DependencyUnion} from "../../game-messages/store/types";
 
 export interface CurrentGameState {
     loading: boolean;
@@ -38,6 +39,7 @@ export interface Game {
     splashScreen?: string;
     privateMode?: boolean;
     playOnly?: boolean;
+    endsOn?: DependencyUnion;
 
 }
 
