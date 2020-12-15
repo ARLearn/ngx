@@ -29,6 +29,7 @@ import {ActivatedRoute} from "@angular/router";
                 *ngIf="messages.length > 0 && !(loading$ | async)"
                 (selectMessage)="selectMessage($event)"
                 [messages]="messages"
+                [endsOnDisabled]="true"
                 (messagesChange)="messagesChange($event)"
                 (deselectMessage)="deselectMessage($event)"
                 (noneSelected)="noneSelected()"
