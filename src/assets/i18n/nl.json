@@ -22,6 +22,7 @@
 	"COMMON": {
 		"ACTIVE": "Actief",
 		"ADMIN": "Beheerder",
+		"OR": "Of",
 		"BROWSE": "Browse",
 		"FRIENDS": "Vrienden",
 		"GAMES": "Spellen",
@@ -121,11 +122,13 @@
 		"QUESTION": "Vraag",
 		"SWITCH_THEME": "Aanpassen",
 		"TITLE": "Titel",
-		"WHO_CAN_SEE": "Wie kan deze game zien?"
+		"WHO_CAN_SEE": "Wie kan deze game zien?",
+		"HEADING" : "Kop tekst"
 	},
 	"THEME": {
 		"CREATE_THEME" : "Maak nieuwe thema",
-		"MAKE_YOUR_THEME" : "Maak jouw thema"
+		"MAKE_YOUR_THEME" : "Maak jouw thema",
+		"DELETE_THEME" : "Thema verwijderen"
 	},
 	"HELP": {
 		"BACK": "Terug",

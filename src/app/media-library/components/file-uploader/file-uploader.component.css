@@ -33,3 +33,7 @@
     color: #aeb4b5;
     margin-bottom: 0.5rem;
 }
+
+.browse-button {
+    text-transform: uppercase;
+}

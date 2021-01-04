@@ -19,9 +19,9 @@ export const currentVideoGame = createSelector(getTutorialFeature, (state) => st
 export const sortedMessages = createSelector(getMessages, currentVideoGame, (messages, gameId) => messages == null ? [] : messages
     .filter(x => gameId == 'all' || x.gameId.toString() === gameId)
     .sort((a, b) => {
-        return Number(b.lastModificationDate) - Number(a.lastModificationDate);
-    }
-));
+            return Number(b.lastModificationDate) - Number(a.lastModificationDate);
+        }
+    ));
 
 export const prevVideo = createSelector(sortedMessages, fromRootSelector.selectRouteParam('gameId'), fromRootSelector.selectRouteParam('videoId'),
     (messages, gameId, videoId) => {
@@ -32,10 +32,10 @@ export const prevVideo = createSelector(sortedMessages, fromRootSelector.selectR
 
 export const nextVideo = createSelector(sortedMessages, fromRootSelector.selectRouteParam('gameId'), fromRootSelector.selectRouteParam('videoId'),
     (messages, gameId, videoId) => {
-    const idx = messages.findIndex(x => x.gameId.toString() === gameId && x.id.toString() === videoId);
+        const idx = messages.findIndex(x => x.gameId.toString() === gameId && x.id.toString() === videoId);
 
-    return messages[idx + 1];
-});
+        return messages[idx + 1];
+    });
 
 export const currentFaqGame = createSelector(fromRootSelector.selectRouteParam('gameId'), (id) => {
         if (!id) {
@@ -46,21 +46,30 @@ export const currentFaqGame = createSelector(fromRootSelector.selectRouteParam('
 );
 
 export const sortedFaqMessages = createSelector(getMessages, currentFaqGame, (messages, gameId) => {
+console.log("messages" , messages);
     return messages == null ? [] : messages
         .filter(x => x.gameId.toString() === gameId.toString())
         .sort((a, b) => {
-                return Number(b.lastModificationDate) - Number(a.lastModificationDate);
+                console.log("a", parseInt(a['heading'] || '0', 10));
+                console.log("b", parseInt(b['heading'] || '0', 10));
+                return parseInt(a['heading'] || '0', 10) - parseInt(b['heading'] || '0', 10);
             }
         );
 });
+
+export const sortedLabels = createSelector(sortedFaqMessages, (messages => {
+    const array = messages.map(m => m.label);
+    return array.filter((item, index)=> array.indexOf(item)==index);
+}));
+
 
 export const selectedVideoGame = createSelector(
     getVideoGames,
     currentVideoGame,
     (games, gameId) => {
-        return games.find(x => x.gameId.toString() === gameId)
+        return games.find(x => x.gameId.toString() === gameId);
     }
-)
+);
 
 export const currentVideoMessage = createSelector(
     getMessages,
@@ -76,4 +85,4 @@ export const currentVideoMessage = createSelector(
 
 export const orderedFAQVideos = createSelector(getVideoGames, videos => {
     return environment.tutorial.videoTopics.map(x => videos.find(f => f.gameId == x)).filter(x => !!x);
-})
+});

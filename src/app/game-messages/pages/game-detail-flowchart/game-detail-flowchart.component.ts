@@ -30,7 +30,7 @@ import {ActivatedRoute} from "@angular/router";
                     (selectMessage)="selectMessage($event)"
                     [messages]="messages"
                     [endsOn]="(game$ | async)?.endsOn || {}"
-                    [endsOnDisabled]="true"
+                    [endsOnDisabled]="false"
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"

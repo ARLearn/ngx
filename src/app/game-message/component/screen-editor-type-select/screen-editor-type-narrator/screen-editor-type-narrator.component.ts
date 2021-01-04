@@ -28,13 +28,7 @@ import { getGame, iCanWrite } from "../../../../game-management/store/current-ga
                    (ngModelChange)="headingChange($event)">
         </mat-form-field>
 
-        <mat-form-field class="gl-pos-field-full-width gl-pos-between-fields">
-
-            <input matInput [placeholder]="'MESSAGE.BUTTON_TEXT'|translate"
-                   [disabled]="!(iCanWrite|async)"
-                   [ngModel]="(message$|async)?.description"
-                   (ngModelChange)="descriptionChange($event)">
-        </mat-form-field>
+      
 
         <mat-form-field [hintLabel]="'MESSAGE.MAX150CHAR' | translate" 
                         class="gl-pos-field-full-width gl-pos-between-fields">
@@ -45,6 +39,14 @@ import { getGame, iCanWrite } from "../../../../game-management/store/current-ga
                       placeholder="{{ 'MESSAGE.CONTENT' | translate }}"
                       maxlength="200"></textarea>
             <mat-hint align="end">{{input.value?.length || 00}}/200</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="gl-pos-field-full-width gl-pos-between-fields">
+
+            <input matInput [placeholder]="'MESSAGE.BUTTON_TEXT'|translate"
+                   [disabled]="!(iCanWrite|async)"
+                   [ngModel]="(message$|async)?.description"
+                   (ngModelChange)="descriptionChange($event)">
         </mat-form-field>
         
         <app-pick-location-on-map

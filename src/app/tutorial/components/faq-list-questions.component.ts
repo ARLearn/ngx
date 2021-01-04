@@ -4,18 +4,18 @@ import {State} from "../../core/reducers";
 import {GetGameRequestAction} from "../store/tutorial.actions";
 import {GameMessage} from "../../game-messages/store/types";
 import {Observable} from "rxjs";
-import {sortedMessages, sortedFaqMessages} from "../store/tutorial.selector";
+import {sortedMessages, sortedFaqMessages, sortedLabels} from "../store/tutorial.selector";
 
 @Component({
     selector: 'app-faq-list-questions',
     template: `
         <h2 class="title">Veelgestelde vragen</h2>
 
-        <div class="topic">
-            <h4 class="topic-heading primary-color">Aanschaf</h4>
+        <div class="topic"  *ngFor="let topic of ((labels|async))">
+            <h4 class="topic-heading primary-color">{{topic}}</h4>
 
             <div class="topic-questions">
-                <app-question *ngFor="let question of ((questions|async))" [question]="question"></app-question>
+                <app-question *ngFor="let question of ((questions|async))" [question]="question" [hidden]="question.label != topic"></app-question>
             </div>
         </div>
 
@@ -45,6 +45,8 @@ export class FaqListQuestionsComponent implements OnInit, OnChanges {
 
     @Input() gameId: number;
     questions: Observable<GameMessage[]> = this.store.select(sortedFaqMessages);
+
+    labels: Observable<any> = this.store.select(sortedLabels);
 
     constructor(private store: Store<State>) {
     }

@@ -19,9 +19,11 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
             <h5 class="title" *ngIf="!small">{{ title }}</h5>
 
             <p class="desc" *ngIf="!small">{{ 'GAME.CHOOSE_SPLASH_SUB' | translate }}</p>
-            <p class="desc" *ngIf="!small">{{ 'OR' | translate }}</p>
+            <p class="desc" *ngIf="!small">{{ 'COMMON.OR' | translate }}</p>
 
-            <button type="button" mat-raised-button color="primary" *ngIf="!small">{{ 'BTN.BROWSE' | translate }}</button>
+            <button type="button" 
+                    class="browse-button"
+                    mat-raised-button color="primary" *ngIf="!small">{{ 'COMMON.BROWSE' | translate }}</button>
         </div>
     `,
     styleUrls: ['./file-uploader.component.css'],

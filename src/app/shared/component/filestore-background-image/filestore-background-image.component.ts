@@ -32,6 +32,11 @@ import {take} from "rxjs/operators";
     styles: [`
         .background-pane {
             position: absolute;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
             background-size: cover;
             top: 0px;
             bottom: 0px;
