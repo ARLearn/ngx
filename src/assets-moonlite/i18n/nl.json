@@ -218,7 +218,9 @@
 		"TEXTQUESTION": "Antwoord met tekst",
 		"VIDEOOBJECT": "Video Object",
 		"VIDEOQUESTION": "Antwoord met video",
-		"VIDEO_OBJECT": "Video scherm"
+		"VIDEO_OBJECT": "Video scherm",
+		"OPENURL" : "Html scherm",
+		"RECORDING": "Opname"
 	},
 	"PORTAL_MANAGEMENT": {
 		"GAMES": {

@@ -6,9 +6,9 @@ import {
     GameMessageClearFileReferenceAction,
     GameMessageUpdateFileReferenceAction
 } from "../../store/game-message.actions";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
-import {getGame} from "../../../game-management/store/current-game.selector";
+import {getGame, iCanWrite} from "../../../game-management/store/current-game.selector";
 import {GameThemeService} from "../../../core/services/GameThemeService";
 import {filter, map, tap} from "rxjs/operators";
 import {Game} from "../../../game-management/store/current-game.state";
@@ -30,8 +30,8 @@ import {MatDialog} from "@angular/material/dialog";
         <ng-template #bg>
             <app-filestore-background-image
                     [paths]="[((message$|async)?.fileReferences[key]) || selectedTheme?.backgroundPath]"
-                    [deleteButton]="!hideControls && !((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
-                    [editButton]="!hideControls && ((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
+                    [deleteButton]="(iCanWrite$|async) && !hideControls && !((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
+                    [editButton]="(iCanWrite$|async) && !hideControls && ((!(message$|async)?.fileReferences) || (!((message$|async)?.fileReferences[key])))"
                     (delete)="deleteAsset()"
                     (edit)="select()"
                     (loadFailure)="onFail()"
@@ -46,6 +46,7 @@ export class BackgroundImageSelectorComponent implements OnInit, OnDestroy {
     @Input() hideControls = false;
 
     @Input() key = 'background';
+    public iCanWrite$: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     hasGameTheme$: Observable<boolean> = this.store.select(getGame)

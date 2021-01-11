@@ -1,8 +1,8 @@
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { ActionsSubject, Store } from "@ngrx/store";
+import {ActionsSubject, select, Store} from "@ngrx/store";
 import { ofType } from "@ngrx/effects";
-import { Subscription } from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import { filter } from "rxjs/operators";
 import Debounce from 'debounce-decorator';
 
@@ -27,6 +27,7 @@ import { FolderFormModalComponent } from "../modals/folder-form.modal";
 import {ConfirmDialogComponent} from "../../portal-user-management/components/confirm-dialog.component";
 import {SuspendAccountRequest} from "../../portal-user-management/store/portal-users.actions";
 import {MediaGalleryItem} from "../store/portal-images.state";
+import { iCanWrite } from 'src/app/game-management/store/current-game.selector';
 
 @Component({
     selector: 'app-media-gallery-container',
@@ -242,6 +243,7 @@ export class MediaGalleryComponent implements OnInit, OnDestroy {
     searchResults$ = this.store.select(getSearchResults);
     folders$ = this.store.select(getFolders);
     selectedFiles$ = this.store.select(getSelectedFiles);
+    public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
     searchMode = false;
     searchQuery: string;

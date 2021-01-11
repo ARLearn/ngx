@@ -1,6 +1,13 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {GameMessage} from "../../../game-messages/store/game-messages.state";
 import {environment} from "../../../../environments/environment";
+import {selectEntities} from "../../../game-themes/store/game-theme.selectors";
+import {Observable} from "rxjs";
+import {Store} from "@ngrx/store";
+import {State} from "../../../core/reducers";
+import {Dictionary} from "@ngrx/entity";
+import {GameTheme} from "../../../game-themes/store/game-theme.state";
+import {QueryOne} from "../../../game-themes/store/game-theme.actions";
 
 @Component({
     selector: 'app-screen-tile',
@@ -12,9 +19,9 @@ import {environment} from "../../../../environments/environment";
                     (actionClicked)="actionClickedMethod($event)"
                     [navTo]="navTo"
             >
-                <app-filestore-background-image *ngIf="imagePath && !isVideo && (displayAsset ==='')"
-                                                (loadFailure)="imagePath = themePath"
-                                                [paths]="[imagePath]"
+                <app-filestore-background-image *ngIf="(imagePath || themeId) && !isVideo && (displayAsset ==='')"
+                                                
+                                                [paths]="[imagePath || ((themes |async)[themeId]?.backgroundPath)]"
                                                 (isVideo)="$event?isVideo=true:isVideo=false"
                 >
                 </app-filestore-background-image>
@@ -25,7 +32,7 @@ import {environment} from "../../../../environments/environment";
                 >
                 </app-filestore-background-video>
                 <div [ngStyle]="{'background':'transparent url('+displayAsset+')','height': '100%', 'background-size': 'cover'}"
-                        *ngIf="(displayAsset !=='')"></div>
+                     *ngIf="(displayAsset !=='')"></div>
             </app-hover-overlay>
             <div class="pos-icon-type" *ngIf="icon">
                 <i [ngClass]="icon"></i>
@@ -103,12 +110,13 @@ import {environment} from "../../../../environments/environment";
         }
     `]
 })
-export class ScreenTileComponent {
+export class ScreenTileComponent implements OnInit {
 
     @Input() title: string;
     @Input() subtitle;
-    @Input() imagePath;
-    @Input() themePath = null;
+    @Input() imagePath: string;
+    @Input() themeId: number;
+    // @Input() themePath = null;
     @Input() videoPath;
     @Input() clickText;
     @Input() navTo;
@@ -118,11 +126,20 @@ export class ScreenTileComponent {
     @Output() actionClicked = new EventEmitter();
     @Input() isVideo = false;
 
-    constructor() {
+    themes: Observable<Dictionary<GameTheme>> = this.store.select(selectEntities);
+
+    constructor(private store: Store<State>) {
     }
 
     actionClickedMethod(event) {
         this.actionClicked.emit(event);
+    }
+
+    ngOnInit() {
+        if (this.themeId) {
+            this.store.dispatch(new QueryOne(this.themeId));
+        }
+
     }
 
 }

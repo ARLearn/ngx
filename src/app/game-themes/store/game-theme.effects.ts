@@ -9,9 +9,10 @@ import {
     CreateRequest,
     AddOne,
     UpdateOne,
-    CreateRequestSuccess, DeleteOne, UpdateDeleteOne
+    CreateRequestSuccess, DeleteOne, UpdateDeleteOne, QueryOne
 } from './game-theme.actions';
 import {
+    filter,
     map,
     mergeMap, tap,
     throttleTime, withLatestFrom,
@@ -23,6 +24,9 @@ import {GameMessagesService} from 'src/app/core/services/game-messages.service';
 import {GameThemeService} from "../../core/services/GameThemeService";
 import {currentUser, getCurrentUser} from "../../auth/store/auth.selector";
 import * as fromRoot from "../../core/selectors/router.selector";
+import {selectEntities} from './game-theme.selectors';
+import {GameTheme} from "./game-theme.state";
+import {Dictionary} from "@ngrx/entity";
 
 
 @Injectable()
@@ -37,7 +41,18 @@ export class GameThemeEffects {
             return (user == null) ?
                 this.gameThemeService.getGlobalThemes() : this.gameThemeService.getThemes();
         }),
-        map(arr =>  new AddAll(arr))
+        map(arr => new AddAll(arr))
+    );
+    @Effect() queryOne: Observable<Action> = this.actions$.pipe(
+        ofType(GameThemeActionTypes.QUERY_ONE),
+        withLatestFrom(this.store.select(selectEntities)),
+        filter(([action, dict]: [QueryOne, Dictionary<GameTheme>]) => {
+            return !dict[action.themeId];
+        }),
+        mergeMap(([action, user]: [QueryOne, any]) => {
+            return this.gameThemeService.getTheme(action.themeId);
+        }),
+        map(arr => new AddAll({items: [arr]}))
     );
 
     @Effect() create$: Observable<Action> = this.actions$.pipe(

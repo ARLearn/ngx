@@ -14,15 +14,19 @@ export class GameThemeService {
     }
 
     getGlobalThemes(): Observable<any> {
-        return  this.http.get<any>(environment.api_url + `/game/theme/list/global`);
+        return this.http.get<any>(environment.api_url + `/game/theme/list/global`);
     }
+
+    getTheme(id: number): Observable<GameTheme> {
+        return this.http.get<any>(environment.api_url + `/game/theme/` + id);
+    }
+
     getThemes(): Observable<any> {
         const global$ = this.http.get<any>(environment.api_url + `/game/theme/list/global`);
         const custom$ = this.http.get<any>(environment.api_url + `/game/theme/list/custom`);
 
         return forkJoin([global$, custom$])
             .pipe(
-
                 map(([global, custom]) => {
                     if (custom.items) {
                         custom.items.forEach(x => x.category = CATEGORY_CUSTOM_THEMES);

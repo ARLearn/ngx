@@ -4,6 +4,8 @@ import {Store} from '@ngrx/store';
 import {State} from './core/reducers';
 import {ReLoginRequestedAction} from './auth/store/auth.actions';
 import {AuthService} from './auth/services/auth.service';
+import {NavigationEnd, Router} from "@angular/router";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
     selector: 'app-arlearn',
@@ -14,8 +16,18 @@ import {AuthService} from './auth/services/auth.service';
 export class AppComponent implements OnInit {
     constructor(private store: Store<State>,
                 private authService: AuthService,
-    ) {
+                public gaService: GoogleAnalyticsService,
+                private router: Router) {
+        this.router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                console.log("analytics ", event.urlAfterRedirects);
+                gaService.pageView(event.urlAfterRedirects);
+                // (<any>window).ga('set', 'page', event.urlAfterRedirects);
+                // (<any>window).ga('send', 'pageview');
+            }
+        });
     }
+
 
     ngOnInit() {
         this.authService.setPersistence();

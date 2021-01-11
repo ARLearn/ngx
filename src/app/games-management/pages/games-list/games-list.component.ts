@@ -47,8 +47,8 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
 
                                 [title]="game.title"
                                 [subtitle]="game.lastModificationDate | date:'mediumDate'"
-                                [imagePath]="game.splashScreen || themes[game.theme]?.backgroundPath"
-                                [themePath]="themes[game.theme]?.backgroundPath"
+                                
+                                         [themeId]="game.theme"
                                 [actionText]="['GAME.DELETEGAME', 'GAME.CLONEGAME']"
                                 [clickText]="'GAME.EDITGAME'"
                                 [navTo]="'/portal/game/' +game.gameId+ '/detail/screens'"
@@ -59,7 +59,8 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
 
                                          [title]="game.title"
                                          [subtitle]="game.lastModificationDate | date:'mediumDate'"
-                                         [imagePath]="game.splashScreen || themes[game.theme]?.backgroundPath"
+                                         [imagePath]=" themes[game.theme]?.backgroundPath"
+                                         [themeId]="game.theme"
                                          [actionText]="[ 'GAME.CLONEGAME']"
                                          [clickText]="'GAME.PLAYGAME'"
                                          [navTo]="'/portal/game/' +game.gameId+ '/detail/runs'"

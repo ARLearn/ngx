@@ -17,6 +17,7 @@ import {AngularFireStorage} from "angularfire2/storage";
 import {ResetAction, SetPreviewMessageAction} from "../store/game-messages.actions";
 import {SetLoadingAction} from "../../game-management/store/current-game.actions";
 import {ActivatedRoute} from "@angular/router";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
     selector: 'app-game-disappear-flowchart',
@@ -26,17 +27,17 @@ import {ActivatedRoute} from "@angular/router";
 
         <div *ngIf="messages$ | async as messages">
             <lib-wireflow
-                *ngIf="messages.length > 0 && !(loading$ | async)"
-                (selectMessage)="selectMessage($event)"
-                [messages]="messages"
-                [endsOnDisabled]="true"
-                (messagesChange)="messagesChange($event)"
-                (deselectMessage)="deselectMessage($event)"
-                (noneSelected)="noneSelected()"
-                (onEvent)="onEvent($event)"
-                [lang]="lang"
-                [selector]="'disappearOn'"
-                [noimage]="noimage$ | async"
+                    *ngIf="messages.length > 0 && !(loading$ | async)"
+                    (selectMessage)="selectMessage($event)"
+                    [messages]="messages"
+                    [endsOnDisabled]="true"
+                    (messagesChange)="messagesChange($event)"
+                    (deselectMessage)="deselectMessage($event)"
+                    (noneSelected)="noneSelected()"
+                    (onEvent)="onEvent($event)"
+                    [lang]="lang"
+                    [selector]="'disappearOn'"
+                    [noimage]="noimage$ | async"
             ></lib-wireflow>
         </div>
 
@@ -65,7 +66,9 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
     public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector).pipe(
         withLatestFrom(this.noimage$),
         map(([messages, noimage]) => {
-            if (noimage) { return messages; }
+            if (noimage) {
+                return messages;
+            }
 
             for (const message of messages) {
                 const path = message && message.fileReferences && message.fileReferences.background;
@@ -85,8 +88,9 @@ export class GameDisappearFlowchartComponent extends GameDetailScreensComponent 
         public store: Store<State>,
         public afStorage: AngularFireStorage,
         private activatedRoute: ActivatedRoute,
+        public gaService: GoogleAnalyticsService
     ) {
-        super(dialog, store);
+        super(dialog, store, gaService);
     }
 
     ngOnInit() {

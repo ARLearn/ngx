@@ -1,9 +1,9 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {Observable} from "rxjs";
 import {Game} from "../../../game-management/store/current-game.state";
-import {getGame} from "../../../game-management/store/current-game.selector";
+import {getGame, iCanWrite} from "../../../game-management/store/current-game.selector";
 import {GetCurrentGameFromRouterRequestAction} from "../../../game-management/store/current-game.actions";
 
 @Component({
@@ -13,7 +13,7 @@ import {GetCurrentGameFromRouterRequestAction} from "../../../game-management/st
             <app-game-detail-navbar class="row header">
 
             </app-game-detail-navbar>
-            <div class=" whitebackground" style=" flex: 0 1 71px;">
+            <div class=" whitebackground" style=" flex: 0 1 71px;" *ngIf="(iCanWrite|async)">
                 <app-media-lib-tab-bar [gameId]="(game$|async)?.gameId"></app-media-lib-tab-bar>
             </div>
             <div style=" flex: 1 1 auto;" class="whitebackground">
@@ -26,7 +26,7 @@ import {GetCurrentGameFromRouterRequestAction} from "../../../game-management/st
                 </div>
 
             </div>
-            <div class="select-footer">
+            <div class="select-footer" *ngIf="(iCanWrite|async)">
                 <app-library-footer></app-library-footer>
 
             </div>
@@ -51,6 +51,7 @@ import {GetCurrentGameFromRouterRequestAction} from "../../../game-management/st
 })
 export class MediaLibraryAllFilesComponent implements OnInit {
     public game$: Observable<Game> = this.store.select(getGame);
+    public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
 
     constructor(
         public store: Store<State>

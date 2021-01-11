@@ -17,6 +17,7 @@ import {ResetAction, SetPreviewMessageAction} from "../../store/game-messages.ac
 import {map, tap, withLatestFrom} from 'rxjs/operators';
 import {GameUpdateAction, SetLoadingAction} from "../../../game-management/store/current-game.actions";
 import {ActivatedRoute} from "@angular/router";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
     selector: 'app-game-detail-flowchart',
@@ -91,8 +92,9 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
         public store: Store<State>,
         public afStorage: AngularFireStorage,
         private activatedRoute: ActivatedRoute,
+        public gaService: GoogleAnalyticsService
     ) {
-        super(dialog, store);
+        super(dialog, store, gaService);
     }
 
     ngOnInit() {

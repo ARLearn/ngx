@@ -49,6 +49,7 @@ import { MobilePreviewAudioComponent } from './component/preview-pane-mobile-vie
 import { MobilePreviewCombinationlockComponent } from './component/preview-pane-mobile-view/mobile-preview-combinationlock.component';
 import { ScreenEditorTypeCombinationlockComponent } from './component/screen-editor-type-select/screen-editor-type-combinationlock.component';
 import { CombinationEntryComponent } from './component/preview-pane-mobile-view/components/combination-entry.component';
+import { ScreenEditorTypeOpenurlComponent } from './component/screen-editor-type-select/screen-editor-type-openurl.component';
 
 @NgModule({
     declarations: [
@@ -87,7 +88,8 @@ import { CombinationEntryComponent } from './component/preview-pane-mobile-view/
         MobilePreviewAudioComponent,
         MobilePreviewCombinationlockComponent,
         ScreenEditorTypeCombinationlockComponent,
-        CombinationEntryComponent
+        CombinationEntryComponent,
+        ScreenEditorTypeOpenurlComponent
     ],
     exports: [ScreenDetailComponent, PreviewPaneComponent, PreviewPaneMobileViewComponent],
     imports: [

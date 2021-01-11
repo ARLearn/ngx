@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {Observable, Subscription} from "rxjs";
 import {filter, withLatestFrom} from 'rxjs/operators';
 import {AngularFireStorage} from "angularfire2/storage";
@@ -14,7 +14,7 @@ import {
     UpdateRequest
 } from "../../game-themes/store/game-theme.actions";
 import {SetSelectedThemeAction} from '../store/current-game.actions';
-import {getSelectedTheme} from "../store/current-game.selector";
+import {getSelectedTheme, iCanWrite} from "../store/current-game.selector";
 import {selectAll} from 'src/app/game-themes/store/game-theme.selectors';
 import {CreateThemeNameModalComponent} from "../../game-themes/modal/create-theme/create-theme-name-modal.component";
 import {CreateThemeSettingsComponent} from "../../game-themes/modal/create-theme/create-theme-settings.component";
@@ -61,7 +61,7 @@ import {DeleteThemeComponent} from "../../game-themes/modal/create-theme/delete-
                         </div>
                     </div>
                 </div>
-                <div class="theme-btn-wrapper">
+                <div class="theme-btn-wrapper" *ngIf="(iCanWrite$|async)">
                     <button mat-flat-button color="primary" class="theme-btn"
                             (click)="openSelectModal(selectedTheme)">{{'GAME.SWITCH_THEME'|translate}}</button>
                 </div>
@@ -155,6 +155,8 @@ import {DeleteThemeComponent} from "../../game-themes/modal/create-theme/delete-
     ]
 })
 export class GameThemeSelectorComponent implements OnInit, OnDestroy {
+    public iCanWrite$: Observable<boolean> = this.store.pipe(select(iCanWrite));
+
     public theme$ = this.store.select(getSelectedTheme) as Observable<number>;
     public themes$ = this.store.select(selectAll) as Observable<any>;
     public selectedTheme: any;

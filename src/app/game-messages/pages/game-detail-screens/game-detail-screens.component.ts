@@ -15,6 +15,7 @@ import {SetGamesFilterAction} from "../../../games-management/store/game.actions
 import {environment} from "../../../../environments/environment";
 import {selectEntities} from "../../../game-themes/store/game-theme.selectors";
 import {Query} from "../../../game-themes/store/game-theme.actions";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
     selector: 'app-game-detail-screens',
@@ -46,7 +47,7 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
                                          [isVideo]="message.type === 'org.celstec.arlearn2.beans.generalItem.VideoObject'"
                                          [subtitle]="message.lastModificationDate | date:'mediumDate'"
                                          [imagePath]="message?.fileReferences?.background || themes[(game$ | async)?.theme]?.backgroundPath"
-                                         [themePath]="themes[(game$ | async)?.theme]?.backgroundPath"
+                                         [themeId]="(game$ | async)?.theme"
                                          [videoPath]="message?.fileReferences ?message?.fileReferences['video']:null"
                                          [actionText]="['MESSAGE.DELETEMESSAGE']"
                                          [clickText]="'MESSAGE.EDIT_MESSAGE' "
@@ -106,11 +107,13 @@ export class    GameDetailScreensComponent implements OnInit, OnDestroy {
 
     constructor(
         public dialog: MatDialog,
-        public store: Store<State>
+        public store: Store<State>,
+        public gaService: GoogleAnalyticsService
     ) {
     }
 
     ngOnInit() {
+        this.gaService.event('OPEN_GAME', 'GAME');
         this.store.dispatch(new Query());
         this.store.dispatch(new GetGameMessagesRequestAction());
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());

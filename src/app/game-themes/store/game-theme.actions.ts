@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 import {GameTheme} from './game-theme.state';
 
 export enum GameThemeActionTypes {
+    QUERY_ONE = '[GameTheme] Query One',
     QUERY = '[GameTheme] Query',
     CREATE_REQUEST = '[GameTheme] Create Request',
     UPDATE_REQUEST = '[GameTheme] Update Request',
@@ -12,6 +13,13 @@ export enum GameThemeActionTypes {
     UPDATE_DELETE_ONE = '[GameTheme] Delete One',
     GET_ALL = '[GameTheme] Get All',
     ADD_ALL = '[GameTheme] Add All'
+}
+
+export class QueryOne implements Action {
+    readonly type = GameThemeActionTypes.QUERY_ONE;
+
+    constructor(public themeId: number) {
+    }
 }
 
 export class Query implements Action {

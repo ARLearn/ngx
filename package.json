@@ -55,6 +55,7 @@
     "ngx-audio-player": "^9.1.1",
     "ngx-bootstrap": "^5.3.2",
     "ngx-color": "^5.0.1",
+    "ngx-google-analytics": "^11.1.0",
     "ngx-smart-modal": "^7.4.0",
     "object-hash": "^2.0.1",
     "rxjs": "^6.5.4",

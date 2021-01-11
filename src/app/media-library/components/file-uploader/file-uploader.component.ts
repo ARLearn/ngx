@@ -65,8 +65,8 @@ export class FileUploaderComponent implements OnInit {
     }
 
     uploadFile(event: FileList) {
-        console.log(event.length);
-        console.log(event.item(0).name);
+        // console.log(event.length);
+        // console.log(event.item(0).name);
         if (this.customPath) {
             this.store.dispatch(new SetFilesToUploadAction({
                 customPath: this.customPath,

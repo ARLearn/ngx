@@ -64,7 +64,7 @@ import { getGame, iCanWrite } from "../../../../game-management/store/current-ga
         <div class="color-picker-class  gl-pos-between-fields">
             <app-color-input
                     [canEdit]="(iCanWrite|async)"
-                    [label]="'Primaire steunkleur'"
+                    [label]="'COMMON.PRIMARY_COLOR' |translate"
                     [color]="primColor$ | async"
                     [unselect]="true"
                     (onChange)="primColorChange($event)"

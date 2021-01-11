@@ -1,33 +1,44 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges, EventEmitter, Output, ViewEncapsulation, ViewChild, AfterViewChecked} from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    OnChanges,
+    SimpleChanges,
+    EventEmitter,
+    Output,
+    ViewEncapsulation,
+    ViewChild,
+    AfterViewChecked
+} from '@angular/core';
 import {AngularFireStorage} from "angularfire2/storage";
 
 @Component({
     selector: 'app-audio-gallery',
     template: `
-    <div class="audio-gallery">
-        <div class="audio-gallery__wrapper" *ngIf="!loading" #audioEls>
-            <div class="audio-item" *ngFor="let audio of audios" [id]="audio.id">
-                <span class="audio-item__title">Geluid van een hond</span>
+        <div class="audio-gallery">
+            <div class="audio-gallery__wrapper" *ngIf="!loading" #audioEls>
+                <div class="audio-item" *ngFor="let audio of audios" [id]="audio.id">
+                    <span class="audio-item__title">{{"MESSAGE.RECORDING" |translate}}</span>
 
-                <mat-basic-audio-player 
-                    [audioUrl]="audio.url"
-                    [title]="'title'"
-                    [autoPlay]="false"
-                    muted="muted"
-                    [displayVolumeControls]="true"
-                ></mat-basic-audio-player>
+                    <mat-basic-audio-player
+                            [audioUrl]="audio.url"
+                            [title]="'title'"
+                            [autoPlay]="false"
+                            muted="muted"
+                            [displayVolumeControls]="true"
+                    ></mat-basic-audio-player>
 
-                <div *ngIf="users[audio]" class="user-placeholder">
-                    <div class="user">
-                        <div class="user__avatar">{{ users[audio.url].avatar }}</div>
+                    <div *ngIf="users[audio]" class="user-placeholder">
+                        <div class="user">
+                            <div class="user__avatar">{{ users[audio.url].avatar }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="load-wrapper" *ngIf="loading">
+                <span>Loading...</span>
+            </div>
         </div>
-        <div class="load-wrapper" *ngIf="loading">
-            <span>Loading...</span>
-        </div>
-    </div>
     `,
     styles: [`
         .audio-item {
@@ -36,9 +47,11 @@ import {AngularFireStorage} from "angularfire2/storage";
             background: #D9DFE2;
             padding: 4px;
         }
+
         .audio-item__title {
             font-size: 12px;
         }
+
         .audio-item .user-placeholder {
             position: absolute;
             left: 0;
@@ -66,7 +79,7 @@ import {AngularFireStorage} from "angularfire2/storage";
             line-height: 31px;
             font-size: 12px;
             text-align: center;
-            color: rgba(0,0,0,0.6);
+            color: rgba(0, 0, 0, 0.6);
         }
 
         .audio-gallery {
@@ -142,13 +155,14 @@ export class AudioGalleryComponent implements OnInit, OnChanges {
 
     @ViewChild('audioEls') audioEls;
 
-    constructor(public afStorage: AngularFireStorage) {}
-    
+    constructor(public afStorage: AngularFireStorage) {
+    }
+
     ngDoCheck(): void {
         if (this.audioEls && this.audioEls.nativeElement) {
             const children = this.audioEls.nativeElement.children;
             let result = false;
-            for(let i = 0; i < children.length; i++) {
+            for (let i = 0; i < children.length; i++) {
                 if (!!children[i].querySelector('.pause-track')) {
                     children[i].classList.add('playing');
                     result = true;
@@ -170,16 +184,16 @@ export class AudioGalleryComponent implements OnInit, OnChanges {
     }
 
     async ngOnChanges(changes: SimpleChanges) {
-        
+
         if (
             (changes.responses && this.hasChanged(changes.responses.previousValue, changes.responses.currentValue)) ||
             changes.user && ((changes.user.currentValue && !changes.user.previousValue) ||
             (changes.user.currentValue && changes.user.previousValue &&
-            changes.user.currentValue.fullId !== changes.user.previousValue.fullId))
+                changes.user.currentValue.fullId !== changes.user.previousValue.fullId))
         ) {
             await this.loadAudios();
         }
-        
+
     }
 
     public async loadAudios() {
@@ -195,7 +209,7 @@ export class AudioGalleryComponent implements OnInit, OnChanges {
         let i = 0;
         for (const response of this.responses) {
             const url = await this.afStorage.ref(response.responseValue).getDownloadURL().toPromise();
-            this.audios.push({ id: i++, url });
+            this.audios.push({id: i++, url});
             this.users[url] = response.user;
         }
 
@@ -213,7 +227,7 @@ export class AudioGalleryComponent implements OnInit, OnChanges {
         }
 
         return currentResponses.some(response => {
-            return previousResponses.every(prev => prev.responseValue !== response.responseValue)
+            return previousResponses.every(prev => prev.responseValue !== response.responseValue);
         });
     }
 }

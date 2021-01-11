@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {getAuthErrorPipe} from '../../auth/store/auth.selector';
 import {State} from '../../core/reducers';
 import {environment} from "../../../environments/environment";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
   selector: 'app-login-screen',
@@ -213,7 +214,9 @@ export class LoginScreenComponent implements OnInit {
 
   constructor(
     public store: Store<State>,
-    public _snackBar: MatSnackBar
+    public _snackBar: MatSnackBar,
+    public gaService: GoogleAnalyticsService
+
   ) {
   }
 
@@ -229,6 +232,7 @@ export class LoginScreenComponent implements OnInit {
   }
 
   googleLogin() {
+    this.gaService.event('LOGIN');
     this.store.dispatch(
       new actions.GoogleLoginRequestedAction()
     );

@@ -3,6 +3,7 @@ import {LoginScreenComponent} from "./login-screen.component";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
     selector: 'app-login-screen-no-social',
@@ -106,7 +107,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
         .pos-email-field {
             position: relative;
             margin-top: 50px;
-        //top: 299px;
+        / / top: 299 px;
             left: 98px;
             width: 444px;
             height: 30px;
@@ -233,7 +234,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
         }
 
         .style-image-left {
-            background: transparent url("/assets/img/login/login-image.png") ;
+            background: transparent url("/assets/img/login/login-image.png");
             background-position: center center;
             background-size: cover;
             border-width: 1px;
@@ -251,9 +252,10 @@ export class LoginScreenNoSocialComponent extends LoginScreenComponent {
 
     constructor(
         public store: Store<State>,
-        public _snackBar: MatSnackBar
+        public _snackBar: MatSnackBar,
+        public gaService: GoogleAnalyticsService
     ) {
-        super(store, _snackBar);
+        super(store, _snackBar, gaService);
     }
 
 

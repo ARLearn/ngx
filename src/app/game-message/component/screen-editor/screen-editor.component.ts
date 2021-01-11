@@ -6,6 +6,7 @@ import {select, Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {GameMessageSaveAction} from "../../store/game-message.actions";
 import {iCanWrite} from 'src/app/game-management/store/current-game.selector';
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
     selector: 'app-screen-editor',
@@ -19,6 +20,9 @@ import {iCanWrite} from 'src/app/game-management/store/current-game.selector';
                 <app-screen-editor-type-narrator
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.NarratorItem'">
                 </app-screen-editor-type-narrator>
+                <app-screen-editor-type-openurl
+                        *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.OpenUrl'">
+                </app-screen-editor-type-openurl>
                 <app-screen-editor-type-narrator
                         *ngSwitchCase="'org.celstec.arlearn2.beans.generalItem.PictureQuestion'">
                 </app-screen-editor-type-narrator>
@@ -102,7 +106,8 @@ export class ScreenEditorComponent implements OnInit {
 
     // selectedType: string;
 
-    constructor(private store: Store<State>) {
+    constructor(private store: Store<State>,
+                public gaService: GoogleAnalyticsService) {
     }
 
     ngOnInit() {
@@ -114,6 +119,7 @@ export class ScreenEditorComponent implements OnInit {
     }
 
     save() {
+        this.gaService.event('SAVE_SCREEN', 'SCREEN');
         this.store.dispatch(new GameMessageSaveAction());
 
     }

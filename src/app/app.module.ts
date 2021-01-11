@@ -66,6 +66,10 @@ import {GameThemesModule} from "./game-themes/game-themes.module";
 import {PortalUserManagementModule} from "./portal-user-management/portal-user-management.module";
 import {UserLibraryModule} from "./user-library/user-library.module";
 import {PortalImageManagementModule} from "./portal-image-management/portal-image-management.module";
+import {NgxGoogleAnalyticsModule} from "ngx-google-analytics";
+
+
+
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -161,7 +165,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         RunActionsModule,
         RunResponsesModule,
         TutorialModule,
-        UserLibraryModule
+        UserLibraryModule,
+        NgxGoogleAnalyticsModule.forRoot(environment.gatracking)
     ],
     providers: [
         ComponentPageTitle,

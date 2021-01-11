@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 import { tap } from 'rxjs/operators';
 import {getGame} from "../../../game-management/store/current-game.selector";
 import {Query as ThemesQuery} from "../../../game-themes/store/game-theme.actions";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
     selector: 'app-screen-detail',
@@ -109,11 +110,14 @@ export class ScreenDetailComponent implements OnInit {
 
     constructor(
         private store: Store<State>,
-        private router: Router
+        private router: Router,
+        public gaService: GoogleAnalyticsService
     ) {
     }
 
     ngOnInit() {
+        this.gaService.event('OPEN_SCREEN', 'SCREEN');
+
         this.store.dispatch(new GetGameMessagesRequestAction());
         this.store.dispatch(new SelectMessageFromRouterAction());
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
