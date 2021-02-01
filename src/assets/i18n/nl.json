@@ -235,12 +235,16 @@
 			"USER_ACCESS": "Toegang gebruikers"
 		},
 		"LABEL": "Portaal beheer",
+		"ORGANISATIONS" : {
+			"MENU": "Organisaties"
+		},
 		"USERS": {
 			"MENU" : "Gebruikers",
 			"ACTION" : "ACTIE",
 			"ACTIONS_DELETE": "Verwijder gebruiker(s)",
 			"ACTIONS_SUSPEND": "Account(s) Uitschakelen",
 			"ACTIONS_SET_EXIPRATION_DATE": "Vervaldatum instellen",
+			"ACTIONS_SET_ORGANISATION": "Organisatie instellen",
 			"EXPIRES_DATE_LABEL" : "Stel datum in waarop deze account vervalt.",
 			"CONFIRM_USER_DELETION" : "Ben je zeker dat je deze gebruikers wilt verwijderen?",
 			"CONFIRM_USER_SUSPENSION" : "Ben je zeker dat je toegang voor deze gebruikers wilt opschorten?",

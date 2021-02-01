@@ -26,6 +26,7 @@ import {GoogleAnalyticsService} from "ngx-google-analytics";
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 
         <div *ngIf="messages$ | async as messages">
+            {{game$|async | json}}
             <lib-wireflow
                     *ngIf="messages.length > 0 && !((loading$ | async))"
                     (selectMessage)="selectMessage($event)"
