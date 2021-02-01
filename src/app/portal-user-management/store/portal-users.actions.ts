@@ -4,6 +4,8 @@ import {Player} from "../../player-management/store/player.state";
 
 export enum PortalUserActionTypes {
     QUERY = '[PortalUser] Query',
+    QUERY_BY_ORG = '[PortalUser] Query by Organisation',
+
     GET_REQ = '[PortalUser] Get account request',
     CREATE_ACCOUNT_REQ = '[PortalUser] Create Account',
     UPDATE_ACCOUNT_REQ = '[PortalUser] Update Account',
@@ -60,6 +62,13 @@ export class Query implements Action {
     setFilter(filter: string[]) {
         this.query = filter[0];
     }
+}
+
+export class QueryByOrganisation implements Action {
+    readonly type = PortalUserActionTypes.QUERY_BY_ORG;
+
+    constructor(public query: string = null) {}
+
 }
 
 export class GetAccountRequest implements Action {

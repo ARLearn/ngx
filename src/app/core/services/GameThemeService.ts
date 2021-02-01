@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {forkJoin, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {catchError, map} from "rxjs/operators";
+import {catchError, filter, map, tap} from "rxjs/operators";
 import {GameTheme} from "../../game-themes/store/game-theme.state";
 import {CATEGORY_CUSTOM_THEMES} from "../../game-themes/store/game-theme.selectors";
 
@@ -14,11 +14,16 @@ export class GameThemeService {
     }
 
     getGlobalThemes(): Observable<any> {
-        return this.http.get<any>(environment.api_url + `/game/theme/list/global`);
+        return this.http.get<any>(environment.api_url + `/game/theme/list/global`).pipe(
+            filter(x => x != null)
+        );
     }
 
     getTheme(id: number): Observable<GameTheme> {
-        return this.http.get<any>(environment.api_url + `/game/theme/` + id);
+        return this.http.get<any>(environment.api_url + `/game/theme/` + id).pipe(
+            filter(x => x != null)
+        );
+
     }
 
     getThemes(): Observable<any> {

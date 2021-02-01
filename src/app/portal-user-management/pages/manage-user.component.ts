@@ -220,7 +220,7 @@ export class ManageUserComponent implements OnInit, OnChanges, OnDestroy {
             ...this.user,
             expirationDate: this.user.expirationDate > 0 ? (this.user.expirationDate as any).getTime() : -1,
             label: this.labels.join(';'),
-        }
+        };
 
         this.store.dispatch(new UpdateAccountRequest(payload));
     }

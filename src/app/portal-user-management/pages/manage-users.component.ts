@@ -14,7 +14,8 @@ import {AddUserDialogComponent} from "../components/add-user-dialog.component";
 import {map} from 'rxjs/operators';
 import {ConfirmDialogComponent} from "../components/confirm-dialog.component";
 import {SetExpireDateDialogComponent} from "../components/set-expire-date-dialog.component";
-import {UpdateAccountExpirationRequestAction} from "../../player-management/store/player.actions";
+import {UpdateAccountExpirationRequestAction, UpdateAccountOrganisationRequestAction} from "../../player-management/store/player.actions";
+import {SetOrganisationDialogComponent} from "../components/set-organisation-dialog.component";
 
 @Component({
     selector: 'app-manage-users',
@@ -38,13 +39,19 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
                             {{ selection.selected.length }} {{ 'SELECTED' | translate }} >
                          </span>
                         <button class="actions-btn" mat-flat-button color="primary"
-                                [matMenuTriggerFor]="menu" [disabled]="selection.selected.length === 0">{{ 'PORTAL_MANAGEMENT.USERS.ACTION' | translate }}
+                                [matMenuTriggerFor]="menu"
+                                [disabled]="selection.selected.length === 0">{{ 'PORTAL_MANAGEMENT.USERS.ACTION' | translate }}
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="deleteSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_DELETE' | translate }}</button>
-                            <button mat-menu-item (click)="suspendSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_SUSPEND' | translate }}</button>
-                            <button mat-menu-item (click)="setExpireDateToSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_SET_EXIPRATION_DATE' | translate }}</button>
+                            <button mat-menu-item
+                                    (click)="deleteSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_DELETE' | translate }}</button>
+                            <button mat-menu-item
+                                    (click)="suspendSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_SUSPEND' | translate }}</button>
+                            <button mat-menu-item
+                                    (click)="setExpireDateToSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_SET_EXIPRATION_DATE' | translate }}</button>
+                            <button mat-menu-item
+                                    (click)="setOrganisationToSelectedUsers()">{{ 'PORTAL_MANAGEMENT.USERS.ACTIONS_SET_ORGANISATION' | translate }}</button>
                         </mat-menu>
                     </div>
                     <div class="search-wrapper">
@@ -58,194 +65,22 @@ import {UpdateAccountExpirationRequestAction} from "../../player-management/stor
                         <span *ngIf="loading$ | async" class="spinner primary-color"><i class="fa fa-spin fa-spinner"></i></span>
                     </div>
                 </div>
-
-<!--                <div>-->
-<!--                    <button mat-button [matMenuTriggerFor]="orgMenu" class="pr-0">Organsitie-->
-<!--                        <mat-icon>arrow_drop_down</mat-icon>-->
-<!--                    </button>-->
-<!--                    <mat-menu #orgMenu="matMenu">-->
-<!--                        <button mat-menu-item>Item 1</button>-->
-<!--                        <button mat-menu-item>Item 2</button>-->
-<!--                        <button mat-menu-item>Item 3</button>-->
-<!--                    </mat-menu>-->
-<!--                </div>-->
             </div>
 
-
-            <table mat-table [dataSource]="dataSource" matSort>
-
-                <!-- Checkbox Column -->
-                <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <mat-checkbox (change)="$event ? masterToggle() : null"
-                                      [checked]="selection.hasValue() && isAllSelected()"
-                                      [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                      [aria-label]="checkboxLabel()">
-                        </mat-checkbox>
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        <mat-checkbox (click)="$event.stopPropagation()"
-                                      (change)="$event ? selection.toggle(row) : null"
-                                      [checked]="selection.isSelected(row)"
-                                      [aria-label]="checkboxLabel(row)">
-                        </mat-checkbox>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.NAME' | translate }}</th>
-                    <td mat-cell *matCellDef="let row" class="name-pointer name"
-                        [routerLink]="'/portal/root/usrmgt/'+row.fullId">{{row.name}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="location">
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)">
-                        <mat-chip-list *ngIf="row.labels">
-                            <mat-chip color="secondary" *ngFor="let label of row.labels" selected>{{label}}</mat-chip>
-                        </mat-chip-list>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.EMAIL' | translate }}</th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)">{{ row.email }}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="expirationDate">
-                    <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.EXPIRATION_DATE' | translate }}</th>
-                    <td mat-cell *matCellDef="let row" (click)="click(row)">{{ row.expirationDate | date }}</td>
-                </ng-container>
-
-
-                <ng-container matColumnDef="controls" stickyEnd>
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let row" class="cell-right">
-                        <button mat-icon-button [matMenuTriggerFor]="menu">
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="deleteUser(row.fullId)">
-                                <mat-icon>delete_forever</mat-icon>
-                                <span>{{ 'ACTIONS.DELETE_USER' | translate }}</span>
-                            </button>
-
-                        </mat-menu>
-                    </td>
-                </ng-container>
-
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr class="bin-element-row" mat-row
-                    *matRowDef="let row; columns: displayedColumns;"
-
-                ></tr>
-            </table>
+            <app-manage-users-table
+                    [userList]="userList"
+                    [selection]="selection"
+            ></app-manage-users-table>
         </div>
 
     `,
     styles: [`
-        .name-pointer {
-            cursor: pointer;
-        }
-
-        .full-width-container {
-            background-color: #F0F4F5; /*todo move up*/
-        }
-
-
-        .search {
-            top: 155px;
-            left: 0px;
-            width: 320px;
-            height: 35px;
-            opacity: 1;
-            position: absolute;
-        }
-
-        .gamesContainer-outer {
-            margin-right: auto;
-            margin-left: auto;
-            position: relative;
-        }
-
-        .gamesContainer {
-            position: relative;
-            top: 109px;
-            left: -8px;
-            right: 140px;
-            width: calc(100% + 16px);
-            display: flex;
-            flex-wrap: wrap;
-            flex-flow: wrap;
-            justify-content: flex-start;
-            align-content: center;
-        }
-
-        .gameTile {
-            width: 236px;
-            height: 388px;
-            margin: 8px;
-        }
-
         .actions-btn {
             margin: 0 20px;
             height: 44px;
         }
-
-        table.mat-table {
-            background-color: transparent;
-        }
-
-        table {
-            width: 100%;
-        }
-
-        .cell-right {
-            text-align: right;
-
-        }
-
         .name {
             font-size: 18px;
-        }
-
-        tr.bin-element-row td {
-            padding-top: 0.8rem;
-            padding-bottom: 0.8rem;
-        }
-
-        th.mat-header-cell:first-of-type {
-            padding-left: 0 !important;
-        }
-
-        tr.bin-element-row td:first-child{
-            padding-left: 0;
-            padding-right: 1rem;
-        }
-
-        tr.bin-element-row td:last-child {
-            padding-right: 0;
-        }
-
-        tr.bin-element-row:hover {
-            background: #f5f5f5;
-        }
-
-        tr.example-element-row:active {
-            background: #efefef;
-        }
-
-        @media only screen and (max-width: 900px) {
-            .hide900 {
-                display: none;
-            }
-        }
-
-        @media only screen and (max-width: 500px) {
-            .hide500 {
-                display: none;
-            }
         }
 
         .selects {
@@ -291,6 +126,10 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
             routerLink: '/portal/root/images',
             label: 'PORTAL_MANAGEMENT.IMAGES.MENU'
         },
+        {
+            routerLink: '/portal/organisations',
+            label: 'PORTAL_MANAGEMENT.ORGANISATIONS.MENU'
+        },
     ];
 
 
@@ -304,12 +143,11 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
     ) {
     }
 
-    click(item) {
-        console.log(item);
-    }
+    // click(item) {
+    //     console.log(item);
+    // }
 
     ngOnInit(): void {
-        // this.store.dispatch(new Query("stefaan"));
 
         this.subscription.add(this.userList.subscribe((users) => {
             console.log(users);
@@ -362,7 +200,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.message = 'PORTAL_MANAGEMENT.USERS.CONFIRM_USER_DELETION';
 
         this.subscription.add(dialogRef.componentInstance.submit.subscribe(() => {
-            this.selection.selected.forEach(x => this.store.dispatch(new DeleteAccountRequest(x.fullId)))
+            this.selection.selected.forEach(x => this.store.dispatch(new DeleteAccountRequest(x.fullId)));
             dialogRef.close();
 
             this.selection.clear();
@@ -377,7 +215,7 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.message = 'PORTAL_MANAGEMENT.USERS.CONFIRM_USER_SUSPENSION';
 
         this.subscription.add(dialogRef.componentInstance.submit.subscribe(() => {
-            this.selection.selected.forEach(x => this.store.dispatch(new SuspendAccountRequest(x.fullId)))
+            this.selection.selected.forEach(x => this.store.dispatch(new SuspendAccountRequest(x.fullId)));
             dialogRef.close();
         }));
     }
@@ -388,13 +226,26 @@ export class ManageUsersComponent implements OnInit, OnDestroy {
         });
 
         this.subscription.add(dialogRef.componentInstance.submit.subscribe((value) => {
-            this.selection.selected.forEach(x => this.store.dispatch(new UpdateAccountExpirationRequestAction({ fullId: x.fullId, expiration: value.date.getTime() })))
+            this.selection.selected.forEach(x => this.store.dispatch(new UpdateAccountExpirationRequestAction({
+                fullId: x.fullId,
+                expiration: value.date.getTime()
+            })));
             dialogRef.close();
         }));
     }
 
+    setOrganisationToSelectedUsers() {
+        const dialogRef = this.dialog.open(SetOrganisationDialogComponent, {
+            panelClass: ['modal-fullscreen', "modal-dialog"],
+        });
 
-    deleteUser(userId: string) {
-        this.store.dispatch(new DeleteAccountRequest(userId));
+        this.subscription.add(dialogRef.componentInstance.submit.subscribe((value) => {
+            console.log('value is ', value);
+            this.selection.selected.forEach(x => this.store.dispatch(new UpdateAccountOrganisationRequestAction({
+                fullId: x.fullId,
+                organisation: value.organisation
+            })));
+            dialogRef.close();
+        }));
     }
-}
+ }

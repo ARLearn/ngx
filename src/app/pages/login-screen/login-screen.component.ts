@@ -232,7 +232,9 @@ export class LoginScreenComponent implements OnInit {
   }
 
   googleLogin() {
-    this.gaService.event('LOGIN');
+    if (environment.gatracking !== '') {
+      this.gaService.event('LOGIN');
+    }
     this.store.dispatch(
       new actions.GoogleLoginRequestedAction()
     );

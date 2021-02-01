@@ -121,7 +121,7 @@
     <init-param>
       <param-name>services</param-name>
       <param-value>
-        org.celstec.arlearn2.endpoints.MediaLibraryAPI,org.celstec.arlearn2.endpoints.GameThemeApi,org.celstec.arlearn2.endpoints.RunResponses,org.celstec.arlearn2.endpoints.Store,org.celstec.arlearn2.endpoints.PlayerApi,org.celstec.arlearn2.endpoints.FeaturedApi,org.celstec.arlearn2.endpoints.ActionApi,org.celstec.arlearn2.endpoints.RunUser,org.celstec.arlearn2.endpoints.Games,org.celstec.arlearn2.endpoints.AccountApi,org.celstec.arlearn2.endpoints.Runs,org.celstec.arlearn2.endpoints.GeneralItems
+        org.celstec.arlearn2.endpoints.OrganisationAPI,org.celstec.arlearn2.endpoints.MediaLibraryAPI,org.celstec.arlearn2.endpoints.GameThemeApi,org.celstec.arlearn2.endpoints.RunResponses,org.celstec.arlearn2.endpoints.Store,org.celstec.arlearn2.endpoints.PlayerApi,org.celstec.arlearn2.endpoints.FeaturedApi,org.celstec.arlearn2.endpoints.ActionApi,org.celstec.arlearn2.endpoints.RunUser,org.celstec.arlearn2.endpoints.Games,org.celstec.arlearn2.endpoints.AccountApi,org.celstec.arlearn2.endpoints.Runs,org.celstec.arlearn2.endpoints.GeneralItems
       </param-value>
     </init-param>
   </servlet>
@@ -313,6 +313,7 @@
     <dispatcher>INCLUDE</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
+
   <filter-mapping>
     <filter-name>endpoints-api-controller</filter-name>
     <servlet-name>EndpointsServlet</servlet-name>

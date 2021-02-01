@@ -32,7 +32,6 @@ export function gameThemeReducer(
         case GameThemeActionTypes.GET_ALL:
             return gameThemeAdapter.addMany(action.items, state);
         case GameThemeActionTypes.ADD_ALL:
-            console.log("action add all ", action);
             if (!action.themes || !action.themes.items) {
                 return state;
             }

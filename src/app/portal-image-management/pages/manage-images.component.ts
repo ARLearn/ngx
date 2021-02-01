@@ -54,6 +54,10 @@ export class ManageImagesComponent implements OnInit, OnDestroy {
             routerLink: '/portal/root/images',
             label: 'PORTAL_MANAGEMENT.IMAGES.MENU'
         },
+        {
+            routerLink: '/portal/organisations',
+            label: 'PORTAL_MANAGEMENT.ORGANISATIONS.MENU'
+        },
     ];
 
     constructor(

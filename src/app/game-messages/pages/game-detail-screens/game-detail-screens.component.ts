@@ -113,7 +113,10 @@ export class    GameDetailScreensComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.gaService.event('OPEN_GAME', 'GAME');
+        if (environment.gatracking !== '') {
+            this.gaService.event('OPEN_GAME', 'GAME');
+        }
+
         this.store.dispatch(new Query());
         this.store.dispatch(new GetGameMessagesRequestAction());
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());

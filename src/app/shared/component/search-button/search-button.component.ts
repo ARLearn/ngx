@@ -40,6 +40,7 @@ export class SearchButtonComponent implements OnInit {
 
     @Debounce(300)
     onFilterChange(filter) {
+
         if (filter === '') {
             this.dispatchAction.setFilter([]);
             // this.store.dispatch(new SetGamesFilterAction({filters: []}));

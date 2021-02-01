@@ -10,6 +10,8 @@ export const PlayerActionTypes = {
     UPDATE_ACCOUNT_EXP_REQUESTED: '[PortalUsers] Update Account Expiration Requested',
     UPDATE_ACCOUNT_EXP_COMPLETED: '[PortalUsers] Update Account Expiration Completed',
 
+    UPDATE_ACCOUNT_ORGANISATION_REQUESTED: '[PortalUsers] Update Account Organisation Requested',
+    UPDATE_ACCOUNT_ORGANISATION_COMPLETED: '[PortalUsers] Update Account Organisation Completed',
 
     PLAYERS_LOAD_REQUESTED: '[Players] Load friends Requested',
     PLAYERS_LOAD_COMPLETED: '[Players] Load friends Completed',
@@ -68,8 +70,22 @@ export class UpdateAccountExpirationRequestAction implements Action {
     }
 }
 
+export class UpdateAccountOrganisationRequestAction implements Action {
+    type = PlayerActionTypes.UPDATE_ACCOUNT_ORGANISATION_REQUESTED;
+
+    constructor(public payload: { fullId: string, organisation: string } = null) {
+    }
+}
+
 export class UpdateAccountExpirationCompletedAction implements Action {
     type = PlayerActionTypes.UPDATE_ACCOUNT_EXP_COMPLETED;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class UpdateAccountOrganisationCompletedAction implements Action {
+    type = PlayerActionTypes.UPDATE_ACCOUNT_ORGANISATION_COMPLETED;
 
     constructor(public payload: any) {
     }

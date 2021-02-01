@@ -7,6 +7,7 @@ import {State} from "../../../core/reducers";
 import {GameMessageSaveAction} from "../../store/game-message.actions";
 import {iCanWrite} from 'src/app/game-management/store/current-game.selector';
 import {GoogleAnalyticsService} from "ngx-google-analytics";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-screen-editor',
@@ -119,7 +120,10 @@ export class ScreenEditorComponent implements OnInit {
     }
 
     save() {
-        this.gaService.event('SAVE_SCREEN', 'SCREEN');
+        if (environment.gatracking !== '') {
+            this.gaService.event('SAVE_SCREEN', 'SCREEN');
+        }
+
         this.store.dispatch(new GameMessageSaveAction());
 
     }

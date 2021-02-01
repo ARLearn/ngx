@@ -6,6 +6,7 @@ import {ReLoginRequestedAction} from './auth/store/auth.actions';
 import {AuthService} from './auth/services/auth.service';
 import {NavigationEnd, Router} from "@angular/router";
 import {GoogleAnalyticsService} from "ngx-google-analytics";
+import {environment} from "../environments/environment";
 
 @Component({
     selector: 'app-arlearn',
@@ -21,7 +22,9 @@ export class AppComponent implements OnInit {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 console.log("analytics ", event.urlAfterRedirects);
-                gaService.pageView(event.urlAfterRedirects);
+                if (environment.gatracking !== '') {
+                    gaService.pageView(event.urlAfterRedirects);
+                }
                 // (<any>window).ga('set', 'page', event.urlAfterRedirects);
                 // (<any>window).ga('send', 'pageview');
             }

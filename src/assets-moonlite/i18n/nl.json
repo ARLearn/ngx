@@ -231,6 +231,9 @@
 			"USER_ACCESS": "Toegang gebruikers"
 		},
 		"LABEL": "Portaal beheer",
+		"ORGANISATIONS" : {
+			"MENU": "Organisaties"
+		},
 		"USERS": {
 			"MENU" : "Gebruikers",
 			"ACTION" : "ACTIE",

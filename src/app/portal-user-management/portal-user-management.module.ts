@@ -12,6 +12,8 @@ import { ManageUserComponent } from "./pages/manage-user.component";
 import { AddUserDialogComponent } from "./components/add-user-dialog.component";
 import { ConfirmDialogComponent } from "./components/confirm-dialog.component";
 import { SetExpireDateDialogComponent } from "./components/set-expire-date-dialog.component";
+import { ManageUsersTableComponent } from './components/manage-users-table.component';
+import { SetOrganisationDialogComponent } from './components/set-organisation-dialog.component';
 
 
 
@@ -22,6 +24,8 @@ import { SetExpireDateDialogComponent } from "./components/set-expire-date-dialo
     AddUserDialogComponent,
     ConfirmDialogComponent,
     SetExpireDateDialogComponent,
+    ManageUsersTableComponent,
+    SetOrganisationDialogComponent,
   ],
   imports: [
     SharedModule.forChild(),
@@ -30,9 +34,10 @@ import { SetExpireDateDialogComponent } from "./components/set-expire-date-dialo
     EffectsModule.forFeature([PortalUsersEffects]),
     ReactiveFormsModule,
   ],
-  exports: [
-      ManageUsersComponent
-  ],
+    exports: [
+        ManageUsersComponent,
+        ManageUsersTableComponent
+    ],
   entryComponents: [
       AddUserDialogComponent,
     ConfirmDialogComponent,

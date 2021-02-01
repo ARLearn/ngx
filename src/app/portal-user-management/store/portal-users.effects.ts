@@ -14,7 +14,7 @@ import {
     CreateAccountError,
     CreateAccountSuccess,
     DeleteAccountRequest,
-    DeleteAccountResponse, SetRoleRequest
+    DeleteAccountResponse, SetRoleRequest, QueryByOrganisation
 } from './portal-users.actions';
 import {catchError, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 
@@ -23,16 +23,29 @@ import {State} from "../../core/reducers";
 import {AccountService} from "../../core/services/account.service";
 import {Player} from "../../player-management/store/player.state";
 import { selectedUser } from './portal-users.selectors';
+import {organisationIdSelector} from "../../core/selectors/router.selector";
 
 
 @Injectable()
 export class PortalUsersEffects {
 
-
     @Effect() query$: Observable<Action> = this.actions$.pipe(
         ofType(PortalUserActionTypes.QUERY),
         switchMap((action: Query) => {
             return this.accounts.search(action.query);
+        }),
+        map(arr => {
+            return new AddAll(arr);
+        })
+    );
+
+    @Effect() queryByOrg$: Observable<Action> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.QUERY_BY_ORG),
+        withLatestFrom(
+            this.store.select(organisationIdSelector)
+        ),
+        switchMap(([action, organisationId]: [QueryByOrganisation, string]) => {
+            return this.accounts.searchByOrganisation(organisationId);
         }),
         map(arr => {
             return new AddAll(arr);
@@ -54,7 +67,7 @@ export class PortalUsersEffects {
         switchMap((action: CreateAccountRequest) => {
             return this.accounts.createAccount(action.account).pipe(
                 map(arr => {
-                    return new CreateAccountSuccess(arr)
+                    return new CreateAccountSuccess(arr);
                 }),
                 catchError(() => of(new CreateAccountError(`Can't add this user, please, check your data!`)))
             );

@@ -23,7 +23,10 @@ import {
     RemovePendingContactsRequestAction,
     ResendPendingCompletedAction,
     ResendPendingRequestedAction,
-    SetInvitationIdCompletedAction, UpdateAccountExpirationCompletedAction, UpdateAccountExpirationRequestAction
+    SetInvitationIdCompletedAction,
+    UpdateAccountExpirationCompletedAction,
+    UpdateAccountExpirationRequestAction, UpdateAccountOrganisationCompletedAction,
+    UpdateAccountOrganisationRequestAction
 } from './player.actions';
 import {State} from 'src/app/core/reducers';
 import {PlayerService} from '../../core/services/player.service';
@@ -105,6 +108,22 @@ export class PlayerEffects {
             ),
             map(res =>
                     new UpdateAccountExpirationCompletedAction(res),
+                catchError((error) => {
+                    return of(new SetErrorAction(error.error));
+                })
+            )
+        );
+
+    @Effect()
+    updateOrganisation: Observable<Action> = this.actions$
+        .pipe(
+            ofType(PlayerActionTypes.UPDATE_ACCOUNT_ORGANISATION_REQUESTED),
+            mergeMap((action: UpdateAccountOrganisationRequestAction) =>
+                this.accounts
+                .updateOrganisation(action.payload.fullId, action.payload.organisation)
+            ),
+            map(res =>
+                    new UpdateAccountOrganisationCompletedAction(res),
                 catchError((error) => {
                     return of(new SetErrorAction(error.error));
                 })

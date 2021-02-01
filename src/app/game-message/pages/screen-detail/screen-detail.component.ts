@@ -16,6 +16,7 @@ import { tap } from 'rxjs/operators';
 import {getGame} from "../../../game-management/store/current-game.selector";
 import {Query as ThemesQuery} from "../../../game-themes/store/game-theme.actions";
 import {GoogleAnalyticsService} from "ngx-google-analytics";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-screen-detail',
@@ -116,7 +117,11 @@ export class ScreenDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.gaService.event('OPEN_SCREEN', 'SCREEN');
+        if (environment.gatracking !== '') {
+            console.log('ga open screen');
+            this.gaService.event('OPEN_SCREEN', 'SCREEN');
+        }
+
 
         this.store.dispatch(new GetGameMessagesRequestAction());
         this.store.dispatch(new SelectMessageFromRouterAction());

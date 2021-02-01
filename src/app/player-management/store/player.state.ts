@@ -49,6 +49,7 @@ export interface Player {
   givenName?: string;
   localId: string;
   name: string;
+  organisationId?: string;
   picture?: string;
   password?: string;
   error?: string;

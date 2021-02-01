@@ -15,25 +15,6 @@ export const getCurrentUrl = createSelector(
   (state: fromRouter.RouterReducerState) => state.state.url
 );
 
-//
-// export const currentGameId = createSelector(
-//   getRouter,
-//   router => {
-//     // console.log(router.state)
-//     if (router == null
-//       || router.state.root.firstChild.firstChild == null
-//     ) {
-//       if (router != null && router.state.root.firstChild.params.gameId) {
-//         return router.state.root.firstChild.params.gameId;
-//       }
-//       return null;
-//     }
-//
-//
-//     return router.state.root.firstChild.firstChild.params.gameId;
-//   }
-// );
-
 export const currentRunId = createSelector(
     getRouter,
     router => {
@@ -95,3 +76,6 @@ export const {
     selectRouteData,      // select the current route data
     selectUrl,            // select the current url
 } = fromRouter.getSelectors(selectRouter);
+
+export const gameIdSelector = selectRouteParam('gameId');
+export const organisationIdSelector = selectRouteParam('organisationId');

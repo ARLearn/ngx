@@ -4,8 +4,8 @@ import {Player} from "../../player-management/store/player.state";
 
 
 export interface PortalUserState extends EntityState<Player> {
-    queryLoading?: boolean,
-    selectedPlayer?: Player,
+    queryLoading?: boolean;
+    selectedPlayer?: Player;
 }
 
 export function selectIdentifier(a: Player): string {

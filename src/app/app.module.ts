@@ -67,8 +67,7 @@ import {PortalUserManagementModule} from "./portal-user-management/portal-user-m
 import {UserLibraryModule} from "./user-library/user-library.module";
 import {PortalImageManagementModule} from "./portal-image-management/portal-image-management.module";
 import {NgxGoogleAnalyticsModule} from "ngx-google-analytics";
-
-
+import {OrganisationsManagementModule} from "./organisations-management/organisations-management.module";
 
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -166,6 +165,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         RunResponsesModule,
         TutorialModule,
         UserLibraryModule,
+        OrganisationsManagementModule,
         NgxGoogleAnalyticsModule.forRoot(environment.gatracking)
     ],
     providers: [

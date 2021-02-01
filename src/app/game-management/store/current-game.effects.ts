@@ -20,7 +20,7 @@ import {Game} from './current-game.state';
 import FileSaver from 'file-saver';
 import {getMessagesSelector} from '../../game-messages/store/game-messages.selector';
 import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import * as fromRootSelector from "../../core/selectors/router.selector";
+import {gameIdSelector} from "../../core/selectors/router.selector";
 
 
 @Injectable()
@@ -37,7 +37,7 @@ export class CurrentGameEffects {
     getGameFromRouter: Observable<Action> = this.actions$.pipe(
         ofType(actions.CurrentGameActionTypes.GET_CURRENT_GAME_FROM_ROUTER_REQUESTED),
         withLatestFrom(
-            this.store$.select(fromRootSelector.selectRouteParam('gameId'))
+            this.store$.select(gameIdSelector)
         ),
         switchMap(([action, gameId]: [GetCurrentGameFromRouterRequestAction, string]) =>
             this.gameService.get(Number.parseInt(gameId, 10)).pipe(
@@ -51,7 +51,7 @@ export class CurrentGameEffects {
     getPublicGameFromRouter: Observable<Action> = this.actions$.pipe(
         ofType(actions.CurrentGameActionTypes.GET_PUBLIC_GAME_FROM_ROUTER_REQUESTED),
         withLatestFrom(
-            this.store$.select(fromRootSelector.selectRouteParam('gameId'))
+            this.store$.select(gameIdSelector)
         ),
         switchMap(([action, gameId]: [GetPublicGameFromRouterRequestAction, string]) =>
             this.gameService.getPublic(Number.parseInt(gameId, 10)).pipe(
@@ -99,13 +99,13 @@ export class CurrentGameEffects {
             this.store$.select(getMessagesSelector),
         ),
         tap(([action, game, messages]: [DownloadGameRequestAction, Game, any]) => {
-            console.log('just writing something on the console', game, messages);
+            // console.log('just writing something on the console', game, messages);
             const packageGame = {
                 game: game,
                 messages: messages
             };
 
-            var blob = new Blob([JSON.stringify(packageGame)], {type: 'application/json;charset=utf-8'});
+            const blob = new Blob([JSON.stringify(packageGame)], {type: 'application/json;charset=utf-8'});
 
             FileSaver.saveAs(blob, 'game.txt');
 
@@ -114,7 +114,9 @@ export class CurrentGameEffects {
 
     @Effect()
     loadAuthors: Observable<Action> = this.actions$.pipe(
-        ofType(actions.CurrentGameActionTypes.SET_CURRENT_GAME_COMPLETED, actions.CurrentGameActionTypes.LOAD_GAME_AUTHORS_REQUESTED, actions.CurrentGameActionTypes.ADD_GAME_AUTHORS_COMPLETED),
+        ofType(actions.CurrentGameActionTypes.SET_CURRENT_GAME_COMPLETED,
+            actions.CurrentGameActionTypes.LOAD_GAME_AUTHORS_REQUESTED,
+            actions.CurrentGameActionTypes.ADD_GAME_AUTHORS_COMPLETED),
         withLatestFrom(
             this.store$.pipe(select(getGame))
         ),
@@ -135,12 +137,14 @@ export class CurrentGameEffects {
             this.store$.pipe(select(getGame))
         ),
         mergeMap(
-            ([action, game]: [AddGameAuthorRequestAction, Game]) => this.gameService.addAuthors(game.gameId, action.payload.fullId, action.payload.role).pipe(
-                map(res => {
-                    return new actions.AddGameAuthorCompletedAction(res);
-                }),
-                catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
-            )
+            (
+                [action, game]: [AddGameAuthorRequestAction, Game]) =>
+                this.gameService.addAuthors(game.gameId, action.payload.fullId, action.payload.role).pipe(
+                    map(res => {
+                        return new actions.AddGameAuthorCompletedAction(res);
+                    }),
+                    catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
+                )
         )
     );
 
