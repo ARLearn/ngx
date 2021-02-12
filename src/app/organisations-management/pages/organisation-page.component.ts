@@ -11,6 +11,9 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {QueryByOrganisation} from "../../portal-user-management/store/portal-users.actions";
+import {SetExpireDateDialogComponent} from "../../portal-user-management/components/set-expire-date-dialog.component";
+import {UpdateAccountExpirationRequestAction} from "../../player-management/store/player.actions";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-organisation-page',
@@ -18,9 +21,9 @@ import {QueryByOrganisation} from "../../portal-user-management/store/portal-use
     <app-top-level-navbar [backUrl]="'/portal/organisations'" [title]="(organisation|async)?.name">
       <app-subtabs-navbar [items]="subMenuItems"></app-subtabs-navbar>
     </app-top-level-navbar>
-
+    
     <div class="users maxwidth">
-
+     
       <app-manage-users-table
           [userList]="userList"
           [selection]="selection"
@@ -28,8 +31,7 @@ import {QueryByOrganisation} from "../../portal-user-management/store/portal-use
     </div>
   `,
   styles: [`
-       
-
+  
     `]
 })
 export class OrganisationPageComponent implements OnInit {
@@ -37,7 +39,8 @@ export class OrganisationPageComponent implements OnInit {
   userList: Observable<Player[]> = this.store.select(selectedCurrentOrganisationUser);
 
   organisation: Observable<Organisation> = this.store.select(selectedOrganisation);
-  constructor(private store: Store<State>) {}
+  constructor(public dialog: MatDialog,
+              private store: Store<State>) {}
 
   subMenuItems = [
     {
@@ -62,5 +65,6 @@ export class OrganisationPageComponent implements OnInit {
     this.store.dispatch(new QueryOne());
     this.store.dispatch(new QueryByOrganisation());
   }
+
 
 }

@@ -8,7 +8,7 @@ export function reducers(
 
 
     case actions.AuthActionTypes.LOGIN_COMPLETED: {
-      // console.log ("login completed");
+      console.log ("login completed", action.payload);
       return Object.assign({}, state, {
         user: action.payload.user,
         isLoggedIn: action.payload.user != null,

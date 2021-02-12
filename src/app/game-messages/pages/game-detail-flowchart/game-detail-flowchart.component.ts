@@ -26,13 +26,12 @@ import {GoogleAnalyticsService} from "ngx-google-analytics";
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 
         <div *ngIf="messages$ | async as messages">
-            {{game$|async | json}}
             <lib-wireflow
                     *ngIf="messages.length > 0 && !((loading$ | async))"
                     (selectMessage)="selectMessage($event)"
                     [messages]="messages"
                     [endsOn]="(game$ | async)?.endsOn || {}"
-                    [endsOnDisabled]="false"
+                    [endsOnDisabled]="true"
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"
@@ -163,7 +162,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     }
 
     onEndsOnCoordinatesChange(coords: any) {
-        // console.log('FROM ENDS COORDS', coords);
+        console.log('FROM ENDS COORDS', coords);
     }
 }
 

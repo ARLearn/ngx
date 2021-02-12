@@ -12,7 +12,8 @@
 		"MAKE_EDITOR": "Maak editor",
 		"MAKE_VIEWER": "Maak viewer",
 		"SUBMIT" : "Verstuur",
-		"CANCEL" : "Annuleer"
+		"CANCEL" : "Annuleer",
+		"UPGRADE" : "Upgrade"
 	},
 	"ADMIN": {
 		"FEATURED": {
@@ -124,7 +125,8 @@
 		"TITLE": "Titel",
 		"WHO_CAN_SEE": "Wie kan deze game zien?",
 		"HEADING" : "Kop tekst",
-		"URL": "Url"
+		"URL": "Url",
+		"CLONEGAME": "Spel kopiëren"
 	},
 	"THEME": {
 		"CREATE_THEME" : "Maak nieuwe thema",

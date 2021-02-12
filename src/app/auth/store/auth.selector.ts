@@ -6,12 +6,15 @@ import {
 import {AuthState} from '../state/auth.state';
 import * as fromRoot from 'src/app/core/reducers';
 import {pipe} from 'rxjs';
+import {UserState} from "../../user-management/store/portal-user.state";
 
 export interface State extends fromRoot.State {
     authFeature: AuthState;
+    user: UserState;
 }
 
 export const getAuthState = createFeatureSelector<State, any>('authFeature');
+export const _getPortalUserState = createFeatureSelector<State, any>('user');
 
 // export const getUserData = (state: AuthState) => state.userData;
 export const getIsUserLoggedIn = (state: AuthState) => state.isLoggedIn;
@@ -40,7 +43,8 @@ export const getAuthIsAdmin = createSelector(getAuthState, getIsAdmin);
 export const getAuthIsAvanced = createSelector(getAuthState, getIsAdvanced);
 export const getAuthError = createSelector(getAuthState, getError);
 export const getCurrentUser = createSelector(getAuthState, currentUser);
-// export const getExpirationDate = createSelector(getAuthState, _getExpirationDate);
+export const getPortalUser = createSelector(_getPortalUserState, state => state);
+
 
 
 export const getAuthErrorPipe = pipe(

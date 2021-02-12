@@ -27,7 +27,7 @@ export class LoadUserRequestAction implements Action {
 export class LoadUserCompletedAction implements Action {
   type = PortalUserActionTypes.LOAD_USER_COMPLETED;
 
-  constructor(public payload: any) {
+  constructor(public payload: UserState) {
   }
 }
 

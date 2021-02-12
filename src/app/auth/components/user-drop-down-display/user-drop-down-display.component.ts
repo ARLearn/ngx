@@ -2,27 +2,28 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {State} from "../../../core/reducers";
 import {Observable, of} from "rxjs";
-import {getCurrentUser} from "../../store/auth.selector";
+import {getCurrentUser, getPortalUser} from "../../store/auth.selector";
 import {LogoutRequestedAction} from "../../store/auth.actions";
-import {LoadUserRequestAction} from "../../../user-management/store/portal-user.actions";
+
+import {UserState} from "../../../user-management/store/portal-user.state";
 
 @Component({
     selector: 'app-user-drop-down-display',
     template: `
-        <div class="user-display">
+        <div class="user-display" *ngIf="user$ |async as user">
             <button class="display-button" mat-button [matMenuTriggerFor]="menu">
-                {{(user$|async).displayName}}
+                {{user.name}}
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
             <mat-menu #menu="matMenu" [xPosition]="'before'">
                 <div class="display-container">
                     <div class="display-panel-user-metadata">
                         <div class="display-panel-image"
-                             [ngStyle]="{'background': 'transparent url('+(user$|async).photoURL+'=w74) 0% 0% no-repeat padding-box'}">
+                             [ngStyle]="{'background': 'transparent url('+(firebaseUser$|async)['photoURL']+'=w74) 0% 0% no-repeat padding-box'}">
                         </div>
-                        <div class="display-panel-user-name font-medium-16-24-roboto color-black-de">{{(user$|async).displayName}}</div>
-                        <div class="display-panel-user-email font-regular-14-24-roboto color-black-de">{{(user$|async).email}}</div>
-                        <div class="display-panel-expires font-regular-14-24-roboto color-black-de">Expires: {{expirationDate|async| date:'mediumDate'}}</div>
+                        <div class="display-panel-user-name font-medium-16-24-roboto color-black-de">{{user.name}}</div>
+                        <div class="display-panel-user-email font-regular-14-24-roboto color-black-de">{{user.email}}</div>
+                        <div class="display-panel-expires font-regular-14-24-roboto color-black-de">Expires: {{user.expirationDate| date:'mediumDate'}}</div>
                     </div>
                     <div class="display-panel-line-separator"></div>
 
@@ -94,9 +95,7 @@ import {LoadUserRequestAction} from "../../../user-management/store/portal-user.
             height: 19px;
 
             text-align: left;
-            
             color: #000000DE;
-            opacity: 1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -147,16 +146,14 @@ export class UserDropDownDisplayComponent implements OnInit {
     displayStyle = {
         'background': "transparent url('https://lh3.googleusercontent.com/a-/AAuE7mAef8ckla4oidgVEstZRNJOYHjnQQ7vKnOQ_jJeGk0=w74') 0% 0% no-repeat padding-box"
     };
-    user$: Observable<any> = this.store.select(getCurrentUser);
-    expirationDate: Observable<number> = of(0);//this.store.select(getExpirationDate);
-
-
+    user$: Observable<UserState> = this.store.select(getPortalUser);
+    firebaseUser$: Observable<UserState> = this.store.select(getCurrentUser);
     constructor(private store: Store<State>
     ) {
     }
 
     ngOnInit() {
-        // this.store.dispatch(new LoadUserRequestAction());
+
     }
 
     logout() {

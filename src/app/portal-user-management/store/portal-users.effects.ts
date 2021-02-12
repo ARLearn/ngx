@@ -14,7 +14,7 @@ import {
     CreateAccountError,
     CreateAccountSuccess,
     DeleteAccountRequest,
-    DeleteAccountResponse, SetRoleRequest, QueryByOrganisation
+    DeleteAccountResponse, SetRoleRequest, QueryByOrganisation, UpgradeAccountRequest
 } from './portal-users.actions';
 import {catchError, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 
@@ -64,7 +64,7 @@ export class PortalUsersEffects {
 
     @Effect() createAccount$: Observable<Action> = this.actions$.pipe(
         ofType(PortalUserActionTypes.CREATE_ACCOUNT_REQ),
-        switchMap((action: CreateAccountRequest) => {
+        mergeMap((action: CreateAccountRequest) => {
             return this.accounts.createAccount(action.account).pipe(
                 map(arr => {
                     return new CreateAccountSuccess(arr);
@@ -78,7 +78,7 @@ export class PortalUsersEffects {
     @Effect() updateAccount$: Observable<Action> = this.actions$.pipe(
         ofType(PortalUserActionTypes.UPDATE_ACCOUNT_REQ),
         withLatestFrom(this.store.select(selectedUser)),
-        switchMap(([action, user]:[UpdateAccountRequest, Player]) => {
+        mergeMap(([action, user]:[UpdateAccountRequest, Player]) => {
             const streams$ = [];
             streams$.push(of(user.fullId));
 
@@ -102,7 +102,7 @@ export class PortalUsersEffects {
 
     @Effect() deleteAccount$: Observable<Action> = this.actions$.pipe(
         ofType(PortalUserActionTypes.DELETE_ACCOUNT_REQ),
-        switchMap((action: DeleteAccountRequest) => {
+        mergeMap((action: DeleteAccountRequest) => {
             return this.accounts.deleteAccount(action.fullId);
         }),
         map(arr => {
@@ -112,7 +112,7 @@ export class PortalUsersEffects {
 
     @Effect({ dispatch: false }) setRoleToAccount$: Observable<void> = this.actions$.pipe(
         ofType(PortalUserActionTypes.SET_ROLE),
-        switchMap((action: SetRoleRequest) => {
+        mergeMap((action: SetRoleRequest) => {
             return this.accounts.setRole(action.fullId, action.role, action.isInRole);
         }),
         map(arr => {
@@ -120,10 +120,25 @@ export class PortalUsersEffects {
         })
     );
 
+
+    @Effect({ dispatch: false }) setBibendoPlus: Observable<void> = this.actions$.pipe(
+        ofType(PortalUserActionTypes.UPGRADE_ACCOUNT),
+        mergeMap((action: UpgradeAccountRequest) => {
+            return this.accounts.setPortalRole(action.fullId, "bibendoPlus", true);
+        }),
+        map(arr => {
+            console.log('Upgrade ROLE', arr);
+        })
+    );
+
     @Effect() addAccount$: Observable<Action> = this.actions$.pipe(
         ofType(PortalUserActionTypes.CREATE_ACCOUNT_SUCCESS),
         map((action: CreateAccountSuccess) => new AddOne(action.account)),
     );
+
+
+
+
 
     constructor(private actions$: Actions,
                 private store: Store<State>,

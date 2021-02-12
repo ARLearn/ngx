@@ -6,6 +6,7 @@ import {GameMessage} from "../../game-messages/store/game-messages.state";
 import {map} from "rxjs/operators";
 import {Player} from "../../player-management/store/player.state";
 import {Organisation} from "../../organisations-management/store/organisations.state";
+import {UserState} from "../../user-management/store/portal-user.state";
 
 
 @Injectable()
@@ -14,9 +15,16 @@ export class AccountService {
     constructor(private http: HttpClient) {
     }
 
-    get(): Observable<any[]> {
+    get(): Observable<UserState> {
         return this.http
-            .get<any>(environment.api_url + '/account/accountDetails');
+            .get<any>(environment.api_url + '/account/accountDetails').pipe(
+                map(user => {
+                    if (user.expirationDate) {
+                        user.expirationDate = parseInt(user.expirationDate, 10);
+                    }
+                    return user;
+                })
+            );
     }
 
     getWithId(fullId: string): Observable<Player> {
@@ -95,6 +103,11 @@ export class AccountService {
             .post<Player>(environment.api_url + '/account/' + fullId + '/' + role + '/' + isInRole, {});
     }
 
+    setPortalRole(fullId: string, role: string, isInRole: boolean): Observable<Player> {
+        return this.http
+            .post<Player>(environment.api_url + '/account/role/' + fullId + '/' + role + '/' + isInRole, {});
+    }
+
     createOrganisation(organisation: Organisation): Observable<Organisation> {
         return this.http
             .post<Organisation>(environment.api_url + '/organization/create', organisation);
@@ -117,6 +130,11 @@ export class AccountService {
     getOrganization(organisationId: string): Observable<Organisation> {
         return this.http
             .get<Organisation>(environment.api_url + '/organization/' + organisationId);
+    }
+
+    updateOrganisationExpiration(organisationId: string, date: number): Observable<Organisation> {
+        return this.http
+            .post<Organisation>(environment.api_url + '/organization/' + organisationId + '/exp/' + date, {});
     }
 
 

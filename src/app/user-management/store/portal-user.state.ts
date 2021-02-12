@@ -3,6 +3,7 @@ export interface UserState {
   email?: string;
   name?: string;
   picture?: string;
+  expirationDate?: number;
   // loggedInUser?: any;
 }
 

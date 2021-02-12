@@ -28,7 +28,6 @@ export function reducers(
     state = userLibraryInitialState, action: actions.UserLibraryActions): UserLibraryState {
     switch (action.type) {
         case actions.UserLibraryActionTypes.GET_FEATURED_RESPONSE: {
-            console.log("payload is ", action.payload);
             return Object.assign({}, state, {
                 featuredGames: gamesAdapter.upsertMany(action.payload, state.featuredGames),
             });

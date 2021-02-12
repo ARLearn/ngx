@@ -11,7 +11,7 @@ import {
     CreateOrganisationError,
     DeleteOrganizationRequest, DeleteOrganizationResponse,
     OrganisationActionTypes,
-    Query
+    Query, UpdateOrganisationExpirationAction
 } from "./organisations.actions";
 import {AccountService} from "../../core/services/account.service";
 import {DeleteAccountRequest, DeleteAccountResponse, PortalUserActionTypes} from "../../portal-user-management/store/portal-users.actions";
@@ -63,6 +63,16 @@ export class OrganisationsEffects {
         }),
         map(arr => {
             return new DeleteOrganizationResponse(arr);
+        })
+    );
+
+    @Effect() updateExpiration: Observable<Action> = this.actions$.pipe(
+        ofType(OrganisationActionTypes.UPDATE_ORGANISATION_EXPIRATION),
+        mergeMap((action: UpdateOrganisationExpirationAction) => {
+            return this.accounts.updateOrganisationExpiration(action.organisation.id, action.organisation.expirationDate);
+        }),
+        map(arr => {
+            return new AddAll([arr]);
         })
     );
 

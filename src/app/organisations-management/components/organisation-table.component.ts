@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 
@@ -9,7 +9,7 @@ import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {selectOrgQueryLoading, selectAll} from "../store/organisations.selectors";
 import {Observable, Subscription} from "rxjs";
-import { DeleteOrganizationRequest } from '../store/organisations.actions';
+import {DeleteOrganizationRequest} from '../store/organisations.actions';
 
 @Component({
     selector: 'app-organisation-table',
@@ -40,6 +40,11 @@ import { DeleteOrganizationRequest } from '../store/organisations.actions';
                     [routerLink]="'/portal/organisations/'+row.id">{{row.name}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="expirationDate">
+                <th mat-header-cell *matHeaderCellDef>{{ 'ROW_HEADERS.EXPIRATION_DATE' | translate }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.expirationDate | date }}</td>
+            </ng-container>
+
             <ng-container matColumnDef="controls" stickyEnd>
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let row" class="cell-right">
@@ -52,6 +57,7 @@ import { DeleteOrganizationRequest } from '../store/organisations.actions';
                             <span>{{ 'ACTIONS.DELETE_ORGANIZATION' | translate }}</span>
                         </button>
 
+                        
                     </mat-menu>
                 </td>
             </ng-container>
@@ -68,7 +74,7 @@ import { DeleteOrganizationRequest } from '../store/organisations.actions';
         :host {
             width: 100%;
         }
-        
+
         table.mat-table {
             background-color: transparent;
         }
@@ -117,9 +123,9 @@ import { DeleteOrganizationRequest } from '../store/organisations.actions';
 })
 export class OrganisationTableComponent implements OnInit, OnDestroy {
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    displayedColumns = ['select', 'name', 'controls'];
+    displayedColumns = ['select', 'name', 'expirationDate', 'controls'];
     dataSource: MatTableDataSource<Organisation>;
-    selection = new SelectionModel<Organisation>(true, []);
+    @Input() selection: SelectionModel<Organisation>;
 
     public loading$ = this.store.select(selectOrgQueryLoading);
     organisationList: Observable<any> = this.store.select(selectAll);

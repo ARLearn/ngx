@@ -3,7 +3,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {Player} from "../../player-management/store/player.state";
 import {SelectionModel} from "@angular/cdk/collections";
-import {DeleteAccountRequest} from "../store/portal-users.actions";
+import {DeleteAccountRequest, UpgradeAccountRequest} from "../store/portal-users.actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../core/reducers";
 import {Observable, Subscription} from "rxjs";
@@ -69,7 +69,10 @@ import {selectAll} from "../store/portal-users.selectors";
                             <mat-icon>delete_forever</mat-icon>
                             <span>{{ 'ACTIONS.DELETE_USER' | translate }}</span>
                         </button>
-
+                        <button mat-menu-item (click)="makeBibendoPlus(row.id)">
+                            <mat-icon>upgrade</mat-icon>
+                            <span>{{ 'ACTIONS.UPGRADE' | translate }}</span>
+                        </button>
                     </mat-menu>
                 </td>
             </ng-container>
@@ -170,6 +173,10 @@ export class ManageUsersTableComponent implements OnInit, OnDestroy {
 
     deleteUser(userId: string) {
         this.store.dispatch(new DeleteAccountRequest(userId));
+    }
+
+    makeBibendoPlus(userId: string) {
+        this.store.dispatch(new UpgradeAccountRequest(userId));
     }
 
     click(item) {

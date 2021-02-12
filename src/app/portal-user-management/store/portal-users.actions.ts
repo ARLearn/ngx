@@ -16,6 +16,9 @@ export enum PortalUserActionTypes {
     SUSPEND_ACCOUNT_REQ = '[PortalUser] Suspend Account request',
     SUSPEND_ACCOUNT_RES = '[PortalUser] Suspend Account response',
 
+    UPGRADE_ACCOUNT = '[PortalUser] Upgrade Account request',
+
+
     CREATE_ACCOUNT_SUCCESS = '[PortalUser] Create Account Success',
     CREATE_ACCOUNT_ERROR = '[PortalUser] Create Account Error',
 
@@ -53,6 +56,14 @@ export class SuspendAccountResponse implements Action {
 
     constructor(public account: Player) {}
 }
+
+
+export class UpgradeAccountRequest implements Action {
+    readonly type = PortalUserActionTypes.UPGRADE_ACCOUNT;
+
+    constructor(public fullId: string = null) {}
+}
+
 
 export class Query implements Action {
     readonly type = PortalUserActionTypes.QUERY;

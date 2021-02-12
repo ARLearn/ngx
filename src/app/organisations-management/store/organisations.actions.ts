@@ -13,6 +13,9 @@ export enum OrganisationActionTypes {
 
     DELETE_ORGANISATION = '[Organisation] Delete organisation request',
     DELETE_ORGANISATION_RESPONSE = '[Organisation] Delete organisation response',
+
+    UPDATE_ORGANISATION_EXPIRATION = '[Organisation] Update expiration',
+    UPDATE_ORGANISATION_EXPIRATION_RESPONSE = '[Organisation] Update expiration response',
 }
 
 export class Query implements Action {
@@ -60,6 +63,12 @@ export class DeleteOrganizationResponse implements  Action {
     readonly type = OrganisationActionTypes.DELETE_ORGANISATION_RESPONSE;
 
     constructor(public organisation: Organisation = null) {}
+}
+
+export class UpdateOrganisationExpirationAction implements  Action {
+    readonly type = OrganisationActionTypes.UPDATE_ORGANISATION_EXPIRATION;
+
+    constructor(public organisation: Partial<Organisation>) {}
 }
 
 export type OrganisationActions
