@@ -19,7 +19,7 @@ import {CreateOrganisationError, OrganisationActionTypes} from "../store/organis
         </div>
         <form class="maxwidth" [formGroup]="form">
             <div class="pos-title primary-color font-medium-32-43-roboto">
-                {{ 'CONTACT.ADD_ORGANISATION' | translate }}
+                {{ 'PORTAL_MANAGEMENT.ORGANISATION.ADD' | translate }}
             </div>
             <div class="pos-inner-block">
                 <div class="form-field">
@@ -110,8 +110,9 @@ export class AddOrganizationDialogComponent implements OnInit , OnDestroy {
         });
 
         this.subscription.add(this.actionsSubject$.pipe(
-            filter((action) => action.type === OrganisationActionTypes.ADD_ALL)
+            filter((action) => action.type === OrganisationActionTypes.ADD_ONE)
         ).subscribe(() => {
+            console.log("XXX");
             this.dialogRef.close();
         }));
 

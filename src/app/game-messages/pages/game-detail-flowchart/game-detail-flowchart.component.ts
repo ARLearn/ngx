@@ -31,7 +31,7 @@ import {GoogleAnalyticsService} from "ngx-google-analytics";
                     (selectMessage)="selectMessage($event)"
                     [messages]="messages"
                     [endsOn]="(game$ | async)?.endsOn || {}"
-                    [endsOnDisabled]="true"
+                    [endsOnDisabled]="false"
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"

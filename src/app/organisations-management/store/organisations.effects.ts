@@ -6,7 +6,7 @@ import {State} from "../../core/reducers";
 
 import {catchError, map, mergeMap, switchMap, withLatestFrom} from "rxjs/operators";
 import {
-    AddAll,
+    AddAll, AddOne,
     CreateOrganisation,
     CreateOrganisationError,
     DeleteOrganizationRequest, DeleteOrganizationResponse,
@@ -26,7 +26,7 @@ export class OrganisationsEffects {
         switchMap((action: CreateOrganisation) => {
             return this.accounts.createOrganisation(action.organisation).pipe(
                 map(org => {
-                    return new AddAll([org]);
+                    return new AddOne(org);
                 }),
                 catchError(() => of(new CreateOrganisationError(`Can't create this organisation, please, check your data!`)))
             );

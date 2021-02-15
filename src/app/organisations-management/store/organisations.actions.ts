@@ -7,6 +7,7 @@ export enum OrganisationActionTypes {
     QUERY = '[Organisation] Query',
     QUERY_ONE = '[Organisation] Query one',
     ADD_ALL = '[Organisation] Add All',
+    ADD_ONE = '[Organisation] Add One',
 
     CREATE_ORGANISATION = '[Organisation] Create organisation',
     CREATE_ORGANISATION_ERROR = '[Organisation] Create organisation error',
@@ -37,6 +38,13 @@ export class AddAll implements Action {
 
     constructor(public organisations: Organisation[]) {}
 }
+
+export class AddOne implements Action {
+    readonly type = OrganisationActionTypes.ADD_ONE;
+
+    constructor(public organisation: Organisation) {}
+}
+
 
 
 export class CreateOrganisation implements Action {
@@ -72,5 +80,5 @@ export class UpdateOrganisationExpirationAction implements  Action {
 }
 
 export type OrganisationActions
-    =  AddAll| DeleteOrganizationResponse;
+    =  AddAll| AddOne |DeleteOrganizationResponse;
 
