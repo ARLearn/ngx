@@ -24,7 +24,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
                 </button>
             </div>
             <div class="pos-title primary-color font-medium-32-43-roboto">{{ 'GAME.NEW_GAME_TITLE' | translate }}</div>
-            <div class="pos-subtitle contrast-color-50pct font-regular-17-13-roboto">{{ 'GAME.NEW_GAME_SUBTITLE' | translate }}</div>
+<!--            <div class="pos-subtitle contrast-color-50pct font-regular-17-13-roboto">{{ 'GAME.NEW_GAME_SUBTITLE' | translate }}</div>-->
             <app-game-patterns-container class="pos-tiles">tiles</app-game-patterns-container>
         </div>
     `,

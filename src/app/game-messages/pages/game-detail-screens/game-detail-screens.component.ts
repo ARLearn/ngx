@@ -6,7 +6,7 @@ import {Observable, Subscription} from 'rxjs';
 import {getGame, iCanWrite} from '../../../game-management/store/current-game.selector';
 import {Game} from '../../../game-management/store/current-game.state';
 import {GetCurrentGameFromRouterRequestAction} from '../../../game-management/store/current-game.actions';
-import {NewGameComponent} from '../../../games-management/modal/new-game/new-game.component';
+
 import {NewMessageComponent} from '../../modal/new-message/new-message.component';
 import {MatDialog} from '@angular/material/dialog';
 import {getFilteredMessagesSelector, getFiltersSelector} from "../../store/game-messages.selector";

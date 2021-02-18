@@ -58,10 +58,10 @@ import {PlayerLoadRequestAction} from "../../player-management/store/player.acti
                 <div class="account-private">Inloggen vereist</div>
                 <mat-slide-toggle
                         [disabled]="!(iAmOwner|async) &&(game$|async)?.sharing == 3"
-                        [ngModel]="localgame?.privateMode"
+                        [ngModel]="!localgame?.privateMode"
                         (change)="gamePrivateChange($event)">
-                    <div *ngIf="!localgame?.privateMode">Zonder account spelen</div>
-                    <div *ngIf="localgame?.privateMode">Account nodig</div>
+                    <div *ngIf="localgame?.privateMode">Zonder account spelen</div>
+                    <div *ngIf="!localgame?.privateMode">Account nodig</div>
                 </mat-slide-toggle>
 
                 <app-game-detail-location></app-game-detail-location>
@@ -160,7 +160,7 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
     }
 
     gamePrivateChange($event: MatSlideToggleChange) {
-        this.localgame.privateMode = $event.checked;
+        this.localgame.privateMode = !$event.checked;
     }
 
     onAuthorDelete(author) {

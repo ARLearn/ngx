@@ -6,8 +6,9 @@
 
     <app-create-game-with-title *ngSwitchCase="3"
                                 (esc)="onNoClick()"
-                                (back)="screen = 1"
+                                (back)="onNoClick()"
     >
+<!--        (back)="screen = 1"-->
     </app-create-game-with-title>
 
     <app-new-game-entry-screen *ngSwitchCase="1"
@@ -24,7 +25,7 @@
         </div>
     </div>
     <div class="title-font-1">Maak een nieuwe game</div>
-    <div class="subtitle">Kies hieronder een basis game template</div>
+<!--    <div class="subtitle">Kies hieronder een basis game template</div>-->
 
     <div class="flex-game-patterns">
         <app-new-game-pattern-tile class="flex-game-pattern-tile"

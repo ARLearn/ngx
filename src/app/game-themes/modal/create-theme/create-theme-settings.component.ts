@@ -51,6 +51,7 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
           <app-theme-file-picker 
               [path]="backgroundPath"
               title="Kies achtergrond"
+              description="Deze achtergrond wordt bij elk scherm getoond"
               (onUpload)="downloadedImages['background'] = true"
               (onFailure)="downloadedImages['background'] = false"
           ></app-theme-file-picker>
@@ -59,7 +60,8 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
         <div class="uploader">
           <app-theme-file-picker
               [path]="correctPath"
-              title="Juist anwoord"
+              title="Juist antwoord"
+              description="Verschijnt als feedback bij een goed antwoord"
               (onUpload)="downloadedImages['correct'] = true"
               (onFailure)="downloadedImages['correct'] = false"
           ></app-theme-file-picker>
@@ -68,7 +70,8 @@ import {StartUploadAction} from "../../../media-library/store/media-lib.actions"
         <div class="uploader">
           <app-theme-file-picker 
               [path]="wrongPath"
-              title="Onjuist anwoord"
+              description="Verschijnt als feedback bij een fout antwoord "
+              title="Onjuist antwoord"
               (onUpload)="downloadedImages['wrong'] = true"
               (onFailure)="downloadedImages['wrong'] = false"
           ></app-theme-file-picker>

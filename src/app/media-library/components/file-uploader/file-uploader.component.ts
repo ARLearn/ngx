@@ -18,10 +18,11 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 
             <h5 class="title" *ngIf="!small">{{ title }}</h5>
 
-            <p class="desc" *ngIf="!small">{{ 'GAME.CHOOSE_SPLASH_SUB' | translate }}</p>
-            <p class="desc" *ngIf="!small">{{ 'COMMON.OR' | translate }}</p>
+            <p class="desc" *ngIf="!small && description != null"> {{description}}</p>
+            <p class="desc" *ngIf="!small && description == null">{{ 'GAME.CHOOSE_SPLASH_SUB' | translate }}</p>
+            <p class="desc" *ngIf="!small&& description == null">{{ 'COMMON.OR' | translate }}</p>
 
-            <button type="button" 
+            <button type="button"
                     class="browse-button"
                     mat-raised-button color="primary" *ngIf="!small">{{ 'COMMON.BROWSE' | translate }}</button>
         </div>
@@ -53,7 +54,8 @@ export class FileUploaderComponent implements OnInit {
     @Input() isOpen;
     @Input() customPath: string;
     @Input() title: string;
-    @Input() small: boolean = false;
+    @Input() description: string;
+    @Input() small = false;
 
     @Output() fileDropped = new EventEmitter();
 

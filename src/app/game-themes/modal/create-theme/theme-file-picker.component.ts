@@ -42,10 +42,11 @@ import {
                 </app-filestore-background-image>
             </div>
             <app-file-uploader *ngIf="!imageExists"
-                                [customPath]="path"
-                                (fileDropped)="handleUploadFile()"
-                                [isOpen]="true"
+                               [customPath]="path"
+                               (fileDropped)="handleUploadFile()"
+                               [isOpen]="true"
                                [title]="title"
+                               [description]="description"
                                [small]="small"
             ></app-file-uploader>
         </div>
@@ -57,12 +58,12 @@ import {
                 height: 418px;
                 width: 236px;
             }
-            
+
             .image-class.image-small {
                 height: 68px;
                 width: 68px;
             }
-            
+
             .image-small .btn-delete {
                 top: -1px;
                 right: 4px;
@@ -71,14 +72,14 @@ import {
                 height: 18px;
                 cursor: pointer;
             }
-            
+
             .deleteIcon {
                 background: #f5f5f5;
                 padding: 7px;
                 cursor: pointer;
                 border-radius: 4px;
             }
-            
+
             .btn-delete {
                 position: absolute;
                 top: 10px;
@@ -87,7 +88,7 @@ import {
                 height: 40px;
                 z-index: 1;
             }
-            
+
             ::ng-deep .btn-delete svg .a {
                 fill: #ffffff;
                 opacity: 1;
@@ -99,11 +100,12 @@ export class ThemeFilePickerComponent implements OnInit, OnChanges, AfterViewIni
     @Input() title;
     @Input() small = false;
     @Input() path;
+    @Input() description;
 
     @Output() onUpload = new EventEmitter();
     @Output() onFailure = new EventEmitter();
 
-    imageExists: boolean= true;
+    imageExists: boolean = true;
 
     private subscription: Subscription;
 

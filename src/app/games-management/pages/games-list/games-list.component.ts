@@ -158,6 +158,7 @@ export class GamesListComponent implements OnInit, OnDestroy {
     }
 
     newGame() {
+
         const dialogRef = this.dialog.open(NewGameComponent, {
             width: '99%',
             data: {},
