@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {AngularFireStorage} from "angularfire2/storage";
 import {MatDialog} from "@angular/material/dialog";
-import {ImageSliderModalComponent} from "../modals/image-slider-modal.component";
 
 @Component({
     selector: 'app-photo-gallery',
@@ -10,8 +9,7 @@ import {ImageSliderModalComponent} from "../modals/image-slider-modal.component"
         <div *ngIf="!loading" class="masonry">
             <div
                 *ngFor="let img of images; let i = index"
-                (click)="showSlider(i)"
-                [ngClass]="{'masonry-brick--thin': options[img] === 'thin', 'masonry-brick--wide': options[img] === 'wide', 'masonry-brick--first': true}"
+                (click)="showSlider(i, photoPlayer)"
                 class="masonry-brick"
             >
                 <img [src]="img"  alt="" />
@@ -28,27 +26,48 @@ import {ImageSliderModalComponent} from "../modals/image-slider-modal.component"
             <span>Loading...</span>
         </div>
     </div>
+    <ng-template #photoPlayer>
+        <div class="player" (keydown.arrowLeft)="prevImg()" (keydown.arrowRight)="nextImg()">
+            <div class="player__image">
+               <img [src]="images[selectedIdx]" alt="">
+            </div>
+            <div class="player__content">
+                <div class="player__actions">
+                    <div class="player__arrows">
+                        <button mat-icon-button (click)="prevImg()"><i class="fas fa-arrow-left"></i></button>
+                        <button mat-icon-button (click)="nextImg()"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="player__close">
+                        <button mat-icon-button (click)="closeModal()"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="player__text">
+                    description
+                </div>
+                <div class="player__user">
+                    <div class="user" *ngIf="users[images[selectedIdx]]">
+                        <div class="user__avatar">{{ users[images[selectedIdx]].avatar }}</div>
+                        <div class="user__name">{{ users[images[selectedIdx]].name }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
     `,
     styles: [`
+        .masonry {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+            grid-auto-flow: row dense;
+            grid-gap: 10px;
+        }
+
         .masonry-brick {
-            float: left;
-            height: 160px;
-            margin: 4px;
-        }
-
-        .masonry-brick--wide {
-            width: 167px;
-        }
-
-        .masonry-brick--thin {
-            width: 95px;
-        }
-
-        .masonry-brick--first {
             position: relative;
+            aspect-ratio: 1 / 1;
         }
 
-        .masonry-brick--first .user-placeholder {
+        .masonry-brick .user-placeholder {
             position: absolute;
             top: 0;
             left: 0;
@@ -59,26 +78,29 @@ import {ImageSliderModalComponent} from "../modals/image-slider-modal.component"
             background: linear-gradient(0deg, rgba(49,49,49,1) 0%, rgba(255,255,255,0) 100%);
         }
 
-        .masonry-brick--first:hover .user-placeholder {
+        .masonry-brick:hover .user-placeholder {
             display: flex;
         }
 
         .masonry-brick img {
             height: 100%;
             width: 100%;
-            object-fit: fill;
+            object-fit: cover;
         }
 
         .user {
             display: flex;
             align-items: center;
             padding: 10px;
+            overflow: hidden;
+            width: 100%;
         }
 
         .user__avatar {
             height: 23px;
             width: 23px;
-            background-color: #DFE4E6; 
+            min-width: 23px;
+            background-color: #DFE4E6;
             border-radius: 50%;
             line-height: 24px;
             font-size: 12px;
@@ -90,6 +112,9 @@ import {ImageSliderModalComponent} from "../modals/image-slider-modal.component"
         .user__name {
             color: #ffffff;
             font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         .photo-gallery {
@@ -106,6 +131,61 @@ import {ImageSliderModalComponent} from "../modals/image-slider-modal.component"
             align-items: center;
             justify-content: center;
         }
+
+        .player-bg .mat-dialog-container {
+            background-color: #ffffff !important;
+        }
+        .player {
+            display: flex;
+        }
+
+        .player__image img {
+            min-width: 360px;
+            aspect-ratio: 1 / 1;
+            width: 100%;
+        }
+
+        .player__content {
+            min-width: 200px;
+            margin-left: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player__actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.12);
+        }
+
+        .player__arrows > * {
+            margin-right: 10px;
+        }
+
+        .player__text {
+            flex: 1;
+        }
+
+        .player__user {
+            padding-top: 8px;
+            margin-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.12);
+        }
+
+        .player__user .user {
+            padding: 0;
+        }
+
+        .player__user .user__avatar {
+            margin-right: 10px;
+        }
+
+        .player__user .user__name {
+            color: rgba(0,0,0,0.54);
+        }
     `]
 })
 export class PhotoGalleryComponent implements OnInit, OnChanges {
@@ -115,6 +195,10 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
     public images = [];
     public users = {};
     public loading = false;
+    public selectedIdx: any;
+
+    private dialogRef;
+
     @Output() public onLoad: EventEmitter<any> = new EventEmitter<any>();
 
 
@@ -138,17 +222,39 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
         }
     }
 
-    public showSlider(idx) {
-        const dialogRef = this.dialog.open(ImageSliderModalComponent, {
-            panelClass: ['modal-fullscreen', "modal-dialog"],
-            data: {}
-        });
+    public showSlider(idx, player) {
+        this.selectedIdx = idx;
 
-        dialogRef.componentInstance.currentIdx = idx;
-        dialogRef.componentInstance.images = this.images;
+        this.dialogRef = this.dialog.open(player, {
+            panelClass: 'player-bg'
+        });
+    }
+
+    public prevImg() {
+        if (this.selectedIdx === 0) {
+            this.selectedIdx = this.images.length - 1;
+        } else {
+            this.selectedIdx--;
+        }
+    }
+
+    public nextImg() {
+        if (this.selectedIdx === this.images.length - 1) {
+            this.selectedIdx = 0;
+        } else {
+            this.selectedIdx++;
+        }
+    }
+
+    public closeModal() {
+        this.dialogRef.close();
     }
 
     public async loadPhotos() {
+        if (this.loading) {
+            return;
+        }
+
         this.loading = true;
         this.onLoad.emit(true);
         this.images = [];
@@ -160,87 +266,8 @@ export class PhotoGalleryComponent implements OnInit, OnChanges {
             this.users[url] = response.user;
         }
 
-        this.images.forEach(image => {
-            this.options[image] = 'thin';
-        });
-
-        for (const img of this.images) {
-            const dimensions = await this.getImageParam(img) as { width: number, height: number };
-
-            if (dimensions.width > dimensions.height) {
-                this.options[img] = 'wide';
-            }
-        }
-
-        this.images = this.shuffleImages();
         this.loading = false;
         this.onLoad.emit(false);
-    }
-
-    public getImageParam(url) {
-        return new Promise((resolve) => {
-            const img = document.createElement('img');
-            img.src = url;
-            img.onload = () => {
-                const width = img.width;
-                const height = img.height;
-
-                resolve({ width, height });
-            };
-        });
-    }
-
-    public shuffleImages() {
-        const len = this.images.length;
-
-        const thinEls = Object.entries(this.options).filter(([, type]) => type === 'thin').map(([url]) => url);
-        const wideEls = Object.entries(this.options).filter(([, type]) => type === 'wide').map(([url]) => url);
-
-        const lenThin = thinEls.length;
-        const lenWide = wideEls.length;
-
-        const MAX_IMAGES_IN_ROW = 5;
-        const MAX_WIDE_IMAGES_IN_ROW = 2;
-
-        let wideIndex = 0;
-        let thinIndex = 0;
-
-        let wideCounter = 0;
-
-        const result = [];
-
-        for (let row = 0; row < Math.ceil(len / MAX_IMAGES_IN_ROW); row++) {
-            const chunk = [];
-
-            for (let i = 0; i < MAX_IMAGES_IN_ROW; i++) {
-                if (wideIndex < lenWide && wideCounter < MAX_WIDE_IMAGES_IN_ROW) {
-                    chunk.push(wideEls[wideIndex++]);
-                    wideCounter++;
-                    continue;
-                }
-
-                if (thinIndex < lenThin) {
-                    chunk.push(thinEls[thinIndex++]);
-                }
-            }
-            if (row === 0) {
-                result.push(...[chunk[0], ...this.shuffle(chunk.slice(1))]);
-            } else {
-                result.push(...this.shuffle(chunk));
-            }
-
-            wideCounter = 0;
-        }
-
-        return result;
-    }
-
-    private shuffle(a) {
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
     }
 
     private hasChanged(previousResponses: any[], currentResponses: any[]) {

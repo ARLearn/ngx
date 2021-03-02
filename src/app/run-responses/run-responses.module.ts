@@ -20,7 +20,7 @@ import { AudioGalleryComponent } from './components/audio-gallery.component';
 import { GameManagementModule } from "../game-management/game-management.module";
 import { TextQuestionsGalleryComponent } from "./components/text-questions-gallery.component";
 import { VideoGalleryComponent } from "./components/video-gallery.component";
-import { ImageSliderModalComponent } from "./modals/image-slider-modal.component";
+import {UsersDropdownComponent} from "./components/users-dropdown.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { ImageSliderModalComponent } from "./modals/image-slider-modal.component
     AudioGalleryComponent,
     VideoGalleryComponent,
     TextQuestionsGalleryComponent,
-    ImageSliderModalComponent,
+    UsersDropdownComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +46,5 @@ import { ImageSliderModalComponent } from "./modals/image-slider-modal.component
     NgxAudioPlayerModule,
     GameManagementModule,
   ],
-  entryComponents: [ImageSliderModalComponent],
 })
 export class RunResponsesModule { }
