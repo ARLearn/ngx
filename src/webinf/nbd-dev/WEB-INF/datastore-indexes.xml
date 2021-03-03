@@ -40,15 +40,19 @@
     </datastore-index>
 
     <datastore-index kind="ResponseJDO" ancestor="false" source="manual">
-    <property name="generalItemId" direction="asc"/>
-    <property name="runId" direction="asc"/>
-    <property name="userEmail" direction="asc"/>
-    <property name="lastModificationDate" direction="asc"/>
+        <property name="runId" direction="asc"/>
+        <property name="lastModificationDate" direction="asc"/>
     </datastore-index>
 
     <datastore-index kind="ResponseJDO" ancestor="false" source="manual">
         <property name="runId" direction="asc"/>
-        <property name="lastModificationDate" direction="asc"/>
+        <property name="timeStamp" direction="asc"/>
+    </datastore-index>
+
+    <datastore-index kind="ResponseJDO" ancestor="false" source="manual">
+        <property name="runId" direction="asc"/>
+        <property name="userId" direction="asc"/>
+        <property name="timeStamp" direction="asc"/>
     </datastore-index>
 
     <datastore-index kind="ActionJDO" ancestor="false" source="manual">
@@ -129,10 +133,7 @@
         <property name="runId" direction="asc"/>
         <property name="email" direction="asc"/>
     </datastore-index>
-    <datastore-index kind="ResponseJDO" ancestor="false" source="manual">
-        <property name="runId" direction="asc"/>
-        <property name="timeStamp" direction="asc"/>
-    </datastore-index>
+
 
     <datastore-index kind="GeneralItemVisibilityJDO" ancestor="false" source="manual">
     <property name="email" direction="asc"/>
