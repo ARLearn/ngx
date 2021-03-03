@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {State} from '../../core/reducers';
 import {Observable, Subscription} from "rxjs";
@@ -14,31 +14,6 @@ import {currentRunPlayers} from "../../game-runs-management/store/game-runs-play
     template: `
         <div class="answers" *ngIf="editMessage$ | async as editMessage">
             <ng-container *ngIf="isMediaQuestion(editMessage.type); else answers">
-                <div class="users-filter-wrapper">
-                    <button class="actions-btn" mat-button [matMenuTriggerFor]="menu">{{ 'RUNS.SHOWPLAYERS' | translate }}
-                        <mat-icon>keyboard_arrow_down</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu" [overlapTrigger]="true" class="rounded-0">
-                        <div class="users-filter" (click)="$event.stopPropagation()">
-                            <div>
-                                <mat-form-field appearance="standard" class="search-input">
-                                    <mat-label>Zoek een speler</mat-label>
-                                    <input [(ngModel)]="playerQuery" matInput placeholder="Zoek een speler">
-                                    <mat-icon class="search-icon" matPrefix>search</mat-icon>
-                                </mat-form-field>
-                            </div>
-                            <ul class="user-list">
-                                <li class="user-list-item selectable" [class.selected]="selectedUser && user.fullId == selectedUser.fullId"
-                                    *ngFor="let user of filteredPlayers" (click)="selectUser(user)">
-                                    <div class="user-avatar">
-                                        <mat-icon>people</mat-icon>
-                                        <span class="user-avatar__text">{{ getShortAvatarName(user.name) }}</span></div>
-                                    <div class="user-name">{{ user.name }}</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </mat-menu>
-                </div>
                 <ng-container *ngIf="isPictureQuestion(editMessage.type) && selectedScreen && players && players.length">
                     <app-photo-gallery class="w-100" [responses]="data" [user]="selectedUser"
                                        (onLoad)="onGalleryLoading($event)"></app-photo-gallery>
@@ -207,31 +182,16 @@ import {currentRunPlayers} from "../../game-runs-management/store/game-runs-play
             color: #000000;
             opacity: 0.3;
         }
-
-        .users-filter-wrapper {
-            position: absolute;
-            top: 7px;
-            right: 0;
-            z-index: 5;
-        }
-
-        .users-filter {
-            padding: 0 1.5rem;
-        }
-
-        ::ng-deep .search-input .mat-form-field-prefix {
-            bottom: -6px;
-        }
     `]
 })
-export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
+export class ArlearnResponsesTableComponent implements OnInit, OnChanges, OnDestroy {
     @Input() selectedScreen: any;
+    @Input() selectedUser: any;
     public messages$: Observable<any> = this.store.select(getCurrentGameMessages);
     public editMessage$: Observable<any> = this.store.select(getEditMessageSelector);
     private selectedScreen$: Observable<any> = this.store.select(getSelectedScreen);
     public messagesAsync = {};
     public players: any[] = [];
-    public selectedUser: any;
     public galleryLoad = false;
     public playerQuery: string = '';
     public data: any;
@@ -272,6 +232,12 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.store.dispatch(new GetGameMessagesRequestAction());
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.selectedUser && changes.selectedUser.currentValue) {
+            this.filterResponses(this.selectedScreen);
+        }
     }
 
     getUsers(answerId) {
@@ -362,12 +328,4 @@ export class ArlearnResponsesTableComponent implements OnInit, OnDestroy {
     onGalleryLoading(loading) {
         this.galleryLoad = loading;
     }
-
-    selectUser(user) {
-        if (!this.galleryLoad) {
-            this.selectedUser = {fullId: user.fullId, avatar: this.getShortAvatarName(user.name), name: user.name};
-            this.filterResponses(this.selectedScreen);
-        }
-    }
-
 }

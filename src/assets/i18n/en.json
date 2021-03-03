@@ -285,5 +285,8 @@
 			"secondsPlaceholder": "please enter number of seconds",
 			"title": "Timer"
 		}
+	},
+	"RESULTS": {
+		"START_TYPING": "Start typing..."
 	}
 }

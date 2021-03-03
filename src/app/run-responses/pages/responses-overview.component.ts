@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from "rxjs";
+import Debounce from 'debounce-decorator';
 import { Game } from "../../game-management/store/current-game.state";
 import { getGame } from "../../game-management/store/current-game.selector";
 import { Store } from "@ngrx/store";
@@ -14,18 +15,17 @@ import {
 } from "../../game-messages/store/game-messages.selector";
 import { Router } from '@angular/router';
 import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.selector';
+import {getEditMessageSelector} from "../../game-message/store/game-message.selector";
 
 @Component({
     selector: 'app-actions-overview',
     template: `
         <ng-container *ngIf="game$ | async as game">
-            <app-game-detail-navbar [game]="game">
-                <div class="button-placeholder">
-
-                </div>
-            </app-game-detail-navbar>
+            <app-game-detail-navbar [game]="game"></app-game-detail-navbar>
             <div class="full-width-container maxwidth">
-                <app-run-tab-select></app-run-tab-select>
+                <app-run-tab-select [searchMode]="true" (onSearch)="onSearch($event)">
+                    <app-users-dropdown *ngIf="isMediaQuestion((editMessage$ | async)?.type || '')" (onSelectUser)="selectedUser = $event"></app-users-dropdown>
+                </app-run-tab-select>
                 <div class="run-container">
                     <div class="photo-container">
                         <div class="photo">
@@ -33,7 +33,7 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
                         </div>
                     </div>
                     <div class="answers-wrapper">
-                        <app-arlearn-responses-table [selectedScreen]="selectedScreen"></app-arlearn-responses-table>
+                        <app-arlearn-responses-table [selectedScreen]="selectedScreen" [selectedUser]="selectedUser"></app-arlearn-responses-table>
                     </div>
                 </div>
             </div>
@@ -43,14 +43,14 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
                     <div class="count-wrapper">
                         <span class="font-medium-14-20-roboto count-label">Schermen</span>
                         <mat-chip-list>
-                            <mat-chip class="count" color="primary" disableRipple selected>{{ messages.length }}</mat-chip>
+                            <mat-chip class="count" color="primary" disableRipple selected>{{ filteredMessages.length }}</mat-chip>
                         </mat-chip-list>
                     </div>
                     <div class="screens horizontal-scroll-wrapper" (wheel)="onScrollChips($event)">
                         <ng-container *ngIf="runId$ | async as runId">
                             <mat-chip-list>
                                 <mat-chip
-                                    *ngFor="let item of messages"
+                                    *ngFor="let item of filteredMessages"
                                     color="primary"
                                     class="light-chip"
                                     (click)="onSelect('/portal/game/' + (game?.gameId) +'/detail/runs/' + runId + '/results/' + item.id)"
@@ -148,8 +148,12 @@ import { getCurrentRunId } from 'src/app/game-runs-management/store/game-runs.se
 export class ResponsesOverviewComponent implements OnInit, OnDestroy {
     public game$: Observable<Game> = this.store.select(getGame);
     public runId$: Observable<any> = this.store.select(getCurrentRunId);
+    public editMessage$: Observable<any> = this.store.select(getEditMessageSelector);
     public selectedScreen;
+    public selectedUser;
     public messages;
+    public filteredMessages = [];
+    public searchQuery = '';
 
     private messages$: Observable<any> = this.store.select(getMultipleMessagesSelector);
     private selectedScreen$: Observable<any> = this.store.select(getSelectedScreen);
@@ -168,6 +172,7 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
 
         this.subscription.add(this.messages$.subscribe(data => {
             this.messages = data;
+            this.filteredMessages = data;
         }));
 
         this.store.dispatch(new GetGameRunsRequestAction());
@@ -189,11 +194,27 @@ export class ResponsesOverviewComponent implements OnInit, OnDestroy {
         event.preventDefault();
     }
 
+    isMediaQuestion(type) {
+        return [
+            'PictureQuestion',
+            'AudioQuestion',
+            'VideoQuestion',
+            'TextQuestion',
+        ].some(messageType => type.includes(messageType));
+    }
+
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
 
         this.store.dispatch(new Clear());
+    }
+
+    @Debounce(400)
+    onSearch($event: string) {
+        this.searchQuery = $event;
+
+        this.filteredMessages = this.messages.filter(x => x.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     }
 }
