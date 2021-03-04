@@ -50,6 +50,8 @@ export function reducers(
             // return state;
         }
 
+
+
         case actions.CurrentGameActionTypes.GAME_UPDATE: {
             console.log("in update", action.payload);
             state.game = Object.assign({}, state.game, action.payload);

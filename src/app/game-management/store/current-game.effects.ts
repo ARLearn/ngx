@@ -7,7 +7,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as actions from './current-game.actions';
 import {
     AddGameAuthorRequestAction,
-    DownloadGameRequestAction,
+    DownloadGameRequestAction, GameEndStateUpdateAction,
     GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAction,
     LoadGameAuthorRequestAction, RemoveGameAuthorRequestAction, SetSelectedThemeAction
 } from './current-game.actions';
@@ -88,6 +88,23 @@ export class CurrentGameEffects {
         tap((res: any) => {
             this.router.navigate(['/portal/game/' + res.payload.gameId + '/detail/screens']);
         })
+    );
+
+
+    @Effect()
+    saveEndState: Observable<Action> = this.actions$.pipe(
+        ofType(actions.CurrentGameActionTypes.GAME_ENDSTATE_UPDATE),
+        withLatestFrom(
+            this.store$.select(getGame),
+        ),
+        switchMap(
+            ([action, game]: [GameEndStateUpdateAction, Game]) => this.gameService.updateEndState(action.payload, game.gameId).pipe(
+                map(res => {
+                    return new actions.SaveGameCompletedAction(res);
+                }),
+                catchError((error) => of(new actions.CurrentGameErrorAction({error: error})))
+            )
+        )
     );
 
     @Effect({dispatch: false})

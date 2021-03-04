@@ -15,7 +15,7 @@ import {State} from "../../../core/reducers";
 import {AngularFireStorage} from "angularfire2/storage";
 import {ResetAction, SetPreviewMessageAction} from "../../store/game-messages.actions";
 import {map, tap, withLatestFrom} from 'rxjs/operators';
-import {GameUpdateAction, SetLoadingAction} from "../../../game-management/store/current-game.actions";
+import {GameEndStateUpdateAction, GameUpdateAction, SetLoadingAction} from "../../../game-management/store/current-game.actions";
 import {ActivatedRoute} from "@angular/router";
 import {GoogleAnalyticsService} from "ngx-google-analytics";
 
@@ -26,12 +26,13 @@ import {GoogleAnalyticsService} from "ngx-google-analytics";
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 
         <div *ngIf="messages$ | async as messages">
+<!--Dump endson: {{(game$ | async)?.endsOn |json }}-->
             <lib-wireflow
                     *ngIf="messages.length > 0 && !((loading$ | async))"
                     (selectMessage)="selectMessage($event)"
                     [messages]="messages"
                     [endsOn]="(game$ | async)?.endsOn || {}"
-                    [endsOnDisabled]="false"
+                    [endsOnDisabled]="true"
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"
@@ -64,6 +65,11 @@ import {GoogleAnalyticsService} from "ngx-google-analytics";
 export class GameDetailFlowchartComponent extends GameDetailScreensComponent implements OnInit, OnDestroy {
     editMessage$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     noimage$ = this.activatedRoute.data.pipe(map(data => data.noimage));
+    endsOn = {
+        action: 'read',
+        generalItemId: 6238482611568640,
+        type: 'org.celstec.arlearn2.beans.dependencies.ActionDependency',
+    };
 
     public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector).pipe(
         withLatestFrom(this.noimage$),
@@ -156,9 +162,7 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
 
     onEndsOnChange(dependency: any) {
         console.log('FROM ENDS ON CHANGE', dependency);
-        this.store.dispatch(new GameUpdateAction({
-            "endsOn": dependency,
-        }));
+        this.store.dispatch(new GameEndStateUpdateAction( dependency));
     }
 
     onEndsOnCoordinatesChange(coords: any) {

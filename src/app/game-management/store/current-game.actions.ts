@@ -11,7 +11,7 @@ export const CurrentGameActionTypes = {
 
     GAME_UPDATE: '[CurrentGame] Update Game Requested',
     GAME_CONFIG_UPDATE: '[CurrentGame] Update Game Config Requested',
-
+    GAME_ENDSTATE_UPDATE: '[CurrentGame] Update Game End State Requested',
 
     SAVE_GAME_REQUESTED: '[CurrentGame] Save Game Requested',
     SAVE_GAME_COMPLETED: '[CurrentGame] Save Game Completed',
@@ -96,6 +96,14 @@ export class GameUpdateAction implements Action {
 
 export class GameConfigUpdateAction implements Action {
     type = CurrentGameActionTypes.GAME_CONFIG_UPDATE;
+
+    constructor(public payload: any) {
+    }
+}
+
+
+export class GameEndStateUpdateAction implements Action {
+    type = CurrentGameActionTypes.GAME_ENDSTATE_UPDATE;
 
     constructor(public payload: any) {
     }

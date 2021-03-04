@@ -96,6 +96,14 @@ export class GameService {
 
         return of(true);
     }
+
+    updateEndState(payload: any, gameId: any) {
+        const wrapper = {
+            dependencyAsString: JSON.stringify(payload)
+        };
+        return this.http
+            .post<any>(environment.api_url + '/game/endstate/' + gameId , wrapper);
+    }
 }
 
 let gameTrans = (res: any) => {
