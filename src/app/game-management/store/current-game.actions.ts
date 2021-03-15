@@ -1,5 +1,6 @@
 import {Action} from '@ngrx/store';
 import {GameMessageActionTypes} from "../../game-message/store/game-message.actions";
+import {Game} from "./current-game.state";
 
 export const CurrentGameActionTypes = {
     GET_CURRENT_GAME_FROM_ROUTER_REQUESTED: '[CurrentGame] Set Current Game from router Requested',

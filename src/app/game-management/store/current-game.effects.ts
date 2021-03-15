@@ -9,7 +9,7 @@ import {
     AddGameAuthorRequestAction,
     DownloadGameRequestAction, GameEndStateUpdateAction,
     GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAction,
-    LoadGameAuthorRequestAction, RemoveGameAuthorRequestAction, SetSelectedThemeAction
+    LoadGameAuthorRequestAction, RemoveGameAuthorRequestAction, SaveGameRequestAction, SetSelectedThemeAction
 } from './current-game.actions';
 
 import {State} from 'src/app/core/reducers';
@@ -78,7 +78,7 @@ export class CurrentGameEffects {
     save: Observable<Action> = this.actions$.pipe(
         ofType(actions.CurrentGameActionTypes.SAVE_GAME_REQUESTED),
         mergeMap(
-            (action: any) => this.gameService.createGame(action.payload).pipe(
+            (action: SaveGameRequestAction) => this.gameService.updateGame(action.payload).pipe(
                 map(res => {
                     return new actions.SaveGameCompletedAction(res);
                 }),

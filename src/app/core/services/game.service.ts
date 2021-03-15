@@ -60,6 +60,12 @@ export class GameService {
             .post<any>(environment.api_url + '/game/create', game);
     }
 
+    updateGame(game: Game): Observable<Game> {
+        delete game.endsOn;
+        return this.http
+            .put<any>(environment.api_url + '/game/' + game.gameId + '/update', game);
+    }
+
     cloneGame(gameId: number): Observable<any> {
         return this.http
             .get<any>(environment.api_url + '/game/clone/' + gameId);
@@ -102,7 +108,7 @@ export class GameService {
             dependencyAsString: JSON.stringify(payload)
         };
         return this.http
-            .post<any>(environment.api_url + '/game/endstate/' + gameId , wrapper);
+            .post<any>(environment.api_url + '/game/endstate/' + gameId, wrapper);
     }
 }
 

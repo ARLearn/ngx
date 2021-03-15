@@ -26,13 +26,13 @@ import {GoogleAnalyticsService} from "ngx-google-analytics";
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 
         <div *ngIf="messages$ | async as messages">
-<!--Dump endson: {{(game$ | async)?.endsOn |json }}-->
+Dump endson: {{(game$ | async)?.endsOn |json }}
             <lib-wireflow
                     *ngIf="messages.length > 0 && !((loading$ | async))"
                     (selectMessage)="selectMessage($event)"
                     [messages]="messages"
                     [endsOn]="(game$ | async)?.endsOn || {}"
-                    [endsOnDisabled]="true"
+                    [endsOnDisabled]="false"
                     (messagesChange)="messagesChange($event)"
                     (deselectMessage)="deselectMessage($event)"
                     (noneSelected)="noneSelected()"
