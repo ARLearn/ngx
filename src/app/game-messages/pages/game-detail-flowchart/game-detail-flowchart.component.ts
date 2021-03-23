@@ -26,7 +26,7 @@ import {GoogleAnalyticsService} from "ngx-google-analytics";
         <app-game-detail-navbar [game]="game$|async"></app-game-detail-navbar>
 
         <div *ngIf="messages$ | async as messages">
-Dump endson: {{(game$ | async)?.endsOn |json }}
+            <!--Dump endson: {{(game$ | async)?.endsOn |json }}-->
             <lib-wireflow
                     *ngIf="messages.length > 0 && !((loading$ | async))"
                     (selectMessage)="selectMessage($event)"
@@ -74,7 +74,9 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     public messages$: Observable<GameMessage[]> = this.store.select(getFilteredMessagesSelector).pipe(
         withLatestFrom(this.noimage$),
         map(([messages, noimage]) => {
-            if (noimage) { return messages; }
+            if (noimage) {
+                return messages;
+            }
 
             for (const message of messages) {
                 const path = message && message.fileReferences && message.fileReferences.background;
@@ -91,7 +93,8 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     game$ = this.store.select(getGame);
 
     lang = 'en';
-    private messagesSubscription: Subscription;
+
+    // private messagesSubscription: Subscription;
 
     constructor(
         public dialog: MatDialog,
@@ -113,17 +116,16 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        if (this.messagesSubscription) {
-            this.messagesSubscription.unsubscribe();
-        }
+        // if (this.messagesSubscription) {
+        //     this.messagesSubscription.unsubscribe();
+        // }
 
         this.store.dispatch(new ResetAction());
     }
 
     messagesChange(messages: GameMessage[]) {
         console.log("message is changed in game-detail-flowchart.compontent.ts line 97");
-// this message should not be called when loaading...
-        messages.map(message => this.store.dispatch(new GameMessageDirectSaveAction(message)));
+        messages?.map(message => this.store.dispatch(new GameMessageDirectSaveAction(message)));
     }
 
 
@@ -144,25 +146,28 @@ export class GameDetailFlowchartComponent extends GameDetailScreensComponent imp
     }
 
     onEvent(event) {
-        switch (event.type) {
-            case 'newOutputAdded': {
-                if (event.nodeType === 'ScanTag' || event.nodeType === 'TextQuestion') {
-                    this.store.dispatch(new GameMessageUpdateAction(event.payload.outputs));
+        if (event) {
+            switch (event.type) {
+                case 'newOutputAdded': {
+                    if (event.nodeType === 'ScanTag' || event.nodeType === 'TextQuestion') {
+                        this.store.dispatch(new GameMessageUpdateAction(event.payload.outputs));
+                    }
+
+                    break;
                 }
+                case 'FIRST_CHUNK_LOADING': {
+                    this.store.dispatch(new SetLoadingAction(event.payload));
 
-                break;
-            }
-            case 'FIRST_CHUNK_LOADING': {
-                this.store.dispatch(new SetLoadingAction(event.payload));
-
-                break;
+                    break;
+                }
             }
         }
+
     }
 
     onEndsOnChange(dependency: any) {
         console.log('FROM ENDS ON CHANGE', dependency);
-        this.store.dispatch(new GameEndStateUpdateAction( dependency));
+        this.store.dispatch(new GameEndStateUpdateAction(dependency));
     }
 
     onEndsOnCoordinatesChange(coords: any) {
