@@ -104,7 +104,7 @@ export class BackgroundImageSelectorComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.subscription?.unsubscribe();
     }
 
     onFail() {

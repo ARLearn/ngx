@@ -55,7 +55,6 @@ export function reducers(
             if (!action.payload.items) {
                 return {...state, loading: false};
             } else {
-                console.log("state was", state.messages);
                 return Object.assign({}, state, {
                     gameId: action.payload.gameId,
                     // selectedMessage: null,

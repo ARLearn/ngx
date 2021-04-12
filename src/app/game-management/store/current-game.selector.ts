@@ -87,7 +87,6 @@ export const getGameColor = createSelector(getCurrentGameFeature, selectAll, (st
 export const inAuthorList = createSelector(getCurrentGameFeature, (state) => {
     const me = state.me;
     const authors = state.authors;
-    console.log(authors);
     if (!authors) {
         return false;
     }

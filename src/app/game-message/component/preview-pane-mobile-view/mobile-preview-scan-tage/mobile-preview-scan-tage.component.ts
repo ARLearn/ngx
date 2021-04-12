@@ -111,7 +111,6 @@ export class MobilePreviewScanTageComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.qrCodes$.subscribe(res => console.log(res));
     }
 
     async copyImage(type: string, el) {

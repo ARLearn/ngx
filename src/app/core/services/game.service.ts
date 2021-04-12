@@ -27,7 +27,6 @@ export class GameService {
         if (cursor != null) {
             path = `/games/participateWithCursor/${cursor}`;
         }
-        console.log('path is ', path);
         return this.http
             .get<any>(environment.api_url + path);
 

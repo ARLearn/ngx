@@ -40,6 +40,7 @@
 		"CONFIRM_ACTION": "Bevestiging?"
 	},
 	"CONFIG": {
+		"CANCEL": "Annuleren",
 		"CREATE": "Maak",
 		"LANG": {
 			"DE": "Duits",
@@ -173,6 +174,7 @@
 		"NEW_FOLDER": "Nieuwe map",
 		"OR_CLICK_FILES": "of klik om je bestanden te uploaden",
 		"SELECTED": "Geselecteerd",
+		"FILE_DROPZONE_DESCRIPTION": "Sleep je bestanden naar hier",
 		"GAME_LIB" : "Mijn bestanden",
 		"BIBENDO_LIB" : "Bibendo media"
 	},
@@ -320,5 +322,8 @@
 			"secondsPlaceholder": "Definieer aantal seconden",
 			"title": "Timer"
 		}
+	},
+	"RESULTS": {
+		"START_TYPING": "Start met typen..."
 	}
 }

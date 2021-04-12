@@ -8,6 +8,7 @@ import { GameMessage } from "../../../../game-messages/store/game-messages.state
 import { getEditMessageSelector, selectedColor } from "../../../store/game-message.selector";
 import { Game } from "../../../../game-management/store/current-game.state";
 import { getGame, iCanWrite } from "../../../../game-management/store/current-game.selector";
+import {getAuthIsAvanced} from "../../../../auth/store/auth.selector";
 
 @Component({
     selector: 'app-screen-editor-type-narrator',
@@ -48,6 +49,14 @@ import { getGame, iCanWrite } from "../../../../game-management/store/current-ga
                    [ngModel]="(message$|async)?.description"
                    (ngModelChange)="descriptionChange($event)">
         </mat-form-field>
+
+        <mat-form-field class="gl-pos-field-full-width gl-pos-between-fields" *ngIf="isAdvanced">
+
+            <input matInput [placeholder]="'MESSAGE.ICON_TEXT'|translate"
+                   [disabled]="!(iCanWrite|async)"
+                   [ngModel]="(message$|async)?.icon"
+                   (ngModelChange)="iconChange($event)">
+        </mat-form-field>
         
         <app-pick-location-on-map
                 class="gl-pos-between-fields"
@@ -87,6 +96,7 @@ export class ScreenEditorTypeNarratorComponent {
     message$: Observable<GameMessage> = this.store.select(getEditMessageSelector);
     game$: Observable<Game> = this.store.select(getGame);
     iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
+    isAdvanced = this.store.select(getAuthIsAvanced);
 
     constructor(private store: Store<State>) {}
 
@@ -100,6 +110,10 @@ export class ScreenEditorTypeNarratorComponent {
 
     descriptionChange(event: any) {
         this.store.dispatch(new GameMessageUpdateAction({ description: event }));
+    }
+
+    iconChange(event: any) {
+        this.store.dispatch(new GameMessageUpdateAction({ icon: event }));
     }
 
     textChange(event: any) {

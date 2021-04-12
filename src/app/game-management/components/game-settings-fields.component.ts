@@ -128,7 +128,7 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.game$.subscribe((game) => {
+        this.gameSubscription = this.game$.subscribe((game) => {
             this.localgame = game;
         });
 
@@ -174,4 +174,5 @@ export class GameSettingsFieldsComponent implements OnInit, OnDestroy {
     onNewAuthor(data) {
         this.store.dispatch(new AddGameAuthorRequestAction(data));
     }
+
 }

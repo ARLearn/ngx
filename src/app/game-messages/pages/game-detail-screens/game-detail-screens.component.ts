@@ -104,7 +104,7 @@ export class    GameDetailScreensComponent implements OnInit, OnDestroy {
     private filterSubscription: Subscription;
     public filter: string;
     public iCanWrite: Observable<boolean> = this.store.pipe(select(iCanWrite));
-
+    public subscription: Subscription;
     constructor(
         public dialog: MatDialog,
         public store: Store<State>,
@@ -121,7 +121,7 @@ export class    GameDetailScreensComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetGameMessagesRequestAction());
         this.store.dispatch(new GetCurrentGameFromRouterRequestAction());
         this.filterSubscription = this.currentFilter$.subscribe((f) => this.filter = f[0]);
-        this.store.select(selectEntities)
+        this.subscription = this.store.select(selectEntities)
             .subscribe(themes => this.themes = themes);
     }
 
@@ -141,6 +141,7 @@ export class    GameDetailScreensComponent implements OnInit, OnDestroy {
         if (this.filterSubscription) {
             this.filterSubscription.unsubscribe();
         }
+        this.subscription?.unsubscribe();
     }
 
     deleteScreen(message, action) {

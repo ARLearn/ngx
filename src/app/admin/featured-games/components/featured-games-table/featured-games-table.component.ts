@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {State} from '../../../../core/reducers';
 import {getFeaturedGameList} from '../../store/featured-games.selector';
@@ -14,7 +14,7 @@ import {GetFeaturedGameListRequestAction} from '../../store/featured-games.actio
   templateUrl: './featured-games-table.component.html',
   styleUrls: ['./featured-games-table.component.css']
 })
-export class FeaturedGamesTableComponent implements OnInit {
+export class FeaturedGamesTableComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -25,6 +25,7 @@ export class FeaturedGamesTableComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
 
   gameId: number = null;
+  public subscription: Subscription;
 
   constructor(
     private store: Store<State>
@@ -35,7 +36,7 @@ export class FeaturedGamesTableComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new GetFeaturedGameListRequestAction({}));
-    this.games$.subscribe((gameWithState) => {
+    this.subscription = this.games$.subscribe((gameWithState) => {
       this.dataSource = new MatTableDataSource(gameWithState);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -55,5 +56,7 @@ export class FeaturedGamesTableComponent implements OnInit {
 
     // this.game.emit(gameId);
   }
-
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 }

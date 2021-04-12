@@ -96,9 +96,7 @@ export class GameDetailCollaboratorsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log("on new author1", result);
             if (result && result.fullId) {
-                console.log("on new author 32", result);
                 this.onNewAuthor.emit({
                     fullId: result.fullId.fullId,
                     role: result.role

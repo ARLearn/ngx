@@ -2,7 +2,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Store} from "@ngrx/store";
 import { State } from "../../core/reducers";
-import { Subject } from "rxjs";
+import {Subject, Subscription} from "rxjs";
 import { AngularFireStorage } from "angularfire2/storage";
 import { GameTheme } from "../store/game-theme.state";
 import {getGame} from "../../game-message/store/game-message.selector";
@@ -163,7 +163,8 @@ export class ThemeSettingsComponent implements OnInit, OnDestroy {
   public messages$ = this.store.select(getCurrentGameMessages);
 
   private submit$: Subject<{ theme: GameTheme, iconAbbreviation: string }> = new Subject<{ theme: GameTheme, iconAbbreviation: string }>();
-
+  public subscription: Subscription;
+  public subscription2: Subscription;
   get submit() {
     return this.submit$.asObservable();
   }
@@ -175,13 +176,13 @@ export class ThemeSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.game$.subscribe(game => {
+    this.subscription = this.game$.subscribe(game => {
       game.iconAbbreviation = 'Ef';
 
       this.icon = game.iconAbbreviation;
     });
 
-    this.messages$.subscribe((messages) => {
+    this.subscription2 = this.messages$.subscribe((messages) => {
       this.store.dispatch(new GameMessageEditCompletedAction(
           messages.find(m => m.type.includes('Multi')) || messages[0]
       ));
@@ -190,6 +191,8 @@ export class ThemeSettingsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.store.dispatch(new ResetGameMessageEditAction());
+    this.subscription?.unsubscribe();
+    this.subscription2?.unsubscribe();
   }
 
   onNoClick() {
@@ -210,4 +213,6 @@ export class ThemeSettingsComponent implements OnInit, OnDestroy {
     }
     return this.afStorage.ref(path).getDownloadURL().toPromise();
   }
+
+
 }

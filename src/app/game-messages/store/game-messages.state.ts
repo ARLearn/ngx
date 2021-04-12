@@ -53,6 +53,7 @@ export interface GameMessageCommon {
     authoringX?: number;
     authoringY?: number;
     label?: string;
+    icon?: string;
     dependsOn?: DependencyUnion;
     disappearOn?: DependencyUnion;
     richText?: string;

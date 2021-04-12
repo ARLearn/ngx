@@ -23,6 +23,7 @@
 	"COMMON": {
 		"ACTIVE": "Active",
 		"ADMIN": "Admin",
+		"OR": "Or",
 		"BROWSE": "Browse",
 		"FRIENDS": "Friends",
 		"GAMES": "Games",
@@ -32,6 +33,11 @@
 		"MESSAGES": "Messages",
 		"OVERVIEW": "Overview",
 		"PRIMARY_COLOR": "Primary color"
+	},
+	"BTN": {
+		"CANCEL": "Cancel",
+		"SUBMIT": "Submit",
+		"CONFIRM_ACTION": "Confirm?"
 	},
 	"CONFIG": {
 		"CANCEL": "Cancel",
@@ -118,7 +124,15 @@
 		"QUESTION": "Question",
 		"SWITCH_THEME": "Change",
 		"TITLE": "Title",
-		"WHO_CAN_SEE": "Who can see this game?"
+		"WHO_CAN_SEE": "Who can see this game?",
+		"HEADING" : "Heading",
+		"URL": "Url",
+		"CLONEGAME": "Copy game"
+	},
+	"THEME": {
+		"CREATE_THEME" : "Create new theme",
+		"MAKE_YOUR_THEME" : "Create your theme",
+		"DELETE_THEME" : "Remove theme"
 	},
 	"HELP": {
 		"BACK": "back",
@@ -160,7 +174,9 @@
 		"NEW_FOLDER": "New map",
 		"OR_CLICK_FILES": "or click to upload your files",
 		"SELECTED": "Selected",
-		"FILE_DROPZONE_DESCRIPTION": "drag your files here"
+		"FILE_DROPZONE_DESCRIPTION": "drag your files here",
+		"GAME_LIB" : "My files",
+		"BIBENDO_LIB" : "Bibendo media"
 	},
 	"MESSAGE": {
 		"ADD_ANSWER_OPTION": "Add answer option",
@@ -210,7 +226,9 @@
 		"TEXTQUESTION": "Reply with text",
 		"VIDEOOBJECT": "Video Object",
 		"VIDEOQUESTION": "Reply with video",
-		"VIDEO_OBJECT": "Video Message"
+		"VIDEO_OBJECT": "Video Message",
+		"OPENURL" : "Html screen",
+		"RECORDING": "Recording"
 	},
 	"PORTAL_MANAGEMENT": {
 		"GAMES": {

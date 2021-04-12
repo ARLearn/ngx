@@ -42,7 +42,6 @@ export class GameMessagesEffects {
             return action.payload == null || action.payload.cursor !== 'stop';
         }),
         filter(([action, gameId, stateGameId]: [GetGameMessagesRequestAction, string, number]) => {
-            console.log('cond is ', action, gameId, stateGameId);
             return  action instanceof  GetGameMessagesCompletedAction ||  Number.parseInt(gameId, 10) !== stateGameId;
         }),
         mergeMap(
