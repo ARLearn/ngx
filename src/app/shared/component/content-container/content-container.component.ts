@@ -7,8 +7,7 @@ import {Component, OnInit} from '@angular/core';
             todo remove app-content-container
 <!--            <ng-content></ng-content>-->
         </div>
-    `,
-    styleUrls: ['./content-container.component.css']
+    `
 })
 export class ContentContainerComponent implements OnInit {
 

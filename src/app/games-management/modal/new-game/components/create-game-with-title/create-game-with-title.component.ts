@@ -1,7 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {CreateGameRequestAction} from '../../../../store/game.actions';
-import {Store} from '@ngrx/store';
 import {State} from '../../../../../core/reducers';
+// @ts-ignore
+import {Store} from "@ngrx/store";
 
 @Component({
     selector: 'app-create-game-with-title',

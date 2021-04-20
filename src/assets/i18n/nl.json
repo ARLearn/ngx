@@ -228,7 +228,8 @@
 		"VIDEOQUESTION": "Antwoord met video",
 		"VIDEO_OBJECT": "Video scherm",
 		"OPENURL" : "Html scherm",
-		"RECORDING": "Opname"
+		"RECORDING": "Opname",
+		"ICON_TEXT" : "font-awesome icoon"
 	},
 	"PORTAL_MANAGEMENT": {
 		"GAMES": {

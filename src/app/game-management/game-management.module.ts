@@ -49,6 +49,7 @@ import {GameDetailCreativeCommonsComponent} from "./components/game-detail/game-
 import {GameDetailLocationComponent} from "./components/game-detail/game-detail-location/game-detail-location.component";
 import { GameLandingPageComponent } from './component/pages/game-landing-page.component';
 import {UserLibraryModule} from "../user-library/user-library.module";
+import {QRCodeModule} from "angular2-qrcode";
 
 @NgModule({
     imports: [
@@ -73,7 +74,7 @@ import {UserLibraryModule} from "../user-library/user-library.module";
         MatSelectModule,
         AgmCoreModule.forRoot({
             apiKey: environment.apiKey
-        }), AuthModule, UserLibraryModule
+        }), AuthModule, UserLibraryModule, QRCodeModule
 
     ],
   entryComponents: [AddAuthorDialogComponent],

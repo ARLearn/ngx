@@ -106,10 +106,10 @@ export interface AccountResultData {
             width: 100%;
         }
 
-        .full-width-container {
-            position: relative;
-            width: 100%;
-        }
+        /*.full-width-container {*/
+        /*    position: relative;*/
+        /*    width: 100%;*/
+        /*}*/
 
         .pos-create-button {
             position: relative;

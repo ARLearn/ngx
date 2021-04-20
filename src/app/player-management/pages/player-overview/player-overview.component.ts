@@ -35,19 +35,8 @@ import {invitationId} from "../../../core/selectors/router.selector";
                             [filter]="filter"
                     >
                     </app-search-button>
-                    <!--                    <mat-form-field class="search" appearance="outline">-->
-                    <!--                        <mat-label>Search</mat-label>-->
-                    <!--                        <input matInput placeholder="Start typing to search connections ..."-->
-                    <!--                               [(ngModel)]="filter"-->
-                    <!--                               (input)="onFilterChange($event.target.value)"-->
-                    <!--                        >-->
-                    <!--                        <mat-icon matPrefix>search</mat-icon>-->
-
-                    <!--                    </mat-form-field>-->
-
 
                     <div class="connectionsContainer">
-
                         <div class="connectionTilePending" *ngFor="let player of (allPending|async)">
 
                             <app-connection-tile
@@ -76,7 +65,74 @@ import {invitationId} from "../../../core/selectors/router.selector";
         </div>
 
     `,
-    styleUrls: ['./player-overview.component.css'],
+    styles: [`
+        /*.full-width-container {*/
+        /*  background-color: #F0F4F5; !*todo move up*!*/
+        /*}*/
+
+
+        .gamesContainer-outer {
+            margin-right: auto;
+            margin-left: auto;
+            position: relative;
+        }
+
+        .root-tabs > .mat-tab-links > .mat-tab-label-active {
+            color: #FFFFFF;
+            text-transform: uppercase;
+            opacity: 1;
+        }
+
+        .connectionsContainer {
+            top: 109px;
+            left: -8px;
+            width: calc(100% + 16px);;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            flex-flow: wrap;
+            justify-content: flex-start;
+            align-content: center;
+
+        }
+
+
+        .connectionTile {
+            position: relative;
+            width: 152px;
+            height: 160px;
+
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 1px 10px #0000001A;
+            border-radius: 2px;
+            opacity: 1;
+
+            margin: 8px;
+        }
+
+        .connectionTilePending {
+            position: relative;
+            width: 152px;
+            height: 160px;
+
+            background: rgba(255, 255, 255, 0.54) 0% 0% no-repeat padding-box;
+            box-shadow: 0px 1px 10px #0000001A;
+            border-radius: 2px;
+            opacity: 1;
+
+            margin: 8px;
+
+        }
+
+        h1 {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .form-wrapper > * {
+            width: 100%;
+        }
+
+    `],
     encapsulation: ViewEncapsulation.None
 })
 export class PlayerOverviewComponent implements OnInit {

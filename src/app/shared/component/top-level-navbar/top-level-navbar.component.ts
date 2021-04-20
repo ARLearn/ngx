@@ -13,40 +13,12 @@ import {environment} from "../../../../environments/environment";
                 <div class="back-button" *ngIf="backUrl">
                     <app-header-back-button [route]="backUrl"></app-header-back-button>
                 </div>
-                <div class="game-title font-medium-32-43-roboto ">{{title}}</div>
+                <div class="title font-medium-32-43-roboto ">{{title}}</div>
                 <ng-content></ng-content>
             </div>
         </div>
 
-    `,
-    styles: [`
-        .header {
-            top: 0px;
-            right: 307px;
-            width: 100%;
-            height: 144px;
-            opacity: 1;
-        }
-
-        .game-title {
-            top: 55px;
-            height: 38px;
-            text-align: left;
-            letter-spacing: 0;
-            color: #FFFFFF;
-
-            position: absolute;
-            z-index: 2;
-        }
-
-        .back-button {
-            position: absolute;
-            bottom: -90px;
-            left: -60px;
-        }
-
-    `],
-    encapsulation: ViewEncapsulation.None
+    `
 })
 export class TopLevelNavbarComponent implements OnInit {
 

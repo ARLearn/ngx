@@ -104,10 +104,10 @@ import {AccountResultData} from "../../game-runs-management/components/add-playe
             width: 100%;
         }
 
-        .full-width-container {
-            position: relative;
-            width: 100%;
-        }
+        /*.full-width-container {*/
+        /*    position: relative;*/
+        /*    width: 100%;*/
+        /*}*/
 
         .pos-create-button {
             position: relative;

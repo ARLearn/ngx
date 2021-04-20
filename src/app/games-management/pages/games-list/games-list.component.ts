@@ -78,32 +78,8 @@ import {Query} from "../../../game-themes/store/game-theme.actions";
 
     `,
     styles: [`
-        .full-width-container {
-            background-color: #F0F4F5; /*todo move up*/
-        }
-
-
-        .account-dropdown {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            width: auto;
-            height: auto;
-
-            color: #FFFFFF;
-            opacity: 0.7;
-
-        }
-
-        .search {
-            top: 155px;
-            left: 0px;
-            width: 320px;
-            height: 35px;
-            opacity: 1;
-            position: absolute;
-        }
-
+        
+      
         .gamesContainer-outer {
             margin-right: auto;
             margin-left: auto;

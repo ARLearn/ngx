@@ -5,20 +5,25 @@ import {getGame, iAmOwner} from "../store/current-game.selector";
 import {select, Store} from "@ngrx/store";
 import {GameUpdateAction, SaveGameRequestAction} from "../store/current-game.actions";
 import {State} from "../../core/reducers";
+import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'app-game-settings-preview',
     template: `
         <div class="selector-full-width">
-            <div class="selector-aligned">
-<!--                <app-asset-selector-->
-<!--                        *ngIf="!((game$|async)?.splashScreen)"-->
-<!--                        icon="cloud"-->
-<!--                        [title]="'GAME.CHOOSE_SPLASH'|translate"-->
-<!--                        [subtitle]="'GAME.CHOOSE_SPLASH_SUB'|translate"-->
-<!--                        (assetSelect)="attachSplash($event)"-->
-<!--                ></app-asset-selector>-->
+            <div class="selector-aligned d-flex flex-column justify-content-around align-items-center h-100">
                 <app-game-theme-selector></app-game-theme-selector>
+
+                <div class="pos-qr-code-container" *ngIf="game$ |async as game">
+                    <div class="pos-scan-text font-medium-16-21-roboto">
+                        Scan QR Code
+                    </div>
+                    <div class="pos-code">
+                        <qr-code [value]="getQrCode(game?.gameId)" [size]="100"></qr-code>
+                    </div>
+
+                </div>
+                
             </div>
         </div>
     `,
@@ -33,38 +38,38 @@ import {State} from "../../core/reducers";
             height: 100%;
         }
 
-        .selector-aligned {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .splashscreen {
-            position: relative;
-            width: 290px;
-            height: 514px;
-            border-radius: 4px;
+        /*.selector-aligned {*/
+        /*    height: 100%;*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+        /*}*/
 
-        }
-
-        .deleteSplashScreen {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 48px;
-            height: 48px;
-            background: #FAFAFA 0% 0% no-repeat padding-box;
-            border: 1px solid #FFFFFF;
+        .pos-qr-code-container {
+            
+            width: 186px;
+            height: 226px;
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 0px 1px 10px #0000001A;
             border-radius: 2px;
-            opacity: 1;
         }
-        .deleteIcon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
+
+        .pos-scan-text {
+            position: relative;
+            top: 22px;
+            left: 18px
+
         }
+
+        .pos-code {
+            position: relative;
+            top: 67px;
+            left: 40px;
+            width: 105px;
+            height: 105px;
+        }
+
+       
 
     `]
 })
@@ -88,5 +93,9 @@ export class GameSettingsPreviewComponent implements OnInit {
         this.store.dispatch(new GameUpdateAction({
             "splashScreen": false
         }));
+    }
+
+    getQrCode(gameId: number) {
+        return environment.deep_link + 'game/' + gameId;
     }
 }

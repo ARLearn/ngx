@@ -73,6 +73,15 @@ import {GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAct
 
     `,
     styles: [`
+        /*.header {*/
+        /*    top: 0px;*/
+        /*    right: 307px;*/
+        /*    width: 100%;*/
+        /*    height: 144px;*/
+        /*    opacity: 1;*/
+        /*    z-index: 1;*/
+        /*}*/
+        
         mat-icon.remix-icon > svg {
             vertical-align: top;
         }
@@ -144,21 +153,15 @@ import {GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAct
             width: 100%;
         }
 
-        .header {
-            top: 0px;
-            right: 307px;
-            width: 100%;
-            height: 144px;
-            opacity: 1;
-        }
+    
 
-        select-language {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-
-
-        }
+        /*select-language {*/
+        /*    position: absolute;*/
+        /*    top: 0px;*/
+        /*    right: 0px;*/
+        
+        
+        /*}*/
 
         app-user-drop-down-display {
             position: absolute;
@@ -166,16 +169,7 @@ import {GetCurrentGameFromRouterRequestAction, GetPublicGameFromRouterRequestAct
             right: 40px;
         }
 
-        .account-dropdown {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            width: 250px;
-            height: 50px;
-
-            color: #FFFFFF;
-            opacity: 0.7;
-        }
+  
 
         .game-title {
             position: absolute;

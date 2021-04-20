@@ -9,6 +9,8 @@
 // Include material core styles.
 @include mat-core();
 
+//$background-color: red;
+$background-color: #F0F4F5;
 //NBD
 
 $nbd-blue: (
@@ -124,6 +126,8 @@ $theme: mat-light-theme($primary, $accent);
 
 @import './generic';
 @import './material-modifications';
+@import 'styles/header/index';
+@import 'styles/util/index';
 
 
 .my-snack-bar {
@@ -155,7 +159,7 @@ body {
 }
 
 body {
-  background: #F0F4F5;
+  background: $background-color;
 }
 
 

@@ -20,13 +20,13 @@ import {AngularFireStorage} from "angularfire2/storage";
                 <div class="audio-item" *ngFor="let audio of audios" [id]="audio.id">
                     <span class="audio-item__title">{{"MESSAGE.RECORDING" |translate}}</span>
 
-                    <mat-basic-audio-player
-                            [audioUrl]="audio.url"
-                            [title]="'title'"
-                            [autoPlay]="false"
-                            muted="muted"
-                            [displayVolumeControls]="true"
-                    ></mat-basic-audio-player>
+<!--                    <mat-basic-audio-player-->
+<!--                            [audioUrl]="audio.url"-->
+<!--                            [title]="'title'"-->
+<!--                            [autoPlay]="false"-->
+<!--                            muted="muted"-->
+<!--                            [displayVolumeControls]="true"-->
+<!--                    ></mat-basic-audio-player>-->
 
                     <div *ngIf="users[audio]" class="user-placeholder">
                         <div class="user">
